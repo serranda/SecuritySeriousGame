@@ -14,9 +14,6 @@ In this repository will be stored all the files produced during the developing o
  
 The folder "Documentation" contains all the files which describe the general structure of the game, as well as the gameplay. They will be udpated if necessary.
 
-
-The folder "Resources " stores all the media file (images ued in the game, as well as image used as reference for the ui).
-
 The folder "SimSCADA" is the Unity project folder, with all the script used for the game.
 
 In the folder "Thesis" are stored the .pdf files of the final thesis and all the related LaTeX files.
