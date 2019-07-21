@@ -16,6 +16,8 @@ The folder "Documentation" contains all the files which describe the general str
 
 The folder "SimSCADA" is the Unity project folder, with all the script used for the game.
 
+The folder "Resources" stores all the images, GUI and sprite used in the game.
+
 In the folder "Thesis" are stored the .pdf files of the final thesis and all the related LaTeX files.
 
 N.B.
