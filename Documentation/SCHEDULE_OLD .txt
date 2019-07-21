@@ -1,0 +1,32 @@
+﻿## GENERAL TODO
+-Aggiungere sistema mercato: i soldi indicati nell'hud sono quelli messi a disposizione dal boss
+*-Aggiungere indicatore di reputazione (anche su hud): 
+	-*se abbastanza alto il capo deciderà spontaneamente di aumentare i fondi per le migliorie
+*-Interazione con il telefono:
+	-*chiedere aumento budget a disposizione (azione a tempo)
+		.il successo si baserà sulla reputazione; se troppo basso il capo si rifiuterà 
+*-Interazione con il pc:
+	-schermata scada
+	-*schermata mercato
+	-*check minacce (azione a tempo)
+		.inizia una scansione che permette di vedere (tramite un recap grafico) se sono in corso delle minacce
+	-*individua minacce (azione a tempo)
+		.vengono mostrati quale ai è un attaccante	
+*-Interazione con il personale:
+	-*controlla credenziali (azione a tempo)
+		.alla fine viene mostrato un recap grafico delle info ottenute
+	-*licenzia 	
+		.necessario per fermare l'attacco;
+		.se il licenziato non è un attaccante si perderà reputazione
+	-*lascia andare
+		.permettere all'ai di riprendere il proprio lavoro
+*-Interazione con security check:
+	-*restringere accesso alla sala server
+		.3 livelli di sicurezza; only me/trusted/all
+
+*Implementazione effettuata
+
+## TODO
+-fix dropdown (se si clicca sull'handle e poi sulla risoluzione questa non viene selezionata)
+-fix salvataggio (aggiungere le informazioni delle ai presenti in scena; creare una list in cui sono salvati tutte le info)
+-aggiungere una porta/ascensore per l'ingresso delle ai

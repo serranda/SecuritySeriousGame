@@ -1,0 +1,398 @@
+fileFormatVersion: 2
+guid: 4f1002d227276c84fa87d045f88e3ffc
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: tablebig_0
+    21300002: tablebig_1
+    21300004: tablebig_2
+    21300006: tablebig_3
+    21300008: tablebig_4
+    21300010: tablebig_5
+    21300012: tablebig_6
+    21300014: tablebig_7
+    21300016: tablebig_8
+    21300018: tablebig_9
+    21300020: tablebig_10
+    21300022: tablebig_11
+    21300024: tablebig_12
+  externalObjects: {}
+  serializedVersion: 7
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 9
+  spritePivot: {x: 0.17791411, y: 0.5046729}
+  spritePixelsToUnits: 52
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - serializedVersion: 2
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: tablebig_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 71.33333
+        width: 32.6
+        height: 35.666668
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -16.3, y: -12.666672}
+        - {x: -15.5, y: -14.666672}
+        - {x: -13.5, y: -17.666672}
+        - {x: 16.3, y: -17.666672}
+        - {x: 16.3, y: 9.333328}
+        - {x: -16.3, y: -6.6666718}
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b3cb330442ba6204aa6e26e3d3868af7
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tablebig_1
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 71.33333
+        width: 32.6
+        height: 35.666668
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 1.5, y: 17.833334}
+        - {x: -16.3, y: 9.333328}
+        - {x: -16.3, y: -17.666672}
+        - {x: 16.3, y: -17.666672}
+        - {x: 16.3, y: 16.333328}
+        - {x: 12.5, y: 17.833334}
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 98cc449e0793cc14ab471c02cf88ed1d
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tablebig_2
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 71.33333
+        width: 32.6
+        height: 35.666668
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 26517d667ff0cc5458c2065e2d74eb46
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tablebig_3
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 71.33333
+        width: 32.6
+        height: 35.666668
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 25d7879ab9369d94fab58ae1e15f151f
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tablebig_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 36.333332
+        width: 32.6
+        height: 35.666668
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -13.5, y: 17.833334}
+        - {x: -16.3, y: 5.333332}
+        - {x: -16.3, y: -2.666668}
+        - {x: 12.5, y: -17.666668}
+        - {x: 16.3, y: -17.666668}
+        - {x: 16.3, y: 17.833334}
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d94566f8bc7dff14099ec1e51975cd4d
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tablebig_5
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 36.333332
+        width: 32.6
+        height: 35.666668
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -16.3, y: 17.833334}
+        - {x: -16.3, y: -17.666668}
+        - {x: 16.3, y: -17.666668}
+        - {x: 16.3, y: 17.833334}
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 091b4a3587db13a4e8925e24e70a4e96
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tablebig_6
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 36.333332
+        width: 32.6
+        height: 35.666668
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -16.3, y: 17.833334}
+        - {x: -16.3, y: -17.666668}
+        - {x: 16.3, y: -17.666668}
+        - {x: 16.3, y: 17.833334}
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 773362f86f63ee8488cf66a40092da34
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tablebig_7
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 36.333332
+        width: 32.6
+        height: 35.666668
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 75eba6ba2ea8a5943a4c2c7f4270ba91
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tablebig_8
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 36.333332
+        width: 32.6
+        height: 35.666668
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1e427e8f0e31a9d4bba161601a0e260d
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tablebig_9
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 1.3333321
+        width: 32.6
+        height: 35.666668
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6a338fc56e175824f8de0b6f6e3c6444
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tablebig_10
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 1.3333321
+        width: 32.6
+        height: 35.666668
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3e1a689d1e68c8a42aafb0df36138f86
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tablebig_11
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 1.3333321
+        width: 32.6
+        height: 35.666668
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f32801d3fca0dab4a825f54491b7c395
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tablebig_12
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 1.3333321
+        width: 32.6
+        height: 35.666668
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 248a329b164bad645b7b8eaf025b2e85
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 0a7da3abd238a1d45b9d1eb46fae209a
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

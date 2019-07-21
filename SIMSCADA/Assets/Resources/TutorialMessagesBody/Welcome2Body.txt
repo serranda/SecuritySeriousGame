@@ -1,0 +1,4 @@
+Iniziamo dalla storia: SimSCADA è un gioco gestionale incentrato sulla sicurezza informatica. Il tuo compito è quello di gestire una società di servizi SCADA, cercando di mantenere in positivo il bilancio aziendale.
+Purtroppo, alcuni hacker hanno deciso di prendere di mira la società e dovrai cercare di difenderti dai loro attacchi, cercando di non subirne nessuno.
+Questi possono essere sia esterni che interni o una combinazione tra le due modalità. Non sempre riuscirai ad evitare che un attacco vada a segno: sarà tuo compito in quel caso limitare i danni e debellare le minacce in corso, in modo che il sistema di controllo torni a funzionare correttamente.
+Il tuo obiettivo è quello di raggiungere la massima reputazione e mantenere i profitti dell’azienda in positivo in maniera stabile nel tempo. Attenzione: se il bilancio aziendale dovesse andare in negativo per troppo tempo, andrai in bancarotta ed il gioco terminerà.

@@ -1,0 +1,6 @@
+{
+	"head": "MessageHead",
+	"bodyPath": "MessageBodyPath",
+	"backBtn": "MessageBackBtn",
+	"nextBtn": "MessageNextBtn"
+}

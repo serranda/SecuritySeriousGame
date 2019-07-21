@@ -1,0 +1,1 @@
+Dal suo arrivo, questo utente ha tentato di instaurare {0} connessioni sospette con l’esterno.

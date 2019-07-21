@@ -1,0 +1,10 @@
+{
+	"name": "TELEPHONE UPGRADE",
+	"descriptionPath": "TelephoneUpgradeBody",
+	"imageName": "",
+	"price": 500,
+	"finalLevel": 1,
+	"effect" : 4,
+	"currentLevel" :  0,
+	"itemObject" :  {}
+}

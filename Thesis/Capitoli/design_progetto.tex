@@ -1,0 +1,29 @@
+In questo capitolo verranno esposte le motivazioni che hanno portato allo sviluppo di SimSCADA. Inizialmente verranno illustrate le idee che si trovano alla base dello sviluppo del gioco. In seguito verranno mostrate le scelte di design e progettazione prese durante l'implementazione del progetto. Verranno descritte alcune delle dinamiche base presenti nel gioco e come sono state sviluppate. Verrà illustrato quali lezioni sono state inserite nel gioco e come possono essere apprese dal giocatore. Infine verrà mostrato come è stato realizzata la raccolta dati per monitorare e valutare le prestazioni del giocatore.
+
+\section{Idee dietro lo sviluppo}
+
+Il gioco è stato sviluppato come il progetto di una tesi magistrale. L'intento principale era di creare un concept per uno strumento di formazione utilizzabile per insegnare concetti di sicurezza informatica. Essendo un campo molto vasto, dopo un'attenta analisi sia dei serious games a tema di sicurezza informatica già presenti nel mercato che di altri lavori di tesi precedentemente sviluppati, si è realizzata l'assenza di uno strumento del genere nel campo industriale, in particolare in quello dei sistemi SCADA. Si è deciso quindi di rivolgere l'attenzione verso questo mondo che viene ancora considerato come sicuro e privo di minacce, anche se gli episodi registrati negli ultimi anni descrivono un quadro ben diverso.
+
+Il mondo dei sistemi SCADA è caratterizzato da una elevata varietà di fini applicativi: si va dal sistema di controllo per impianti industriali a quelli per il controllo dei trasporti automatizzati, passando per impianti di produzione energetica (centrali nucleari, gasdotti, ecc.). Quindi, piuttosto che focalizzarsi solo su una delle molte applicazioni per sistemi del genere, si è preferito mantenere un'ambientazione più generica. Questo è stato fatto principalmente per due motivi:
+
+\begin{itemize}
+
+\item innanzitutto riprodurre solo un determinato campo in maniera fedele avrebbe limitato in partenza l'utenza finale;
+
+\item l'intento principale per cui è stato sviluppato il gioco è quello di educare il giocatore a prendere delle decisioni mirate ed oculate sia in maniera preventiva che al momento dell'emergenza, concentrandosi quindi più sulle azioni dell'utente che sugli effettivi strumenti utilizzati, in quanto differenti da situazione a situazione.
+
+\end{itemize}
+
+Chiaramente il gioco è rivolto ad un'utenza che possiede già una certa formazione basilare su alcuni concetti chiave dell'ambiente SCADA. Infatti, all'interno del gioco sono state inserite delle nozioni relative alle diverse minacce informatiche che possono colpire un sistema SCADA, e come sia possibile difendersi da esse o rimediare ad un loro attacco, senza però soffermarsi su determinati aspetti dati per assodati (come ad esempio cosa sia un sistema SCADA, un PLC o un'interfaccia HMI).
+
+\section{Scelte di Design}
+
+\subsection{Linee guida}
+
+Dato l'intento di fornire una certa globalità all'applicazione, si è scelto di adottare come tipologia di gioco quello gestionale, ispirandosi in particolar modo alla serie di titoli tycoon sviluppati nel corso degli anni, quali ``Roller Coaster Tycoon'' e ``SimCity''. In questi giochi l'utente si trova a capo di una particolare realtà economica (un parco di divertimento, una città e così via, a seconda dell'ambientazione scelta nel gioco) e deve gestirla nel migliore dei modi, portandola ad aumentare gli incassi e, contemporaneamente,  cercando di far fronte ai problemi che si presentano nel corso della partita.
+
+Da questo punto di vista, anche lo stile grafico è stato ripreso 
+
+\subsection{Sistema operativo di destinazione}
+
+Il gioco è stato sviluppato per piattaforme Windows

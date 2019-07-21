@@ -1,0 +1,6 @@
+È stato subito un attacco di tipo {0}.
+Purtroppo, il tuo sistema di sicurezza non è stato capace di gestirlo.
+Ora è importante che tu riesca a limitare i danni economici.
+
+P.S. Se vuoi sapere come difendersi al meglio dagli attacchi {0} 
+puoi dare uno sguardo alle lezioni presenti nel quaderno.

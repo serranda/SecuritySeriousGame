@@ -1,0 +1,10 @@
+{
+	"name": "HMI ALERT UPGRADE",
+	"descriptionPath": "HmiAlertUpgradeBody",
+	"imageName": "",
+	"price": 550,
+	"finalLevel": 4,
+	"effect" : 13,
+	"currentLevel" :  0,
+	"itemObject" :  {}
+}

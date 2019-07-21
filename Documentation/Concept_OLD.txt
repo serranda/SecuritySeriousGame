@@ -1,0 +1,22 @@
+Simulatore sistema SCADA
+2 fasi
+FASE 1
+progettare e costruire il sistema SCADA per il lavoro di controllo da eseguire (scegliere le componenti in base alle caratteristiche volute/necessarie)
+FASE 2
+gestire il sistema SCADA e tenerlo al riparo da attacchi; in caso di attacco, gestire la minaccia, rimuoverla e capire come è comparsa 
+
+Vulenerabilità sistemi mobile
+
+Simulatore: eXPert SCADA
+
+ARGOMENTI:
+-Standard ISA99
+-Differenza sicurezza IT e sicurezza industriale
+-Scenari di attacco -> Case Study Stuxnet (come agisce e quali difese utilizzare)
+-Come sviluppare un'architettura sicura
+
+-Sistemi SCADA e sicurezza MOBILE (da approfondire)
+
+TESTING:
+-individuare formazione media di chi ricopre il ruolo di gestore sistemi SCADA
+-individuare metodo di raccolta dati (bayes vs log)

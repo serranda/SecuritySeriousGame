@@ -1,0 +1,10 @@
+{
+	"name": "UPDATING COURSE FOR EMPLOYEES",
+	"descriptionPath": "EmployeesCourseBody",
+	"imageName": "",
+	"price": 600,
+	"finalLevel": -1,
+	"effect" : 9,
+	"currentLevel" :  0,
+	"itemObject" :  {}
+}

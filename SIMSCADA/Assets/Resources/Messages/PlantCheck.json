@@ -1,0 +1,6 @@
+{
+	"head": "CONTROLLO IMPIANTO RICHIESTO",
+	"bodyPath": "PlantCheckBody",
+	"backBtn": "No",
+	"nextBtn": "Ok"
+}

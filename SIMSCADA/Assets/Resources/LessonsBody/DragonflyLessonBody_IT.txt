@@ -1,0 +1,25 @@
+Nel giugno del 2014, la compagnia finlandese di sicurezza informatica F-Secure postò, all'interno del proprio blog, la notizia della scoperta di un malware, descrivendo come lo stesso era stato utilizzato fino ad allora per scopi di sabotaggio ed acquisizione dati sensibili. Furono condotti subito un serie di studi da parte della Symantec, altra azienda dedita alla sicurezza informatica, culminati nella creazione di un report tecnico sulle modalità operative del malware. La prima cosa scoperta fu che il malware era il frutto di una campagna di spionaggio iniziata nel 2010. Inizialmente gli obbiettivi erano industrie legate all'aviazione e alla difesa localizzate negli USA e in Canada, ma successivamente la campagna venne rivota contro compagnie del settore energetico, propagandosi anche al di fuori del continente americano. Ma la scoperta più significativa fu che, come nel caso di Stuxnet, Dragonfly era stato appositamente programmato per colpire dispositivi ICS, rappresentando il secondo caso di un malware creato esclusivamente per colpire i sistemi informatici degli impianti industriali.
+
+La campagna di attacco ai danni delle industrie energetiche di Dargonfly si è sviluppata in tre fasi, sfruttando in ognuna di essa un vettore d'attacco differente:
+
+1 - nella prima fase, iniziata a febbraio 2013, fu impiegata la tecnica di spear phishing per infettare i computer delle vittime ed ottenere informazioni sensibili riguardanti la rete informatica dell'azienda da colpire. Tramite l'invio di file .PDF corrotti, veniva installato nelle macchine delle vittime un "Remote Access Trojan Horse (RAT)", ossia un malware con cui è possibile ottenere il controllo amministrativo da remoto del computer;
+
+2 - la seconda fase cominciò subito dopo la prima, nel maggio 2013, e si protrasse per circa 11 mesi, fino ad aprile 2014. Durante questo periodo furono utilizzati attacchi di watering hole. Questo attacco consiste nel dirottare la connessione di un utente verso un sito, portandolo a vistarne un altro, senza che la vittima se ne accorga. Il gruppo gestore di Dragonfly riuscì a dirottare il traffico internet delle aziende attaccate verso siti gestiti direttamente da loro. All'interno di questi siti veniva caricato il software malevolo che veniva installato sulla macchina di chiunque visitasse la pagina in questione;
+
+3 -  per la terza ed ultima fase cominciò nel giugno 2013 e venne portata avanti in contemporanea con la seconda. In questa fase, gli hacker di Dragonfly riuscirono a attaccare i siti di supporto di alcune note aziende produttrici di componenti per ICS. In questa maniera riuscirono a sostituire i software legittimi delle compagnie con programmi creati da loro e contenenti sempre il codice malware che era stato diffuso con gli altri due metodi.
+
+La complessità di questo attacco fa ben capire della profonda organizzazione che ci fu alle spalle.Il malware utilizzato serviva ad ottenere informazioni sui dispositivi ICS presenti nella rete, per oi inviarlo agli stessi creatori di Dragonfly. Anche in questo caso, come per Stuxnet, il sfotware malevolo era stato programmato per ricercare delle specifiche configurazioni hardware, di cui sfruttava alcune vulnerabilità zero-day. Per farlo, utilizzava lo stesso protocollo industriale di comunicazione impiegato dai dispositivi ICS ricercati.
+
+La scoperta di Dragonfly ha avuto un impatta nel mondo della sicurezza industriali paragonabile a quello che provocò Stuxnet quattro anni prima. La campagna di attacco attuata dalla compagnia creatrice del malware ha sottolineato, di nuovo, alcuni limiti nell'organizzazione della difesa:
+
+- la strategia ``Offense in Depth'' ha sicuramente giocato un ruolo importante nella diffusione del malware. Le organizzazioni vittime sono state attaccate su più livelli della loro infrastruttura;
+
+- le macchine colpite avevano installato tutte la stessa versione di Windows XP e sfruttava alcune vulnerabilità del sistema operativo al zero-day;
+
+- Dragonfly finì per essere installato sui dispositivi mobile del personale, che devono essere ormai considerati dei potenziali punti d'ingresso per le minacce;
+
+- nella campagna furono coinvolte anche le aziende produttrice, considerate fonte di software fidato. È necessario, quindi, controllare anche il traffico rivolto verso queste aziende, in quanto anche loro possono essere potenziali punti d'ingresso per delle minacce;
+
+- il malware ha operato indisturbatamente sulle macchine infettate per circa un anno senza mai venire scoperto dai software che monitoravano il traffico internet.
+
+Inoltre c'è da sottolineare come le aziende colpite, attualmente, rischino di subire degli ulteriori attacchi che sfruttano tutte le informazioni raccolte grazie a Dragonfly. A causa di tutto ciò si è reso necessario sviluppare un paradigma di sicurezza che tenesse conto dell'integrità non solo dei dispositivi ICS ma anche della rete informatica tra gli stessi, sfruttando, ad esempio, schemi per la segmentazione di rete che permettono un controllo del traffico dati più accurato e completo.

@@ -1,0 +1,24 @@
+In informatica gli Intrusion prevention systems (IPS) (conosciuti anche come intrusion detection and prevention systems (IDPS)), sono dei componenti software attivi sviluppati per incrementare la sicurezza informatica di un sistema informatico, individuando, registrando le informazioni relative e tentando di segnalare e bloccare le attività dannose. Rappresentano un'estensione degli strumenti di intrusion detection system (IDS) perché entrambi controllano il traffico e le attività di sistema per identificare l'esecuzione di codice non previsto, ma a differenza di quest'ultimi, sono posizionati inline e sono abilitati a prevenire e bloccare le intrusioni identificate. Più specificamente, IPS può eseguire alcune azioni come mandare un allarme, eliminare pacchetti malevoli, resettare le connessioni e/o bloccare il traffico da un indirizzo IP attaccante. IPS può anche correggere gli errori CRC (Cyclic redundancy check), deframmentare pacchetti, evitare problemi di sequenza TCP e ripulire i livelli di trasporto e rete da opzioni indesiderate.
+
+Descrizione
+
+Gli Intrusion prevention system sono basati su una lista di controllo degli accessi simile a quella utilizzata da un firewall, con la differenza che quest'ultimo lavora a livello di trasporto e di rete su porte e indirizzi IP mentre questa tecnologia lavora a livello applicativo su programmi/servizi e utenti.
+
+L'Intrusion prevention system evita dunque l'attivazione di programmi potenzialmente malevoli.
+
+Classificazione
+
+Possono essere classificati in 4 tipologie:
+
+1 - Network-based intrusion prevention system (NIPS): controlla l'intera rete per il traffico sospetto, analizzando l'attività del protocollo.
+2 - Wireless intrusion prevention systems (WIPS): monitora una rete wireless analizzando i protocolli di rete.
+3 - Network behavior analysis (NBA): esamina il traffico di rete per identificare le minacce che generano flussi di traffico inusuali, alcune forme di malware e violazioni delle politiche.
+4 - Host-based intrusion prevention system (HIPS): viene installato un pacchetto software che controlla un singolo host per attività sospette, analizzando gli eventi che si verificano all'interno di quella ospite.
+
+Metodi di rilevazione
+
+La maggior parte dei sistemi IPS utilizza uno dei tre metodi di rilevamento:
+
+1 - Signature-Based Detection: controlla i pacchetti nella rete e si confronta con schemi di attacco pre-configurati e pre-determinati conosciuti come firme.
+2 - Statistical anomaly-based detection: determina la normale attività di rete, come che tipo di larghezza di banda viene generalmente utilizzata, quali protocolli vengono utilizzati, quali porte e periferiche son collegate, avvisando l'amministratore o l'utente quando viene rilevata una anomalia.
+3 - Stateful Protocol Analysis Detection: questo metodo identifica le deviazioni degli stati di protocollo confrontando eventi osservati con "profili predeterminati di attività normali.”

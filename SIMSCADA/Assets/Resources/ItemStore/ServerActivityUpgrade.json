@@ -1,0 +1,10 @@
+{
+	"name": "SERVER ACTIVITY UPGRADE",
+	"descriptionPath": "ServerActivityUpgradeBody",
+	"imageName": "",
+	"price": 600,
+	"finalLevel": 3,
+	"effect" : 5,
+	"currentLevel" :  0,
+	"itemObject" :  {}
+}

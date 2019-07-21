@@ -1,0 +1,2 @@
+Il tuo Intrusion Detection System ha rilevato delle comunicazioni sulla rete sospette.
+Dai un'occhiata ai risultati e cerca di capire la natura di queste comunicazioni.

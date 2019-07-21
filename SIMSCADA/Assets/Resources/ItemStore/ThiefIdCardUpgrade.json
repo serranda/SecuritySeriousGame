@@ -1,0 +1,10 @@
+{
+	"name": "THIEF ID CARD UPGRADE",
+	"descriptionPath": "ThiefIdCardUpgradeBody",
+	"imageName": "",
+	"price": 1000,
+	"finalLevel": 1,
+	"effect" : 21,
+	"currentLevel" :  0,
+	"itemObject" :  {}
+}

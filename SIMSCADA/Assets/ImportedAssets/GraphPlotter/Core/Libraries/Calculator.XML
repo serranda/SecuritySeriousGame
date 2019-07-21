@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Calculator</name>
+    </assembly>
+    <members>
+        <member name="M:CommandInterpreter.Calculator.AssemblyLoader.LoadCalcAssembly">
+            <summary>
+            Use this if you want to find Calc with GetAllAvlailableCommands on ci
+            </summary>
+        </member>
+        <member name="T:CommandInterpreter.Calculator.Calc">
+            <summary>
+            Use this to calculate mathematical expressions
+            </summary>
+        </member>
+        <member name="M:CommandInterpreter.Calculator.Container.AContainer.Read(System.String)">
+            <summary>
+            Can throw exceptions if input cannot be parsed
+            </summary>
+            <param name="_input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CommandInterpreter.Calculator.Container.ContainerList.Calculate">
+            <summary>
+            CAUTION: THIS IS A DESTRUCTIVE FUNCTION, THE CONTAINERLIST WILL IMPPLODE TO ONE ELEMENT
+            IF YOU USE THIS MANUALLY USE CLONE() FIRST
+            Can throw exceptions
+            </summary>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

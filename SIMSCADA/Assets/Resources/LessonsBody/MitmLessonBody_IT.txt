@@ -1,0 +1,45 @@
+Attacco man in the middle (spesso abbreviato in MITM, MIM, MIM attack o MITMA, in italiano "uomo nel mezzo") è una terminologia impiegata nella crittografia e nella sicurezza informatica per indicare un attacco informatico in cui qualcuno segretamente ritrasmette o altera la comunicazione tra due parti che credono di comunicare direttamente tra di loro.
+
+Ad esempio un attacco man in the middle è l'eavesdropping, in cui l'attaccante crea connessioni indipendenti con le vittime e ritrasmette i messaggi del mittente facendo credere loro che stiano comunicando direttamente tramite una connessione privata, con l'intera conversazione che è controllata invece dal malintenzionato in grado di intercettare tutti i messaggi importanti e/o iniettarne di nuovi. In molte circostanze questo è semplice, per esempio, un attaccante all'interno di un WI-FI access point non criptato, può inserire se stesso come "uomo nel mezzo". Altro tipo di attacco man in the middle è lo spoofing.
+
+L'attacco può funzionare solo se nessuna delle due parti è in grado di sapere che il collegamento che li unisce reciprocamente è stato effettivamente compromesso da una terza parte, cosa di cui potrebbero venire a conoscenza comunicando con un canale diverso non compromesso. La maggior parte dei protocolli di crittografia includono una qualche forma di autenticazione endpoint specificamente per prevenire attacchi MITM. Ad esempio, TLS può autenticare una o entrambe le parti utilizzando una Certificate authority reciprocamente attendibile.
+
+Esempio di attacco
+
+Supponiamo che Alice voglia comunicare con Bob e che Mallory voglia spiare la conversazione e, se possibile, consegnare a Bob dei falsi messaggi. Per iniziare, Alice deve chiedere a Bob la sua chiave pubblica. Se Bob invia la sua chiave pubblica ad Alice, ma Mallory è in grado di intercettarla, può iniziare un attacco Man in the middle. Mallory può semplicemente inviare ad Alice una chiave pubblica della quale possiede la corrispondente chiave privata. Alice poi, credendo che questa sia la chiave pubblica di Bob, cifra i suoi messaggi con la chiave di Mallory ed invia i suoi messaggi cifrati a Bob. Mallory quindi li intercetta, li decifra, ne tiene una copia per sé, e li re-cifra (dopo averli alterati se lo desidera) usando la chiave pubblica che Bob aveva originariamente inviato ad Alice. Quando Bob riceverà il messaggio cifrato, crederà che questo provenga direttamente da Alice.
+
+1 - Alice invia un messaggio a Bob, il quale viene intercettato da Mallory:
+Alice "Ciao Bob, sono Alice. Dammi la tua chiave." -> Mallory Bob
+2 - Mallory ritrasmette il messaggio a Bob, Bob non può sapere che non si tratta realmente di Alice:
+Alice Mallory "Ciao Bob, sono Alice. Dammi la tua chiave." -> Bob
+3 - Bob risponde con la propria chiave:
+Alice Mallory <- [chiave di Bob] Bob
+4 - Mallory sostituisce la chiave di Bob con la propria e la ritrasmette ad Alice, sostenendo sia la chiave di Bob:
+Alice <- [chiave di Mallory] Mallory Bob
+5 - Alice cripta un messaggio con quella che crede essere la chiave di Bob, pensando che solo Bob potrà leggerlo:
+Alice "Incontriamoci in piazza!" [criptato con la chiave di Mallory] -> Mallory Bob
+6 - Ora Mallory può decriptare il messaggio, essendo stata usata la sua chiave, leggerlo, modificarlo se lo desidera, criptarlo con la chiave di Bob e infine inviarlo a Bob:
+Alice Mallory "Incontriamoci in stazione!" [criptato con la chiave di Bob] -> Bob
+7 - Bob crede che questo messaggio provenga da una comunicazione sicura con Alice.
+
+Questo esempio mostra la necessità per Alice e Bob di avere un modo per garantire che essi stiano utilizzando le rispettive chiavi pubbliche, piuttosto che quella di un attaccante. Tali attacchi sono generalmente possibili contro ogni comunicazione che utilizzi la tecnologia a chiave pubblica. Fortunatamente, esistono una varietà di tecniche per difendersi contro gli attacchi MITM.
+
+Difese contro l'attacco
+
+Tutti i sistemi crittografici che siano sicuri contro attacchi MITM richiedono uno scambio o una trasmissione aggiuntiva di informazioni su un canale protetto. Infatti sono stati sviluppati molti metodi di key agreement, con diversi requisiti di sicurezza per il canale protetto.
+
+Varie difese contro attacchi MITM utilizzano tecniche di autenticazione che includono:
+
+- DNSSEC: estensioni DNS protette.
+- Infrastrutture a chiave pubblica (PKI): Transport Layer Security è un esempio di attuazione di infrastruttura a chiave pubblica per Transmission Control Protocol. Questo è usato per prevenire attacchi MITM tramite una connessione HTTP sicura su internet. Client e Server si scambiano certificati PKI emessi e verificati da un comune ente certificato. La difesa principale in uno scenario di PKI è l'autenticazione reciproca. In questo caso Client e Server convalidano reciprocamente i loro certificati emessi da un comune ente certificato centrale. Le reti private virtuali eseguono la mutua autenticazione prima di inviare dati tramite il canale sicuro creato. Tuttavia l'autenticazione reciproca su internet, per le connessioni HTTP, sono raramente applicate.
+- Certificate pinning.
+- Un attestato sonoro registrato (supponendo che l'identità dell'utente possa essere riconosciuta dalla registrazione), che può essere:
+	- Una comunicazione verbale di un valore condiviso per ogni sessione (come in ZRTP).
+	- Una comunicazione audio/visiva dell'hash della chiave pubblica (che può essere facilmente distribuita tramite PKI).
+- una mutua autenticazione più forte, come chiavi segrete (che di solito sono informazioni entropiche segrete di alto livello, quindi più sicure), o le password (che di solito sono informazioni entropiche segrete di basso livello, quindi meno sicure).
+- l'esame di latenza, come ad esempio lunghi calcoli di funzioni crittografiche di hash. Se i tempi di risposta sono più lunghi di quelli attesi può indicare la presenza di una terza parte.
+- Un secondo canale sicuro di verifica.
+- Crittografia Quantistica.
+- Sono in corso i test, eseguiti dalle autorità di rilascio, per la cancellazione dei certificati compromessi sui computer attuali. I certificati compromessi vengono esportati in una sandbox area, prima della rimozione, per l'analisi.
+
+L'integrità delle chiavi pubbliche deve generalmente essere assicurata in qualche modo, ma non deve essere un segreto. Le password e le chiavi segrete condivise hanno degli obblighi di riservatezza supplementari. Le chiavi pubbliche possono essere verificate da un'autorità di certificazione, la cui chiave pubblica viene distribuita attraverso un canale sicuro (per esempio, con un browser web o l'installazione del sistema operativo). Le chiavi pubbliche possono essere verificate da una web of trust (rete di fiducia) che distribuisce chiavi pubbliche attraverso un canale sicuro (ad esempio da incontri faccia a faccia).

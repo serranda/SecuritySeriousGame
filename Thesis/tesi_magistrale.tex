@@ -1,0 +1,196 @@
+% !TEX encoding = IsoLatin
+
+% La riga soprastante serve per configurare gli editor TeXShop, TeXWorks
+% e TeXstudio per gestire questo file con la codifica IsoLatin o Latin 1
+% o ISO 8859-1.
+
+% per commentare una riga mettere % al suo inizio
+% per s-commentare una riga (ossia attivarla) togliere il % al suo inizio
+%
+\documentclass[pdfa% formato PDF/A, obbligatorio per l'archiviazione delle tesi di Polito
+,cucitura%lascia margine per la rilegatura
+%,twoside% per stampa fronte-retro (fortemente consigliato per tesi voluminose, opzionale per le altre)
+%,12pt% font più grande (12pt) rispetto a quello normalmente usato (11pt)
+]{toptesi}
+%
+\usepackage[latin1]{inputenc}% IMPORTANTE! usare codifica ISO-8859-1 per le lettere accentate
+\usepackage{booktabs}
+
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{enumitem} 
+\usepackage{ltxtable}
+
+\usepackage{hyperref}
+\hypersetup{%
+    pdfpagemode={UseOutlines},
+    bookmarksopen,
+    pdfstartview={FitH},
+    colorlinks,
+    linkcolor={blue},
+    citecolor={red},
+    urlcolor={blue}
+  }
+% \documentclass[11pt,twoside,oldstyle,autoretitolo,classica,greek]{toptesi}
+% \usepackage[or]{teubner}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Esempio di composizione di tesi di laurea.
+%
+% Questo esempio e' stato preparato inizialmente 13-marzo-1989
+% e poi e' stato modificato via via che TOPtesi andava
+% arricchendosi di altre possibilita'.
+%
+% Nel seguito laurea "quinquennale" sta anche per "specialistica" o "magistrale"
+
+% Cambiare encoding a piacere; oppure non caricare nessun encoding se si usano
+% solo caratteri a 7 bit (ASCII) nei file d'entrata.
+%
+
+\usepackage[
+backend = bibtex,
+giveninits = true,
+style = polito,
+maxbibnames = 99,
+dateabbrev = false
+]{biblatex}
+
+\addbibresource{Bibliografia/biblio.bib}
+\input{commands.tex}
+
+\begin{document}
+
+\ateneo{Politecnico di Torino}
+
+%%% scegliere la propria facoltà (solo PRIMA dell'AA 2012-2013)
+%
+%\facolta[III]{Ingegneria dell'Informazione}
+%\facolta[IV]{Organizzazione d'Impresa\\e Ingegneria Gestionale}
+%\Materia{Remote sensing}% uso sconsigliato
+
+%\monografia{Gestione informatizzata di un magazzino ricambi}% per la laurea triennale
+\titolo{Sviluppo di un Serious Game in ambito di Sicurezza Informatica}% per la laurea quinquennale e il dottorato
+%\sottotitolo{Metodo dei satelliti medicei}% NON obbligatorio, per la laurea quinquennale e il dottorato
+
+%%% scegliere il proprio corso
+%
+%\corsodilaurea{Ingegneria dell'Organizzazione d'Impresa}% per la laurea di primo e secondo livello
+%\corsodilaurea{Ingegneria Logistica e della Produzione}% per la laurea di primo e secondo livello
+%\corsodilaurea{Ingegneria Gestionale}% per la laurea di primo e secondo livello
+\corsodilaurea{Ingegneria Informatica}% per la laurea di primo e secondo livello
+%\corsodidottorato{Meccanica}% per il dottorato
+
+\candidato{Andrea \textsc{Marchetti}}% per tutti i percorsi
+%\secondocandidato{Evangelista \textsc{Torricelli}}% per la laurea magistrale solamente
+%\direttore{prof. Albert Einstein}% per il dottorato
+%\coordinatore{prof. Albert Einstein}% per il dottorato
+\relatore{prof.\ Antonio Lioy}% per la laurea e il dottorato
+\secondorelatore{ing.\ Andrea Atzeni}% per la laurea magistrale
+%\terzorelatore{{\tabular{@{}l}dott.\ Neil Armstrong\\prof. Maria Rossi\endtabular}}% per la laurea magistrale
+%\tutore{ing.~Karl Von Braun}% per il dottorato
+%\tutoreaziendale{dott.\ ing.\ Giovanni Giacosa} % solo per la laurea di secondo livello con tesi svolta in azienda
+%\NomeTutoreAziendale{Supervisore aziendale\\Centro Ricerche FIAT}
+%\sedutadilaurea{Agosto 1615}% per la laurea quinquennale
+%\esamedidottorato{Novembre 1610}% per il dottorato
+%\sedutadilaurea{\textsc{Novembre} 2017}% per la laurea triennale
+\sedutadilaurea{\textsc{Anno~accademico} 2018-2019}% per la laurea magistrale
+%\annoaccademico{1615-1616}% solo con l'opzione classica
+%\annoaccademico{2006-2007}% idem
+%\ciclodidottorato{XV}% per il dottorato
+\logosede{Immagini/logopolito}
+%
+%\chapterbib %solo per vedere che cosa succede; e' preferibile comporre una sola bibliografia
+%\AdvisorName{Supervisors}
+%\newtheorem{osservazione}{Osservazione}% Standard LaTeX
+
+%\usepackage[a-1b]{pdfx}
+%\hypersetup{%
+%    pdfpagemode={UseOutlines},
+%    bookmarksopen,
+%    pdfstartview={FitH},
+%    colorlinks,
+%    linkcolor={blue},
+%    citecolor={green},
+%    urlcolor={blue}
+%  }
+
+%
+% per numerare e far comparire nell'indice anche le sezioni di quarto livello
+% SCONSIGLIATO! da usarsi solo in caso di estrema necessità
+%\setcounter{secnumdepth}{4}% section-numbering-depth
+%\setcounter{tocdepth}{4}% TOC-numbering-depth (TOC=Table-Of-Content)
+
+%\setbindingcorrection{3mm}
+
+\errorcontextlines=9
+
+\frontespizio
+\paginavuota
+\newpage
+%per sfruttare meglio lo spazio nella pagina
+\advance\voffset -5mm
+\advance\textheight 30mm
+
+% opzionale, solo se si vuole dedicare la tesi a delle persone care
+%\begin{dedica}
+%A mio padre
+
+%\textdagger\ A mio nonno Pino
+%\end{dedica}
+
+\sommario
+
+%\ringraziamenti
+
+%% inserire sempre nella tesi per la laurea di I livello, perché il nome dei tutori non è indicato sul frontespizio.
+%Il lavoro descritto in questa monografia è stato svolto sotto la supervisione
+%del Prof. Antonio Lioy (tutore accademico)% inserire sempre il nome del tutore accademico
+% e dell'Ing. Mario Rossi (tutore aziendale)% inserire solo se la monografia è relativa ad un tirocinio.
+%.
+
+%\tablespagetrue % normalmente questa riga non serve ed e' commentata
+%\figurespagetrue % normalmente questa riga non serve ed e' commentata
+
+\indici
+
+\mainmatter
+
+\chapter{Introduzione}
+
+\input{Capitoli/introduzione.tex}
+
+\chapter{Serious Games}
+
+\input{Capitoli/serious_games.tex}
+
+\chapter{Sistemi SCADA}
+
+\input{Capitoli/sistemi_scada.tex}
+
+\chapter{Analisi dei rischi in un sistema SCADA}
+
+\input{Capitoli/sicurezza_scada.tex}
+
+\chapter{SimSCADA: design e implementazione}
+
+\input{Capitoli/design_progetto.tex}
+
+\chapter{Manuale dello sviluppatore}
+
+\input{Capitoli/manuale_programmatore.tex}
+
+\chapter{Risultati}
+
+\chapter{Conclusioni}
+
+% bibliografia scritta "a mano"
+%\input{biblio.tex}
+
+% se la bibliografia è stata scritta (usando Bibtex) nel file biblio.bib allora commentare la riga precedente e scommentare le due righe seguenti
+%\bibliographystyle{torsec}
+%\bibliography{biblio}
+
+\printbibliography
+
+\end{document}

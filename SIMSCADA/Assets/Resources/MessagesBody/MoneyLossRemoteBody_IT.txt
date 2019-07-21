@@ -1,0 +1,4 @@
+L'ultimo attacco subito ha causato una perdita economica di {0} € all'azienda.
+
+Per il futuro prova ad aggiornare i sistemi di difesa, in modo da intercettare prima le minacce.
+È possibile acquistare aggiornamenti e migliorie difensive tramite il tuo terminale, dacci uno sguardo quando vuoi.

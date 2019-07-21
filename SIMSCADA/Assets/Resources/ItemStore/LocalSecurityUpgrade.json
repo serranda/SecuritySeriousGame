@@ -1,0 +1,10 @@
+{
+	"name": "LOCAL SECURITY UPGRADE",
+	"descriptionPath": "LoclSecurityUpgradeBody",
+	"imageName": "",
+	"price": 550,
+	"finalLevel": 4,
+	"effect" : 18,
+	"currentLevel" :  0,
+	"itemObject" :  {}
+}

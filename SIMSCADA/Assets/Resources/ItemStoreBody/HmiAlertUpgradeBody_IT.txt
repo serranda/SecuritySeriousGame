@@ -1,0 +1,1 @@
+Le stazioni HMI ti allerteranno quando qualcuno cercherà di utilizzare un attacco replay contro il tuo sistema SCADA.

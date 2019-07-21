@@ -1,0 +1,3 @@
+Il livello di sicurezza per l'accesso alla sala SCADA da te impostato è molto alto, ma a causa di ciò un tuo dipendente non è riuscito a completare il suo lavoro.
+Questo ha causato una perdita economica all'azienda di {0} euro. 
+Per il futuro ricorda: una restrizione di accesso elevata non è sempre la migliore scelta, soprattutto se ciò impedisce agi lavoratori di svolgere i loro compiti.

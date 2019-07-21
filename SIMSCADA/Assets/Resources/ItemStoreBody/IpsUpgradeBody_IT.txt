@@ -1,0 +1,1 @@
+Dota la tua rete informatica di un sistema di prevenzione delle intrusioni (IPS). Gli attacchi Dos potranno essere rivelati più facilmente ed intercettati prima che vengano svolti.

@@ -1,0 +1,10 @@
+{
+	"name": "ACTIVATE THREAT RESEARCH",
+	"descriptionPath": "ResearchUpgradeBody",
+	"imageName": "",
+	"price": 700,
+	"finalLevel": 1,
+	"effect" : 23,
+	"currentLevel" :  0,
+	"itemObject" :  {}
+}

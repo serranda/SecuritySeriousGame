@@ -1,0 +1,10 @@
+{
+	"name": "HMI STATION ACTIVITY UPGRADE",
+	"descriptionPath": "HmiStationActivityUpgradeBody",
+	"imageName": "",
+	"price": 600,
+	"finalLevel": 3,
+	"effect" : 6,
+	"currentLevel" :  0,
+	"itemObject" :  {}
+}

@@ -1,0 +1,2 @@
+Benvenuto in SimSCADA, il serious game pensato per far apprendere i concetti di sicurezza informatica che riguardano il mondo industriale e dei sistemi di controllo SCADA.
+Questo è un livello tutorial in cui apprenderai le dinamiche basilari del gioco ed i comandi. Per procedere clicca su "OK".

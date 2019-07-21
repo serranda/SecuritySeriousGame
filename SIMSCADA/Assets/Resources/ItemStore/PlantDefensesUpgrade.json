@@ -1,0 +1,10 @@
+{
+	"name": "PLANT DEFENSES UPGRADE",
+	"descriptionPath": "PlantDefensesUpgradeBody",
+	"imageName": "",
+	"price": 500,
+	"finalLevel": 4,
+	"effect" : 10,
+	"currentLevel" :  0,
+	"itemObject" :  {}
+}

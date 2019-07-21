@@ -1,0 +1,10 @@
+{
+	"name": "ID CARD CHECK UPGRADE",
+	"descriptionPath": "IdCardCheckUpgradeBody",
+	"imageName": "",
+	"price": 600,
+	"finalLevel": 3,
+	"effect" : 8,
+	"currentLevel" :  0,
+	"itemObject" :  {}
+}

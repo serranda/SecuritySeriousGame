@@ -1,0 +1,5 @@
+Sei riuscito a gestire le conseguenze dell'attacco.
+
+Dal momento dell'attacco sono passati {0} minuti.
+
+In questo lasso di tempo, l'azienda ha subito una perdita a di {1} €.

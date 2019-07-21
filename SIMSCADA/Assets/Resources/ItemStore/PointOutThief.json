@@ -1,0 +1,10 @@
+{
+	"name": "POINT OUT THIEF",
+	"descriptionPath": "PointOutThiefBody",
+	"imageName": "",
+	"price": 1000,
+	"finalLevel": 1,
+	"effect" : 19,
+	"currentLevel" :  0,
+	"itemObject" :  {}
+}

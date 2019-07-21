@@ -1,0 +1,1 @@
+Aumenta di 1 il numero di terminali per il server.

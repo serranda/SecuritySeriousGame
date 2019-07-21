@@ -1,0 +1,10 @@
+{
+	"name": "FIREWALL UPGRADE",
+	"descriptionPath": "FirewallUpgradeBody",
+	"imageName": "",
+	"price": 350,
+	"finalLevel": 4,
+	"effect" : 0,
+	"currentLevel" :  0,
+	"itemObject" :  {}
+}

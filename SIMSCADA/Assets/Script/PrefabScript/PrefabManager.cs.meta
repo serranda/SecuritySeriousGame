@@ -1,0 +1,47 @@
+fileFormatVersion: 2
+guid: 886b1de9c686cf8468768cd746fa62b0
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - prefabActionMenu: {fileID: 7161480964311075971, guid: c8919a6a54a51ef408b0baa975d9b6bd,
+      type: 3}
+  - prefabDialogBox: {fileID: 8820521834165243605, guid: 3616a8d503ed81049946d36bf6b32d6d,
+      type: 3}
+  - prefabTutorialDialogBox: {fileID: 8820521834165243605, guid: e1d4d8360f5ea8e4eb7479903b5a071b,
+      type: 3}
+  - prefabPauseMenu: {fileID: 8061761798454725255, guid: 1dd9f1eea2461204dbdb09310c250a9e,
+      type: 3}
+  - prefabScadaScreen: {fileID: 8751767737131481360, guid: 6d6bf3a531a91b7428859afd7b2855c6,
+      type: 3}
+  - prefabStoreScreen: {fileID: 3855610171553746910, guid: d0a92a2e5fe869e42bc9db9964518c24,
+      type: 3}
+  - prefabNoteBook: {fileID: 5110861454571885648, guid: 974b446c730f12f44987b53ac726b345,
+      type: 3}
+  - prefabHud: {fileID: 8364456247160353983, guid: b73b7e7bbaba1d34cb3996a55562c99b,
+      type: 3}
+  - prefabProgressBar: {fileID: 5288192132111045569, guid: cce3580733d775a45a5ea4ddc5f48788,
+      type: 3}
+  - prefabProgressBarButton: {fileID: 644185389433987013, guid: 25572863b5f2ff24b969c35c795f49f6,
+      type: 3}
+  - prefabIdCard: {fileID: 7717499470174760351, guid: 3cf3d089c319a854fabce8da1487cc24,
+      type: 3}
+  - prefabServerScreen: {fileID: 3855610171553746910, guid: a03a2c90b4aa359408f7f2e3b1afb09b,
+      type: 3}
+  - prefabPlayer: {fileID: 8740880053666009925, guid: 6267110cdf2a49e4bb60fdb64d8ce790,
+      type: 3}
+  - prefabAi: {fileID: 8740880053666009925, guid: eb79c2771e2260a4f8d495e9431648e2,
+      type: 3}
+  - prefabStoreItem: {fileID: 8961472927175004416, guid: 5907734ffb617fe4f9a1247c3e22c80f,
+      type: 3}
+  - prefabNotebookButton: {fileID: 3515355970606439736, guid: 66ee9cf35249a7d42bbf84ecd09c9f4c,
+      type: 3}
+  - prefabLoadingScreen: {fileID: 3133021899575046502, guid: 522567dc7490a824195c20dd430464ff,
+      type: 3}
+  - prefabGraph: {fileID: 7366591691847372462, guid: ca8ae5089a510e44fb25110c6818a54c,
+      type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

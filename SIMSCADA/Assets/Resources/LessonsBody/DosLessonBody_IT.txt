@@ -1,0 +1,94 @@
+La locuzione Denial of Service (in italiano letteralmente negazione del servizio abbreviato in DoS) nel campo della sicurezza informatica indica un malfunzionamento dovuto ad un attacco informatico in cui si fanno esaurire deliberatamente le risorse di un sistema informatico che fornisce un servizio ai client, ad esempio un sito web su un web server, fino a renderlo non più in grado di erogare il servizio ai client richiedenti.
+
+In un attacco denial-of-service distribuito (attacco DDoS - Distributed Denial of Service), il traffico in entrata che inonda la vittima proviene da molte fonti diverse. Ciò rende effettivamente impossibile fermare l'attacco semplicemente bloccando una singola fonte. L'esempio in analogia è quello di un gruppo di persone che affollano la porta d'ingresso o il cancello di un negozio o di un'azienda, e non consentendo alle parti legittime di entrare nel negozio o nel business, interrompendo le normali operazioni.
+
+Descrizione
+
+Gli attacchi vengono abitualmente attuati inviando molti pacchetti di richieste, di solito ad un server web, FTP o di posta elettronica saturandone le risorse e rendendo tale sistema "instabile" e non disponibile agli altri utenti. Qualsiasi sistema collegato ad Internet e che fornisca servizi di rete basati sul TCP è quindi soggetto al rischio di attacchi DoS. Inizialmente questo tipo di attacco veniva attuato da "cracker", come gesto di dissenso etico nei confronti dei siti web commerciali e delle istituzioni.
+
+Gli attacchi DoS hanno la connotazione decisamente più "criminale" di impedire agli utenti della rete l'accesso ai siti web vittime dell'attacco. Per rendere più efficace l'attacco in genere vengono utilizzati molti computer inconsapevoli, detti zombie, sui quali precedentemente è stato inoculato un programma appositamente creato per attacchi DoS e che si attiva ad un comando proveniente dal cracker creatore. Se il programma maligno si è diffuso su molti computer, può succedere che migliaia di PC violati da un cracker, ovvero una botnet, producano inconsapevolmente e nello stesso istante un flusso incontenibile di dati che travolgeranno come una valanga anche i link più capienti del sito bersaglio.
+
+Non solo i sistemi server possono essere vittime di un attacco DoS ma anche semplici utenti e client, sebbene questi attacchi siano molto meno frequenti e di nessun interesse per i cosiddetti cracker.
+
+La probabilità sempre minore di incontrare sistemi veramente vulnerabili ha fatto sì che siano diminuiti gli attacchi DoS più eclatanti, però si è scoperta un'estrema vulnerabilità della rete per l'aumento costante della potenza operativa degli attuali personal computer e dell'accesso ad Internet tramite i sistemi DNS. L'implementazione del protocollo TCP/IP, che non garantisce particolare sicurezza sull'identificazione dei mittenti di pacchetti ma anzi ne protegge l'anonimato, può essere sfruttata per mascherarne la vera provenienza.
+
+Trattandosi di connessioni apparentemente legittime, è impossibile bloccarle senza interrompere anche il flusso realmente inoffensivo. Però, limitando drasticamente il numero di sessioni aperte simultaneamente, l'impatto dell'attacco si riduce considerevolmente senza limitare il flusso dei pacchetti regolari. Anche limitando il discorso al blocco di un sito web esistono, e sono stati utilizzati, parecchi modi di ottenere questo risultato.
+
+Di solito gli attacchi DoS possono essere sfruttati per richiedere un riscatto, come preludio di un altro attacco (magari bloccando un servizio di difesa o addirittura il servizio stesso per sostituirlo con uno falso) o semplicemente come atti vandalici (Hacktivism).
+
+Tassonomia dell'attacco
+
+Lo scopo di questo attacco è saturare la backlog queue con richieste di attivazione di un servizio (TCP SYN settato) oltre la scadenza dei relativi timeout e non consentendo alla vittima di completare il 3-way handshake; in questo modo non sarà in grado di gestire i SYN leciti a cui verrà negato il servizio.
+
+Sintomi
+
+Il United States Computer Emergency Readiness Team (US-CERT) ha identificato i sintomi di un attacco denial-of-service tra cui:
+
+- prestazioni di rete insolitamente lente (apertura di file o accesso a siti Web);
+- indisponibilità di un determinato sito web;
+- incapacità di accedere a qualsiasi sito web;
+- drammatico aumento del numero di e-mail di spam ricevute (questo tipo di attacco DoS viene detto "mail bomb").
+
+Ulteriori sintomi possono includere:
+
+- disconnessione di una connessione internet wireless o cablata;
+- negazione a lungo termine dell'accesso al Web o di qualsiasi servizio Internet.
+
+Se l'attacco viene condotto su una scala sufficientemente ampia, intere regioni geografiche connesse ad Internet possono essere compromesse senza la conoscenza o l'intento dell'aggressore da parte di apparecchiature dell'infrastruttura di rete configurate in modo errato o inconsistenti.
+
+Tipi di attacco
+
+Attacco diretto: l'attaccante interagisce direttamente con la vittima. In questo caso l'attaccante si dice reale e la vittima si dice di primo livello.
+Attacco indiretto: l'attaccante sfrutta terze parti per colpire la vittima. In questo caso l'attaccante si dice riflesso, le terze parti si dicono vittime di secondo livello e la vittima finale si dice vittima di primo livello.
+
+DDoS
+
+Una variante di tale approccio è il DDoS (Distributed Denial of Service), dal funzionamento identico ma realizzato utilizzando numerose macchine attaccanti che insieme costituiscono una botnet.
+
+Naturalmente gli attaccanti tendono a non esporsi direttamente, in questo caso per le forze dell'ordine sarebbe infatti semplice risalire ai computer utilizzati per l'attacco. Per evitare di essere individuati, gli attaccanti infettano preventivamente un numero elevato di computer con dei virus o worm che lasciano aperte delle backdoor a loro riservate, anche per avere a disposizione un numero sufficiente di computer per l'attacco. I computer che sono controllati dall'attaccante vengono chiamati zombie.
+
+Tutti i computer infettati entrano a far parte di una botnet, a libera disposizione dell'attaccante. Una nota interessante è data dalla distinzione tra le macchine che eseguono un Sistema Operativo Windows (definiti, in gergo, rxbot) e quelle che invece eseguono un sistema Unix, particolarmente adatte all'UDP Flooding (Flooding sul protocollo UDP).
+
+Una particolarità degli zombies Windows è data dalla possibilità, per l'attaccante, di programmare un trojan in grado di diffondersi automaticamente a tutta una serie di contatti presenti sul computer infettato (contenuti nella rubrica degli indirizzi e quelli di programmi di messaggistica istantanea come Microsoft Messenger) permettendo così al computer zombie di infettare, in maniera completamente autonoma, altre macchine che, a loro volta, diverranno parte della botnet dell'attaccante. Questa viene definita, in gergo, funzione di auto-spreading.
+
+Quando il numero di zombies è ritenuto adeguato, o quando viene a verificarsi una data condizione, i computer infetti si attivano e sommergono il server bersaglio di richieste di connessione. Con l'avvento della banda larga il fenomeno dei DDoS sta assumendo proporzioni preoccupanti, dato che attualmente esistono milioni di persone dotate di una connessione ad Internet molto veloce e permanente, ma con scarse o nulle conoscenze e contromisure riguardanti la sicurezza informatica.
+
+Il danno maggiore dell'attacco di tipo DDoS è dovuto principalmente alla "asimmetria" che si viene a creare tra "la" richiesta e le risposte correlate in una sessione DNS (Domain Name System). Il flusso enorme di risposte generato provocherà nel sistema una tale "inondazione" di traffico, rendendo il server inadeguato alla gestione delle abituali funzioni on-line.
+
+Inoltrando al sito preso di mira una risposta di alcuni Kilobyte per ogni richiesta contenente solo pochi byte, si ottiene un'amplificazione esponenziale tale da saturare i canali dati più capienti, raggiungendo con il DDoS livelli finora inattuabili con gli altri tipi di attacco DoS.
+
+Le configurazioni predefinite e quelle "consigliate" di Firewall, si rivelano utili a contrastare solo gli "attacchi" sferrati dall'esterno, ad esempio di un'azienda, ma poiché il traffico in rete gestito tramite sistema DNS è vitale, per fronteggiare questo tipo di attacco non si potranno attuare le stesse strategie impiegate nei confronti degli attacchi ai Ping. Di conseguenza, il Network manager dovrà tenere scrupolosamente sotto controllo e monitoraggio i canali di flusso dati e, per escludere l'intervento o contrastare l'azione di un cracker, riconfigurerà il DNS responsabile del sito.
+
+Possibili soluzioni
+
+Filtraggio dei Dati in arrivo
+
+Implementare i filtri che presiedono all'ingresso, nei propri router e firewall, dei pacchetti contenenti informazioni sulla provenienza dei dati alterati (cioè spoofed); non si otterrà un arresto dell'attacco DoS ma si potrà ricostruire il flusso di traffico qualificato come "malevolo" in tempi relativamente brevi, per consentire la reazione difensiva degli Internet service provider (anti spoofing).
+
+Firewall
+
+Nel caso di un semplice attacco, un firewall potrebbe avere una semplice regola aggiunta per negare tutto il traffico in arrivo dagli aggressori, in base a protocolli, porte o indirizzi IP di origine.
+
+È tuttavia difficile bloccare attacchi più complessi con regole semplici: ad esempio, se è in corso un attacco sulla porta 80 (servizio Web), non è possibile eliminare tutto il traffico in ingresso su questa porta, poiché così facendo si impedirà al server di al servizio di traffico legittimo. Inoltre, i firewall potrebbero essere troppo profondi nella gerarchia della rete, con i router influenzati negativamente prima che il traffico raggiunga il firewall.
+
+Switch
+
+La maggior parte degli switch ha una capacità di limitazione della velocità e ACL. Alcuni switch forniscono limitazione della velocità e/o del sistema a livello automatico, traffic shaping, delayed binding (splicing TCP), deep packet inspection e Bogon filtering (filtro IP fasullo) per rilevare e correggere gli attacchi DoS.
+
+Questi schemi funzioneranno finché gli attacchi DoS possono essere prevenuti usandoli. Ad esempio, è possibile prevenire il SYN Flood utilizzando il delayed binding o lo splicing TCP. Il filtro automatico della velocità può funzionare fino a quando sono state impostate correttamente le soglie di velocità.
+
+Router
+
+Analogamente agli switch, i router hanno alcune funzionalità di limitazione della velocità e ACL. Anche loro sono impostati manualmente. La maggior parte dei router può essere facilmente sopraffatta da un attacco DoS. Cisco IOS ha caratteristiche opzionali che possono ridurre l'impatto delle inondazioni.
+
+Sistemi di riconoscimento delle intrusioni (IDS)
+
+Si tratta di sistemi commerciali in grado di individuare Trinoo e TFN. Ad esempio l'FBI fornisce, gratuitamente, un prodotto definito Find DDoS in grado di scoprire i file system visti sopra, risultato dell'attacco Distributed Denial of Service. Attraverso tali sistemi di verifica (Intrusion Detection System) vengono individuati i malintenzionati che comunicano tramite slave, agent e master, scoprendo se alcune delle macchine nella propria rete vengono usate, malignamente, come pedine per sferrare l'attacco. In particolare i Network Auditing Tools sono programmi che consentono la verifica e l'analisi della rete aziendale alla ricerca di eventuali agenti in grado di provocare un attacco di tipo DDoS.
+
+Sistemi di prevenzione delle intrusioni (IPS)
+
+I sistemi di prevenzione delle intrusioni (IPS) sono efficaci se agli attacchi sono associate delle "signature".
+
+Un IPS basato su ASIC può rilevare e bloccare gli attacchi denial-of-service perché possiede la potenza di elaborazione e la granularità per analizzare gli attacchi e agire come un interruttore automatico in modo automatico.
+
+Un IPS basato sulla velocità (RBIPS - Rate Based IPS) deve analizzare il traffico in modo granulare, monitorare continuamente il modello di traffico e determinare se c'è un'anomalia del traffico. Deve consentire il flusso di traffico legittimo mentre blocca il traffico di attacco DoS.

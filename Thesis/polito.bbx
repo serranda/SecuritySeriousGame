@@ -1,0 +1,65 @@
+\ProvidesFile{polito.bbx}
+[\abx@bbxid]
+
+\RequireBibliographyStyle{numeric}
+\ExecuteBibliographyOptions{labelnumber}
+
+\DeclareBibliographyDriver{article}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{author/translator+others}%
+  \setunit{\printdelim{nametitledelim}}\newblock
+  \usebibmacro{title}%
+  \newunit
+  \printlist{language}%
+  \newunit\newblock
+  \usebibmacro{byauthor}%
+  \newunit\newblock
+  \usebibmacro{bytranslator+others}%
+  \newunit\newblock
+  \printfield{version}%
+  \newunit\newblock
+  \usebibmacro{journal}%
+  \newunit
+  \usebibmacro{volume+number+eid}%
+  \newunit\newblock
+  \usebibmacro{date}%
+  \newunit\newblock
+  \usebibmacro{byeditor+others}%
+  \newunit
+  \usebibmacro{note+pages}%
+  \newunit\newblock
+  \iftoggle{bbx:isbn}
+    {\printfield{issn}}
+    {}%
+  \newunit\newblock
+  \usebibmacro{doi+eprint+url}%
+  \newunit\newblock
+  \usebibmacro{addendum+pubstate}%
+  \setunit{\bibpagerefpunct}\newblock
+  \usebibmacro{pageref}%
+  \newunit\newblock
+  \iftoggle{bbx:related}
+    {\usebibmacro{related:init}%
+     \usebibmacro{related}}
+    {}%
+  \usebibmacro{finentry}}
+
+\newbibmacro*{volume+number+eid}{%
+  \iffieldundef{volume}
+  {}
+  { 
+	\bibstring{volume}%
+	\printfield{volume}%
+	\setunit{\addcomma\space}%
+  }
+  \iffieldundef{number}
+  {}
+  { 
+  \bibstring{number}%
+  \printfield{number}%
+  \setunit{\addcomma\space}%
+  }
+  \printfield{eid}}
+
+\endinput

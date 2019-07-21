@@ -1,0 +1,10 @@
+{
+	"name": "DRAGONFLY PATCH UPGRADE",
+	"descriptionPath": "DragonflyPatchUpgradeBody",
+	"imageName": "",
+	"price": 550,
+	"finalLevel": 4,
+	"effect" : 17,
+	"currentLevel" :  0,
+	"itemObject" :  {}
+}

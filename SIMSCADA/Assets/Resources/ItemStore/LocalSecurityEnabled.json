@@ -1,0 +1,10 @@
+{
+	"name": "LOCAL SECURITY ENABLED",
+	"descriptionPath": "LocalSecurityEnabledBody",
+	"imageName": "",
+	"price": 1000,
+	"finalLevel": 1,
+	"effect" : 20,
+	"currentLevel" :  0,
+	"itemObject" :  {}
+}

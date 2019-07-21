@@ -1,0 +1,1 @@
+Questo è il pannello di controllo HMI, con cui puoi osservare lo stato del processo controllato. Ricorda che in caso di malfunzionamenti il pannello comincerà a riportare valori fuori scala. 

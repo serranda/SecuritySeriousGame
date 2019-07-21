@@ -1,0 +1,1 @@
+Con l'ultima campagna di assunzioni hai assunto un totale di {0} persone.

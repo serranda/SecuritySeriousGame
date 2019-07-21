@@ -1,0 +1,10 @@
+{
+	"name": "STUXNET PATCH UPGRADE",
+	"descriptionPath": "StuxnetPatchUpgradeBody",
+	"imageName": "",
+	"price": 550,
+	"finalLevel": 4,
+	"effect" : 16,
+	"currentLevel" :  0,
+	"itemObject" :  {}
+}

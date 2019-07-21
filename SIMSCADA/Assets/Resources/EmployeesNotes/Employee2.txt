@@ -1,0 +1,1 @@
+Questo dipendente ha programmato fino ad ora {0} PLC con risultati positivi. 

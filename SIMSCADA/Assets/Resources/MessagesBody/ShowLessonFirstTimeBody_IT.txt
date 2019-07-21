@@ -1,0 +1,5 @@
+Sembra che sia la prima volta che subisci un attacco di tipo {0}.
+
+Per aiutarti ad affronatre meglio questo attacco, una volta chiuso questo box verrai mandato alla corrispondente lezione presente nel tuo quaderno.
+
+Ricorda: puoi consultare il quaderno in qualsiasi momento.

@@ -1,0 +1,1 @@
+Questo utente ha cercato di installare software non autorizzato nei terminali HMI per {0} volte.

@@ -1,0 +1,1 @@
+Il dipendente durante la sua attività ha eseguito {0} commit correttamente.

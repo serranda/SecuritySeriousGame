@@ -1,0 +1,1 @@
+Tutti gli impiegati dell'azienda hanno raggiunto il livello TRUSTED, ritorna quando avrai assunto più impiegati.

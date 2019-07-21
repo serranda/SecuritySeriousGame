@@ -1,0 +1,2 @@
+Eseguita una scansione locale.
+Attualmente sono presenti {0} elementi sospetti all'interno dell'azienda.

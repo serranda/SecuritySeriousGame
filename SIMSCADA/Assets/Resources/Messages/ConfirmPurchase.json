@@ -1,0 +1,6 @@
+{
+	"head": "ACQUISTO UPGRADE",
+	"bodyPath": "ConfirmPurchaseBody",
+	"backBtn": "No",
+	"nextBtn": "Sì"
+}

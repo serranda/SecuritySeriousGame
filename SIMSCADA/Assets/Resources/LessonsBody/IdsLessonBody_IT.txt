@@ -1,0 +1,86 @@
+Nella sicurezza informatica l'Intrusion Detection System o IDS è un dispositivo software o hardware (o a volte la combinazione di entrambi, sotto forma di sistemi stand-alone pre-installati e pre-configurati) utilizzato per identificare accessi non autorizzati ai computer o alle reti locali. Le intrusioni rilevate possono essere quelle prodotte da cracker esperti, da tool automatici o da utenti inesperti che utilizzano programmi semiautomatici.
+
+Descrizione
+
+Gli IDS vengono utilizzati per rilevare tutti gli attacchi alle reti informatiche e ai computer. Questi attacchi includono gli attacchi alle reti informatiche tramite lo sfruttamento di un servizio vulnerabile, attacchi attraverso l'invio di dati malformati e applicazioni malevole, tentativi di accesso agli host tramite innalzamento illecito dei privilegi degli utenti, accessi non autorizzati a computer e file, e i classici programmi malevoli come virus, trojan e worm.
+
+Un IDS è composto da quattro componenti:
+
+- uno o più sensori utilizzati per ricevere le informazioni dalla rete o dai computer
+- un motore che analizza i dati prelevati dai sensori e provvede a individuare eventuali falle nella sicurezza informatica.
+- una console utilizzata per monitorare lo stato della rete e dei computer
+- un database cui si appoggia il motore di analisi e dove sono memorizzate una serie di regole utilizzate per identificare violazioni della sicurezza. Esistono diversi tipi di IDS che si differenziano a seconda del loro compito specifico e dei metodi usati per individuare violazioni della sicurezza. Il più semplice IDS è un dispositivo che integra tutte le componenti in un solo apparato.
+
+Un IDS consiste quindi in un insieme di tecniche e metodi realizzati ad-hoc per rilevare pacchetti dati sospetti a livello di rete, di trasporto o di applicazione.
+
+Due sono le categorie base: sistemi basati sulle firme (signature) e sistemi basati sulle anomalie (anomaly). La tecnica basata sulle firme è in qualche modo analoga a quella per il rilevamento dei virus, che permette di bloccare file infetti e si tratta della tecnica più utilizzata. I sistemi basati sul rilevamento delle anomalie utilizzano un insieme di regole che permettono di distinguere ciò che è "normale" da ciò che è "anormale".
+
+È importante sapere che un IDS non può bloccare o filtrare i pacchetti in ingresso ed in uscita, né tanto meno può modificarli. Un IDS può essere paragonato ad un antifurto mentre il firewall alla porta blindata. L'IDS non cerca di bloccare le eventuali intrusioni, cosa che spetta al firewall, ma cerca di rilevarle laddove si verifichino.
+
+Le attività e i campi di applicazione di un Intrusion Detection System sono vari, al punto che spesso vengono gestiti da diversi software, che nel loro insieme provvedono ad accorgersi dei tentativi di attacco o scansione di un sistema, prevedere meccanismi di notifica e reazione secondo eventi anche proattivi in grado di bloccare sul nascere le comunicazioni con IP da cui arrivano pacchetti ostili.
+
+I meccanismi di individuazione di attività sospette sono diversi, ma generalmente si concentrano su:
+
+- verifica dei log di sistema o di specifici programmi per individuare attività anomale;
+- controllo dell'integrità dei file locali (modifiche sospette possono essere sintomo di un'avvenuta irruzione);
+- monitoring dei pacchetti destinati all'host, sia per reagire a pattern di attacco noti che per accorgersi di un port scanning remoto, generalmente prologo di un tentativo di intrusione.
+
+Individuazioni violazioni e anomalie
+
+Le tecniche di rilevamento intrusione possono essere divise in misuse detection, che usano pattern di attacchi ben conosciuti o di punti deboli del sistema per identificare le intrusioni, ed in anomaly detection, che cercano di determinare una possibile deviazione dai pattern stabiliti di utilizzazione normale del sistema. Un misuse detection system, conosciuto anche come signature based intrusion detection system, identifica le intrusioni ricercando pattern nel traffico di rete o nei dati generati dalle applicazioni.
+
+Questi sistemi codificano e confrontano una serie di segni caratteristici (signature action) dei vari tipi di scenari di intrusione conosciute. Queste caratteristiche possono essere, ad esempio, i cambi di proprietà di un file, determinate stringhe di caratteri inviate ad un server e così via. I principali svantaggi di tali sistemi sono che i pattern di intrusione conosciuti richiedono normalmente di essere inseriti manualmente nel sistema, ma il loro svantaggio è soprattutto di non essere in grado di rilevare qualsiasi futuro (quindi sconosciuto) tipo di intrusione se esso non è presente nel sistema. Il grande beneficio che invece hanno è quello di generare un numero relativamente basso di falsi positivi e di essere adeguatamente affidabili e veloci.
+
+Per ovviare al problema delle mutazioni sono nati gli anomaly based intrusion detection system, che analizzano il funzionamento del sistema alla ricerca di anomalie. Questi sistemi fanno uso di profili (pattern) dell'utilizzo normale del sistema ricavati da misure statistiche ed euristiche sulle caratteristiche dello stesso, per esempio, la cpu utilizzata e le attività di i/o di un particolare utente o programma. Le anomalie vengono analizzate e il sistema cerca di definire se sono pericolose per l'integrità del sistema. Spesso questi sistemi sono basati su tecnologie derivate dall'intelligenza artificiale in modo da poter imparare dai propri errori a da non risegnalare anomalie già identificate come non maligne.
+
+Questi sistemi hanno una serie di regole che definiscono lo stato normale del sistema. Queste regole definiscono caratteristiche come il carico di rete, il tipo di protocolli di rete utilizzati, i servizi attivi, il tipo di pacchetti e altro. Tali regole vengono utilizzate per identificare le anomalie che vengono passate all'analizzatore che ne stabilisce la pericolosità. Le maggiori problematiche legate a tali sistemi sono principalmente legate alla selezione delle caratteristiche del sistema da adottare, queste possono variare enormemente a seconda dei vari ambienti di calcolo; inoltre alcune intrusioni possono essere soltanto rilevate studiando le relazioni che intercorrono tra gli eventi perché l'evento singolo potrebbe rientrare correttamente nei profili.
+
+Analisi della rete o degli host
+
+Gli IDS si possono suddividere anche a seconda di cosa analizzano: esistono gli IDS che analizzano le reti locali, quelli che analizzano gli Host e gli IDS ibridi che analizzano la rete e gli Host.
+
+- Un Network Intrusion Detection System (o Nids) analizza il traffico di rete per identificare intrusioni, permettendo quindi di monitorare non solo un singolo host ma una rete completa. Si tratta di un sistema che legge (in gergo 'sniffa') il traffico che passa su un segmento di rete dov'è attestato, cercando tracce di attacchi. Il suo funzionamento è regolato in base a due principi: il signature matching con cui l'ids cattura il traffico e lo confronta con un database di firme di attacchi (database costantemente aggiornato dal produttore dell'ids) e il network analysis che entra in funzione quando il signature matching fallisce e che è in grado di rilevare anomalie nei flussi di traffico e quindi di rilevare anche quegli attacchi che non sono ancora stati scoperti come tali. Un esempio di Network Intrusion Detection System è Snort, uno degli IDS più conosciuti.
+- Un Network Node Intrusion detection system (NNIDS) analizza il traffico di rete che passa su un unico nodo. È da non confondere con Host-based intrusion detection system ,descritto sotto, che opera nei file all'interno del sistema. La differenza tra NNIDS e NIDS è che nel NNIDS il traffico analizzato è dell'unico nodo e non quello dell'intera rete.un esempio tipico del NNIDS è quello di installarlo in un dispositivo VPN in modo tale che il traffico venga analizzato una volta decriptato
+- Un Host based intrusion detection system consiste in un agente che analizza l'Host alla ricerca di intrusioni. Le intrusioni vengono rilevate analizzando i file di log del sistema, le system call, le modifiche al file system del computer (modifiche nel file delle password, nel database degli utenti e della gestione dei privilegi, ecc), e altre componenti del computer. Un esempio di questo tipo è Aide.
+- Un Hybrid Intrusion Detection System combina i due approcci. Le informazioni recuperate dagli agenti in esecuzione negli Host vengono integrate con le informazioni prelevate dalla rete locale. Un esempio di IDS ibrido è Prelude.
+
+Differenza tra IDS e firewall
+
+- A differenza del firewall che, con una Lista di controllo degli accessi, definisce un insieme di regole che i pacchetti devono rispettare per entrare o per uscire dalla rete locale, un IDS controlla lo stato dei pacchetti che girano all'interno della rete locale confrontandolo con situazioni pericolose già successe prima o con situazioni di anomalia definita dall'amministratore di sistema.
+- Un firewall può bloccare un pacchetto ma un IDS agisce in modo passivo cioè quando rileva la presenza di una anomalia genera un allarme senza però bloccarla.
+- L'IDS agisce anche al livello del singolo Host facendo 2 snapshots successivi del sistema e confrontandoli per evidenziare situazioni di anomalia (per es aumento di privilegi dei file, un utente semplice diventa amministratore o un file system è stato cambiato)
+- Se un attacco è stato originato all'interno della rete locale, Lan, il firewall non può fare niente solo l'IDS può, analizzando la rete, scoprire situazioni di anomalia.
+- L'IDS (da solo) o il firewall (da solo) non possono garantire la sicurezza del sistema.Bisogna combinarli entrambi per poter aumentare il livello di sicurezza in una rete sapendo sempre che la sicurezza non è un prodotto ma un processo in continuo miglioramento
+
+Limiti dell'IDS
+
+- Il tempo tra l'identificazione di un nuovo tipo di attacco e l'aggiornamento del database rappresenta una situazione molto pericolosa. In questo intervallo di tempo l'IDS signature-based non può identificare l'attacco.
+- I diversi errori e Bug dei software possono creare pacchetti corrotti e attivare falsi positivi
+- Errori dovuti a debolezze nel processo di autenticazione o debolezze dei protocolli usati non vengono considerati anomalie. L'IDS considera il traffico normale se grazie a una debolezza qualsiasi un attaccante riesce ad autenticarsi alla rete con tutti i privilegi a lui assegnati.
+- Un IDS non analizza pacchetti criptati.
+- Alcuni IDS tengono in considerazione l'indirizzo sorgente del pacchetto nel processo di analisi.Se l'indirizzo nel pacchetto non è quello effettivo del mittente, vedi IP spoofing,si potrebbe avere dei falsi negativi(che sono situazioni pericolose)
+- È molto difficile definire la baseline della rete(cioè la situazione considerata normale ) se l'IDS è anomaly-based.questo potrebbe creare tanti falsi positivi(meno pericolo) o falsi negati(situazioni da evitare)
+
+Tipologia
+
+Sistemi passivi e sistemi attivi
+
+Gli IDS si suddividono in due ulteriori categorie, gli IDS passivi e degli IDS attivi. I primi IDS quando rilevano una violazione della sicurezza informatica provvedono a notificarla all'operatore tramite la console ed eventualmente gli inviano una email. Gli IDS attivi oltre a notificare all'operatore una violazione della sicurezza provvedono a prendere delle opportune contromisure per eliminare o comunque isolare la violazione informatica.
+
+Nei sistemi attivi l'eliminazione della violazione si ottiene usualmente riprogrammando la lista di controllo degli accessi del firewall in modo da impedire l'accesso agli indirizzi responsabili dell'attacco. Questo tipo di IDS va accuratamente programmato dato che una falsa identificazione potrebbe bloccare un utente autorizzato.
+
+Il firewall non è in grado di bloccare violazioni della sicurezza che avvengono dall'interno della rete locale. A questo scopo sono stati sviluppati gli Intrusion prevention system. Questi componenti contengono delle liste programmate dall'IDS che vengono utilizzate per decidere se un programma deve essere mandato in esecuzione o no. Questi componenti impediscono a worms o virus di diffondersi nei vari computer dato che il componente ne impedisce l'attivazione.
+
+IDS basati su regole
+
+Sono sistemi che sfruttano database, librerie e firme di attacco (o signature) per rilevare le intrusioni. Quando il traffico di rete oppure un'attività di rete corrisponde a una regola ben nota all'ids, questi segnala il tentativo di intrusione. Il limite principale è che l'affidabilità di tale strumento dipende interamente dalla tempestività con cui il database degli attacchi viene aggiornato.
+
+Gli IDS basati sulle regole funzionano in due modalità: una preventiva e una reattiva e sono due modalità che cambiano la tempistica di azione e la possibilità di interazione.
+
+Il primo approccio, di tipo reattivo, permette di completare alla perfezione la procedura di logging: il sistema avverte che si è verificato un attacco, anche se è trascorso qualche minuto dall'evento, provvedendo a notificarlo all'operatore tramite la console o inviando una e-mail. Diversamente l'approccio preventivo risponde in tempo reale all'attacco in corso consentendo di rintracciare la sua origine. Oltre ad avvisare all'amministratore la violazione, è in grado di prendere delle contromisure per eliminare, o comunque isolare, la violazione.
+
+Questi due metodi hanno il grande problema di generare falsi positivi (attività anomale che non sono intrusive, ma che vengono segnalate come tali) e falsi negativi (tutte le attività che sono anomale e che non vengono rilevate e segnalate). L'uso di un solo metodo non può offrire una totale sicurezza; la situazione più grave si presenta nel caso dei falsi negativi, poiché può compromettere gravemente la sicurezza del sistema, ma anche un'eccessiva presenza di falsi positivi può portare a un'impossibilità di utilizzo del computer per un eccesso di avvisi di intrusione infondati.
+
+IDS applicativi
+
+L'application security è diversa dalla sicurezza di rete e degli host. Le applicazioni possono cambiare, ma l'obbiettivo di chi attacca è sempre lo stesso: accedere a un database. La maggior parte degli IDS applicativi hanno tre componenti: il primo è un sensore network-based o basato su host: un sensore di rete è collegato alla porta di analisi di uno switch, configurata per analizzare tutto il traffico di un database. Un sensore host è invece installato direttamente sul server applicativo. I sensori raccolgono le transazioni in SQL, le interpretano e determinano se il traffico esaminato deve generare un allarme. Se è così l'allarme viene passato al secondo componente strutturale: il console server. Questo server memorizza gli eventi registrati dai sensori ed è il nodo centrale per le operazioni legate alla loro gestione, come la definizione della policy e gli aggiornamenti. Il terzo ed ultimo componente è un semplice web server dal quale gli amministratori possono modificare le configurazioni dell'IDS, monitorare gli eventi in tempo reale e produrre report.

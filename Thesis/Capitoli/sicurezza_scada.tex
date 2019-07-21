@@ -1,0 +1,363 @@
+In questo capitolo verrà analizzata la sicurezza di un sistema di controllo SCADA e di come i paradigmi di difesa siano cambiati con il progredire delle tecnologie utilizzate. Nella sezione \ref{sec:itsecurity} si provvederà a dare una panoramica sui concetti di sicurezza informatica che hanno particolare rilievo nei sistemi industriali e quali siano le differenze con la sicurezza IT domestica. Nella sezione \ref{sec:mobilesecurity}, invece, verrà trattato l'argomento dei dispositivi mobile utilizzati in ambiente SCADA e di come occorre preoccuparsi anche della sicurezza di questi dispositivi, molto spesso sottovalutata.
+
+Successivamente, nella seconda parte del capitolo sarà affrontato l'argomento degli scenari di attacco che possono presentarsi: nella sezione \ref{sec:typicalattacks} verranno mostrate una serie di minacce, analizzando le loro modalità di impiego e quali difese è possibile adottare contro di esse. Infine, nella sezione \ref{sec:stuxnet}, verrà effettuato il case study di una delle minacce più pericolose nell'ambiente SCADA: il worm Stuxnet con cui, nel 2010, è stato effettuato uno dei più grandi attacchi ai danni dei sistemi di controllo delle centrali nucleari iraniane da parte del governo USA \cite{Zetter_2015}.
+
+\section{Sicurezza informatica in ambito industriale \label{sec:itsecurity}}
+
+Come visto nel capitolo precedente, l'evoluzione tecnologica che ha investito i sistemi di controllo industriali ha portato all'utilizzo di numerose tecnologie IT, sia per questioni di efficienza funzionale che economica. Questa scelta ha comportato non solo la presenza di aspetti positivi, ma anche l'introduzione di tutte le criticità tipiche del mondo IT. Di conseguenza, è aumentata l'apprensione per i temi di sicurezza, quali accessi non autorizzati, dati manomessi/perduti e attacchi alla rete o al sistema con conseguente malfunzionamento degli stessi; in altre parole tutte le criticità che precedentemente avevano poca importanza poiché ci si trovava molto spesso in un sistema chiuso non accessibile dall'esterno, ora assumono una rilevanza molto alta.
+
+Tradizionalmente, per l'ambiente domestico, esistono molte soluzioni ai suddetti problemi IT, tutte costantemente testate e modificate per migliorare la loro efficienza. Purtroppo, però, queste soluzioni non possono essere applicate nello stesso modo agli ambienti industriali, in quanto di origine tecnologica diversa e soprattutto le criticità da considerare sono diverse. Per questo motivo, nel 2002, fu istituito il comitato dell'``International Society for Automation'' (ISA) formato da esperti di sicurezza informatica industriale, con l'intento di stabilire delle linee guida per indicare quali metodi di difesa e ``best practices'' sono da adottare per mantenere la sicurezza dei sistemi di controllo industriale.
+
+Il comitato stilò, come prima cosa, una lista al cui interno sono state raccolte le principali preoccupazioni che possono scaturire da un attacco informatico ad un sistema di controllo:
+
+\begin{itemize}
+
+\item danneggiamento della sicurezza pubblica e/o personale;
+\item perdita di fiducia da parte del pubblico;
+\item violazione di requisiti normativi;
+\item perdita di informazione proprietarie e/o confidenziali;
+\item perdita economica;
+item impatti sulla sicurezza nazionale.
+
+\end{itemize}
+
+Finalmente, nel 2007, il comitato rilasciò la prima serie di schemi di certificazioni che furono pubblicati dall'``American National Standards Institute'' (ANSI) con il nome di protocollo ANSI/ISA99. Questo è stato ampliato e aggiornato nel coso degli anni fino al 2010, anno in cui il nome fu cambiato in ISA/IEC-62443. Il cambio fu effettuato per mantenere coerenza nella numerazione dei protocolli rilasciato dall'ANSI e il corrispettivo standard dell'``International Electrotechnical Commission''. Come è possibile notare dalla figura \ref{fig:isa99}, i report tecnici che compongono lo standard ISA/IEC-62443 sono suddivise in quattro macro categorie:
+
+\begin{enumerate}
+
+\item la prima (partendo dall'alto) è la categoria che include le informazioni di base, quali terminologie, modelli e concetti fondamentali;
+\item la seconda è rivolta ai proprietari degli asset. Sono affrontati vari aspetti legati alla creazione e mantenimento di programmi per la sicurezza;
+\item il terzo gruppo include una serie di documenti che tracciano delle linee guida per la progettazione dei sistemi di difesa. Sono inclusi anche dei modelli di riferimento per il design del sistema;
+\item l'ultima categoria descrive lo sviluppo ed i requisiti tecnici da rispettare per i sistemi di sicurezza degli impianti di controllo.
+
+\end{enumerate}
+
+\begin{figure}[tbh]
+
+\centerline{\includegraphics[scale=0.75]{Immagini/ISA_IEC-62443}}
+\caption{Schema dei moduli della famiglia ISA/IEC-62443}\label{fig:isa99}
+
+\end{figure}
+
+\begin{figure}[tbh]
+
+\centerline{\includegraphics[scale=0.65]{Immagini/pera_model}}
+\caption{ Purdue Enterprise Reference Architecture (PERA), modello concettuale per la segmentazione della rete di un ICS}\label{fig:peramodel}
+
+\end{figure}
+
+C'è da sottolineare che l'intero standard ISA/IEC-62443 è sottoposto periodicamente a revisioni ed aggiornamenti, sia nella sua interezza che solamente in alcuni dei suoi moduli. Chiaramente le nozioni basilari restano invariate nel tempo, sono integrate da informazioni aggiornate ed in linea con il progresso tecnologico. È utile quindi vedere quali siano queste nozioni e come si riflettano ad un livello più funzionale e pragmatico.
+
+In generale, dai moduli ISA/IEC-62443, si evince l'esistenza di vulnerabilità comuni a tutti i sistemi di controllo e possono essere sia di natura strumentale che organizzativa. La prima, una delle più importanti, è la sottovalutazione delle politiche di sicurezza. Molto spesso si registrano casi di attacchi in cui il motivo primario del problema è stato il mancato rispetto, o addirittura l'assenza, di comuni norme di sicurezza. Questo tema e i problemi che porta con sé, purtroppo, vengono frequentemente trattati come meno importanza di quanto ne richiedano e alle volte non si rileva la presenza neanche degli strumenti organizzativi basilari, quali le documentazioni dei sistemi o delle reti. Anche nel caso in cui siano presenti, spesso non sono aggiornati. Inoltre il monitoraggio delle attività di accesso o di registrazione degli incidenti non sono adeguatamente supportate, creando conseguenti difficoltà nel fornire i dati relativi all'affidabilità della rete e del sistema di controllo. Altri fattori organizzativi critici sono l'assenza di procedure di ``disaster recovery'', backup dei dati o delle configurazioni del sistema e, più in generale, piani per la gestione delle emergenze.
+
+Da un punto di vista architetturale, invece, la vulnerabilità più cruciale è la segmentazione e separazione della rete informatica aziendale da quella industriale di controllo del processo (a tale scopo si è cercato di fornire un supporto con il protocollo ISA/IEC-62443 tramite schemi di architetture di riferimento, come il modello PERA rappresentato fig. \ref{fig:peramodel}). Il problema di una rete informatica piatta, ossia non adeguatamente segmentata, è che semplifica estremamente la circolazione di una minaccia al suo interno, per finire con il suo arrivo fino ai PLC. Ciò significa che, in caso di un attacco positivo sapientemente programmato, le conseguenze derivanti potrebbero mettere a rischio la sicurezza non solo degli asset aziendali, ma anche l'incolumità fisica di oggetti e/o persone ( i PLC, infatti, si trovano a ridosso dei macchinari controllati ed una loro manomissione causerebbe il malfunzionamento dell'intero sistema di produzione).
+
+Altre vulnerabilità architetturali sono anche fornite dall'assenza o il mancato aggiornamento di comuni software di sicurezza, come antivirus o strumenti di rilevamento dei malware, dettati spesso dall'incompatibilità tra questi programmi e i software real-time utilizzati nei sistemi di acquisizione dati. Inoltre, capita che i computer su cui operano gli applicativi di controllo non siano correttamente configurati, mantenendo configurazioni standard facilmente attaccabili, o installano sistemi operativi a cui non è stata fatta alcuna operazione di hardening o, per lo meno, di aggiornamento. Infine, altra vulnerabilità è data dalla mancanza di monitoraggio degli accessi remoti: negli ultimi tempi, infatti, l'utilizzo di dispositivi mobile per gestire questi sistemi si è ampiamente diffuso grazie alla comodità che li contraddistingue. Questo, però, ha portato con sé anche numerose criticità che se non correttamente affrontate possono rappresentare delle vulnerabilità alla sicurezza del sistema.
+
+\subsection{Differenze tra sicurezza IT e ICS}
+
+Come precedentemente detto, sebbene le tecnologie applicate ai sistemi ICS sia derivante da quella dei sistemi IT domestici, le soluzioni adottate per la sicurezza devono essere differenti a cause delle differenze dovute all'ambiente di lavoro ed alle differenti esigenze. Mentre nel caso della sicurezza IT le proprietà di confidenzialità e riservatezza dei dati ha maggiore importanza rispetto alla disponibilità, nei sistema di controllo, data la loro natura operativa continua, è necessario porre la disponibilità e l'integrità dei dati in cima alle proprietà da mantenere, anche quando ci si trova sotto attacco. Il rischio, in caso contrario, è di causare gravi perdite economiche o, peggio, danni materiali al sistema o mettere in pericolo l'incolumità degli operatori del sistema di controllo \cite{Knapp_2015_3}.
+
+Di seguito sarà esposta una lista di differenze, evidenziate anche dal comitato ISA99 al momento dello studio del nuovo protocollo di sicurezza, tra sistemi di sicurezza ICS e quelli IT \cite{Stouffer_2015}.
+
+\begin{description}
+
+\item [Requisiti operativi e temporali]
+Di norma, negli ambienti ICS i tempi delle comunicazioni sono fondamentali: devono essere effettuate il più possibile in real-time, con le soglie dei livelli di tolleranza dei ritardi e disturbi ammessi dettate dallo scopo a cui sono destinate. In alcuni casi, le risposte del sistema alle interazioni degli operatori sono così critiche che si utilizzano sistemi operativi specifici per lo scopo denominati real-time operating system, o RTOS (ovviamente l'unità di misura per il real-time dipende molto dalle applicazioni a cui è destinato il sistema ed è di norma specificata in fase di progettazione dell'ICS). Molti sistemi effettuano trasmissioni rapide e ripetute, quindi ha molta importanza l'affidabilità del mezzo di comunicazione, mentre non si rende necessaria una larghezza di banda estesa. Nelle comunicazioni IT, invece, si hanno necessità diametralmente opposte: il real-time è un'esigenza che può essere messa in secondo piani (disturbi e ritardi nelle comunicazioni hanno soglie di tolleranza molto più alte), mentre è assolutamente primaria la necessità di una banda di comunicazione sufficientemente larga per trasportare tutte le comunicazioni del sistema.
+
+\item [Requisiti di disponibilità]
+Molti sistemi ICS, come precedentemente detto, sono in esecuzione ininterrottamente. Interruzioni improvvise del sistema, quindi, non sono accettabili e spesso devono essere pianificati con largo anticipo (giorni o, addirittura, settimane prima). Inoltre è fondamentale effettuare numerosi test intensivi prima di eseguire le operazioni di interruzione,  in modo da garantire la corretta affidabilità del sistema durante tutto il processo. È quindi facilmente intuibile come le tipiche strategie del mondo IT, quali il riavvio di un componente in caso di malfunzionamenti, non possano essere attuate nell'ambiente ICS, dato l'enorme impatto negativo che avrebbe sulla intero sistema di controllo. Spesso, infatti, è più importante mantenere la disponibilità del processo controllato, rispetto alle informazioni su cui si basa la produzione. A tale scopo, si è già visto come in molti ICS l'architettura sia ridondante, per garantirne la funzionalità anche in caso di componenti non disponibili.
+
+\item [Requisiti di gestione dei rischi]
+In un sistema IT, in caso di minaccia andato a segno, le preoccupazioni maggiori sono rivolte all'integrità e la riservatezza dei dati colpiti dall'attacco. In un ambiente del genere, questi rappresentano l'asset principale ed una loro manomissione si tramuterebbe in gravi danni economici e d'immagine per l'azienda attaccata. In un sistema ICS, invece, le conseguenze sono del tutto imprevedibili e portare alle situazioni più disparate: si va dalle perdite di materiali e proprietà intellettuali fino al provocare danni ben più gravi che posso mettere a rischio la salute degli operatori o, in caso estremi, della salute pubblica. Quindi, chi si occupa dell'implementazione dei metodi di sicurezza di un impianto ICS deve tenere bene a mente l'importanza del legame esistente tra sicurezza del sistema e sicurezza delle persone. Qualsiasi rimedio che non ne tenga conto è da considerarsi inaccettabile.
+
+\item [Effetti fisici]
+Come detto, i PLC interagiscono direttamente e fisicamente con il processo da controllare. Spesso le interazioni possono essere molto complesse e generare dei particolari eventi fisici. Questo rappresenta, ovviamente, un potenziale pericolo che in un ambiente IT non sia ha per niente. Per gestire questi eventi fisici è necessario che gli operatori del sistema di controllo comunichino costantemente con gli esperti del campo fisico in questione.
+
+\item [Sistemi operativi]
+I sistemi operativi implementati negli ambienti ICS sono abbastanza differenti dalle loro controparti utilizzate in ambienti IT. E anche qualora si utilizzi un sistema operativo comune al mondo IT (come Windows o Linux), le configurazioni ed i software utilizzati per il controllo sono completamente diverso. Chi deve gestire una rete di un ICS, quindi, deve possedere delle conoscenze e delle capacità specifiche per quel tipo di ambiente. In caso contrario vorrebbe dire non riconoscere le differenze tra i due ambienti, con il rischio di incappare in gravi conseguenze.
+
+\item [Limitazioni delle risorse]
+Molto spesso i sistemi operativi ICS girano su macchine dalle risorse hardware e software limitate, con la conseguenza che alcune delle feature di sicurezza tipiche dei sistemi IT non sono incluse. Caratteristiche come la capacità di criptare e decriptare dati, log testuale che riporti gli errori o strumenti per la protezione delle password spesso sono assenti dalle macchine di un sistema ICS, sia per questioni hardware che software. E alle volte aggiungere delle nuove componenti aggiornate per implementare le suddette funzionalità non è una soluzione percorribile, in quanto ne andrebbe della stabilità dell'intero sistema di controllo.
+
+\item [Comunicazioni]
+In un ICS i protocolli di comunicazione utilizzati dai dispositivi periferici, ossia i PLC, sono molto spesso proprietari e messi a disposizione direttamente dalle aziende produttrici. Questo rappresenta un problema, dato che in questo modo si viene a creare un sistema con protocolli misti e da gestire singolarmente in modo da garantire la corretta funzionalità del sistema. Nei sistemi IT, invece, si fa affidamento a protocolli di comunicazione standard, quali TCP/IP, le cui funzionalità sono oramai ben conosciute e consolidate.
+
+\item [Gestione degli aggiornamenti]
+In generale, sia per gli ambienti IT che per quelli ICS, gli aggiornamenti dei software utilizzati sono importantissimi e ne garantiscono il loro corretto funzionamento. Purtroppo però, la gestione dell'applicazione di questi aggiornamenti differisce notevolmente quando si prendono in esame i due casi separatamente. Nei sistemi IT, le patch di sicurezza e le migliorie software sono applicate periodicamente e molto spesso in maniera del tutto autonoma, senza richiedere l'intervento di chi opera con la macchina in questione (nelle grandi reti IT aziendali sono presenti dei server adibiti al solo scopo di gestire automaticamente l'aggiornamento di tutte le macchine collegate a quella rete). Nei sistemi ICS, purtroppo, non si può eseguire la stessa procedura. Innanzitutto gli aggiornamenti devono essere testati a lungo e in maniera intensiva, sia dai produttori dell'applicazione che dagli operatori del sistemi di controllo, prima di poter essere applicati in maniera definitiva. Inoltre la procedura deve essere pianificata per tempo, in quanto, come visto, l'interruzione improvvisa dell'operatività del sistema di controllo causerebbe numerosi ed ingenti danni economici all'azienda produttrice. Un altro inconveniente è che spesso i sistemi operativi implementati negli ICS sono obsoleti e non più supportati dagli stessi venditori del software. Questo può comportare che alcune patch rilasciate non siano compatibili con questi sistemi operativi ed applicarle vorrebbe dire rendere instabile l'intero ICS. Un esempio è stato il caso di Windows XP ed il Service Pack 3 rilasciato da Microsoft che rendeva instabile numerosi sistemi di controllo, tant'è che ad oggi molti di essi ancora utilizzano il Service Pack 2.
+
+\item [Assistenza tecnica]
+Tipicamente nei sistemi IT il sistema di assistenza tecnica può essere erogato in maniere differenti ed è in grado di gestire tutte le diverse componenti dell'architettura, anche se appartengono a venditori diversi tra loro. Nel caso di un ICS, invece, l'assistenza viene effettuata spesso da parte di una singola azienda e potrebbe applicare delle soluzioni differenti da quelle che applicherebbe un altro venditore. Inoltre, in alcuni casi non è permesso l'utilizzo di soluzioni per la sicurezza messe a disposizione da eventuali terze parti esterne, in quanto impedito dal contratto che l'azienda gestore dell'ICS ha redatto con il venditore delle apparecchiature. Nel caso in cui si venga meno a questa clausola, si rischierebbe di annullare la garanzia offerta dal venditore portando il sistema ad un'esposizione molto più diretta a dei potenziali rischi.
+
+\item [Tempo di vita dei componenti]
+Nei sistemi IT, le componenti hardware e software hanno una durata garantita per un tempo che va dai 3 ai 5 anni. Questo è dettato dalle rapide e continue evoluzioni tecnologiche, che rendono obsoleti i dispositivi molto velocemente. In un sistema di controllo, invece, si fa largo uso di componenti specificamente studiati per quello scopo. Questo fa sì che la vita di questi strumenti si attesti tra i 10 e i 15 anni, circa il triplo rispetto al caso IT. 
+
+\item [Disposizione fisica dei componenti ]
+I sistemi IT sono di norma situati in aree commerciali e facilmente accessibili, per facilitare un eventuale intervento in loco. Questo è il caso anche dei sistemi di controllo situati a ridosso del processo controllato. Le uniche componenti che potrebbero essere situate in luoghi più lontani sono i server utilizzati per il backup dei dati. Come abbiamo visto, però, numerosi ICS, a causa delle caratteristiche geografiche del processo controllato, sono disposti in luoghi molto vasti e raggiungibili solo con mezzi appositi. Inoltre, dato l'alto rischio rappresentato da alcune componenti dei sistemi di controllo , spesso si utilizzano luoghi di installazione più isolati proprio per motivi di sicurezza.
+
+\end{description}
+
+In conclusione, è evidente che le differenze operative e di sicurezza di un ICS crei la necessità di creare delle strategie di sicurezza molto più complesse rispetto ad un sistema IT. È necessaria la presenza un team composto sia da operatori di sistemi di controllo che da esperti di sicurezza informatica per individuare e capire le possibili conseguenze dovute alle normali azioni di assistenza: che sia l'installazione di un aggiornamento, operazioni di manutenzione o l'implementazione di una nuova soluzioni per la sicurezza. Tutto ciò deve essere studiato prima di effettuare l'azione in maniera definitiva.
+
+\section{SCADA e dispositivi mobile \label{sec:mobilesecurity}}
+
+\subsection{Applicazioni locali e remote}
+
+Nel corso degli ultimi 2/3 anni si è cominciato a diffondere sempre di più anche in ambiente SCADA l'utilizzo di applicazioni su dispositivi mobile per la gestione dei sistemi di controllo.Inoltre, l'idea di affidarsi a piattaforme cloud per svolgere le normali procedure di gestione del sistema, quali monitoraggio degli accessi, attività di supervisione e quant'altro, non sembra più così assurda come poteva apparire qualche anno fa. Tutte queste comodità, però, portano ovviamente con loro anche delle criticità che, se non correttamente risolte, a loro volta potrebbero portare a subire degli attacchi, con annesse perdite economiche.
+
+\begin{figure}[tbh]
+
+\centerline{\includegraphics[scale=0.75]{Immagini/scada_mobile.pdf}}
+\caption{Architettura di un sistema SCADA integrato con applicazioni mobile}\label{fig:scadamobile}
+
+\end{figure}
+
+L'infrastruttura di un ICS, come precedentemente esposto, può essere di natura molto eterogenea, seguendo anche il principio di segmentazione del protocollo ISA99. In figura \ref{fig:scadamobile} è riportato un esempio di architettura di un sistema in cui si fa utilizzo di applicazioni mobile per il monitoraggio e la gestione dell'impianto. Come è possibile notare, i terminali mobile, a seconda del livello dell'architettura in cui sono posti, si possono raggruppare in due categorie:
+
+\begin{description}
+
+\item [Applicazioni locali]
+Queste applicazioni sono installate su dispositivi che si interfacciano direttamente con i dispositivi periferici dell'ICS, usualmente tramite connessioni Wifi o Bluetooth. un esempio sono le applicazioni installate su tablet usate dagli ingegneri di controllo per osservare lo stato del processo, anche durante eventuali pause o momenti in cui sono lontani dai terminali fissi. Queste applicazioni posso essere utilizzate anche per altri scopi, come ad esempio configurare le operazioni di un PLC o configurare una schermata HMI, in sostituzione di laptop e pc. In base all'utilizzo, quindi, le applicazioni locali possono essere suddivise a loro volta in:
+
+\begin{itemize}
+
+\item Configuratori di PLC, ossia applicazioni per monitorare, ma anche programmare i vari dispositivi della rete del sistema di controllo, quali PLC, RTU (Remote Terminal Unit, dispositivi elettronici di controllo con cui è possibile monitorare i parametri fisici di un processo e trasmetterli al sistema di elaborazione dell'impianto SCADA) ed altro ancora;
+
+\item Client SCADA, applicazioni tramite cui gli ingegneri di controllo monitorano e supervisiono lo stato del processo. Queste applicazioni si interfacciano con i server SCADA;
+
+\item Pannelli HMI Mobili, ossia delle applicazioni che trasformano il proprio dispositivo mobile in un pannello HMI vero e proprio. Alcuni software mettono a disposizione dei modelli di interfacce con già alcune logiche di controllo implementate, ma è possibile, sempre tramite le stesse applicazioni o le loro controparti desktop, creare dei pannelli HMI personalizzati e programmarli a seconda delle proprie esigenze. Una volta create, le interfacce vengono caricati sui server SCADA ed eseguite sui dispositivi mobile, trasformandoli in veri e propri pannelli HMI (i quali possono essere completamente sostituiti, causando anche un notevole risparmio economico).
+
+\end{itemize}
+
+In generale, per quanto riguarda questo tipo di applicazioni, bisogna effettuare alcune considerazioni, basate sul fattore ``ambientale'': queste applicazioni sono utilizzate in un segmento dell'architettura considerato sicuro, in quanto separato tramite firewall dall'esterno. Ciò significa che la mancanza di funzioni per la crittografia dei dati e per svolgere le procedure di autenticazione e autorizzazione non è da considerare come fonte di rischi elevati. Il problema, però, si pone nell'eventualità di manomissioni, anche parziali, di queste applicazioni. In questo caso gli attaccanti possono interagire direttamente con il sistema di controllo, influenzando lo stato del processo a proprio piacimento. È chiaro quindi come sia importante che queste applicazioni non vengano utilizzate al di fuori di questi ambienti sicuri, altrimenti il rischio di minacce diverrebbe troppo alto. La conseguenza è che i dispositivi in cui sono installate i software mobile non lasciano mai le stanze di controllo e, soprattutto, non sono connesse con la rete esterna.
+
+\item [Applicazioni remote]
+Questo tipo di applicazione permette agli operatori di controllo di connettersi ai server del sistema SCADA tramite canali di comunicazioni remoti, quali rete internet, reti VPN ed altre soluzioni simili. Tipicamente sono utilizzate per eseguire azioni di monitoraggio dei sistemi, ma esistono anche delle applicazioni che permettono di svolgere delle azioni di controllo sul processo. In questo caso sono integrate anche delle funzionalità di avvertimento tramite degli alert remoti in modo da avvisare l'operatore della necessità di un suo intervento. 
+
+Confrontandole con le applicazioni locali si può subito notare la grossa differenza tra le due categorie: le applicazioni remote utilizzano i vari protocolli Internet per comunicare con il sistema SCADA e spesso sono installate sui dispositivi personali degli operatori. Quindi, l'ambiente in cui operano non può essere considerato chiuso e isolato come nel caso delle applicazioni locali. Questo significa che le applicazioni remote sono esposte ad un numero maggiore di rischi ed attacchi provenienti sia dalla rete di comunicazione che da software maligni installati sui dispositivi.
+
+\end{description}
+
+\subsection {Analisi delle vulnerabilità mobile}
+
+Sebbene le tipologie di applicazioni mobile utilizzate in ambiente SCADA possano essere molteplici, ognuna con le proprie funzionalità, è possibile stilare una lista di minacce comuni a tutti i suddetti software. Il motivo è da ricercare nelle caratteristiche del mezzo su cui vengono utilizzate: i dispositivi mobile, sebbene molto pratici e comodi, sono di natura molto vulnerabili, non solo agli attacchi software, ma anche a minacce fisiche, come il furto o lo smarrimento. In base al tipo di attacco, quindi, è possibile raggruppare le varie minacce in tre categorie:
+
+\begin{description}
+
+\item [Accesso non autorizzato ai dati]
+In questo scenario, l'attaccante riesce ad ottenere l'accesso al dispositivo dove è installata l'applicazione e, di conseguenza, a tutti i dati che sono salvati al suo interno. Può avvenire in diversi modi, ma in tutti i casi le conseguenze sono molto gravi.
+
+Uno dei modi che può dare il via al suddetto scenario di attacco è la perdita fisica del dispositivo. In questa situazione l'attaccante ha modo di appropriarsi dei dati dell'applicazione sia con attacchi software che hardware. Se il dispositivo è destinato ad un uso locale, l'attaccante otterrebbe delle preziose informazioni riguardo il processo controllato, l'infrastruttura del sistema SCADA, schemi di rete ed altro ancora. Queste informazioni, poi, potranno essere usate per eseguire successivamente un attacco più mirato e con più alte probabilità di successo. Nel caso in cui, invece, il dispositivo perso sia destinato ad un uso da remoto, le conseguenze sarebbero ben più gravi: gli attaccanti, infatti, potrebbero ottenere tutte le informazioni necessarie per l'autenticazione ed utilizzarle per connettersi direttamente ai server del sistema SCADA.
+ 
+Un altro modo con cui può avvenire un accesso non autorizzato è nel caso in cui venga lasciato incustodito un dispositivo mobile senza alcuna protezione. In questo caso l'attaccante ha a disposizione una finestra temporale in cui può sia ottenere delle informazioni cruciali, ma anche alterarle senza che nessuno se ne accorga. Similmente, si può verificare la stessa situazione quando i dati sono salvati su partizione esterne (tipicamente schede di memoria SD) e queste non vengono protette adeguatamente. Anche in questo caso l'attaccante ha la possibilità di manipolare e/o accedere ai dati presenti nella partizione senza particolari problemi. 
+
+\item [Compromissione del canale di comunicazione]
+Questo scenario ha più probabilità di manifestarsi nel caso delle applicazioni remote, ma ciò non esclude del tutto dal pericolo quelle locali, anch'esse comunque a rischio. Generalmente, il canale di comunicazione che le applicazioni utilizzano per dialogare con i server del sistema SCADA deve garantire il mantenimento delle proprietà di riservatezza ed integrità. Purtroppo però, i dispositivi su cui sono installate gli applicativi possono connettersi alla rete Internet attraverso dei canali non sicuri. Questo può provocare una serie di pericoli e minacce quali:
+
+\begin{itemize}
+
+\item Connessione ad access point clandestini, sia per reti WiFi che per quelle cellulari;
+\item Connessione ad access point pubblici che non integrano funzionalità per la sicurezza;
+\item Compromissione delle rete privata, sia aziendale che domestica;
+\item Compromissione della rete VPN.
+
+\end{itemize}
+
+Quale che sia la minaccia, le conseguenze sono sempre le stesse: l'attaccante può pianificare un attacco \mitm (sarà esposto più nel dettaglio nella sezione \ref{sec:typicalattacks}), ottenendo la possibilità di osservare il traffico dati in chiaro che ha luogo nel canale di comunicazione in questione. In questa maniera può effettuare può effettuare lo sniffing delle informazioni scambiate tra server SCADA e applicazione, ma anche manipolarle a proprio piacimento senza essere scoperto.
+
+\item [Compromissione dell'applicazione]
+Anche se le applicazioni operano in un ambiente sicuro, con canali di comunicazioni protetti e gli accessi sono controllati, è possibile che vi siano delle vulnerabilità nel loro codice, esponendole di fatto a pericoli inaspettati. Queste vulnerabilità del codice possono essere sia dal lato del server (il backend) che nelle applicazioni client. I pericoli che possono scaturire da questo scenario sono diversi, come ad esempio una manomissione delle liste di controllo per gli accessi, l'esecuzione di codice malevolo da remoto o la compromissione di dati riservati.
+
+\end{description}
+
+Basandosi sugli scenari delle minacce appena esposte, si possono individuare due categorie di attacchi mobile ognuno con obiettivi diversi. La prima categoria è formata dagli attacchi il cui scopo è quello di influenzare, in maniera più o meno diretta, lo stato del processo controllato. Generalmente può avvenire quando l'attaccante ha libero accesso alle credenziali di un operatore e modifica le informazioni cruciali per in controllo di un processo. La seconda tipologia di attacchi è quella che mira ad influenzare le azioni di un operatore SCADA, in modo da fargli compiere delle azioni dannose sul sistema senza che se ne accorga. In questo caso, l'attaccante crea un ambiente di lavoro fittizio, del tutto simile a quello reale, in cui potrà ad esempio cambiare a proprio piacimento i dati sullo stato del processo o scambiare le informazioni da mostrare nei vari pannelli della schermata HMI. Basandosi su queste informazioni alterate, l'operatore si troverà a effettuare in buona fede delle azioni di controllo, ma che in realtà finiranno per danneggiare il sistema SCADA ed il processo controllato.
+
+La sicurezza dei dispositivi mobili, inizialmente sottovalutata, è tornata sotto i riflettori negli ultimi anni. Numerosi sono i stati i lavori di studio effettuati per attirare l'attenzione sui problemi nascosti in questi software che hanno sicuramente reso l'ambiente degli ICS di più facile utilizzo, ma al contempo più vulnerabile. Un lavoro dettagliato in questo senso è quello svolto dagli esperti di sicurezza informatica Alexander Bolshev e Ivan Yushkevich. I due esperti, basandosi sulla classificazione delle applicazioni e delle minacce precedentemente fornita, nel corso degli anni hanno analizzato nel dettaglio le applicazioni per mobile presenti sul mercato. I dati ottenuti sono poi stati esposti in rapporti tecnici dettagliati. Nel loro ultimo lavoro \cite{Bolshev_2018}, pubblicato nel gennaio dello scorso anno, hanno analizzato software creati da oltre 30 venditori. In queste hanno riscontrato un totale di 147 falle della sicurezza , ognuna delle quali è stata categorizzata seguendo le linee guida fornite dal ``Open Web Application Security Project'' (OWASP), un ente no-profit istituito nel 2001 con lo scopo di aiutare a migliorare la sicurezza dei software. L'OWASP prevede un totale di 10 categorie per i rischi delle applicazioni mobile:
+
+\begin{itemize}
+
+\item \textbf{utilizzo improprio della piattaforma}, ossia l'uso improprio o il mancato impiego delle funzionalità di sicurezza messe a disposizione dello sviluppatore;
+\item \textbf{archiviazione impropria dei dati}, che ricopre l'errata gestione dei dati utilizzati dall'applicazione;
+\item \textbf{comunicazione non sicura}, in cui rientrano tutti i problemi nel creare un canale di comunicazione adeguato;
+\item \textbf{autenticazione non sicura}, ossia vulnerabilità dovute alla errata gestione della sessione o all'autenticazione dell'end user;
+\item \textbf{crittografia insufficiente}, che include problemi dovuti ai tentativi di crittografia errati;
+\item \textbf{autorizzazione non sicura}, in cui sono compresi i tentativi errati nel gestire le autorizzazioni;
+\item \textbf{qualità del codice client}, che raggruppa gli errori di codice presenti nell'applicazione;
+\item \textbf{manomissione del codice}, ossia i problemi dovuti alle modifiche che è possibile apportare al codice dell'applicazione una volta installata;
+\item \textbf{reverse engineering}, che identifica la capacità di ottenere il codice sorgente partendo dal software;
+\item \textbf{funzionalità non pertinenti,} ossia funzionalità aggiuntive utilizzate in fase di sviluppo erroneamente mantenute nell'applicazione finale.
+
+\end{itemize}
+
+A queste categoria ne hanno aggiunta una specifica per l'ambiente di lavoro SCADA, ossia \textbf{errori presenti nella programmazione del codice implementato nel backend}.
+
+%tabella categorie mobile
+\input{Tabelle/bolshev_table}
+
+Nella tabella \ref{tab:bolshev_table} sono riportati i risultati dell'analisi effettuata dai due studiosi. È possibile notare come qualche categoria presenti una bassa percentuale di errori, mentre alte sono moto elevate. Da notare come la categoria inerente alla manomissione del codice abbia una percentuale molto elevata, segno che alcuni problemi spesso sono ancora sottovalutati.
+
+\section{Scenari di attacco \label{sec:typicalattacks}}
+
+Esistono molti metodi per attaccare un obiettivo, una volta che questa è stato identificato. I vari attacchi usati in ambiente, \mitm, \dos, attacchi replay, phishing, infezione dei sistemi con malware, sono molto efficaci anche in ambiente ICS. I motivi primari, come visto nei precedenti paragrafi, sono da ricercarsi in una combinazione di fattori legati a protocolli di comunicazione non sicuri, autenticazione tra dispositivi molto scarna e architetture di rete fragili.
+
+ Se una rete venisse penetrata ed installato un malware al suo interno, tramite dei tool specifici si potrebbe garantire l'accesso remoto al sistema, installare dei keylogger o intraprendere qualsiasi altra azione distruttiva. In alcuni casi le informazioni possono essere estrapolate ed utilizzate per effettuare un ulteriore attacco. Inoltre, se un attacco riesce ad andare a segno senza lasciare alcuna traccia, l'attaccante può rimanere all'interno del sistema indefinitamente. Nel caso in cui ciò accada nella rete di un sistema collegato ad altri sistema (come può essere una rete di un server di una stanza di controllo SCADA), a questo punto si ha la possibilità di iniziare un ulteriore attacco con obiettivo altre parti della rete industriale, aumentando l'ammontare dei danni provocati.
+
+Di seguito verranno esposti i tipi di attacchi informatici più comuni che possono essere effettuati, le modalità in cui essi si svolgono e quali difese possono essere implementate nell'architettura di un ICS per contrastarli \cite{Knapp_2015_7} \cite{Stouffer_2015}.
+
+\subsection{Attacco \mitm}
+
+Con \mitm (abbreviato in \mitma) ci si riferisce ad un attacco in cui l'attaccante riesce a frapporsi fra due dispositivi in comunicazione senza che se ne accorgano, riuscendo in questo modo a catturare tutti i dati e le informazioni scambiate durante il dialogo. L'attaccante, per fare ciò, si connette ad entrambi i dispositivi ed inizia a gestire tutto il traffico dati tra di loro in modo da far sembrare che stiano comunicando direttamente tra loro, quando in realtà la comunicazione si sta sviluppando attraverso un terzo dispositivo in ascolto.
+
+Al fine di eseguire un attacco \mitma, l'attaccante deve essere in grado di intercettare i traffico tra i due obiettivi. Se la connessione da attaccare risulta mancante di funzionalità per la criptazione dei dati e l'autenticazione dei dispositivi connessi, come spesso accade nei protocolli di comunicazione industriali, il procedimento è molto diretto e veloce. Ma, anche nel caso in cui queste funzionalità siano presenti, è comunque possibile effettuare un attacco, ad esempio intercettando lo scambio delle chiavi di autenticazione e sostituirle con delle copie personali.
+
+Un altro metodo per effettuare un attacco \mitma è quello di agire sulle tabelle di risoluzione degli indirizzi e modificarle per ottenere l'accesso al flusso delle informazioni scambiate. Questo può essere fatto sia nelle tabelle del Address Resolution Protocol (ARP), effettuando un attacco di tipo ARP Poisoning, che in quelle del Domain Name System (DNS), dando luogo in questo caso ad un attacco DNS Poisoning. Prima di mostrare le modalità con cui si svolgono i due attacchi, è bene effettuare una panoramica sulle funzionalità per cui sono utilizzati i protocolli ARP e DNS. 
+
+L'ARP è un protocollo di servizio, incluso nel protocollo IP, che agisce a livello di accesso alla rete ed il cui compito è quello di effettuare una mappatura tra indirizzi IP e indirizzi MAC dei dispositivi connessi alla rete locale. Il DNS, invece, è un sistema di indirizzamento, presente sempre nel protocollo IP, che agisce a livello applicazione ed è utilizzato per tradurre il nome di un nodo della rete o host in un indirizzo IP. Iin entrambi i casi, per velocizzare le operazioni di traduzione, si fa utilizzo di tabelle di cache, solitamente memorizzate all'interno dei server aziendali. Queste tabelle sono l'obiettivo degli attacchi ARP Poisoning e DNS Poisoning: ad un attaccante basterà modificare opportunamente i valori delle cache inserendo quelli del proprio indirizzo IP o MAC, a seconda che si agisca rispettivamente sulla cache di un server DNS o di uno ARP, in modo da riuscire ad instradare tutto il traffico verso la propria macchina senza che gli interlocutori se ne accorgano.
+
+Una volta che l'attaccante è riuscito ad intromettersi nel flusso delle informazioni, avrà il completo controllo sulle stesse dando l'inizio all'attacco vero e proprio. Uno scenario tipico è quello di un attacco replay in cui l'attaccante, una volta intercettate le informazioni ricevute dal pannello HMI, le modifica per far compiere al dispositivo di controllo delle azioni dannose. Nel frattempo, i dati inizialmente catturati vengono ritrasmessi al pannello HMI, in modo da non far accorgere l'operatore di nulla. Esiste un altro modo per effettuare un attacco replay, complementare a quello appena esposto e prevede che sia l'operatore stesso ad effettuare delle azioni dannose per il sistema. In questo caso, l'attaccante modificherà i dati da trasmettere al pannello HMI, in modo da indicare la presenza di un problema nell'impianto. L'operatore, quindi, inizierà al routine di correzione del problema, causando però degli eventi dannosi e imprevedibili.
+
+Esistono dei metodi da applicare con cui potersi difendere dagli attacchi \mitma o, in generale, che permettono la mitigazione degli effetti negativi. Oltre, ovviamente, ad utilizzare tecniche di cifratura e autenticazione robuste(o comunque implementarne di migliori laddove già esistano), in modo da creare un ostacolo difficile da superare per gli attaccanti, nel caso in cui l'attaccante faccia uso di metodi di ARP Poisoning o DNS Poisoning vi sono delle ulteriori soluzioni.
+
+Per contrastare in partenza un attacco ARP Poisoning si possono utilizzare diversi metodi, i più comuni sono quelli del MAC Address Locking (o port security) e delle tabelle di indirizzamento statiche. Con il primo metodo si va a creare un'associazione univoca tra un indirizzo MAC ed una specifica porta dello switch di comunicazione. Se l'indirizzo MAC della macchina connessa alla porta non combacia con quella associata, la comunicazione viene interrotta e l'intruso non potrà più raggiungere il suo obiettivo. Inoltre con questo metodo si garantisce un livello di protezione fisica ulteriore, in quanto può impedire l'utilizzo di macchine non aggiornate e più vulnerabili all'interno di una rete protetta. Il secondo metodo si basa sul presupposto che la rete informatica di un ICS non subisce grosse variazioni di composizione e può essere considerata relativamente statica. Partendo da ciò è possibile codificare gli indirizzi MAC in maniera statica nelle tabelle ARP presenti in ogni computer, cosicché si impedisca all'attaccante di cambiarne i valori. Chiaramente questa tecnica diventa difficile da implementare quando ci si trova nel caso di reti molto estese e/o caratterizzata da un elevato dinamismo delle macchine connesse.
+
+Anche nel caso di DNS Poisoning esistono metodi di prevenzione e mitigazione. Il primo ed il più efficace è quello di utilizzare il protocollo DNSSEC (Domain Name System Security Extensions). Questo prevede l'utilizzo di una firma crittografata per ogni record inserito nelle tabelle di cache che sarà utilizzata dal DNS resolver per verificare l'integrità e l'autenticità dei dati ricevuti. Se così non fosse, i dati verrebbero scartati a priori e sarebbe lanciato un messaggio d'errore all'operatore. Ulteriori metodi prevedono l'utilizzo di tecniche di validazione end-to-end a livello di trasporto una volta stabilita la connessione tra i due dispositivi. Ad esempio, utilizzando il protocollo HTTPS, è possibile controllare che il certificato digitale del server sia valida ed appartenga al legittimo proprietario.
+
+Infine è consigliabile l'uso di programmi adibiti all'individuazione di questi attacchi. Questi software agiscono ispezionando i dati prima che questi vengano trasmessi: se questi sembrano essere stati manipolati, il programma blocca la trasmissione dei dati ed avverte l'operatore della presenza di un tentativo di attacco.
+
+\subsection{Attacco \dos}
+
+Si ha un attacco \dos (\dosa) quando si scatena un evento malevolo con l'intento di rendere una risorsa non più disponibile all'utente. Come si può immaginare, è una categoria molto vasta ed eterogenea che può includere qualsiasi tipo di indisponibilità, dalla perdita di comunicazione con un dispositivo fino all'inibizione o manomissione di particolari funzionalità del sistema di controllo, come l'archiviazione, l'elaborazione continua ed altro ancora. Un attacco\dosa prevede l'utilizzo, da parte dell'attaccante, di una singola macchina con cui inviare un grossa quantità di richieste da elaborare al sistema da attaccare. Per amplificare gli effetti di questo attacco e diminuire i tempi di esecuzione, ne è stata concepita una versione che agisce su larga scala, denominato \ddos (\ddosa). In questo caso, l'attaccante sfrutta una rete di macchine, creata appositamente per lo scopo e chiamata ``botnet'', per attaccare il sistema vittima da più nodi di comunicazione. In questo caso l'attaccante avrà l'ulteriore possibilità di nascondere la propria identità in maniera più efficace, poiché, una volta inviato il segnale di attacco alla botnet, potrà scollegarsi dalla rete e far sparire le proprie traccie, mentre l'attacco verrà svolta in maniera completamente autonoma. A parte la differenza dovuta ai tempi di esecuzione dell'intera operazione, gli effetti di un attacco \ddosa sono pressoché gli stessi di un attacco \dos. Per brevità, quindi, in questo paragrafo si parlerà solo di attacchi \dos, ma il discorso si estende anche a quelli \ddos.
+
+Normalmente gli attacchi \dosa rivolti contro i tradizionali sistemi IT non hanno un così forte impatto economico negativo, se ovviamente sono presi e gestiti per tempo. Alcune tra le più comuni conseguenze possono essere rallentamenti nell'accesso ad una pagina web o nella gestione delle e-mail, ma alla risoluzione del problema le normali funzionalità vengono ripristinate. In questi sistemi raramente l'interruzione dei servizi porta al verificarsi di conseguenze fisiche, ma ciò non toglie che un attacco \dosa ben strutturato possa causare lo spegnimento delle diverse macchine collegate alla rete informatica presa di mira.
+
+In uni sistema SCADA, invece, le conseguenze possono essere ben più gravi, come ad esempio nel caso in cui l'obiettivo dell'attacco sia un ICS automatizzato, che opera in maniera continua e controlla un determinato processo fisico (il flusso di un liquido in una conduttura di distribuzione, la produzione di energia elettrica, la produzione di parti meccaniche, ecc.) tramite dei controller hardware e software. L'impossibilità di uno dei controller, a seguito di un attacco \dosa, di eseguire la normale routine di azioni programmate, è denominata ``Loss of Controll (LoC)'' e può portare ad interrompere istantaneamente l'operatività del sistema di controllo mentre il processo viene messo in uno stato di sicurezza (ossia avviene lo spegnimento dell'impianto). Ciò chiaramente rappresenta un pericolo da evitare assolutamente perché, come detto in precedenza, quando un sistema SCADA cessa improvvisamente di funzionare, le conseguenze che ne scaturiscono possono essere molto gravi e portare anche a gravi danni fisici e ambientali.
+
+Allo stesso modo, nel caso in cui l'obiettivo dell'attacco \dosa sia una scherma HMI, anche se questa non è direttamente connessa con il sistema di controllo meccanico, le conseguenze che ne possono scaturire non sono di certo meno gravi. Tipicamente in questo scenario l'attaccante rivolge i propri sforzi cercando di bloccare il sistema di autenticazione remoto, o RADIUS (Remote Authentication Dial In User Service). In questa maniera l'operatore viene espulso dalla rete e non può più monitorare lo stato del processo controllato. Questa situazione, analogamente al caso precedente, è denominata ``Loss of View (LoV)'' e, se non si riesce ristabilire il contatto in tempi brevi, l'univo modo per contrastarla è un riavvio dell'intero sistema di controllo, con le solite conseguenze viste dal grave impatto negativo.
+
+Per contrastare questa tipologia di attacchi, purtroppo non esistono dei metodi definitivi, ma piuttosto una serie di rimedi, accortezze e linee guida da seguire per mitigare le conseguenze negative. Innanzitutto è molto importante prendere consapevolezza dei rischi a cui si è esposti quando si subisce un attacco \dosa ed organizzare le risorse su cui si fa affidamento più spesso in modo da ridurre l'impatto negativo che l'attacco stesso può avere su di esse. Inoltre è molto importante conoscere i servizi messi a disposizione dal proprio provider di servizi internet (ISP) per contrastare un attacco \dosa, come ad esempio il cambio degli indirizzi IP della propria rete o il blocco di quelli da cui proviene l'attacco.
+
+A livello funzionale, invece, si può agire sul proprio sistema sovradimensionandolo rispetto alle normali esigenze operative. In questo modo si rende il sistema in grado di sopportare più a lungo un attacco \dosa mentre si cerca di identificare la sorgente o comunque prepararlo per lo spegnimento senza causare gravi danni all'impianto di controllo. Un ulteriore metodo operativo per contrastare questi attacchi è quello di utilizzare meccanismi di controllo e osservazione del traffico dati sulla rete in modo da individuare quando è in atto un attacco \dosa o \ddosa. Un esempio è quello fornito in \cite{Genge_2015} che sfrutta le tecnologie ``Software-defined networking (SDN)''. Questa rappresenta un nuovo approccio con cui si cerca di integrare il cloud computing nell'architettura di una rete, separando le funzioni di forwarding e di routing dei pacchetti di rete. 
+
+L'esempio fornito da B{\'{e}}la Genge in \cite{Genge_2015} prevede la presenza di un controller SDN che fornisce continuamente informazioni sul traffico dati ad un'applicazione di monitoraggio. Questa, allo stesso tempo, dialoga con il controller fornendogli aggiornamenti sullo stato della rete. Non appena viene individuato l'inizio di un attacco \dos, il controller SDN viene informato e subito devia il flusso di dati incriminato in modo da proteggere la rete del sistema di controllo
+
+\subsection{Attacchi Phishing}
+
+Nonostante il progresso tecnologico abbia portato alla creazione di metodi di attacco sempre più complesse e difficile da contrastare, spesso le più efficaci risultano essere quelle legate a tecniche di social engineering. La loro caratteristica principale è l'utilizzo di metodi a bassa tecnologia per coinvolgere la vittima nell'azione d'attacco, senza che questa se ne renda conto. 
+
+Da recenti ricerche svolte sugli attacchi informatici subiti dalle aziende emerge che più del 90\% di essi ha avuto inizio per mezzo di tecniche di phishing \cite{Widup_2018}. Questa è una delle tecniche preferite dagli hacker per creare delle minacce di tipo ``Advanced Persistent Threat (APT)'', ossia un attacco con cui si ottiene l'accesso non autorizzato nella rete informatica della vittima, rimanendo nascosti per un lungo periodo di tempo. 
+
+Esistono numerosi versioni di attacchi phishing, ma tipicamente la metodologia rimane sempre la stessa: viene inviata una mail alla vittima con cui si cerca di convincerla a fornire dati sensibili con l'inganno, ad esempio facendo compilare loro dei finti questionari, o, installare dei software malevoli, spesso inviati sotto forma di documenti allegati al messaggio, con cui si ottiene accesso alla rete della vittima. Una volta guadagnato l'accesso, si dà inizio all'attacco vero e proprio. Nel contesto industriale la tipologia di phishing che è utilizzata più spesso è lo spear phising, consistente nell'includere nel messaggio i dati personali della vittima, rivolgendosi a lui con nome, cognome, titolo ed altre informazioni private, in modo da aumentarne la credibilità ed avere più probabilità che venga letto. Tipicamente gli obiettivi a cui sono rivolti i messaggi di spear phishing sono persone che ricoprono incarichi particolari, in quanto spesso in possesso di informazioni cruciali per l'azienda.
+
+Essendo basati su tecniche di social engineering, non esistono dei rimedi assoluti agli attacchi di phishing. L'arma più potente a disposizione è sicuramente quella di instillare nel personale della compagnia una cultura di consapevolezza dei pericoli: un dipendente deve essere in grado di distinguere quali sono i messaggi ricevuti legittimi e quali, invece, nascondono dei tentativi di intrusione. Inoltre non deve mai condividere informazioni riservate e/o personali, a meno che l'interlocutore non sia affidabile e la sua identità sia già stata confermata. Sempre riguardo i dati, è consigliabile che anche quelli meno sensibili, come appunto nome, cognome e indirizzi e-mail, non vengano divulgati con troppa facilità. Nella maggior parte dei casi, infatti, gli attaccanti riescono a personalizzare i messaggi di spear phishing con informazioni facilmente reperibili sul web.
+
+ Ma la sola consapevolezza, spesso, non è sufficiente come arma. Ecco perchè è sempre consigliabile fare utilizzo di programmi per bloccare i tentativi di attacco di phishing. Usualmente questi software scansioni tutti i messaggi sospetti in entrata alla ricerca di una serie di parametri che mostrino l'eventuale natura malevola dell'email. Altre azioni eseguite da questi programmi sono la scansione sia di eventuali URL inclusi nei messaggi che di file allegati, eliminandoli nel caso in cui risultino infetti.
+ 
+\subsection{Attacchi con software malevoli (malware e worm)}
+ 
+Come detto nei precedenti paragrafi, molto spesso alcune tecniche sono utilizzate per predisporre tutti gli strumenti a disposizione prima di effettuare l'attacco vero e proprio. Questi strumenti molto spesso sono programmi appositamente creati per svolgere dei compiti specifici e in alcuni casi possono riprodursi anche in maniera autonoma all'interno della rete attaccata, in modo da diffondersi su più macchine possibili ed amplificare l'effetto distruttivo per cui sono stati creati. 
+
+I software utilizzati più frequentemente per questi scopi sono malware e worm, termini spesso usati come sinonimi ma che in realtà identificano due tipologie di programmi diverse tra di loro. Un malware, termine abbreviativo per ``malicious software'' (letteralmente ``programma malintenzionato''), è una qualsiasi programma utilizzato per disturbare le normali operazioni svolte al computer, rubare informazioni o permettere di accedere al sistema senza autorizzazione. In un sistema SCADA i malware possono essere utilizzati in diverse maniere: se installato in una macchina HMI, posso cominciare a generare istruzioni sbagliate da far svolgere al sistema SCADA, provocando malfunzionamenti e errori nel sistema di controllo. Un altro utilizzo è quello di agire come \mitm, occupandosi del dirottamento dei messaggi in modo che siano inviati alla macchina dell'attaccante. Inoltre esistono numerosi malware utilizzati come keylogger, ossia programmi che registrano qualsiasi cosa venga digitata sulla tastiera del dispositivo, come backdoor, tramite cui è possibile avere un punto di accesso al sistema non autorizzato, ed altro ancora.
+
+I worm sono una particolare categoria di malware, il cui tratto distintivo è la capacità di auto replicarsi su tutte le macchine in cui riesce a diffondersi. Spesso viene erroneamente identificato come virus, ossia un malware che sfrutta lo scambio di file tra computer per potersi diffondere il più possibile. Un worm, invece, sfrutta le connessioni di una rete per potersi riprodurre su tutti i sistemi collegati ad essa. Questo rappresenta un grosso vantaggio per l'attaccante dato che, tipicamente,  in un sistema SCADA, il passaggio di file tra computer è molto limitato. Al contrario, esistono moltissime connessioni tra i dispositivi di un impianto di controllo e ciò permette ad un worm di arrivare a colpire direttamente i PLC, andando ad influenzare in maniera attiva il controllo di un processo.
+
+L'infezione iniziale può avvenire in modi diversi: come visto gli attacchi di phishing possono essere uno dei vettori utilizzati per penetrare all'interno del sistema, ma non è da escludere che tutto possa partire da un semplice dispositivo di archiviazione esterno, come una chiavetta USB o una scheda di memoria SD. Al momento dell'inserimento in una macchina, il worm si attiva, viene installato in maniera silenziosa nel computer e inizia la sua attività, cercando contemporaneamente di riprodursi su altre macchine collegate a quella che lo ospita.
+
+Worm e malware rappresentano delle minacce molto pericolose. Più di un volta sono stati registrati casi in cui, a causa di essi, sono stati riportati danni molto seri ad impianti di controllo. Fra tutti, i più diffusi sono sicuramente il worm Stuxnet ed il malware Dragonfly, i cui metodi operativi verranno esposti più in dettaglio nella sezione \ref{sec:malwarecasestudy}.
+
+Anche in questo caso non esistono dei metodi di difesa efficaci al 100\%: spesso questi programmi sfruttando bug dei sistemi operativi che non sono ancora stati segnalati o di cui ancora non è disponibile un patch per la correzione. Per prevenire una loro intrusione, quindi, occorre come sempre accortezza da parte degli operatori: controllare sempre i file che si sta per utilizzare, in modo da accertarsi della loro integrità. Inoltre, se è necessario fare uso di dispositivi rimovibili, evitare che questi vengano esposti all'ambiente esterno. Ovviamente, come nei casi precedenti, esistono programmi anti-malware che permettono l'individuazione e l'eliminazione nelle macchine di software dannoso, ma hanno dei lati negativi:
+
+\begin{itemize}
+
+\item per individuare il software è necessario eseguire una scansione che analizzi tutti i file presenti in una macchina, andando però ad impattare inevitabilmente sulle prestazione della stessa;
+
+\item se il malware viene programmata basandosi su una vulnerabilità al ``zero-day'', ossia che non è ancora stata scoperta, il software anti-malware non riuscirà ad intervenire, in quanto incapace di riconoscere la minaccia.
+
+\end{itemize}
+ 
+\subsection{Attacchi combinati}
+
+Molti dei più grandi attacchi effettuati ai danni di un ICS non utilizza un'unica vulnerabilità presente su un unico obiettivo, ma, al contrario sono attacchi altamente sofisticati che combinano elementi di diversi tipi di malware, utilizzando molteplici vettori d'attacco, in modo da aumentare la gravità del danno causato e la velocità con cui il software riesce a diffondersi. 
+
+Originariamente gli attacchi combinati utilizzavano diverse tipologie di malware, il cui dispiego avveniva in maniera sequenziale. Un esempio può essere un attacco phishing con cui si ottiene l'accesso nel sistema, scavalcando il firewall. Da qui poi viene avviato un keylogger, con cui si acquisiscono le credenziali di accesso alla rete interna, rendendo possibile un attacco diretto al sistema di controllo o ottenere dati importanti e protetti. Al giorno d'oggi, il concetto di attacco combinato si è evoluto fino ad arrivare ad un grado di complessità veramente elevato. Il primo caso fu proprio registrato con Stuxnet (\ref{sec:stuxnet}), un worm in grado di variare il suo comportamento a seconda dell'ambiente in cui veniva eseguito. Questo concetto è stato chiaramente portato avanti, sfociando nella creazione di altri malware molto pericolosi e altrettanto complessi, come ad esempio Flame, una delle numerose varianti create a partire dallo steso Stuxnet.
+
+Alla fine di questo capitolo è stata riportata una tabella in cui sono specificati diversi tipi di attacchi, a seconda del dispositivo o sottosistema che si intende attaccare (\ref{tab:threat_table}).
+
+\section{Case study: il worm Stuxnet ed il malware Dragonfly \label{sec:malwarecasestudy}}
+
+Gli attacchi informatici diretti alle reti di sistemi ICS, fino a una decina di anni fa, era puramente teorici. Il primo caso di un malware creato per danneggiare un sistema SCADA è stato documentato nel 2010, quando venne scoperto per la prima volta il worm Stuxnet.  A distanza di quattro anni è stata resa nota l'esistenza di un'altra minaccia molto sofisticata che colpiva il mondo ICS, Dargonfly, un malware utilizzato per scopi di spionaggio. Ovviamente, si sono succeduti molti altri attacchi nel corso degli anni successivi, molti dei quali sfruttavano il paradigma operativo che era stato implementato per lo stesso Stuxnet. Si possono citare, come esempio, Shamoon e Flame (quest'ultimo conosciuto anche come Flamer o Skywiper), due worm creati a partire da alcune delle vulnerabilità portate alla luce con Stuxnet. 
+
+In questa sezione sono presi come case study Stuxnet e Dragonfly, in quanto considerati tutt'ora i due software che gettato le basi per tutti i successivi attacchi creati nel corso degli anni.
+
+\subsection{Stuxnet\label{sec:stuxnet}}
+
+Secondo molti esperti di sicurezza informatica, Stuxnet è uno dei malware più sofisticati attualmente esistente \cite{Zetter_2015}. Si pensa, nonostante non vi sia mai stata una conferma da parte degli organi interessati, che abbiano contribuito alla sua creazione un tema americano dell'NSA, in collaborazione con un team della corrispettiva agenzia di sicurezza nazionale israeliana \cite{Sanger_2012}.
+
+Il worm fu scoperto nel giugno del 2010 in un impianto nucleare situato a Natanz, in Iran, per merito di alcuni ispettori dell'International Atomic Energy Agency (IAEA). Questi si accorsero, mentre osservavano dei filmati dell'impianto di sorveglianza, che i tecnici dell'impianto avevano sostituito un gran numero di centrifughe per il trattamento dell'uranio, in seguito a dei malfunzionamenti. Sebbene all'inizio la cosa fu vista come normale prassi (non è raro che queste componenti si guastino con il passare degli anni), quello che fece scattare il campanello d'allarme fu la cadenza con cui si verificavano i malfunzionamenti, molto elevata, e l'ulteriore fatto che lo stesso rateo con cui avvenivano i guasti incrementasse con il passare del tempo. Inizialmente gli esperti erano molto fiduciosi sui sistemi di sicurezza implementati nella centrale ed esclusero l'idea di un attacco hacker (la rete informatica della centrale nucleare era completamente isolata dall'esterno, era impossibile accedervi via Web). Ma alla fine, dopo una serie di indagini, si capì che il malfunzionamenti non erano dovuti né a fattori fisici dovuti a componenti mal progettati, né all'errore umano degli operatori, ma erano tutti imputabili alla presenza di un software malevolo nel sistema, ossia Stuxnet, che agiva infettando l'hardware delle centrifughe. L'inizio della propagazione, molto probabilmente, è da imputare ad una chiavetta USB infetta che, una volta connesso ad uno dei terminali SCADA diede inizio a tutto l'attacco.
+
+Stuxnet, originariamente, è stato creato basandosi su quattro vulnerabilità al zero-day, rendendolo capace di infettare macchine con sistema operativo Windows di diverse generazione: da Windows 2000 fino a Windows 7/Server 2008R2. L'obiettivo primario della sua programmazione è quello di compromettere il software HMI della Siemens (l'azienda produttrice dei PLC utilizzati per controllare le centrifughe della centrale iraniana) WinCC e PCS7, così come compromettere degli specifici modelli PLC S7, sfruttando il bus di comunicazione Profibus. 
+
+Tenendo a mente l'obiettivo principale, le azioni che Stuxnet poteva intraprendere variavao in base ai software installati nel sistema che lo ospita. Se all'interno della macchina infettata non era presente nessuno dei programmi obiettivi, allora veniva installato un rootkit, ossia una collezione di software, affinché il malware venisse eseguito silenziosamente ad ogni avvio della macchina. Dopodiché iniziava ad applicare i metodi per cercare di propagarsi su altre macchine, sfruttando fino a sette differenti mezzi. Addirittura, per quelli che sfruttavano l'utilizzo di un dispositivo USB rimovibile, il worm aveva implementato un protocollo tramite cui si cancellava una volta che il dispositivo USB aveva infettato tre nuovi sistemi. Una volta installato in una macchina in cui era presente il software obiettivo, Stuxnet iniziava l'esecuzione di un'altra serie di metodi con cui riusciva ad installarsi nel database di WinCC o, addirittura, copiarsi nei file dei progetti utilizzati per programmare i PLC S7. Inoltre poteva anche sovrascrivere un determinato driver di comunicazione utilizzato per connettersi con il PLC, creando a tutti gli effetti un attacco \mitm. Fortunatamente ormai la minaccia di Stuxnet è rientrata, grazie all'operato della stessa Siemens che, una volta messa al corrente della minaccia, creò un software per l'individuazione e la rimozione del worm.
+
+Il processo di infezione attuato da Stuxnet è riportato in figura \ref{fig:stuxnet_tree} e come è possibile notare è molto esteso e dettagliato. Non esistono schemi, invece, in cui è sintetizzata l'intera gamma delle azioni che Stuxnet era in grado di eseguire e della portata dei potenziali danni che era in grado di arrecare. Attualmente, di Stuxnet, si sa solo ciò che è stato dedotto dai dati raccolti durante lo studio effettuato per eliminare la minaccia. Oltre alle azioni descritte in precedenza, ce ne sono molte altre che confermano quanto questo malware fosse sofisticato nella sua implementazione. Ad esempio:
+
+\begin{itemize}
+\item prima di eseguire qualsiasi azione di corruzione dati, controllava che la macchina ospitante eseguisse una versione compatibile di Windows, se era stata già infettata e, soprattutto, si accertava della presenza o meno di software anti-virus;
+\item tentava di oltrepassare i sistemi di protezione contro gli intrusi, installati sulla macchina vittima, infettando processi fidati preesistenti;
+\item eseguiva il processo di infezione iniettando le proprie DLL per intero in altri processi in esecuzione sul computer;
+\item si metteva alla ricerca di specifiche configurazioni di sistema. Una volta individuate, iniettava il proprio codice nei file di progetto dei PLC, in modo da agire come un rootkit nascosto in grado di inviare qualsiasi comando al controller;
+\item se il PLC su si installava operava a determinate frequenze, era in grado di modificarle in maniera improvvisa, sabotando e danneggiando il sistema di centrifugazione;
+\item era in grado di rimuoversi dai sistemi non compatibili con la sua programmazione, mettersi in uno stato dormiente per non essere individuato, infettare nuovamente sistemi che erano stati ripuliti e comunicare con qualsiasi nodo della rete infettata in modo da rimanere costantemente aggiornato sul proprio stato.
+
+\end{itemize}
+
+\begin{figure}[tbh]
+
+\centerline{\includegraphics[scale=0.55]{Immagini/stuxnet_tree.pdf}}
+\caption{Processo di infezione di Stuxnet (fonte \cite{Knapp_2015_7})}\label{fig:stuxnet_tree}
+
+\end{figure}
+
+Ma, nonostante i vari problemi che Stuxnet ha provocato nel periodo in cui è stato operativo, la sua comparsa ha permesso in realtà di comprendere molti limiti e difetti dei sistemi di sicurezza che fino al quel momento erano stati applicati per proteggere un sistema SCADA. Grazie agli studi condotti su Stuxnet, si è capito che molti dei paradigmi di sicurezza su cui venivano basate le architetture dei sistemi ICS erano errati e dovevano essere rivisti. Inoltre si è reso necessario concepire nuove misure di sicurezza per difendersi dalle nuove minacce basate sullo stesso paradigma operativo di Stuxnet. Nella tabella \ref{tab:stuxnet_differences} sono riportati nel dettaglio alcune delle differenze tra i paradigmi di sicurezza prima e dopo l'avvento di Stuxnet.
+
+%tabella differenze
+\input{Tabelle/stuxnet_differences}
+
+\subsection{Dragonfly}
+
+Nel giugno del 2014, la compagnia finlandese di sicurezza informatica F-Secure postò, all'interno del proprio blog, la notizia della scoperta di un malware, descrivendo come lo stesso era stato utilizzato fino ad allora per scopi di sabotaggio ed acquisizione dati sensibili \cite{FSecure_2014}. Furono condotti subito un serie di studi da parte della Symantec, altra azienda dedita alla sicurezza informatica, culminati nella creazione di un report tecnico sulle modalità operative del malware \cite{Symantec_2014}. La prima cosa scoperta fu che il malware era il frutto di una campagna di spionaggio iniziata nel 2010. Inizialmente gli obbiettivi erano industrie legate all'aviazione e alla difesa localizzate negli USA e in Canada, ma successivamente la campagna venne rivota contro compagnie del settore energetico, propagandosi anche al di fuori del continente americano \cite{Nelson_2016}. Ma la scoperta più significativa fu che, come nel caso di Stuxnet, Dragonfly era stato appositamente programmato per colpire dispositivi ICS, rappresentando il secondo caso di un malware creato esclusivamente per colpire i sistemi informatici degli impianti industriali.
+
+La campagna di attacco ai danni delle industrie energetiche di Dargonfly si è sviluppata in tre fasi, sfruttando in ognuna di essa un vettore d'attacco differente:
+
+\begin{enumerate}
+
+\item nella prima fase, iniziata a febbraio 2013, fu impiegata la tecnica di spear phishing per infettare i computer delle vittime ed ottenere informazioni sensibili riguardanti la rete informatica dell'azienda da colpire. Tramite l'invio di file .PDF corrotti, veniva installato nelle macchine delle vittime un ``Remote Access Trojan Horse (RAT)'', ossia un malware con cui è possibile ottenere il controllo amministrativo da remoto del computer;
+
+\item la seconda fase cominciò subito dopo la prima, nel maggio 2013, e si protrasse per circa 11 mesi, fino ad aprile 2014. Durante questo periodo furono utilizzati attacchi di watering hole. Questo attacco consiste nel dirottare la connessione di un utente verso un sito, portandolo a vistarne un altro, senza che la vittima se ne accorga. Il gruppo gestore di Dragonfly riuscì a dirottare il traffico internet delle aziende attaccate verso siti gestiti direttamente da loro. All'interno di questi siti veniva caricato il software malevolo che veniva installato sulla macchina di chiunque visitasse la pagina in questione;
+
+\item per la terza ed ultima fase cominciò nel giugno 2013 e venne portata avanti in contemporanea con la seconda. In questa fase, gli hacker di Dragonfly riuscirono a attaccare i siti di supporto di alcune note aziende produttrici di componenti per ICS. In questa maniera riuscirono a sostituire i software legittimi delle compagnie con programmi creati da loro e contenenti sempre il codice malware che era stato diffuso con gli altri due metodi.
+
+\end{enumerate}
+
+La complessità di questo attacco fa ben capire della profonda organizzazione che ci fu alle spalle.Il malware utilizzato serviva ad ottenere informazioni sui dispositivi ICS presenti nella rete, per oi inviarlo agli stessi creatori di Dragonfly. Anche in questo caso, come per Stuxnet, il sfotware malevolo era stato programmato per ricercare delle specifiche configurazioni hardware, di cui sfruttava alcune vulnerabilità zero-day. Per farlo, utilizzava lo stesso protocollo industriale di comunicazione impiegato dai dispositivi ICS ricercati.
+
+La scoperta di Dragonfly ha avuto un impatta nel mondo della sicurezza industriali paragonabile a quello che provocò Stuxnet quattro anni prima. La campagna di attacco attuata dalla compagnia creatrice del malware ha sottolineato, di nuovo, alcuni limiti nell'organizzazione della difesa:
+
+\begin{itemize}
+
+\item la strategia ``Offense in Depth'' ha sicuramente giocato un ruolo importante nella diffusione del malware. Le organizzazioni vittime sono state attaccate su più livelli della loro infrastruttura;
+
+\item le macchine colpite avevano installato tutte la stessa versione di Windows XP e sfruttava alcune vulnerabilità del sistema operativo al zero-day;
+
+\item Dragonfly finì per essere installato sui dispositivi mobile del personale, che devono essere ormai considerati dei potenziali punti d'ingresso per le minacce;
+
+\item nella campagna furono coinvolte anche le aziende produttrice, considerate fonte di software fidato. È necessario, quindi, controllare anche il traffico rivolto verso queste aziende, in quanto anche loro possono essere potenziali punti d'ingresso per delle minacce;
+
+\item il malware ha operato indisturbatamente sulle macchine infettate per circa un anno senza mai venire scoperto dai software che monitoravano il traffico internet.
+
+\end{itemize} 
+
+Inoltre c'è da sottolineare come le aziende colpite, attualmente, rischino di subire degli ulteriori attacchi che sfruttano tutte le informazioni raccolte grazie a Dragonfly. A causa di tutto ciò si è reso necessario sviluppare un paradigma di sicurezza che tenesse conto dell'integrità non solo dei dispositivi ICS ma anche della rete informatica tra gli stessi, sfruttando, ad esempio, schemi per la segmentazione di rete che permettono un controllo del traffico dati più accurato e completo.
+\newpage
+
+%tabella riassuntiva delle tipologie di attacchi
+\scalebox{0.5}{}{\LTXtable{\textwidth}{Tabelle/threat_table}}

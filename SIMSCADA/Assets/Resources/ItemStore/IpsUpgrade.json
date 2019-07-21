@@ -1,0 +1,10 @@
+{
+	"name": "IPS UPGRADE",
+	"descriptionPath": "IpsUpgradeBody",
+	"imageName": "",
+	"price": 550,
+	"finalLevel": 4,
+	"effect" : 11,
+	"currentLevel" :  0,
+	"itemObject" :  {}
+}

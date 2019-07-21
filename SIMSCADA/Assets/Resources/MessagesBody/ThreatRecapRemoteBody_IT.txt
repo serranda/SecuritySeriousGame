@@ -1,0 +1,2 @@
+Eseguita una scansione antivirus.
+Sono state eliminate {0} potenziali minacce.

@@ -1,0 +1,37 @@
+# General Info
+In questo file sono raccolte le proposte riguardanti lo sviluppo del gameplay del gioco, così come la descrizione per le altre parti stabilite. Nel caso di più proposte, nizialmente si indica, tramite un (*), l'idea che si sta cercando di sviluppare tra quelle esposte.
+
+
+# Idea Generale
+Il gameplay del gioco sarà strutturato sulla falsa riga dei giochi della serie "SimCity". In particoalre, l'utente si troverà ad assumere il ruolo di un supervisore di un sistema SCADA e dovrà prevenire e/o difendersi dagli attacchi informatici che cercheranno di minare la sicurezza dell'azienda.
+
+# Durata dei livelli
+3 proposte:
+- il giocatore avrà un tempo finito in cui dovrà cercare di totalizzare il punteggio più alto possibile (il livello può comunque terminare in caso di eventi negativi ripetuti o punteggio troppo basso).
+- il giocatore ha un task da svolgere e il livello termina al conseguimento degli obiettivi.
+- ibrido: il giocatore ha dei task da svolgere in un periodo medio-lungo (in termini di tempi di gioco). Alla fine di questo periodo si calcolerà il punteggio, il conseguimento dei task dati in partenza fa ottenere punti bonus.(*) 
+
+In generale il passaggio al livello successivo avviene con il conseguimento di un determinato punteggio
+
+# Sistema di economia interno
+Si potrebbe implementare un sistema economico interno che l'utente può sfruttare per migliorare le sue difese e prevenire gli attacchi. Inoltre lo si può utilizzare come penalità per l'utente, facendo perdere dei soldi in caso di attacchi subiti andati a segno. Possibile implementare lo status di "bancarotta", tramite cui il livello sarebbe automaticamente concluso con un insuccesso.
+
+# Tutorial
+Il primo livello può essere un tutorial per far apprendere al meglio i comandi all'utente. Inoltre fin da subito è possibile impartire delle lezioni per far capire le azioni da svolgere nei livelli successivi.
+
+# Lezioni 
+3 proposte:
+- impartire una serie di concetti, raccolte in "lezioni", che è possibile poi rivedere tramite il menù principale.
+- creare un glossario in cui spiegare i concetti chiave (per ogni concetto un rimando al livello in cui è stato visto).
+- ibrido: creare delle "lezioni", al cui interno saranno risaltati i concetti principali, le cui definizioni possono essere viste tramite un glossario. Nel glossario ci saranno i rimandsia ai livelli del gioco che alle lezioni (così come nelle lezioni si rimanderà ai livelli ed, eventualmente, al glossario).(*)
+
+# Accesso ai livelli e rigiocabilità
+2 proposte:
+- accesso in maniera istantanea tramite il menù di gioco principale.
+- accesso lineare e graduale: ogni livello sarà rigiocabile in caso di superamento dello stesso.(*)
+
+# Strutturazione gameplay:
+- Creare 2 scenari basati su tipologie di impianti SCADA differenti
+- Ogni scenario si conluderà entro un periodo di tempo predefinito
+- All'interno della durata del gameplay, inserire dei traguardi intermedi, il cui raggiungimento garantirà il proseguire del gioco.
+- Ogni traguardo sbloccherà un aumento di difficolta del gico (eventi diversi/frequenza degli eventi maggiore)

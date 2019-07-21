@@ -1,0 +1,4 @@
+Qualcuno è riuscito ad entrare all'interno dei sistemi informatici aziendali.
+L'hacker ha causato numerosi danni con il suo gesto e saranno necessarie alcune riparazioni.
+
+L'azienda ha subito una perdita stimata di {0} euro.

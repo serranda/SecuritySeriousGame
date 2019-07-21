@@ -1,0 +1,49 @@
+Il phishing è un tipo di truffa effettuata su Internet attraverso la quale un malintenzionato cerca di ingannare la vittima convincendola a fornire informazioni personali, dati finanziari o codici di accesso, fingendosi un ente affidabile in una comunicazione digitale.
+
+Si tratta di un'attività illegale che sfrutta una tecnica di ingegneria sociale: il malintenzionato effettua un invio massivo di messaggi che imitano, nell'aspetto e nel contenuto, messaggi legittimi di fornitori di servizi; tali messaggi fraudolenti richiedono di fornire informazioni riservate come, ad esempio, il numero della carta di credito o la password per accedere ad un determinato servizio. Per la maggior parte è una truffa perpetrata usando messaggi di posta elettronica, ma non mancano casi simili che sfruttano altri mezzi, quali i messaggi SMS.
+
+Il phishing è una minaccia attuale, il rischio è ancora maggiore nei social media come Facebook, Twitter, e Google+. Degli hacker potrebbero infatti creare un clone del sito e chiedere all'utente di inserire le sue informazioni personali. Gli hacker comunemente traggono vantaggio dal fatto che questi siti vengono utilizzati a casa, al lavoro e nei luoghi pubblici per ottenere le informazioni personali o aziendali.
+
+Il termine phishing è una variante di fishing (letteralmente "pescare" in lingua inglese), probabilmente influenzato da phreaking e allude all'uso di tecniche sempre più sofisticate per "pescare" dati finanziari e password di un utente. La parola può anche essere collegata al linguaggio leet, nel quale la lettera f è comunemente sostituita con ph. La teoria popolare è che si tratti di un portmanteau di password harvesting, è un esempio di pseudoetimologia.
+
+Metodologia generale di attacco
+
+Il processo standard delle metodologie di attacco di phishing può riassumersi nelle seguenti fasi:
+
+1 - l'utente malintenzionato (phisher) spedisce a un utente un messaggio email che simula, nella grafica e nel contenuto, quello di una istituzione nota al destinatario (per esempio la sua banca, il suo provider web, un sito di aste online a cui è iscritto).
+2 - l'e-mail contiene quasi sempre avvisi di particolari situazioni o problemi verificatesi con il proprio conto corrente/account (ad esempio un addebito enorme, la scadenza dell'account, ecc.) oppure un'offerta di denaro.
+3 - l'e-mail invita il destinatario a seguire un link, presente nel messaggio, per evitare l'addebito e/o per regolarizzare la sua posizione con l'ente o la società di cui il messaggio simula la grafica e l'impostazione (Fake login).
+4 - il link fornito, tuttavia, non porta in realtà al sito web ufficiale, ma a una copia fittizia apparentemente simile al sito ufficiale, situata su un server controllato dal phisher, allo scopo di richiedere e ottenere dal destinatario dati personali particolari, normalmente con la scusa di una conferma o la necessità di effettuare una autenticazione al sistema; queste informazioni vengono memorizzate dal server gestito dal phisher e quindi finiscono nelle mani del malintenzionato.
+5 - il phisher utilizza questi dati per acquistare beni, trasferire somme di denaro o anche solo come "ponte" per ulteriori attacchi.
+
+Talora, l'e-mail contiene l'invito a cogliere una nuova "opportunità di lavoro" (quale operatore finanziario o financial manager), consistente nel fornire le coordinate bancarie del proprio conto online per ricevere l'accredito di somme che vanno poi ri-trasferite all'estero tramite sistemi di money trasfert (Western Union o Money Gram), trattenendo una percentuale dell'importo, che può arrivare a cifre molto alte. In realtà si tratta del denaro rubato con il phishing, per il quale il titolare del conto online beneficiario, spesso in buona fede, commette il reato di riciclaggio di denaro sporco. Quest'attività comporta per il phisher la perdita di una certa percentuale di quanto è riuscito a sottrarre, ma esiste comunque un interesse a disperdere il denaro sottratto in molti conti correnti e a fare ritrasferimenti in differenti Paesi, perché così diviene più difficile risalire alla identità del criminale informatico e ricostruire compiutamente il meccanismo illecito. Peraltro, se i trasferimenti coinvolgono più Paesi, i tempi per la ricostruzione dei movimenti bancari si allungano, poiché spesso serve una rogatoria e l'apertura di un procedimento presso la magistratura locale di ogni Paese interessato.
+
+Lista dei tipi di phishing
+
+Phishing
+
+Il phishing è un tipo di truffa effettuata su Internet attraverso la quale un malintenzionato cerca di ottenere informazioni personali, dati finanziari o codici di accesso, fingendosi un ente affidabile in una comunicazione digitale.
+
+Spear phishing
+
+Un attacco mirato verso un individuo o una compagnia è stato denominato spear phishing. Gli attaccanti potrebbero cercare informazioni sull'obbiettivo per poter incrementare le probabilità di successo. Questa tecnica è, alla lunga, la più diffusa su internet, con una quota del 91% degli attacchi.
+
+Clone phishing
+
+È un tipo di phishing in cui una mail legittima viene modificata negli allegati o nei link e rimandata ai riceventi, dichiarando di essere una versione aggiornata. Le parti modificate della mail sono volte a ingannare il ricevente. Questo attacco sfrutta la fiducia che si ha nel riconoscere una mail precedentemente ricevuta.
+
+Whaling
+
+Di recente molti attacchi di phishing sono stati indirizzati verso figure di spicco di aziende o enti e il termine whaling è stato coniato per questi tipi di attacco. Viene mascherata una mail/ pagina web con lo scopo di ottenere delle credenziali di un manager. Il contenuto è creato su misura per l'obbiettivo, è spesso scritto come un subpoena legale, un problema amministrativo o una lamentela di un cliente. Sono state utilizzate anche mail identiche a quelle dell'FBI cercando di forzare il ricevente a scaricare e installare del software.
+
+Anti-phishing
+
+Fino al 2007 l'adozione di strategie anti-phishing per proteggere i dati personali e finanziari era bassa. Ora ci sono molte tecniche per combattere il phishing, incluse leggi e tecnologie create ad hoc per la protezione. Queste tecniche includono passi che possono essere usati sia da individui che da organizzazioni.
+
+Istruzione
+
+Una strategia per combattere il phishing è istruire le persone a riconoscere gli attacchi e ad affrontarli. L'educazione può essere molto efficace, specialmente se vengono enfatizzati alcuni concetti e fornito un feedback diretto.
+
+L'Anti-Phishing Working Group, un ente di rinforzo per la sicurezza, ha suggerito che le tecniche di phishing convenzionali potrebbero diventare obsolete in futuro, con la crescente consapevolezza delle persone delle tecniche di social engineering usate dai phisher. Ha inoltre predetto che il pharming e diversi usi di malware diventerrano più comuni per rubare informazioni.
+
+Tutti possono aiutare il pubblico incoraggiando pratiche sicure ed evitando quelle pericolose. Sfortunatamente anche i giocatori noti sono conosciuti per incitare gli utenti a pratiche rischiose, ad esempio richidendo ai propri utenti di rivelare le loro password a servizi di terze parti, come ad esempio la mail.

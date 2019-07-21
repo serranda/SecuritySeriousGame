@@ -1,0 +1,12 @@
+\begin{table}[tbh]
+\begin{tabularx}{\textwidth}[c]{@{}XX@{}}
+\toprule
+\textbf{PARADIGMI PRE-STUXNET} & \textbf{PARADIGMI POST-STUXNET} \\ \midrule
+I sistemi possono essere isolati efficacemente dalle reti esterne, eliminando il rischi di incidenti informatici & I sistemi di controllo sono ancora soggetti alla natura umana: un forte perimetro difensivo può sempre venire oltrepassato a causa della superficialità nel trattare la sicurezza \\ \midrule
+I PLC che non eseguono sistemi operativi moderni non sono vulnerabili agli attacchi informatici & I PLC possono essere degli obiettivi concreti per i malware \\ \midrule
+I macchinari utilizzati per operazioni speciali beneficiano del paradigma "security through obscurity". Dato che la documentazione degli ICS non è disponibile, è impossibile creare un attacco contro di loro & Le risorse per creare un attacco di successo ed altamente specializzato contro un ICS sono tutte a disposizione degli hacker \\ \midrule
+Per proteggere la rete di un ICS da un attacco è sufficiente l'utilizzo di firewall e IDS & L'utilizzo di molteplici vulnerabilità allo zero-day per effettuare un attacco indicano che i metodi difensivi basati su blacklist non sono più sufficienti ed occorre considerare tecnologie basate su whitelist per difendersi contro delle vulnerabilità ancora sconsociute \\ \bottomrule
+\end{tabularx}
+\caption{Differenze dei paradigmi difensivi SCADA prima e dopo l'avvento di Stuxnet (fonte: \cite{Knapp_2015_7})}
+\label{tab:stuxnet_differences}
+\end{table}

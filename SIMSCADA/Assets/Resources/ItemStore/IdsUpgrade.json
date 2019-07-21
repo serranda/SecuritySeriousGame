@@ -1,0 +1,10 @@
+{
+	"name": "IDS UPGRADE",
+	"descriptionPath": "IdsUpgradeBody",
+	"imageName": "",
+	"price": 350,
+	"finalLevel": 4,
+	"effect" : 1,
+	"currentLevel" :  0,
+	"itemObject" :  {}
+}

@@ -1,0 +1,10 @@
+{
+	"name": "TELEPHONE ACTIVITY UPGRADE",
+	"descriptionPath": "TelephoneActivityUpgradeBody",
+	"imageName": "",
+	"price": 600,
+	"finalLevel": 3,
+	"effect" : 7,
+	"currentLevel" :  0,
+	"itemObject" :  {}
+}

@@ -1,0 +1,1 @@
+Il dipendente ha risolto {0} bug presenti nel programma di controllo. 

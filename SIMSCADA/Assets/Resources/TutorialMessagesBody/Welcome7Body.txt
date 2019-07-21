@@ -1,0 +1,3 @@
+Passiamo ora alla schermata principale del livello: quello che vedi rappresentato è l'ufficio da cui svolgerai il tuo lavoro. 
+Puoi spostare la visuale della telecamera sull’ufficio utilizzando il mouse. Tieni premuto il tasto destro del mouse e muovi il cursore vicino ai bordi del riquadro per muovere la telecamera verso quella direzione.
+All’interno dell’ufficio, inoltre, sono presenti alcuni oggetti contornati di verde con cui potrai interagire. Clicca su di essi per scoprire quali azioni puoi eseguire. 

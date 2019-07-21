@@ -1,0 +1,76 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - PauseMenu
+  - Action Menu
+  - Telephone
+  - SecurityCheck
+  - RoomPc
+  - ServerPc
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Basement
+    uniqueID: 1620332201
+    locked: 0
+  - name: Floor
+    uniqueID: 4116020033
+    locked: 0
+  - name: WallBackground
+    uniqueID: 3939182313
+    locked: 0
+  - name: FurnBackground
+    uniqueID: 1757079813
+    locked: 0
+  - name: WallIntern
+    uniqueID: 3901784127
+    locked: 0
+  - name: Furniture
+    uniqueID: 1526919373
+    locked: 0
+  - name: FurnForeground
+    uniqueID: 2082017957
+    locked: 0
+  - name: WallForeground
+    uniqueID: 2856979527
+    locked: 0
+  - name: UIInGame
+    uniqueID: 3097921899
+    locked: 0

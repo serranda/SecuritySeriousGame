@@ -1,0 +1,10 @@
+{
+	"name": "ANTI PHISHING UPGRADE",
+	"descriptionPath": "AntiPhishingUpgradeBody",
+	"imageName": "",
+	"price": 550,
+	"finalLevel": 4,
+	"effect" : 12,
+	"currentLevel" :  0,
+	"itemObject" :  {}
+}

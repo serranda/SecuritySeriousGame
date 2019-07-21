@@ -1,0 +1,76 @@
+## Riferimenti
+
+*   Studente: Andrea Marchetti (225277)
+*   email: s225277@studenti.polito.it
+*   Relatore: Antonio Lioy
+*   Co-relatore: Andrea Atzeni
+*   Tipo di lavoro: Tesi
+*   Obiettivo: Sviluppo di un security serious game
+
+=======================================================
+
+## Studio per la realizzazione di un security serious game, implementazione e relativo testing
+
+Lo scopo della tesi è quello di sviluppare un serious game nell'ambito della sicurezza informatica a scopo didattico. 
+Nella prima fase si procederà all'analisi e allo studio degli argomenti di sicurezza su cui poter incentrare il videogioco, parallelamente agli aspetti tecnici dello stesso (tipologia del gameplay e piattaforma più adatte).
+
+Definite quindi le linee guida del progetto, si procederà con l'implementazione e lo sviluppo del serious game.
+
+Dopo aver definito i criteri di valutazione , si procederà ad una fase di test e raccolta dati.
+
+La conclusione prevede la stesura di possibili sviluppi futuri e migliorie del videogioco.
+
+=======================================================
+
+## Piano di lavoro
+
+### Analisi teorica del serious game
+
+In questa fase intendo analizzare i vari argomenti di sicurezza informatica ed individuare quello più adatto allo sviluppo di un videogioco. Per questa analisi cercherò di tenere conto anche dei security serious game già sviluppati e di come essi cerchino di raggiungere l'obiettivo educativo prefissatosi.
+In parallelo verrà effettuato uno studio sulla tipologia di videogioco da affiancare all'argomento teorico, cercando di individuare quello più adatto allo scopo finale. Per fare ciò procederò sia con lo studio della "flow theory" per individuare gli stati mentali attraversati da un videogiocatore e capire come poterli sfruttare per per scopi educativi, sia uno studio di altri serious game (sviluppati in questo caso in altri campi).
+L'intento finale quindi è quello di individuare la miglior combinazione di argomento e gameplay, su cui poi basare la realizzazione del videogioco.
+
+### Analisi pratica del serious game
+
+Una volta individuati gli aspetti teorici, intendo analizzare l'aspetto pratico dello sviluppo. Studierò innanzitutto su quale piattaforma sia meglio sviluppare il videogioco, tenendo conto dei vantaggi/svantaggi delle diverse soluzioni. Successivamente intendo analizzare quali tecnologie utilizzare al fine di aumentare il coinvolgimento del videogiocatore e quindi migliorare il suo apprendimento.
+
+### Implementazione e analisi dei criteri di valutazione
+
+Giunti a questo punto, procederò con lo sviluppo vero e proprio del videogioco, così come alla definzione dei vari criteri di valutazione. Questi serviranno nella fase di testing e raccolta dati per capire se il videogioco riesce a raggiungere lo scopo finale di insgenamento, oltre a dare una misura quantitativa dell'effettivo apprendimento dell'utente finale.
+
+### Conclusione e sviluppi futuri
+
+Nella conclusione verranno evidenziati i punti salienti del lavoro svolto, analizzando i punti di forza e i punti deboli, e le possibili migliorie di quest'ultimi.
+
+=======================================================
+
+## Stato Attuale
+
+### Punti in corso
+
+Implementazione del videogioco
+
+### Punti in attesa 
+
+Analisi dei criteri di valutazione
+
+### Punti conclusi
+
+- Analisi teorica del serious game
+(Individuate delle probabili macro-aree di teoria: sistemi di autenticazione, certificati, sicurezza delle reti IP, firewall, sistemi SCADA. Tra queste è stata scelta quella dei sistemi SCADA)
+
+- Analisi pratica del serious game
+(Individuate le piattaforme di sviluppo e i programmi da cui trarre spunto; in particolar modo il videogioco si baserà, per la creazioni dei livelli, sugli scenari di esempio messi a disposizione dai programmi FACTORY I/O e Siemens STEP 7)
+
+- Implementazione della parte grafica del videogioco
+(È stato scelto Unity come motore grafico per lo sviluppo. Sviluppate le componenti grafiche basiche per creare un livello demo)
+
+-Implementazione della parte di gameplay
+(Sono state sviluppate le componenti principali che caratterizzano il gameplay del gioco)
+
+### Previsioni per le prossime settimane
+
+- Completamento del gioco e del report scritto
+(Inserimento all'interno del gioco dei concetti di teoria, in contemporanea al completamento della scrittura del report)
+
+

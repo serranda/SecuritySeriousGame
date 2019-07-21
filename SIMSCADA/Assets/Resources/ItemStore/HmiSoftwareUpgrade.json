@@ -1,0 +1,10 @@
+{
+	"name": "HMI SOFTWARE UPGRADE",
+	"descriptionPath": "HmiSoftwareUpgradeBody",
+	"imageName": "",
+	"price": 550,
+	"finalLevel": 4,
+	"effect" : 14,
+	"currentLevel" :  0,
+	"itemObject" :  {}
+}
