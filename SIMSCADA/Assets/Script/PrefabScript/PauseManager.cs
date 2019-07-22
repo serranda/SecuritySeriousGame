@@ -20,7 +20,16 @@ public class PauseManager : MonoBehaviour
         if (pauseEnabled)
         {
             ClassDb.prefabManager.ReturnPrefab(pauseMenu.gameObject, PrefabManager.pauseIndex);
-            ClassDb.settingsManager.SaveSettings();
+#if UNITY_WEBGL
+
+            StartCoroutine(ClassDb.settingsManager.SaveSettingsWebFile(SettingsManager.gameSettings));
+
+
+#else
+            ClassDb.settingsManager.SaveSettingsLocalFile(SettingsManager.gameSettings);
+
+#endif
+
         }
         else
         {

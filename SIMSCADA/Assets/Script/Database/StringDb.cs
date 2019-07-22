@@ -8,14 +8,24 @@ public class StringDb
 {
     //string values for language setting
 
-    //string value for ip ID
+    //string values for php script and server folder
+    public static string serverAddress = "http://192.168.1.117/TestLoginBuildWebGL";
+    public static string phpFolder = "PHP";
+    public static string playerDataFolder = "PlayerData";
+    public static string createPlayerFolderScript = "createPlayerFolder.php";
+    public static string writePlayerLogScript = "writePlayerLog.php";
+    public static string settingsFileManagerScript = "settingsFileManager.php";
+
+    public static string playerFolderName = "PROVA";
 
     //string values for setting folder
     public static string settingExt = ".ini";
     public static string settingFolder = "settings";
     public static string settingName = "gamesettings";
-    public static string settingsFolderPath = Path.Combine(Application.persistentDataPath, settingFolder);
-    public static string settingsFilePath = Path.Combine(settingsFolderPath, settingName + settingExt);
+    public static string settingsLocalFolderPath = Path.Combine(Application.persistentDataPath, Path.Combine(playerDataFolder, Path.Combine(playerFolderName, settingFolder)));
+    public static string settingsLocalFilePath = Path.Combine(settingsLocalFolderPath, settingName + settingExt);
+    public static string settingsWebFolderPath = settingFolder;
+    public static string settingsWebFilePath = Path.Combine(settingsWebFolderPath, settingName + settingExt);
 
     //string values for element of dialog box prefab
     public static string dialogBoxTitle = "DB_Title";
@@ -295,9 +305,9 @@ public class StringDb
 
     //Values for sacene index
     public static int loginSceneIndex = 0;
-    public static int menuSceneIndex = 1;
-    public static int tutorialSceneIndex = 2;
-    public static int level1SceneIndex = 3;
+    public static int menuSceneIndex = 0;
+    public static int tutorialSceneIndex = 1;
+    public static int level1SceneIndex = 2;
     public static int level2SceneIndex = 4;
 
     //parameters for money earn
@@ -312,5 +322,8 @@ public class StringDb
 
     //parameters for local security cost
     public static float localSecurityCost = 0.03f;
+
+
+
 
 }

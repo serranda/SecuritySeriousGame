@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 
+[System.Serializable]
+
 public class GameSettings
 { 
     public bool fullScreen;

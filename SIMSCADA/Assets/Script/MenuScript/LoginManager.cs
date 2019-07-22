@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.IO;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -11,7 +12,6 @@ public class LoginManager : MonoBehaviour
     private TMP_InputField folderName;
     private TMP_InputField fileContent;
 
-    private string username;
     private string filename = "data";
     private string content;
 
@@ -32,8 +32,6 @@ public class LoginManager : MonoBehaviour
                 return;
             }
 
-            username = folderName.text;
-
             StartCoroutine(CreatePlayerFolderRoutine());
         });
     }
@@ -44,11 +42,11 @@ public class LoginManager : MonoBehaviour
         WWWForm form = new WWWForm();
 
 
-        form.AddField("folderName", username);
+        form.AddField("folderName", folderName.text);
 
 
         using (UnityWebRequest www =
-            UnityWebRequest.Post("http://192.168.1.117/TestLoginBuildWebGL/PHP/createPlayerFolder.php", form))
+            UnityWebRequest.Post(Path.Combine(StringDb.serverAddress, Path.Combine(StringDb.phpFolder, StringDb.createPlayerFolderScript)), form))
         {
             yield return www.SendWebRequest();
 
@@ -73,13 +71,13 @@ public class LoginManager : MonoBehaviour
 
         content = string.Concat(DateTime.Now.ToString("[dd/MMM/yyyy:hh:mm:ss zzz]"), " ", fileContent.text, "\n");
 
-        form.AddField("folderName", username);
+        form.AddField("folderName", folderName.text);
         form.AddField("fileName", filename);
         form.AddField("fileContent", content);
 
 
         using (UnityWebRequest www =
-            UnityWebRequest.Post("http://192.168.1.117/TestLoginBuildWebGL/PHP/writePlayerLog.php", form))
+            UnityWebRequest.Post(Path.Combine(StringDb.serverAddress, Path.Combine(StringDb.phpFolder, StringDb.writePlayerLogScript)), form))
         {
             yield return www.SendWebRequest();
 
@@ -92,5 +90,9 @@ public class LoginManager : MonoBehaviour
                 Debug.Log(www.downloadHandler.text);
             }
         }
+
+
+        //CHECK IF WORKING
+        StringDb.playerFolderName = folderName.text;
     }
 }

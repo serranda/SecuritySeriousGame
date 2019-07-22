@@ -43,7 +43,7 @@ public class SceneLoader : MonoBehaviour
         {
             float progress = Mathf.Clamp01(operation.progress / 0.9f);
 
-            Debug.Log(progress);
+            //Debug.Log(progress);
 
             progressBar.value = progress;
 

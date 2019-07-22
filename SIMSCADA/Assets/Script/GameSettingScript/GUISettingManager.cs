@@ -5,15 +5,17 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.EventSystems;
 
 
-public class OnScreenSettingManager : MonoBehaviour
+public class GUISettingManager : MonoBehaviour
 {
     private Toggle fullScreenToggle;
     [SerializeField] private TMP_Dropdown resolutionDropdown;
     [SerializeField] private TextMeshProUGUI resolutionDropdownLabel;
     private Slider volumeSlider;
     private AudioSource gameAudioSource;
+
 
     private void OnEnable()
     {
@@ -24,8 +26,8 @@ public class OnScreenSettingManager : MonoBehaviour
         gameAudioSource = SettingsManager.audioSource;
 
         //set the listener on the GUI component
-        fullScreenToggle.onValueChanged.RemoveAllListeners();
-        fullScreenToggle.onValueChanged.AddListener(delegate { OnFullScreenToggle(); });
+        //fullScreenToggle.onValueChanged.RemoveAllListeners();
+        //fullScreenToggle.onValueChanged.AddListener(delegate { OnFullScreenToggle(); });
 
         volumeSlider.onValueChanged.RemoveAllListeners();
         volumeSlider.onValueChanged.AddListener(delegate { OnVolumeChange(); });

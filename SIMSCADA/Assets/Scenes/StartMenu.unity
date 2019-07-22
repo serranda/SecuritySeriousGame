@@ -741,7 +741,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 960, y: -1495}
+  m_AnchoredPosition: {x: 960, y: -665}
   m_SizeDelta: {x: 1920, y: 830}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &172191435
@@ -773,6 +773,7 @@ GameObject:
   - component: {fileID: 198637142}
   - component: {fileID: 198637141}
   - component: {fileID: 198637143}
+  - component: {fileID: 198637144}
   m_Layer: 5
   m_Name: MenuScript
   m_TagString: Untagged
@@ -840,6 +841,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f14a6e9205018ef4282351870ab74f77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  settingsRef:
+    fullScreen: 0
+    volume: 0
+    resolutionIndex: 0
 --- !u!114 &198637143
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -887,6 +892,20 @@ MonoBehaviour:
   prefabLoadingScreen: {fileID: 3133021899575046502, guid: 522567dc7490a824195c20dd430464ff,
     type: 3}
   prefabGraph: {fileID: 0}
+--- !u!114 &198637144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 198637137}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c19e60e326dc0f4ea4a7540313002a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  exitPanel: {fileID: 809712527}
+  exitButton: {fileID: 1931713026}
 --- !u!4 &198637157
 Transform:
   m_ObjectHideFlags: 0
@@ -1279,7 +1298,6 @@ GameObject:
   - component: {fileID: 296847250}
   - component: {fileID: 296847249}
   - component: {fileID: 296847251}
-  - component: {fileID: 296847252}
   m_Layer: 5
   m_Name: MainMenuPanel
   m_TagString: Untagged
@@ -1372,20 +1390,6 @@ MonoBehaviour:
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 1
   m_ChildControlHeight: 0
---- !u!114 &296847252
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 296847247}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c19e60e326dc0f4ea4a7540313002a7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  exitPanel: {fileID: 809712527}
-  exitButton: {fileID: 1931713026}
 --- !u!1 &304012057
 GameObject:
   m_ObjectHideFlags: 0
@@ -4088,6 +4092,7 @@ GameObject:
   m_Component:
   - component: {fileID: 940558706}
   - component: {fileID: 940558707}
+  - component: {fileID: 940558708}
   m_Layer: 5
   m_Name: FullScreenToggle
   m_TagString: Untagged
@@ -4161,7 +4166,38 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  m_IsOn: 1
+  m_IsOn: 0
+--- !u!114 &940558708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 940558705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 172191435}
+          m_MethodName: OnFullScreenToggle
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 1
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  delegates: []
 --- !u!1 &986003655
 GameObject:
   m_ObjectHideFlags: 0
@@ -9723,7 +9759,6 @@ GameObject:
   - component: {fileID: 2109114615}
   - component: {fileID: 2109114619}
   - component: {fileID: 2109114618}
-  - component: {fileID: 2109114616}
   - component: {fileID: 2109114617}
   m_Layer: 5
   m_Name: Back
@@ -9752,18 +9787,6 @@ RectTransform:
   m_AnchoredPosition: {x: 960, y: -60}
   m_SizeDelta: {x: 300, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2109114616
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2109114614}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f14a6e9205018ef4282351870ab74f77, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &2109114617
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9805,6 +9828,17 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 198637142}
+        m_MethodName: SaveByBtn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 296847247}
         m_MethodName: SetActive
         m_Mode: 6
@@ -9819,17 +9853,6 @@ MonoBehaviour:
       - m_Target: {fileID: 172191430}
         m_MethodName: SetActive
         m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 2109114616}
-        m_MethodName: SaveByBtn
-        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
