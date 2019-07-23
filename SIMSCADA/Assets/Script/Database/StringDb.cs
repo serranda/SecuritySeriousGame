@@ -8,22 +8,27 @@ public class StringDb
 {
     //string values for language setting
 
+    //string vale for data format in log file
+    public static string dataTimeFormat = "[dd/MMM/yyyy:hh:mm:ss zzz]";
+
     //string values for php script and server folder
     public static string serverAddress = "http://192.168.1.117/TestLoginBuildWebGL";
     public static string phpFolder = "PHP";
     public static string playerDataFolder = "PlayerData";
     public static string createPlayerFolderScript = "createPlayerFolder.php";
+    public static string checkPlayerListScript = "checkPlayerList.php";
+    public static string updatePlayerListScript = "updatePlayerList.php";
     public static string writePlayerLogScript = "writePlayerLog.php";
     public static string settingsFileManagerScript = "settingsFileManager.php";
 
-    public static string playerFolderName = "PROVA";
+    public static Player player;
 
     //string values for setting folder
     public static string settingExt = ".ini";
     public static string settingFolder = "settings";
     public static string settingName = "gamesettings";
-    public static string settingsLocalFolderPath = Path.Combine(Application.persistentDataPath, Path.Combine(playerDataFolder, Path.Combine(playerFolderName, settingFolder)));
-    public static string settingsLocalFilePath = Path.Combine(settingsLocalFolderPath, settingName + settingExt);
+    public static string settingsLocalFolderPath;
+    public static string settingsLocalFilePath;
     public static string settingsWebFolderPath = settingFolder;
     public static string settingsWebFilePath = Path.Combine(settingsWebFolderPath, settingName + settingExt);
 
@@ -305,9 +310,9 @@ public class StringDb
 
     //Values for sacene index
     public static int loginSceneIndex = 0;
-    public static int menuSceneIndex = 0;
-    public static int tutorialSceneIndex = 1;
-    public static int level1SceneIndex = 2;
+    public static int menuSceneIndex = 1;
+    public static int tutorialSceneIndex = 2;
+    public static int level1SceneIndex = 3;
     public static int level2SceneIndex = 4;
 
     //parameters for money earn

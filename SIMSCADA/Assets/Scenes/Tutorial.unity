@@ -11645,6 +11645,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76a3c0ca10e861f49a3375e25eedc02a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneLoader: {fileID: 1086048625}
 --- !u!114 &1086048622
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11693,6 +11694,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a502e5f0c36fe1489f4edefe78f8306, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  prefabManager: {fileID: 0}
 --- !u!114 &1086048626
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11705,6 +11707,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f14a6e9205018ef4282351870ab74f77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  settingsRef:
+    fullScreen: 0
+    volume: 0
+    resolutionIndex: 0
 --- !u!114 &1086048627
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11814,6 +11820,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a39f225369f6694583df92b945591dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneLoader: {fileID: 1086048625}
 --- !u!114 &1086048633
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -10,8 +10,8 @@ public class SettingsManager: MonoBehaviour
     private Canvas pauseMenu;
     private PrefabManager prefabManager;
 
-    public static Resolution[] resolutions;
-    public static AudioSource audioSource;
+    public Resolution[] resolutions;
+    public AudioSource audioSource;
 
     public static GameSettings gameSettings;
 
@@ -23,12 +23,10 @@ public class SettingsManager: MonoBehaviour
 
 #if UNITY_WEBGL
 
-        GetAudioValues();
-
         StartCoroutine(CheckWebSettingsFileRoutine());
 
 #else
-        GetAudioAndResValues();
+        GetResolutionValues();
 
         CheckLocalSettingsFile();
 #endif
@@ -42,40 +40,22 @@ public class SettingsManager: MonoBehaviour
     //UNITY WEBGL METHOD
     //-----------------------------------------------------------------------------------
 
-    private void GetAudioValues()
-    {
-        try
-        {
-            audioSource = GameObject.Find(StringDb.gameAudio[SceneManager.GetActiveScene().buildIndex])
-                .GetComponent<AudioSource>();
-        }
-        catch (IndexOutOfRangeException)
-        {
-            audioSource = GameObject.Find(StringDb.gameAudio[1]).GetComponent<AudioSource>();
-        }
-        catch (Exception exception)
-        {
-            Debug.Log(exception.Message);
-        }
-    }
-
     private IEnumerator CheckWebSettingsFileRoutine()
     {
-        GameSettings settings = new GameSettings();
 
         WWWForm form = new WWWForm();
 
         form.AddField("mode", "r");
-        form.AddField("folderName", StringDb.playerFolderName);
+        form.AddField("folderName", StringDb.player.folderName);
         form.AddField("settingsFolder", StringDb.settingsWebFolderPath);
         form.AddField("settingFileName", StringDb.settingName + StringDb.settingExt);
 
         using (UnityWebRequest www =
             UnityWebRequest.Post(Path.Combine(StringDb.serverAddress, Path.Combine(StringDb.phpFolder, StringDb.settingsFileManagerScript)), form))
         {
-           
 
-            yield return www.SendWebRequest(); ; 
+
+            yield return www.SendWebRequest();  
 
             if (www.isNetworkError || www.isHttpError)
             {
@@ -83,7 +63,9 @@ public class SettingsManager: MonoBehaviour
             }
             else
             {
-                Debug.Log(www.downloadHandler.text);
+                GameSettings settings;
+
+                //Debug.Log(www.downloadHandler.text);
 
                 if (www.downloadHandler.text == "Error Reading File")
                 {
@@ -96,23 +78,18 @@ public class SettingsManager: MonoBehaviour
                     string jsonData = www.downloadHandler.text;
                     settings = LoadSettingsWebFile(jsonData);
                 }
+
+                if (settings != null)
+                    ApplySettingsWebValues(settings);
             }
         }
-
-        if (settings != null)
-            ApplySettingsWebValues(settings);
-
     }
 
     private GameSettings CreateSettingsWebValues()
     {
         try
         {
-            GameSettings settings = new GameSettings()
-            {
-                fullScreen = false,
-                volume = 0.8f
-            };
+            GameSettings settings = new GameSettings(false, 0.8f);
             //Debug.Log("SETTINGS CREATED\n" + gameSettings.printSettings());
             StartCoroutine(SaveSettingsWebFile(settings));
 
@@ -125,8 +102,6 @@ public class SettingsManager: MonoBehaviour
             return null;
 
         }
-
-
     }
 
     public IEnumerator SaveSettingsWebFile(GameSettings settings)
@@ -137,7 +112,7 @@ public class SettingsManager: MonoBehaviour
 
         form.AddField("mode", "w");
 
-        form.AddField("folderName", StringDb.playerFolderName);
+        form.AddField("folderName", StringDb.player.folderName);
         form.AddField("settingsFolder", StringDb.settingsWebFolderPath);
         form.AddField("settingFileName", StringDb.settingName + StringDb.settingExt);
         form.AddField("settingsContent", jsonData);
@@ -182,7 +157,6 @@ public class SettingsManager: MonoBehaviour
         audioSource.volume = settings.volume;
         Screen.fullScreen = settings.fullScreen;
 
-        //TODO SET STATIC VALUES
         gameSettings = settings;
     }
 
@@ -192,21 +166,8 @@ public class SettingsManager: MonoBehaviour
     //UNITY WIN METHOD
     //-----------------------------------------------------------------------------------
 
-    private void GetAudioAndResValues()
+    private void GetResolutionValues()
     {
-        try
-        {
-            audioSource = GameObject.Find(StringDb.gameAudio[SceneManager.GetActiveScene().buildIndex])
-                .GetComponent<AudioSource>();
-        }
-        catch (IndexOutOfRangeException)
-        {
-            audioSource = GameObject.Find(StringDb.gameAudio[1]).GetComponent<AudioSource>();
-        }
-        catch (Exception exception)
-        {
-            Debug.Log(exception.Message);
-        }
         resolutions = Screen.resolutions;
     }
 
@@ -224,12 +185,7 @@ public class SettingsManager: MonoBehaviour
     {
         try
         {
-            GameSettings settings = new GameSettings
-            {
-                fullScreen = true,
-                resolutionIndex = Screen.resolutions.Length - 1,
-                volume = 0.8f
-            };
+            GameSettings settings = new GameSettings(true, 0.8f, Screen.resolutions.Length - 1);
 
             //Debug.Log("SETTINGS CREATED\n" + gameSettings.printSettings());
 

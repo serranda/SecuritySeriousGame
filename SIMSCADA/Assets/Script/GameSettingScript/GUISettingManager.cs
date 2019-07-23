@@ -23,7 +23,7 @@ public class GUISettingManager : MonoBehaviour
         fullScreenToggle = GameObject.Find(StringDb.pauseToggle).GetComponent<Toggle>();
         volumeSlider = GameObject.Find(StringDb.pauseSlider).GetComponent<Slider>();
         //get audio reference from settings
-        gameAudioSource = SettingsManager.audioSource;
+        gameAudioSource = ClassDb.settingsManager.audioSource;
 
         //set the listener on the GUI component
         //fullScreenToggle.onValueChanged.RemoveAllListeners();
@@ -83,13 +83,13 @@ public class GUISettingManager : MonoBehaviour
     }
     public void OnResolutionChange()
     {
-        Screen.SetResolution(SettingsManager.resolutions[resolutionDropdown.value].width, SettingsManager.resolutions[resolutionDropdown.value].height, SettingsManager.gameSettings.fullScreen);
+        Screen.SetResolution(ClassDb.settingsManager.resolutions[resolutionDropdown.value].width, ClassDb.settingsManager.resolutions[resolutionDropdown.value].height, SettingsManager.gameSettings.fullScreen);
         SettingsManager.gameSettings.resolutionIndex = resolutionDropdown.value;
     }
     public void FillDropDownResolution()
     {
         //resolutions = SettingsManager.resolutions;
-        foreach (Resolution resolution in SettingsManager.resolutions)
+        foreach (Resolution resolution in ClassDb.settingsManager.resolutions)
         {
             resolutionDropdown.options.Add(new TMP_Dropdown.OptionData(resolution.ToString().Replace(" ", string.Empty)));
         }

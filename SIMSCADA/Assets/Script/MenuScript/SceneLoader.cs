@@ -38,7 +38,6 @@ public class SceneLoader : MonoBehaviour
     {
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneIndex);
 
-
         while (!operation.isDone)
         {
             float progress = Mathf.Clamp01(operation.progress / 0.9f);
@@ -57,8 +56,8 @@ public class SceneLoader : MonoBehaviour
 
     public void Quit()
     {
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
+#if UNITY_WEBGL
+        StartLoadByIndex(StringDb.loginSceneIndex);
 #else
         Application.Quit();
 #endif

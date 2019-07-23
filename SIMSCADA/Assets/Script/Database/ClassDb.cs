@@ -42,17 +42,15 @@ public class ClassDb : MonoBehaviour
         timeEventManager = GetComponent<TimeEventManager>();
         timeManager = GetComponent<TimeManager>();
         followCursor = GetComponent<FollowCursor>();
-        if (SceneManager.GetActiveScene().buildIndex != StringDb.menuSceneIndex)
-        {
-            regularPathfinder = GameObject.Find("PathFinderRegular").GetComponent<Pathfinding>();
-            strictedPathfinder = GameObject.Find("PathFinderRestricted").GetComponent<Pathfinding>();
-        }
-
         notebookManager = GetComponent<NotebookManager>();
         dialogBoxManager = GetComponent<DialogBoxManager>();
         tutorialDialogBoxManager = GetComponent<TutorialDialogBoxManager>();
         idCardManager = GetComponent<IdCardManager>();
         dataLoader = GetComponent<DataLoader>();
         dataCollector = GetComponent<DataCollector>();
+        if (SceneManager.GetActiveScene().buildIndex == StringDb.menuSceneIndex ||
+            SceneManager.GetActiveScene().buildIndex == StringDb.loginSceneIndex) return;
+        regularPathfinder = GameObject.Find("PathFinderRegular").GetComponent<Pathfinding>();
+        strictedPathfinder = GameObject.Find("PathFinderRestricted").GetComponent<Pathfinding>();
     }
 }

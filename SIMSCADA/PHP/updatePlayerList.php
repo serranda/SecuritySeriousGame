@@ -11,25 +11,17 @@
 	error_reporting(0);
 	ini_set('display_errors', 0);
 	
-	$folderName = $_POST["folderName"];	
+	$playerListPath = '../PlayerData/players.txt';
 	
-	$folderPath = '../PlayerData/'.$folderName.'/';
+	$playerListData = $_POST["playerListData"];
 
-	if (!is_dir($folderPath))
+	if(file_put_contents($playerListPath, $playerListData) !== FALSE)
 	{
-		if(mkdir($folderPath) !== FALSE)
-		{
-			echo "Folder Created";
-		}
-		else
-		{
-			echo "Error Creating Folder";
-		}
-		
+		echo "File Updated";
 	}
 	else
 	{
-		echo "Folder Already Exists";
+		echo "Error Updating File";		
 	}	
 
 ?>

@@ -25,8 +25,14 @@
 	//read file content and send to unity
 	if($mode == 'r')
 	{
-		if(!file_get_contents($settingsFilePath))
+		if(file_get_contents($settingsFilePath) !== FALSE)
 		{
+			$file = file_get_contents($settingsFilePath);
+			echo $file;
+
+		}
+		else
+		{			
 			echo "Error Reading File";		
 
 			if (!is_dir($settingsFolderPath))
@@ -34,20 +40,13 @@
 				mkdir($settingsFolderPath);			
 			}
 		}
-		else
-		{
-			$file = file_get_contents($settingsFilePath);
-			echo $file;
-		}
-	}
-	
+	}	
 	//write settings value into file
 	else
-	{
-		
+	{		
 		$settingsContent = $_POST["settingsContent"];
 
-		if (file_put_contents($settingsFilePath, $settingsContent) !== false) 
+		if (file_put_contents($settingsFilePath, $settingsContent) !== FALSE) 
 		{
 			echo "File updated (" . basename($settingsFilePath) . ").";		
 		} 
@@ -56,8 +55,5 @@
 			echo "Cannot update the file (" . basename($settingsFilePath) . ").";
 		}
 	}
-	
-
-	
 
 ?>
