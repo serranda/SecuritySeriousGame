@@ -110,7 +110,7 @@ public class LevelManager : MonoBehaviour
         {
             SetStartingValues();
 
-            ClassDb.messageManager.StartWelcome();
+            ClassDb.levelMessageManager.StartWelcome();
         }
 
         StartTimeRoutine();
@@ -343,14 +343,14 @@ public class LevelManager : MonoBehaviour
         if (GameData.winCounter >= 150)
         {
             GameData.isGameWon = true;
-            ClassDb.messageManager.StartEndGame();
+            ClassDb.levelMessageManager.StartEndGame();
             StopAllCoroutines();
         }
 
         if (GameData.lossCounter >= 150)
         {
             GameData.isGameWon = false;
-            ClassDb.messageManager.StartEndGame();
+            ClassDb.levelMessageManager.StartEndGame();
             StopAllCoroutines();
         }
     }
@@ -361,7 +361,7 @@ public class LevelManager : MonoBehaviour
         if (Random.Range(0, 100) < GameData.reputation)
         {
             //Message to inform boss has given more money
-            ClassDb.messageManager.StartMoneyEarn(UpdateMoney());
+            ClassDb.levelMessageManager.StartMoneyEarn(UpdateMoney());
         }
 
 
@@ -380,7 +380,7 @@ public class LevelManager : MonoBehaviour
         GameData.monthlyThreat = attack;
 
         if(GameData.researchUpgrade)
-            ClassDb.messageManager.StartShowReport(attack.ToString().ToUpper());
+            ClassDb.levelMessageManager.StartShowReport(attack.ToString().ToUpper());
 
         Debug.Log(attack);
 
@@ -556,7 +556,7 @@ public class LevelManager : MonoBehaviour
                 UpdateReputation(threat, StringDb.ThreatStatus.unarmed);
 
                 ClassDb.spawnCharacter.RemoveAi(threat.aiController.gameObject);
-                ClassDb.messageManager.StartFailedCorruption();
+                ClassDb.levelMessageManager.StartFailedCorruption();
                 yield break;
             }
 
@@ -570,7 +570,7 @@ public class LevelManager : MonoBehaviour
                 UpdateReputation(threat, StringDb.ThreatStatus.unarmed);
 
                 ClassDb.spawnCharacter.RemoveAi(threat.aiController.gameObject);
-                ClassDb.messageManager.StartThreatStopped(threat);
+                ClassDb.levelMessageManager.StartThreatStopped(threat);
                 yield break;
             }
 
@@ -623,7 +623,7 @@ public class LevelManager : MonoBehaviour
                     moneyLoss = threat.moneyLossPerMinute * 60 * threat.deployTime;
 
                     //Inform how much money has been lost
-                    ClassDb.messageManager.StartMoneyLoss(threat.threatType, moneyLoss);
+                    ClassDb.levelMessageManager.StartMoneyLoss(threat.threatType, moneyLoss);
 
                     //Decreasing money by moneyloss amount
                     GameData.money -= moneyLoss;
@@ -634,7 +634,7 @@ public class LevelManager : MonoBehaviour
                     {
                         GameData.isFirstPhishing = false;
                         //SHOW THE CORRISPONDENT LESSON
-                        ClassDb.messageManager.StartShowLessonFirstTime(threat);
+                        ClassDb.levelMessageManager.StartShowLessonFirstTime(threat);
                         //wait for closing dialog box
                         yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);
                     }
@@ -672,7 +672,7 @@ public class LevelManager : MonoBehaviour
                     {
                         GameData.isFirstReplay = false;
                         //SHOW THE CORRISPONDENT LESSON
-                        ClassDb.messageManager.StartShowLessonFirstTime(threat);
+                        ClassDb.levelMessageManager.StartShowLessonFirstTime(threat);
                         //wait for closing dialog box
                         yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);
                     }
@@ -701,7 +701,7 @@ public class LevelManager : MonoBehaviour
                     {
                         GameData.isFirstMitm = false;
                         //SHOW THE CORRISPONDENT LESSON
-                        ClassDb.messageManager.StartShowLessonFirstTime(threat);
+                        ClassDb.levelMessageManager.StartShowLessonFirstTime(threat);
                         //wait for closing dialog box
                         yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);
                     }
@@ -739,7 +739,7 @@ public class LevelManager : MonoBehaviour
                     {
                         GameData.isFirstStuxnet = false;
                         //SHOW THE CORRISPONDENT LESSON
-                        ClassDb.messageManager.StartShowLessonFirstTime(threat);
+                        ClassDb.levelMessageManager.StartShowLessonFirstTime(threat);
                         //wait for closing dialog box
                         yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);
                     }
@@ -767,7 +767,7 @@ public class LevelManager : MonoBehaviour
                     moneyLoss = threat.moneyLossPerMinute * 60 * threat.deployTime;
 
                     //Inform how much money has been lost
-                    ClassDb.messageManager.StartMoneyLoss(threat.threatType, moneyLoss);
+                    ClassDb.levelMessageManager.StartMoneyLoss(threat.threatType, moneyLoss);
 
                     //wait for closing dialog box
                     yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);
@@ -783,7 +783,7 @@ public class LevelManager : MonoBehaviour
                     {
                         GameData.isFirstDragonfly = false;
                         //SHOW THE CORRISPONDENT LESSON
-                        ClassDb.messageManager.StartShowLessonFirstTime(threat);
+                        ClassDb.levelMessageManager.StartShowLessonFirstTime(threat);
                         //wait for closing dialog box
                         yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);
                     }
@@ -808,7 +808,7 @@ public class LevelManager : MonoBehaviour
                     moneyLoss = threat.moneyLossPerMinute * 60 * threat.deployTime;
 
                     //Inform how much money has been lost
-                    ClassDb.messageManager.StartMoneyLoss(threat.threatType, moneyLoss);
+                    ClassDb.levelMessageManager.StartMoneyLoss(threat.threatType, moneyLoss);
 
                     //wait for closing dialog box
                     yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);
@@ -824,7 +824,7 @@ public class LevelManager : MonoBehaviour
                     {
                         GameData.isFirstMalware = false;
                         //SHOW THE CORRISPONDENT LESSON
-                        ClassDb.messageManager.StartShowLessonFirstTime(threat);
+                        ClassDb.levelMessageManager.StartShowLessonFirstTime(threat);
                         //wait for closing dialog box
                         yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);
                     }
@@ -882,7 +882,7 @@ public class LevelManager : MonoBehaviour
 
                     ClassDb.spawnCharacter.RemoveAi(threat.aiController.gameObject);
 
-                    ClassDb.messageManager.StartThreatStopped(threat);
+                    ClassDb.levelMessageManager.StartThreatStopped(threat);
                     yield break;
 
                 case StringDb.ThreatType.remote:
@@ -895,7 +895,7 @@ public class LevelManager : MonoBehaviour
 
                     ClassDb.spawnCharacter.RemoveAi(threat.aiController.gameObject);
 
-                    ClassDb.messageManager.StartThreatStopped(threat);
+                    ClassDb.levelMessageManager.StartThreatStopped(threat);
                     yield break;
 
                 case StringDb.ThreatType.timeEvent:
@@ -922,49 +922,49 @@ public class LevelManager : MonoBehaviour
             case StringDb.ThreatAttack.dos:
                 if (!(threatSuccessRate < GameData.defenseDos)) break;
                 ClassDb.spawnCharacter.RemoveAi(threat.aiController.gameObject);
-                ClassDb.messageManager.StartThreatStopped(threat);
+                ClassDb.levelMessageManager.StartThreatStopped(threat);
                 return false;
 
             case StringDb.ThreatAttack.phishing:
                 if (!(threatSuccessRate < GameData.defensePhishing)) break;
                 ClassDb.spawnCharacter.RemoveAi(threat.aiController.gameObject);
-                ClassDb.messageManager.StartThreatStopped(threat);
+                ClassDb.levelMessageManager.StartThreatStopped(threat);
                 return false;
 
             case StringDb.ThreatAttack.replay:
                 if (!(threatSuccessRate < GameData.defenseReplay)) break;
                 ClassDb.spawnCharacter.RemoveAi(threat.aiController.gameObject);
-                ClassDb.messageManager.StartThreatStopped(threat);
+                ClassDb.levelMessageManager.StartThreatStopped(threat);
                 return false;
 
             case StringDb.ThreatAttack.mitm:
                 if (!(threatSuccessRate < GameData.defenseMitm)) break;
                 ClassDb.spawnCharacter.RemoveAi(threat.aiController.gameObject);
-                ClassDb.messageManager.StartThreatStopped(threat);
+                ClassDb.levelMessageManager.StartThreatStopped(threat);
                 return false; 
 
             case StringDb.ThreatAttack.stuxnet:
                 if (!(threatSuccessRate < GameData.defenseStuxnet)) break;
                 ClassDb.spawnCharacter.RemoveAi(threat.aiController.gameObject);
-                ClassDb.messageManager.StartThreatStopped(threat);
+                ClassDb.levelMessageManager.StartThreatStopped(threat);
                 return false;
 
             case StringDb.ThreatAttack.dragonfly:
                 if (!(threatSuccessRate < GameData.defenseDragonfly)) break;
                 ClassDb.spawnCharacter.RemoveAi(threat.aiController.gameObject);
-                ClassDb.messageManager.StartThreatStopped(threat);
+                ClassDb.levelMessageManager.StartThreatStopped(threat);
                 return false;
 
             case StringDb.ThreatAttack.malware:
                 if (!(threatSuccessRate < GameData.defenseMalware)) break;
                 ClassDb.spawnCharacter.RemoveAi(threat.aiController.gameObject);
-                ClassDb.messageManager.StartThreatStopped(threat);
+                ClassDb.levelMessageManager.StartThreatStopped(threat);
                 return false;
 
             case StringDb.ThreatAttack.createRemote:
                 if (!(threatSuccessRate < GameData.defenseCreateRemote)) break;
                 ClassDb.spawnCharacter.RemoveAi(threat.aiController.gameObject);
-                ClassDb.messageManager.StartThreatStopped(threat);
+                ClassDb.levelMessageManager.StartThreatStopped(threat);
                 return false;
 
             case StringDb.ThreatAttack.fakeLocal:
@@ -978,7 +978,7 @@ public class LevelManager : MonoBehaviour
         }
         threat.aiController.onClickAi = false;
         ClassDb.spawnCharacter.RemoveAi(threat.aiController.gameObject);
-        ClassDb.messageManager.StartThreatDeployed(threat);
+        ClassDb.levelMessageManager.StartThreatDeployed(threat);
 
         return true;
     }
@@ -1084,7 +1084,7 @@ public class LevelManager : MonoBehaviour
 
         if (threatDetectedList.Count <= 0) return;
 
-        ClassDb.messageManager.StartIdsInterception();
+        ClassDb.levelMessageManager.StartIdsInterception();
         
         ServerPcListener.isThreatDetected = true;
     }
@@ -1149,7 +1149,7 @@ public class LevelManager : MonoBehaviour
 
         float moneyLoss = (float) elapsedGameTime.TotalMinutes * threat.moneyLossPerMinute;
 
-        ClassDb.messageManager.StartThreatManagementResult(elapsedGameTime, moneyLoss);
+        ClassDb.levelMessageManager.StartThreatManagementResult(elapsedGameTime, moneyLoss);
         ClassDb.dataCollector.GetThreatData(threat, (float) elapsedRealTime.TotalSeconds);
 
         //wait to close dialog to continue

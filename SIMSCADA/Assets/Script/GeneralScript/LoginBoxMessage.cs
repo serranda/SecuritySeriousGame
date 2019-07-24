@@ -1,6 +1,8 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
-public class DialogBoxMessage
+public class LoginBoxMessage
 {
     public string head;
     public string bodyPath;
@@ -11,9 +13,9 @@ public class DialogBoxMessage
     {
         get
         {
-            return string.IsNullOrEmpty(bodyPath) 
-                ? string.Empty 
-                : Resources.Load<TextAsset>("MessagesBody/" + bodyPath).text;
+            return string.IsNullOrEmpty(bodyPath)
+                ? string.Empty
+                : Resources.Load<TextAsset>("LoginMessagesBody/" + bodyPath).text;
         }
 
     }
@@ -24,5 +26,4 @@ public class DialogBoxMessage
         return string.Format("Head: {0}, BodyPath: {1}, BackBtn: {2}, NextBtn: {3}, Body: {4}",
             head, bodyPath, backBtn, nextBtn, body);
     }
-
 }

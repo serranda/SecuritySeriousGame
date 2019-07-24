@@ -56,6 +56,9 @@ public class SceneLoader : MonoBehaviour
 
     public void Quit()
     {
+        //UPDATE PLAYER LOG WITH LOGIN DATA
+        ClassDb.logManager.StartWritePlayerLogRoutine(StringDb.player, StringDb.logEvent.SystemEvent, string.Concat(StringDb.player.username, " has disconnected."));
+
 #if UNITY_WEBGL
         StartLoadByIndex(StringDb.loginSceneIndex);
 #else

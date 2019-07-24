@@ -21,7 +21,15 @@ public class StringDb
     public static string writePlayerLogScript = "writePlayerLog.php";
     public static string settingsFileManagerScript = "settingsFileManager.php";
 
+    //player object reference
     public static Player player;
+
+    //enum for logEvent types
+    public enum logEvent
+    {
+        SystemEvent,
+        GameEvent
+    }
 
     //string values for setting folder
     public static string settingExt = ".ini";
@@ -53,7 +61,13 @@ public class StringDb
     //public static string pauseBtnLesson = "Lessons";
     public static string pauseBtnExit = "Exit";
 
-    //string values for message files in resources folder
+    //string values for login message files in resources folder
+    public static string completeField = "LoginMessages/CompleteField";
+    public static string existingPlayer = "LoginMessages/ExistingPlayer";
+    public static string playerNotRegistered = "LoginMessages/PlayerNotRegistered";
+
+
+    //string values for level message files in resources folder
     public static string purchase = "Messages/ConfirmPurchase";
     public static string exitTxt = "Messages/Exit";
     public static string failedCorruption = "Messages/FailedCorruption";

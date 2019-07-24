@@ -746,7 +746,7 @@ public class AiController : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
 
         Debug.Log(hlSpriteName + " " + prSpriteName);
 
-        ClassDb.messageManager.StartSuspiciousAi();
+        ClassDb.levelMessageManager.StartSuspiciousAi();
     }
 
     public void SetInteraction(bool colliderEnabled)

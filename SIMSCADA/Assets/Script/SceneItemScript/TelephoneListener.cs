@@ -119,7 +119,7 @@ public class TelephoneListener : MonoBehaviour
         {
             float deltaMoney = Random.Range(0f, 5f) * GameData.money / 100;
             GameData.money += deltaMoney;
-            ClassDb.messageManager.StartMoneyEarn(deltaMoney);
+            ClassDb.levelMessageManager.StartMoneyEarn(deltaMoney);
         }
 
         TimeEvent coolDownEvent = ClassDb.timeEventManager.NewTimeEvent(
@@ -163,7 +163,7 @@ public class TelephoneListener : MonoBehaviour
 
                 if (!(success > GameData.defensePlantResistance)) continue;
                 //Inform how much money has been lost
-                ClassDb.messageManager.StartMoneyLoss(pair.Key.threatType, pair.Value);
+                ClassDb.levelMessageManager.StartMoneyLoss(pair.Key.threatType, pair.Value);
 
                 //wait for closing dialog box
                 yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);
@@ -185,14 +185,14 @@ public class TelephoneListener : MonoBehaviour
 
                 if (!(success > GameData.defensePlantResistance))
                 {
-                    ClassDb.messageManager.StartThreatStopped(pair.Key);
+                    ClassDb.levelMessageManager.StartThreatStopped(pair.Key);
 
                     Debug.Log(success);
 
                     continue;
                 }
                 //Inform how much money has been lost
-                ClassDb.messageManager.StartMoneyLoss(pair.Key.threatType, pair.Value);
+                ClassDb.levelMessageManager.StartMoneyLoss(pair.Key.threatType, pair.Value);
 
                 //wait for closing dialog box
                 yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);

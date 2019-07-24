@@ -233,7 +233,7 @@ public class ServerPcListener : MonoBehaviour
             if (!LevelManager.hasPlantChecked)
             {
                 //MESSAGE TO INFORM ABOUT CHECKING PLANT
-                ClassDb.messageManager.StartPlantCheck();
+                ClassDb.levelMessageManager.StartPlantCheck();
 
                 //wait to close dialog to continue
                 yield return new WaitUntil(() => DialogBoxManager.dialogEnabled);
@@ -311,7 +311,7 @@ public class ServerPcListener : MonoBehaviour
         }
 
         isThreatDetected = false;
-        ClassDb.messageManager.StartIdsClean();
+        ClassDb.levelMessageManager.StartIdsClean();
         interactiveSprite.SetInteraction(true);
 
     }
@@ -373,7 +373,7 @@ public class ServerPcListener : MonoBehaviour
             if (!LevelManager.hasPlantChecked)
             {
                 //MESSAGE TO INFORM ABOUT CHECKING PLANT
-                ClassDb.messageManager.StartPlantCheck();
+                ClassDb.levelMessageManager.StartPlantCheck();
 
                 //wait to close dialog to continue
                 yield return new WaitUntil(() => DialogBoxManager.dialogEnabled);
@@ -387,7 +387,7 @@ public class ServerPcListener : MonoBehaviour
             if(!LevelManager.hasMalwareChecked)
             {
                 //MESSAGE TO INFORM ABOUT CHECKING MALWARE
-                ClassDb.messageManager.StartMalwareCheck();
+                ClassDb.levelMessageManager.StartMalwareCheck();
 
                 //wait to close dialog to continue
                 yield return new WaitUntil(() => DialogBoxManager.dialogEnabled);

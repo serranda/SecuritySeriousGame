@@ -387,7 +387,7 @@ public class TutorialMessageManager : MonoBehaviour
         //open dialog box
 
         //set the text on dialog box
-        DialogBoxMessage message = ClassDb.messageManager.MessageFromJson(Resources.Load<TextAsset>(StringDb.tutorialExit));
+        DialogBoxMessage message = ClassDb.levelMessageManager.MessageFromJson(Resources.Load<TextAsset>(StringDb.tutorialExit));
 
         ClassDb.dialogBoxManager.SetDialog(
             message.head,

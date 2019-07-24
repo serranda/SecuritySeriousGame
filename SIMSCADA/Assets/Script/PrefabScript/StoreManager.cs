@@ -96,7 +96,7 @@ public class StoreManager : MonoBehaviour
         purchaseButton.onClick.RemoveAllListeners();
         purchaseButton.onClick.AddListener(delegate
             {
-                ClassDb.messageManager.StartConfirmPurchase(itemStoreSelected);
+                ClassDb.levelMessageManager.StartConfirmPurchase(itemStoreSelected);
                 itemList.Remove(itemStoreSelected);
             });
 
@@ -245,7 +245,7 @@ public class StoreManager : MonoBehaviour
                 if (GameData.trustedEmployees + newTrustedEmployees > GameData.totalEmployees)
                 {
                     //message to inform about too many trusted employees
-                    ClassDb.messageManager.StartNewTrustedEmployees();
+                    ClassDb.levelMessageManager.StartNewTrustedEmployees();
                 }
                 else
                 {
@@ -307,7 +307,7 @@ public class StoreManager : MonoBehaviour
             case 22:
                 //PURCHASED HIRING CAMPAIGN: INCREASE EMPLOYEES NUMBER
                 int employeesHired = (int) (Random.Range(0.1f, 0.25f) * GameData.totalEmployees);
-                ClassDb.messageManager.StartNewEmployeesHired(employeesHired);
+                ClassDb.levelMessageManager.StartNewEmployeesHired(employeesHired);
                 break;
             case 23:
                 //PURCHASED RESEARCH UPGRADE: ENABLED MONTHLY REPORT AND THREAT TENDENCIES  

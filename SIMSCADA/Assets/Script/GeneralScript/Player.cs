@@ -15,6 +15,14 @@ public class Player
 
     }
 
+    public Player(string username, string password)
+    {
+        this.username = username;
+        this.password = password;
+        this.name = string.Empty;
+        this.surname = string.Empty;
+    }
+
     public Player(string username, string password, string name, string surname)
     {
         this.username = username;

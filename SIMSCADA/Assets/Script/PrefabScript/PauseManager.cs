@@ -61,7 +61,7 @@ public class PauseManager : MonoBehaviour
         else
         {
             exitBtn.onClick.RemoveAllListeners();
-            exitBtn.onClick.AddListener(ClassDb.messageManager.StartExit);
+            exitBtn.onClick.AddListener(ClassDb.levelMessageManager.StartExit);
         }
 
 

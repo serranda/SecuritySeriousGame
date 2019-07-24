@@ -54,7 +54,7 @@ public class DataCollector : MonoBehaviour
         backBtn.onClick.AddListener(delegate
         {
             ClassDb.prefabManager.ReturnPrefab(gameObject.GetComponentInParent<Canvas>().gameObject, PrefabManager.graphIndex);
-            ClassDb.messageManager.StartEndGame();
+            ClassDb.levelMessageManager.StartEndGame();
         });
 
 

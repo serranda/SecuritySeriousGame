@@ -83,6 +83,6 @@ public class AiListener : MonoBehaviour
         ClassDb.spawnCharacter.RemoveAi(aiGameObject);
 
         ClassDb.levelManager.StopLocalThreat(aiController.timeEvent.threat);
-        ClassDb.messageManager.StartThreatStopped(aiController.timeEvent.threat);
+        ClassDb.levelMessageManager.StartThreatStopped(aiController.timeEvent.threat);
     }
 }

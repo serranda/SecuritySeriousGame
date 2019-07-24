@@ -4,7 +4,7 @@ using System.Globalization;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MessageManager : MonoBehaviour
+public class LevelMessageManager : MonoBehaviour
 {
     private IEnumerator deployRoutine;
     private IEnumerator stopRoutine;
@@ -761,6 +761,7 @@ public class MessageManager : MonoBehaviour
 
         });
     }
+
 
     //RIMUOVIBILE
     //--------------------------------------------------------------------------------------------------------

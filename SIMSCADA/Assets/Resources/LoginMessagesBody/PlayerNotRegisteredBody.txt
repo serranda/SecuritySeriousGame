@@ -1,0 +1,2 @@
+Le credenziali inserite non sono corrette. Controlla di aver scritto correttamente nome utente e password.
+(N.B. Il sistema distingue tra lettere maiuscole e minuscole).
