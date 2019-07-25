@@ -10,17 +10,17 @@ using UnityEngine.EventSystems;
 
 public class GUISettingManager : MonoBehaviour
 {
-    private Toggle fullScreenToggle;
+    //private Toggle fullScreenToggle;
     [SerializeField] private TMP_Dropdown resolutionDropdown;
     [SerializeField] private TextMeshProUGUI resolutionDropdownLabel;
+
     private Slider volumeSlider;
     private AudioSource gameAudioSource;
-
 
     private void OnEnable()
     {
         //get UI component reference
-        fullScreenToggle = GameObject.Find(StringDb.pauseToggle).GetComponent<Toggle>();
+        //fullScreenToggle = GameObject.Find(StringDb.pauseToggle).GetComponent<Toggle>();
         volumeSlider = GameObject.Find(StringDb.pauseSlider).GetComponent<Slider>();
         //get audio reference from settings
         gameAudioSource = ClassDb.settingsManager.audioSource;
@@ -65,22 +65,18 @@ public class GUISettingManager : MonoBehaviour
     }
     private void SetGuiElement()
     { 
-        fullScreenToggle.isOn = SettingsManager.gameSettings.fullScreen;
+        //fullScreenToggle.isOn = SettingsManager.gameSettings.fullScreen;
         resolutionDropdown.value = SettingsManager.gameSettings.resolutionIndex;
         volumeSlider.value = SettingsManager.gameSettings.volume;
     }
+
     public void OnVolumeChange()
     {
         float value = volumeSlider.value;
         gameAudioSource.volume = value;
         SettingsManager.gameSettings.volume = value;
     }
-    public void OnFullScreenToggle()
-    {
-        bool isOn = fullScreenToggle.isOn;
-        Screen.fullScreen = isOn;
-        SettingsManager.gameSettings.fullScreen = isOn;
-    }
+
     public void OnResolutionChange()
     {
         Screen.SetResolution(ClassDb.settingsManager.resolutions[resolutionDropdown.value].width, ClassDb.settingsManager.resolutions[resolutionDropdown.value].height, SettingsManager.gameSettings.fullScreen);

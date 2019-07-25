@@ -185,6 +185,11 @@ public class StringDb
     public static string rscPrSpriteSuffix = "PR";
     public static string rscPlSpritePrefix = "PL";
 
+    //string values for full screen button
+    public static string fsButtonFolder = "FSButton";
+    public static string fsButtonOn = "FSButtonOn";
+    public static string fsButtonOff = "FSButtonOff";
+
     //string values for server room security level toggle
     public const string strictToggle = "StrictToggle";
     public const string mediumToggle = "MediumToggle";
