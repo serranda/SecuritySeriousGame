@@ -16,13 +16,15 @@ public class StringDb
     public static string phpFolder = "PHP";
     public static string playerDataFolder = "PlayerData";
     public static string createPlayerFolderScript = "createPlayerFolder.php";
+    public static string createPlayerDataFolderScript = "createPlayerDataFolder.php";
     public static string checkPlayerListScript = "checkPlayerList.php";
     public static string updatePlayerListScript = "updatePlayerList.php";
     public static string writePlayerLogScript = "writePlayerLog.php";
     public static string settingsFileManagerScript = "settingsFileManager.php";
 
     //player object reference
-    public static Player player;
+    //DEBUG
+    public static Player player = new Player("aaa", "aaa", "aaa", "aaa");
 
     //enum for logEvent types
     public enum logEvent

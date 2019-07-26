@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -14,39 +15,23 @@ public class GUISettingManager : MonoBehaviour
     [SerializeField] private TMP_Dropdown resolutionDropdown;
     [SerializeField] private TextMeshProUGUI resolutionDropdownLabel;
 
-    private Slider volumeSlider;
-    private AudioSource gameAudioSource;
+    [SerializeField] private Slider volumeSlider;
+    [SerializeField] private Button fullScreenButton;
+
 
     private void OnEnable()
     {
-        //get UI component reference
-        //fullScreenToggle = GameObject.Find(StringDb.pauseToggle).GetComponent<Toggle>();
-        volumeSlider = GameObject.Find(StringDb.pauseSlider).GetComponent<Slider>();
-        //get audio reference from settings
-        gameAudioSource = ClassDb.settingsManager.audioSource;
-
-        //set the listener on the GUI component
-        //fullScreenToggle.onValueChanged.RemoveAllListeners();
-        //fullScreenToggle.onValueChanged.AddListener(delegate { OnFullScreenToggle(); });
 
         volumeSlider.onValueChanged.RemoveAllListeners();
         volumeSlider.onValueChanged.AddListener(delegate { OnVolumeChange(); });
 
-        //create setting class for store the values
         PauseManager.pauseEnabled = true;
 
-        SetGuiElement();
-
-
-        //DEBUG
         //-------------------------------------------------------------------------------------------------------------------
 #if UNITY_WEBGL
-
         resolutionDropdownLabel.gameObject.SetActive(false);
         resolutionDropdown.gameObject.SetActive(false);
-
 #else
-
         resolutionDropdownLabel.gameObject.SetActive(true);
         resolutionDropdown.gameObject.SetActive(true);
 
@@ -54,26 +39,75 @@ public class GUISettingManager : MonoBehaviour
         resolutionDropdown.onValueChanged.AddListener(delegate { OnResolutionChange(); });
 
         FillDropDownResolution();
-
 #endif
         //-------------------------------------------------------------------------------------------------------------------
 
     }
+
     private void OnDisable()
     {
         PauseManager.pauseEnabled = false;
     }
-    private void SetGuiElement()
-    { 
-        //fullScreenToggle.isOn = SettingsManager.gameSettings.fullScreen;
+
+    public void SetGuiElement()
+    {
+        GetSpriteFromBool(SettingsManager.gameSettings.fullScreen);
         resolutionDropdown.value = SettingsManager.gameSettings.resolutionIndex;
         volumeSlider.value = SettingsManager.gameSettings.volume;
     }
 
+    public void OnFullScreenChange()
+    {
+        bool isOn = GetBoolFromSprite();
+        Screen.fullScreen = isOn;
+        SettingsManager.gameSettings.fullScreen = isOn;
+
+        Debug.Log(isOn);
+    }
+
+    private bool GetBoolFromSprite()
+    {
+        //CHECK WHICH SPRITE IS CURRENTLY DISPLAYED; SET BOOL
+        return fullScreenButton.image.sprite.name.Contains(StringDb.fsButtonOff);
+    }
+
+    public void GetSpriteFromBool(bool isOn)
+    {
+        if (isOn)
+        {
+            Sprite[] sprites = Resources.LoadAll<Sprite>(Path.Combine(StringDb.fsButtonFolder, StringDb.fsButtonOn));
+            fullScreenButton.image.sprite = sprites[0];
+
+            SpriteState buttonSpriteState = new SpriteState
+            {
+                highlightedSprite = sprites[1],
+                pressedSprite = sprites[2],
+                disabledSprite = sprites[3]
+            };
+
+            fullScreenButton.spriteState = buttonSpriteState;
+        }
+        else
+        {
+            Sprite[] sprites = Resources.LoadAll<Sprite>(Path.Combine(StringDb.fsButtonFolder, StringDb.fsButtonOff));
+            fullScreenButton.image.sprite = sprites[0];
+
+            SpriteState buttonSpriteState = new SpriteState
+            {
+                highlightedSprite = sprites[1],
+                pressedSprite = sprites[2],
+                disabledSprite = sprites[3]
+            };
+
+            fullScreenButton.spriteState = buttonSpriteState;
+        }
+    }
+
+
     public void OnVolumeChange()
     {
         float value = volumeSlider.value;
-        gameAudioSource.volume = value;
+        ClassDb.settingsManager.audioSource.volume = value;
         SettingsManager.gameSettings.volume = value;
     }
 
@@ -82,6 +116,7 @@ public class GUISettingManager : MonoBehaviour
         Screen.SetResolution(ClassDb.settingsManager.resolutions[resolutionDropdown.value].width, ClassDb.settingsManager.resolutions[resolutionDropdown.value].height, SettingsManager.gameSettings.fullScreen);
         SettingsManager.gameSettings.resolutionIndex = resolutionDropdown.value;
     }
+
     public void FillDropDownResolution()
     {
         //resolutions = SettingsManager.resolutions;

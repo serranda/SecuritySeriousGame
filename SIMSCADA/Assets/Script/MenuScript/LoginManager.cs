@@ -8,6 +8,12 @@ using UnityEngine.UI;
 
 public class LoginManager : MonoBehaviour
 {
+    private IEnumerator createPlayerDataFolder;
+    private IEnumerator checkRegisteringPlayer;
+    private IEnumerator checkLoggingPlayer;
+    private IEnumerator updatePlayerList;
+    private IEnumerator createPlayerFolder;
+
     [SerializeField] private Button registrationBtn;
     [SerializeField] private Button loginBtn;
 
@@ -20,6 +26,13 @@ public class LoginManager : MonoBehaviour
 
     private void Start()
     {
+        //FORCE FULL SCREEN OFF
+        Screen.fullScreen = false;
+
+        //START COROUTINE TO CREATE PLAYER DATA FOLDER ON THE SERVER
+        createPlayerDataFolder = CreatePlayerDataFolder();
+        StartCoroutine(createPlayerDataFolder);
+
         //add listener to registration button
         registrationBtn.onClick.AddListener(delegate
         {
@@ -36,7 +49,8 @@ public class LoginManager : MonoBehaviour
                 return;
             }
 
-            StartCoroutine(CheckRegisteringPlayerListRoutine());
+            checkRegisteringPlayer = CheckRegisteringPlayerListRoutine();
+            StartCoroutine(checkRegisteringPlayer);
         });
 
         //add listener to login button
@@ -51,8 +65,45 @@ public class LoginManager : MonoBehaviour
                 ClassDb.loginMessageManager.StartPlayerNotRegistered();
                 return;
             }
-            StartCoroutine(CheckLoggingPlayerListRoutine());
+
+            checkLoggingPlayer = CheckLoggingPlayerListRoutine();
+            StartCoroutine(checkLoggingPlayer);
         });
+    }
+
+    private IEnumerator CreatePlayerDataFolder()
+    {
+        //NEW WWWFORM FOR WEB REQUEST
+        WWWForm form = new WWWForm();
+
+        //ADD INFO FOR PLAYER DATA FOLDER
+        form.AddField("folderName", "PlayerData");
+
+        //SEND REQUEST
+        using (UnityWebRequest www =
+            UnityWebRequest.Post(
+                Path.Combine(StringDb.serverAddress, Path.Combine(StringDb.phpFolder, StringDb.createPlayerDataFolderScript)),
+                form))
+        {
+            yield return www.SendWebRequest();
+
+            if (www.isNetworkError || www.isHttpError)
+            {
+                Debug.Log(www.error);
+            }
+            else
+            {
+                //CHECK WWW RESPONSE; COULDN'T CREATE THE FOLDER
+                if (www.downloadHandler.text == "Error Creating Folder")
+                {
+                    Debug.Log("Error Creating Folder");
+                }
+                else
+                {
+                    Debug.Log("Folder Created");
+                }
+            }
+        }
     }
 
     private IEnumerator CheckRegisteringPlayerListRoutine()
@@ -88,7 +139,8 @@ public class LoginManager : MonoBehaviour
                     www.downloadHandler.text == "File Empty")
                 { 
                    //NO PLAYER WITH PICKED USERNAME; UPDATING PLAYER LIST
-                   StartCoroutine(UpdatePlayerList(player, players));
+                   updatePlayerList = UpdatePlayerList(player, players);
+                   StartCoroutine(updatePlayerList);
                 }
                 //CHECK WWW RESPONSE; THERE ARE OTHER PLAYER REGISTERED
                 else
@@ -112,7 +164,8 @@ public class LoginManager : MonoBehaviour
 
 
                     //NO PLAYER WITH PICKED USERNAME; UPDATING PLAYER LIST
-                    StartCoroutine(UpdatePlayerList(player, players));
+                    updatePlayerList = UpdatePlayerList(player, players);
+                    StartCoroutine(updatePlayerList);
                 }
             }
         }
@@ -184,9 +237,7 @@ public class LoginManager : MonoBehaviour
         }
     }
 
-
-
-private IEnumerator UpdatePlayerList(Player player, PlayerList players)
+    private IEnumerator UpdatePlayerList(Player player, PlayerList players)
     {
         //instanciate new wwwform
         WWWForm form = new WWWForm();
@@ -227,7 +278,8 @@ private IEnumerator UpdatePlayerList(Player player, PlayerList players)
                 {
                     Debug.Log("Player List Updated");
                     //CREATE FOLDER WHERE WILL BE STORED PLAYER LOG, INFO AND SETTINGS
-                    StartCoroutine(CreatePlayerFolderRoutine(player));
+                    createPlayerFolder = CreatePlayerFolderRoutine(player);
+                    StartCoroutine(createPlayerFolder);
                 }
             }
         }
@@ -286,7 +338,5 @@ private IEnumerator UpdatePlayerList(Player player, PlayerList players)
         //LOAD START MENU SCENE
         ClassDb.sceneLoader.StartLoadByIndex(StringDb.menuSceneIndex);
     }
-
-
 
 }

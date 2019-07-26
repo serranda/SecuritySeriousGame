@@ -2,8 +2,10 @@
 using System.Collections;
 using System.IO;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class SettingsManager: MonoBehaviour
 {    
@@ -13,28 +15,35 @@ public class SettingsManager: MonoBehaviour
     public Resolution[] resolutions;
     public AudioSource audioSource;
 
+    [SerializeField] private Button fullScreenButton;
+    [SerializeField] private Button saveButton;
+
     public static GameSettings gameSettings;
 
-    [SerializeField] private GameSettings settingsRef;
+    [SerializeField] private GUISettingManager guiSettingManager;
+
+    //[SerializeField] private GameSettings settingsRef;
+
 
 
     public void Awake()
     {
 
 #if UNITY_WEBGL
-
         StartCoroutine(CheckWebSettingsFileRoutine());
-
 #else
         GetResolutionValues();
-
         CheckLocalSettingsFile();
 #endif
     }
 
     private void Update()
     {
-        settingsRef = gameSettings;
+        //settingsRef = gameSettings;
+
+        Debug.Log(Screen.fullScreen);
+
+        guiSettingManager.GetSpriteFromBool(Screen.fullScreen);
     }
 
     //UNITY WEBGL METHOD
@@ -80,7 +89,13 @@ public class SettingsManager: MonoBehaviour
                 }
 
                 if (settings != null)
+                {
+                    gameSettings = settings;
+                    guiSettingManager.SetGuiElement();
+
                     ApplySettingsWebValues(settings);
+
+                }
             }
         }
     }
@@ -157,7 +172,6 @@ public class SettingsManager: MonoBehaviour
         audioSource.volume = settings.volume;
         Screen.fullScreen = settings.fullScreen;
 
-        gameSettings = settings;
     }
 
     //-----------------------------------------------------------------------------------
@@ -257,9 +271,7 @@ public class SettingsManager: MonoBehaviour
     public void SaveByBtn()
     {
 #if UNITY_WEBGL
-
         StartCoroutine(SaveSettingsWebFile(gameSettings));
-
 #else
 
         SaveSettingsLocalFile(gameSettings));
