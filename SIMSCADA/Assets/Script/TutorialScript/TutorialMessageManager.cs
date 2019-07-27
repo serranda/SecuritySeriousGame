@@ -383,7 +383,7 @@ public class TutorialMessageManager : MonoBehaviour
         ClassDb.dialogBoxManager.ToggleDialogBox();
 
         //disable interaction with pause menu
-        PauseManager.pauseMenu.GetComponent<GraphicRaycaster>().enabled = false;
+        ClassDb.pauseManager.pauseRaycaster.enabled = false;
         //open dialog box
 
         //set the text on dialog box
@@ -411,7 +411,7 @@ public class TutorialMessageManager : MonoBehaviour
         DialogBoxManager.dialogBoxBtnBack.onClick.AddListener(delegate
         {
             ClassDb.dialogBoxManager.ToggleDialogBox();
-            PauseManager.pauseMenu.GetComponent<GraphicRaycaster>().enabled = true;
+            ClassDb.pauseManager.pauseRaycaster.enabled = true;
         });
     }
 

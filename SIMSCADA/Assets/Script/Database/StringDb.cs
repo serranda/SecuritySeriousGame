@@ -37,8 +37,6 @@ public class StringDb
     public static string settingExt = ".ini";
     public static string settingFolder = "settings";
     public static string settingName = "gamesettings";
-    public static string settingsLocalFolderPath;
-    public static string settingsLocalFilePath;
     public static string settingsWebFolderPath = settingFolder;
     public static string settingsWebFilePath = Path.Combine(settingsWebFolderPath, settingName + settingExt);
 
@@ -264,14 +262,14 @@ public class StringDb
     }
     public enum ThreatAttack
     {
-        dos,            //remote
-        phishing,       //remote
-        replay,         //remote
-        mitm,           //hybrid
-        stuxnet,        //hybrid
-        dragonfly,      //hybrid
-        malware,        //local
-        createRemote,   //local
+        dos,            //remote simple
+        phishing,       //remote simple
+        replay,         //remote complex
+        mitm,           //hybrid simple
+        stuxnet,        //hybrid complex
+        dragonfly,      //hybrid complex
+        malware,        //local simple
+        createRemote,   //local complex
         fakeLocal,      //fakeLocal
         timeEvent       //timeEvent
     }

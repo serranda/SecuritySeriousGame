@@ -328,10 +328,6 @@ public class LoginManager : MonoBehaviour
         //SET PLAYER REFERENCE WITH LOGGED PLAYER VALUES
         StringDb.player = player;
 
-        //SET STRING VALUES FOR LOCAL SAVE
-        StringDb.settingsLocalFolderPath = Path.Combine(Application.persistentDataPath, Path.Combine(StringDb.playerDataFolder, Path.Combine(player.folderName, StringDb.settingFolder)));
-        StringDb.settingsLocalFilePath = Path.Combine(StringDb.settingsLocalFolderPath, StringDb.settingName + StringDb.settingExt);
-
         //UPDATE PLAYER LOG WITH LOGIN DATA
         ClassDb.logManager.StartWritePlayerLogRoutine(player, StringDb.logEvent.SystemEvent, string.Concat(player.username, " has connected."));
 

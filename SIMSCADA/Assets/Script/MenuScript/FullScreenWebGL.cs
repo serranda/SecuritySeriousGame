@@ -8,10 +8,10 @@ using UnityEngine.UI;
 
 public class FullScreenWebGL : MonoBehaviour, IPointerDownHandler
 {
-    [SerializeField] private GUISettingManager guiSettingManager;
+    [SerializeField] private GameSettingManager gameSettingManager;
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        guiSettingManager.OnFullScreenChange();
+        gameSettingManager.OnFullScreenChange();
     }
 }

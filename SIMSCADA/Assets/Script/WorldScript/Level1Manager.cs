@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 // ReSharper disable IteratorNeverReturns
 
-public class LevelManager : MonoBehaviour
+public class Level1Manager : MonoBehaviour
 {
     //structure for time event
     [SerializeField] public List<TimeEvent> timeEventList;
@@ -62,10 +62,6 @@ public class LevelManager : MonoBehaviour
 
     private void Start()
     {
-        if (SceneManager.GetActiveScene().buildIndex == StringDb.menuSceneIndex ||
-            SceneManager.GetActiveScene().buildIndex == StringDb.tutorialSceneIndex)
-            return;
-
         //initializing list for managing threat and time event
         timeEventList = new List<TimeEvent>();
         deployedThreatList = new List<Threat>();
@@ -145,7 +141,7 @@ public class LevelManager : MonoBehaviour
 
         //if (Input.GetKeyDown(KeyCode.M))
         //{
-        //    Threat threat = ClassDb.threatManager.NewRandomThreat();
+        //    Threat threat = ClassDb.threatManager.NewRandomLevel2Threat();
         //    InstantiateNewThreat(threat);
         //}
 
@@ -375,7 +371,11 @@ public class LevelManager : MonoBehaviour
         do
         {
             attack = (StringDb.ThreatAttack) Random.Range(0, 8);
-        } while (GameData.monthlyThreat == attack);
+        } while (GameData.monthlyThreat == attack ||
+                 attack == StringDb.ThreatAttack.replay ||
+                 attack == StringDb.ThreatAttack.stuxnet ||
+                 attack == StringDb.ThreatAttack.dragonfly ||
+                 attack == StringDb.ThreatAttack.createRemote);
 
         GameData.monthlyThreat = attack;
 
@@ -448,7 +448,7 @@ public class LevelManager : MonoBehaviour
 
     private void NewThreat()
     {
-        Threat threat = ClassDb.threatManager.NewRandomThreat();
+        Threat threat = ClassDb.threatManager.NewRandomLevel1Threat();
         InstantiateNewThreat(threat);
     }
 

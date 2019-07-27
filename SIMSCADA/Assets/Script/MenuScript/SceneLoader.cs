@@ -25,15 +25,6 @@ public class SceneLoader : MonoBehaviour
         StartCoroutine(loadRoutine);
     }
 
-    //public void LoadLastSceneIndex()
-    //{
-    //    SceneManager.LoadSceneAsync(StringDb.lastSceneIndex);
-    //}
-    //public void SetLastSceneIndex()
-    //{
-    //    StringDb.lastSceneIndex = SceneManager.GetActiveScene().buildIndex;
-    //}
-
     private IEnumerator LoadByIndex(int sceneIndex)
     {
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneIndex);
@@ -59,10 +50,6 @@ public class SceneLoader : MonoBehaviour
         //UPDATE PLAYER LOG WITH LOGIN DATA
         ClassDb.logManager.StartWritePlayerLogRoutine(StringDb.player, StringDb.logEvent.SystemEvent, string.Concat(StringDb.player.username, " has disconnected."));
 
-#if UNITY_WEBGL
         StartLoadByIndex(StringDb.loginSceneIndex);
-#else
-        Application.Quit();
-#endif
     }
 }

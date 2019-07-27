@@ -24,7 +24,7 @@ public class ProgressBarManager : MonoBehaviour, IPointerEnterHandler, IPointerE
         Debug.Log(progressBar.name + " ENTERED");
 
         TimeEvent first = null;
-        foreach (TimeEvent x in ClassDb.levelManager.timeEventList)
+        foreach (TimeEvent x in ClassDb.level1Manager.timeEventList)
         {
             if (x.progressBar != progressBar) continue;
             first = x;
@@ -57,7 +57,7 @@ public class ProgressBarManager : MonoBehaviour, IPointerEnterHandler, IPointerE
         Debug.Log(progressBar.name + " EXITED");
 
         TimeEvent first = null;
-        foreach (TimeEvent x in ClassDb.levelManager.timeEventList)
+        foreach (TimeEvent x in ClassDb.level1Manager.timeEventList)
         {
             if (x.progressBar != progressBar) continue;
             first = x;
@@ -102,6 +102,6 @@ public class ProgressBarManager : MonoBehaviour, IPointerEnterHandler, IPointerE
             GetComponentInParent<AiListener>().StopAllCoroutines();
         }
 
-        ClassDb.levelManager.timeEventList.Remove(ClassDb.levelManager.timeEventList.FirstOrDefault(x => x.progressBar == progressBar));
+        ClassDb.level1Manager.timeEventList.Remove(ClassDb.level1Manager.timeEventList.FirstOrDefault(x => x.progressBar == progressBar));
     }
 }

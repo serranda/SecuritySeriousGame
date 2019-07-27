@@ -76,13 +76,13 @@ public class TutorialManager : MonoBehaviour
         Debug.Log(notebookFirstTime + " Notebook first time");
 
         //spawn hud prefab
-        ClassDb.levelManager.SpawnHud();
+        ClassDb.level1Manager.SpawnHud();
 
         //set initial values ofr hud
-        ClassDb.levelManager.SetStartingValues();
+        ClassDb.level1Manager.SetStartingValues();
 
         //start time in game
-        ClassDb.levelManager.StartTimeRoutine();
+        ClassDb.level1Manager.StartTimeRoutine();
 
         tutorialIsFinished = false;
 
@@ -469,10 +469,10 @@ public class TutorialManager : MonoBehaviour
         StopAllCoroutines();
 
         //set initial values ofr hud
-        ClassDb.levelManager.SetStartingValues();
+        ClassDb.level1Manager.SetStartingValues();
 
         //Start routine for the game components
-        ClassDb.levelManager.StartAllCoroutines();
+        ClassDb.level1Manager.StartAllCoroutines();
 
         tutorialIsFinished = true;
 

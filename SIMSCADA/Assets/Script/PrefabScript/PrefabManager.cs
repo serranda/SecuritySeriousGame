@@ -7,7 +7,6 @@ public class PrefabManager : MonoBehaviour
     public Canvas prefabActionMenu;
     public Canvas prefabDialogBox;
     public Canvas prefabTutorialDialogBox;
-    public Canvas prefabPauseMenu;
     public Canvas prefabScadaScreen;
     public Canvas prefabStoreScreen;
     public Canvas prefabNoteBook;
@@ -26,7 +25,6 @@ public class PrefabManager : MonoBehaviour
     private Stack<GameObject> inactiveActionMenu;
     private Stack<GameObject> inactiveDialogBox;
     private Stack<GameObject> inactiveTutorialDialogBox;
-    private Stack<GameObject> inactivePauseMenu;
     private Stack<GameObject> inactiveScadaScreen;
     private Stack<GameObject> inactiveStoreScreen;
     private Stack<GameObject> inactiveServerScreen;
@@ -45,7 +43,6 @@ public class PrefabManager : MonoBehaviour
     public static int actionIndex;
     public static int dialogIndex;
     public static int tutorialDialogIndex;
-    public static int pauseIndex;
     public static int scadaIndex;
     public static int storeIndex;
     public static int serverIndex;
@@ -69,7 +66,6 @@ public class PrefabManager : MonoBehaviour
         inactiveActionMenu = new Stack<GameObject>();
         inactiveDialogBox = new Stack<GameObject>();
         inactiveTutorialDialogBox = new Stack<GameObject>();
-        inactivePauseMenu = new Stack<GameObject>();
         inactiveScadaScreen = new Stack<GameObject>();
         inactiveStoreScreen = new Stack<GameObject>();
         inactiveServerScreen = new Stack<GameObject>();
@@ -90,7 +86,6 @@ public class PrefabManager : MonoBehaviour
             inactiveActionMenu,
             inactiveDialogBox,
             inactiveTutorialDialogBox,
-            inactivePauseMenu,
             inactiveScadaScreen,
             inactiveStoreScreen,
             inactiveServerScreen,
@@ -110,7 +105,6 @@ public class PrefabManager : MonoBehaviour
         actionIndex = stackList.IndexOf(inactiveActionMenu);
         dialogIndex = stackList.IndexOf(inactiveDialogBox);
         tutorialDialogIndex = stackList.IndexOf(inactiveTutorialDialogBox);
-        pauseIndex = stackList.IndexOf(inactivePauseMenu);
         scadaIndex = stackList.IndexOf(inactiveScadaScreen);
         storeIndex = stackList.IndexOf(inactiveStoreScreen);
         serverIndex = stackList.IndexOf(inactiveServerScreen);

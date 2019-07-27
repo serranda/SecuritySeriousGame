@@ -42,7 +42,7 @@ public class AiListener : MonoBehaviour
         //yield return new WaitWhile(() => aiController.playerController.pathUpdated);
         TimeEvent progressEvent = ClassDb.timeEventManager.NewTimeEvent(
             GameData.idCardTime, aiController.gameObject, true, true);
-        ClassDb.levelManager.timeEventList.Add(progressEvent);
+        ClassDb.level1Manager.timeEventList.Add(progressEvent);
 
         aiController.idChecked = true;
 
@@ -52,7 +52,7 @@ public class AiListener : MonoBehaviour
 
     private IEnumerator ShowAiId(TimeEvent progressEvent)
     {
-        yield return new WaitWhile(() => ClassDb.levelManager.timeEventList.Contains(progressEvent));
+        yield return new WaitWhile(() => ClassDb.level1Manager.timeEventList.Contains(progressEvent));
         yield return new WaitWhile(() => IdCardManager.idCardEnabled);
         ClassDb.idCardManager.ToggleIdCard();
 
@@ -82,7 +82,7 @@ public class AiListener : MonoBehaviour
         aiController.onClickAi = false;
         ClassDb.spawnCharacter.RemoveAi(aiGameObject);
 
-        ClassDb.levelManager.StopLocalThreat(aiController.timeEvent.threat);
+        ClassDb.level1Manager.StopLocalThreat(aiController.timeEvent.threat);
         ClassDb.levelMessageManager.StartThreatStopped(aiController.timeEvent.threat);
     }
 }

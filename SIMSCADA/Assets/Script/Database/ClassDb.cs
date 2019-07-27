@@ -4,9 +4,9 @@ using UnityEngine.SceneManagement;
 public class ClassDb : MonoBehaviour
 {
     public static PrefabManager prefabManager;
-    public static LevelManager levelManager;
+    public static Level1Manager level1Manager;
     public static TutorialManager tutorialManager;
-    public static SettingsManager settingsManager;
+    public static MenuManager menuManager;
     public static SceneLoader sceneLoader;
     public static CharactersCommon charactersCommon;
     public static SpawnCharacter spawnCharacter;
@@ -32,9 +32,9 @@ public class ClassDb : MonoBehaviour
     private void Awake()
     {
         prefabManager = GetComponent<PrefabManager>();
-        levelManager = GetComponent<LevelManager>();
+        level1Manager = GetComponent<Level1Manager>();
         tutorialManager = GetComponent<TutorialManager>();
-        settingsManager = GetComponent<SettingsManager>();
+        menuManager = GetComponent<MenuManager>();
         sceneLoader = GetComponent<SceneLoader>();
         charactersCommon = GetComponent<CharactersCommon>();
         spawnCharacter = GetComponent<SpawnCharacter>();

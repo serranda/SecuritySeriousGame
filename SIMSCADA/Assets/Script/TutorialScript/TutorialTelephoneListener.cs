@@ -43,13 +43,13 @@ public class TutorialTelephoneListener : MonoBehaviour
         }
         List<Button> buttons;
 
-        if (LevelManager.hasDosDeployed ||
-            LevelManager.hasPhishingDeployed ||
-            LevelManager.hasReplayDeployed ||
-            LevelManager.hasMitmDeployed ||
-            LevelManager.hasMalwareDeployed ||
-            LevelManager.hasStuxnetDeployed ||
-            LevelManager.hasDragonflyDeployed)
+        if (Level1Manager.hasDosDeployed ||
+            Level1Manager.hasPhishingDeployed ||
+            Level1Manager.hasReplayDeployed ||
+            Level1Manager.hasMitmDeployed ||
+            Level1Manager.hasMalwareDeployed ||
+            Level1Manager.hasStuxnetDeployed ||
+            Level1Manager.hasDragonflyDeployed)
         {
             buttons = interactiveSprite.actionButtonManager.GetActiveCanvasGroup(3);
 

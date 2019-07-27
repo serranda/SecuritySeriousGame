@@ -1,69 +1,77 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PauseManager : MonoBehaviour
 {
-    private Button resumeBtn;
-    private Button exitBtn;
+    [SerializeField] private Button resumeBtn;
+    [SerializeField] private Button exitBtn;
 
     public static bool pauseEnabled;
 
-    public static Canvas pauseMenu;
+    private bool listenerSet;
 
-    private void Awake()
-    {
-        pauseEnabled = false;
-    }
+    public GraphicRaycaster pauseRaycaster;
+
+    [SerializeField] private CanvasGroup canvasGroup;
+
     public void TogglePauseMenu()
     {
         if (pauseEnabled)
         {
-            ClassDb.prefabManager.ReturnPrefab(pauseMenu.gameObject, PrefabManager.pauseIndex);
-#if UNITY_WEBGL
+            CanvasOff();
 
-            StartCoroutine(ClassDb.settingsManager.SaveSettingsWebFile(SettingsManager.gameSettings));
-
-
-#else
-            ClassDb.settingsManager.SaveSettingsLocalFile(SettingsManager.gameSettings);
-
-#endif
-
+            pauseEnabled = false;
         }
         else
         {
-            pauseMenu = ClassDb.prefabManager.GetPrefab(ClassDb.prefabManager.prefabPauseMenu.gameObject, PrefabManager.pauseIndex).GetComponent<Canvas>();
-            GetButtons();
-            SetListener();
+            if (!listenerSet)
+            {
+                SetListener();
+            }
+
+            CanvasOn();
+
+            pauseEnabled = true;
         }
 
         ClassDb.timeManager.ToggleTime();
     }
-    public void GetButtons()
-    {
-        resumeBtn = GameObject.Find(StringDb.pauseBtnResume).GetComponent<Button>();
-        exitBtn = GameObject.Find(StringDb.pauseBtnExit).GetComponent<Button>();
-    }
+
     public void SetListener()
     {
-        resumeBtn.onClick.RemoveAllListeners();
+        //resumeBtn.onClick.RemoveAllListeners();
         resumeBtn.onClick.AddListener(TogglePauseMenu);
-
-        //lessonBtn.onClick.RemoveAllListeners();
-        //lessonBtn.onClick.AddListener(ClassDb.notebookManager.ToggleNoteBook);
 
         if (SceneManager.GetActiveScene().buildIndex == StringDb.tutorialSceneIndex)
         {
-            exitBtn.onClick.RemoveAllListeners();
+            //exitBtn.onClick.RemoveAllListeners();
             exitBtn.onClick.AddListener(ClassDb.tutorialMessageManager.StartExit);
         }
         else
         {
-            exitBtn.onClick.RemoveAllListeners();
+            //exitBtn.onClick.RemoveAllListeners();
             exitBtn.onClick.AddListener(ClassDb.levelMessageManager.StartExit);
         }
 
+        Debug.Log("SET LISTENER");
 
+        listenerSet = true;
     }
+
+    private void CanvasOn()
+    {
+        canvasGroup.alpha = 1.0f;
+        canvasGroup.interactable = true;
+        canvasGroup.blocksRaycasts = true;
+    }
+
+    private void CanvasOff()
+    {
+        canvasGroup.alpha = 0.0f;
+        canvasGroup.interactable = false;
+        canvasGroup.blocksRaycasts = false;
+    }
+
 }

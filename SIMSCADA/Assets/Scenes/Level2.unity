@@ -8588,7 +8588,7 @@ GameObject:
   - component: {fileID: 921579333}
   - component: {fileID: 921579344}
   m_Layer: 5
-  m_Name: Level1Script
+  m_Name: Level2Script
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8603,7 +8603,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 921579329}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4da890a36d5e334d903343a8fbcfb74, type: 3}
+  m_Script: {fileID: 11500000, guid: f0f445fd6c674bb40b414059e2a7ff64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   timeEventList: []
@@ -8615,8 +8615,8 @@ MonoBehaviour:
   totalMoneyLossPerMinute: 0
   totalMoneyEarnPerMinute: 0
   totalCostPerMinute: 0
-  simulationSpeedMultiplier: 1
-  millisecondsPerMinutes: 10000
+  simulationSpeedMultiplier: 0
+  millisecondsPerMinutes: 500
   threatSpawnBaseTime: 2000
 --- !u!4 &921579331
 Transform:

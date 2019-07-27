@@ -69,7 +69,7 @@ public class LevelMessageManager : MonoBehaviour
         DialogBoxManager.dialogBoxBtnNext.onClick.AddListener(delegate
         {
             ClassDb.dialogBoxManager.ToggleDialogBox();
-            ClassDb.levelManager.StopAllCoroutines();
+            ClassDb.level1Manager.StopAllCoroutines();
             ClassDb.sceneLoader.StartLoadByIndex(StringDb.tutorialSceneIndex);
 
         }); ;
@@ -318,7 +318,7 @@ public class LevelMessageManager : MonoBehaviour
         ClassDb.dialogBoxManager.ToggleDialogBox();
 
         //disable interaction with pause menu
-        PauseManager.pauseMenu.GetComponent<GraphicRaycaster>().enabled = false;
+        ClassDb.pauseManager.pauseRaycaster.enabled = false;
         //open dialog box
 
         //set the text on dialog box
@@ -347,7 +347,7 @@ public class LevelMessageManager : MonoBehaviour
         DialogBoxManager.dialogBoxBtnBack.onClick.AddListener(delegate 
         {
             ClassDb.dialogBoxManager.ToggleDialogBox();
-            PauseManager.pauseMenu.GetComponent<GraphicRaycaster>().enabled = true;
+            ClassDb.pauseManager.pauseRaycaster.enabled = true;
         });
     }
 

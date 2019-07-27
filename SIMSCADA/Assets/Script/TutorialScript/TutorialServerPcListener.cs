@@ -41,24 +41,24 @@ public class TutorialServerPcListener : MonoBehaviour
 
         List<Button> buttons;
 
-        if (LevelManager.hasDosDeployed ||
-            LevelManager.hasPhishingDeployed ||
-            LevelManager.hasReplayDeployed ||
-            LevelManager.hasMitmDeployed ||
-            LevelManager.hasMalwareDeployed ||
-            LevelManager.hasStuxnetDeployed ||
-            LevelManager.hasDragonflyDeployed ||
+        if (Level1Manager.hasDosDeployed ||
+            Level1Manager.hasPhishingDeployed ||
+            Level1Manager.hasReplayDeployed ||
+            Level1Manager.hasMitmDeployed ||
+            Level1Manager.hasMalwareDeployed ||
+            Level1Manager.hasStuxnetDeployed ||
+            Level1Manager.hasDragonflyDeployed ||
             isThreatDetected)
         {
             buttons = interactiveSprite.actionButtonManager.GetActiveCanvasGroup(7);
 
-            if (LevelManager.isFirewallActive)
+            if (Level1Manager.isFirewallActive)
             {
                 buttons[0].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva Firewall";
                 buttons[0].onClick.RemoveAllListeners();
                 buttons[0].onClick.AddListener(delegate
                 {
-                    ClassDb.levelManager.SetFirewallActive(false);
+                    ClassDb.level1Manager.SetFirewallActive(false);
                     interactiveSprite.ToggleMenu();
                 });
             }
@@ -68,19 +68,19 @@ public class TutorialServerPcListener : MonoBehaviour
                 buttons[0].onClick.RemoveAllListeners();
                 buttons[0].onClick.AddListener(delegate
                 {
-                    ClassDb.levelManager.SetFirewallActive(true);
+                    ClassDb.level1Manager.SetFirewallActive(true);
                     interactiveSprite.ToggleMenu();
                 });
             }
 
 
-            if (LevelManager.isRemoteIdsActive)
+            if (Level1Manager.isRemoteIdsActive)
             {
                 buttons[1].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva IDS";
                 buttons[1].onClick.RemoveAllListeners();
                 buttons[1].onClick.AddListener(delegate
                 {
-                    ClassDb.levelManager.SetRemoteIdsActive(false);
+                    ClassDb.level1Manager.SetRemoteIdsActive(false);
                     interactiveSprite.ToggleMenu();
                 });
             }
@@ -90,18 +90,18 @@ public class TutorialServerPcListener : MonoBehaviour
                 buttons[1].onClick.RemoveAllListeners();
                 buttons[1].onClick.AddListener(delegate
                 {
-                    ClassDb.levelManager.SetRemoteIdsActive(true);
+                    ClassDb.level1Manager.SetRemoteIdsActive(true);
                     interactiveSprite.ToggleMenu();
                 });
             }
 
-            if (LevelManager.isLocalIdsActive)
+            if (Level1Manager.isLocalIdsActive)
             {
                 buttons[2].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva Controlli Locali";
                 buttons[2].onClick.RemoveAllListeners();
                 buttons[2].onClick.AddListener(delegate
                 {
-                    ClassDb.levelManager.SetLocalIdsActive(false);
+                    ClassDb.level1Manager.SetLocalIdsActive(false);
                     interactiveSprite.ToggleMenu();
                 });
             }
@@ -111,7 +111,7 @@ public class TutorialServerPcListener : MonoBehaviour
                 buttons[2].onClick.RemoveAllListeners();
                 buttons[2].onClick.AddListener(delegate
                 {
-                    ClassDb.levelManager.SetLocalIdsActive(true);
+                    ClassDb.level1Manager.SetLocalIdsActive(true);
                     interactiveSprite.ToggleMenu();
                 });
             }
@@ -152,13 +152,13 @@ public class TutorialServerPcListener : MonoBehaviour
         {
             buttons = interactiveSprite.actionButtonManager.GetActiveCanvasGroup(3);
 
-            if (LevelManager.isFirewallActive)
+            if (Level1Manager.isFirewallActive)
             {
                 buttons[0].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva Firewall";
                 buttons[0].onClick.RemoveAllListeners();
                 buttons[0].onClick.AddListener(delegate
                 {
-                    ClassDb.levelManager.SetFirewallActive(false);
+                    ClassDb.level1Manager.SetFirewallActive(false);
                     interactiveSprite.ToggleMenu();
                 });
             }
@@ -168,19 +168,19 @@ public class TutorialServerPcListener : MonoBehaviour
                 buttons[0].onClick.RemoveAllListeners();
                 buttons[0].onClick.AddListener(delegate
                 {
-                    ClassDb.levelManager.SetFirewallActive(true);
+                    ClassDb.level1Manager.SetFirewallActive(true);
                     interactiveSprite.ToggleMenu();
                 });
             }
 
 
-            if (LevelManager.isRemoteIdsActive)
+            if (Level1Manager.isRemoteIdsActive)
             {
                 buttons[1].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva IDS";
                 buttons[1].onClick.RemoveAllListeners();
                 buttons[1].onClick.AddListener(delegate
                 {
-                    ClassDb.levelManager.SetRemoteIdsActive(false);
+                    ClassDb.level1Manager.SetRemoteIdsActive(false);
                     interactiveSprite.ToggleMenu();
                 });
             }
@@ -190,18 +190,18 @@ public class TutorialServerPcListener : MonoBehaviour
                 buttons[1].onClick.RemoveAllListeners();
                 buttons[1].onClick.AddListener(delegate
                 {
-                    ClassDb.levelManager.SetRemoteIdsActive(true);
+                    ClassDb.level1Manager.SetRemoteIdsActive(true);
                     interactiveSprite.ToggleMenu();
                 });
             }
 
-            if (LevelManager.isLocalIdsActive)
+            if (Level1Manager.isLocalIdsActive)
             {
                 buttons[2].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva Controlli Locali";
                 buttons[2].onClick.RemoveAllListeners();
                 buttons[2].onClick.AddListener(delegate
                 {
-                    ClassDb.levelManager.SetLocalIdsActive(false);
+                    ClassDb.level1Manager.SetLocalIdsActive(false);
                     interactiveSprite.ToggleMenu();
                 });
             }
@@ -211,7 +211,7 @@ public class TutorialServerPcListener : MonoBehaviour
                 buttons[2].onClick.RemoveAllListeners();
                 buttons[2].onClick.AddListener(delegate
                 {
-                    ClassDb.levelManager.SetLocalIdsActive(true);
+                    ClassDb.level1Manager.SetLocalIdsActive(true);
                     interactiveSprite.ToggleMenu();
                 });
             }

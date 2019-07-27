@@ -73,7 +73,7 @@ public class TimeEventManager : MonoBehaviour
             if (timeEvent.threat != StringDb.timeEventThreat)
             {
                 //ClassDb.worldManager.DeployThreat(timeEvent.threat);
-                deployRoutine = ClassDb.levelManager.DeployThreat(timeEvent.threat);
+                deployRoutine = ClassDb.level1Manager.DeployThreat(timeEvent.threat);
                 StartCoroutine(deployRoutine);
             }
             timeEvents.Remove(timeEvent);
@@ -109,7 +109,7 @@ public class TimeEventManager : MonoBehaviour
 
     public TimeEvent GetThreatTimeEvent(Threat threat)
     {
-        TimeEvent timeEvent = ClassDb.levelManager.timeEventList.Find(x => x.threat == threat);
+        TimeEvent timeEvent = ClassDb.level1Manager.timeEventList.Find(x => x.threat == threat);
 
         return timeEvent;
     }
