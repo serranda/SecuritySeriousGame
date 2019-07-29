@@ -7,117 +7,117 @@ using WeightedRandomization;
 public class GameData : MonoBehaviour
 {
     //reference for the last sprite pressed; used for spawning action menu
-    public static string pressedSprite;
+    public string pressedSprite;
 
     //check to see if first launch
-    public static bool firstLaunch = true;
+    public bool firstLaunch = true;
 
     //id for save slot
-    public static int slotIndex = 0;
+    public int slotIndex;
 
     //id for last scene reference
-    public static int lastSceneIndex = 0;
+    public int lastSceneIndex;
 
     //id for last threat created
-    public static int lastThreatId = 0;
+    public int lastThreatId;
 
     //id for last time event created
-    public static int lastTimeEventId = 0;
+    public int lastTimeEventId;
 
     //id for last ai prefab instantiated
-    public static int lastAiId = 0;
+    public int lastAiId;
 
     //flag for point out ability purchased on the store
-    public static bool pointOutPurchased = false;
-    public static bool localIdsUpgraded = false;
+    public bool pointOutPurchased;
+    public bool localIdsUpgraded;
 
     //flag to check if the deployed threat is the first one of his type
-    public static bool isFirstDos = true;
-    public static bool isFirstPhishing = true;
-    public static bool isFirstMalware = true;
-    public static bool isFirstStuxnet = true;
-    public static bool isFirstDragonfly = true;
-    public static bool isFirstMitm = true;
-    public static bool isFirstReplay = true;
+    public bool isFirstDos = true;
+    public bool isFirstPhishing = true;
+    public bool isFirstMalware = true;
+    public bool isFirstStuxnet = true;
+    public bool isFirstDragonfly = true;
+    public bool isFirstMitm = true;
+    public bool isFirstReplay = true;
 
     //flag for id card upgrade
-    public static bool idCardUpgraded = false;
+    public bool idCardUpgraded;
 
     //flag for research upgrade
-    public static bool researchUpgrade = false;
+    public bool researchUpgrade;
 
     //hud values
-    public static DateTime date;
-    public static float money;
-    public static int successfulThreat;
-    public static int totalThreat;
-    public static int trustedEmployees;
-    public static int totalEmployees;
-    public static float reputation;
+    public DateTime date;
+    public float money;
+    public int successfulThreat;
+    public int totalThreat;
+    public int trustedEmployees;
+    public int totalEmployees;
+    public float reputation;
 
     //time value for day simulation
-    public static float minutePercentage;
-    public static float remoteIdsCheckTime;
-    public static float localIdsCheckTime;
-    public static float threatSpawnTime;
-    public static float threatSpawnRate;
+    public float minutePercentage;
+    public float remoteIdsCheckTime;
+    public float localIdsCheckTime;
+    public float threatSpawnTime;
+    public float threatSpawnRate;
 
     //value for ids and firewall success rate && ids check rate
-    public static int remoteIdsSuccessRate = 30;
-    public static float remoteIdsCheckRate = 30.0f;
-    public static float localIdsCheckRate = 30.0f;
-    public static int localIdsWrongCounter = 10;
-    public static int firewallSuccessRate = 30;
+    public int remoteIdsSuccessRate = 30;
+    public float remoteIdsCheckRate = 30.0f;
+    public float localIdsCheckRate = 30.0f;
+    public int localIdsWrongCounter = 10;
+    public int firewallSuccessRate = 30;
 
     //list storing ItemStore values with current levels
-    public static List<ItemStore> itemStoreList = new List<ItemStore>();
+    public List<ItemStore> itemStoreList = new List<ItemStore>();
 
     //values for defense against attack
-    public static int defenseDos = 10;
-    public static int defensePhishing = 10;
-    public static int defenseReplay = 10;
-    public static int defenseMitm = 10;
-    public static int defenseMalware = 10;
-    public static int defenseStuxnet = 10;
-    public static int defenseDragonfly = 10;
-    public static int defenseCreateRemote = 10;
+    public int defenseDos = 10;
+    public int defensePhishing = 10;
+    public int defenseReplay = 10;
+    public int defenseMitm = 10;
+    public int defenseMalware = 10;
+    public int defenseStuxnet = 10;
+    public int defenseDragonfly = 10;
+    public int defenseCreateRemote = 10;
 
-    public static int defensePlantResistance = 10;
+    public int defensePlantResistance = 10;
 
     //value for time needed to check id card
-    public static float idCardTime = 20.0f;
+    public float idCardTime = 20.0f;
 
     //value for pc && server && telephone item amount in the scene
-    public static int serverAmount = 1;
-    public static int pcAmount = 1;
-    public static int telephoneAmount = 1;
-    public static int securityCheckAmount = 1;
+    public int serverAmount = 1;
+    public int pcAmount = 1;
+    public int telephoneAmount = 1;
+    public int securityCheckAmount = 1;
 
     //values for time need for pc && server && telephone operations
-    public static float serverRebootTime = 40.0f;
-    public static float serverScanTime = 40.0f;
-    public static float serverCheckCfgTime = 40.0f;
-    public static float serverIdsCleanTime = 40.0f;
-    public static float serverAntiMalwareTime = 40.0f;
+    public float serverRebootTime = 40.0f;
+    public float serverScanTime = 40.0f;
+    public float serverCheckCfgTime = 40.0f;
+    public float serverIdsCleanTime = 40.0f;
+    public float serverAntiMalwareTime = 40.0f;
 
-    public static float pcRecapTime = 40.0f;
-    public static float pcPointOutTime = 40.0f;
+    public float pcRecapTime = 40.0f;
+    public float pcPointOutTime = 40.0f;
 
-    public static float telephoneCheckPlantTime = 40.0f;
-    public static float telephoneMoneyTime = 30.0f;
-    public static float telephoneMoneyCoolDown = 2.0f;
+    public float telephoneCheckPlantTime = 40.0f;
+    public float telephoneMoneyTime = 30.0f;
+    public float telephoneMoneyCoolDown = 2.0f;
 
     //value for security level
-    public static StringDb.ServerSecurity serverSecurity;
+    public StringDb.ServerSecurity serverSecurity;
 
     //value for last ai sprite generated
-    public static string lastMaleSpriteNumber;
-    public static string lastFemaleSpriteNumber;
+    public string lastMaleSpriteNumber;
+    public string lastFemaleSpriteNumber;
 
     //value for monthly threat tendencies 
-    public static StringDb.ThreatAttack monthlyThreat;
+    public StringDb.ThreatAttack monthlyThreat;
 
-    public static Dictionary<StringDb.ThreatAttack, float> weights = new Dictionary<StringDb.ThreatAttack, float>
+    public Dictionary<StringDb.ThreatAttack, float> weights = new Dictionary<StringDb.ThreatAttack, float>
     {
         {StringDb.ThreatAttack.dos, 0f},
         {StringDb.ThreatAttack.phishing, 0f},
@@ -129,14 +129,13 @@ public class GameData : MonoBehaviour
         {StringDb.ThreatAttack.createRemote, 0f}
     };
 
-    //valus for weighted randomizer for local and remote threats
-    public static WeightedRandomizer<int> threatRandomizer = new WeightedRandomizer<int>();
+    //values for weighted randomizer for local and remote threats
+    public WeightedRandomizer<int> threatRandomizer = new WeightedRandomizer<int>();
 
     //values for endgame counter
-    public static float winCounter;
-    public static float lossCounter;
+    public float winCounter;
+    public float lossCounter;
 
     //values to check if game has been won or lost
-    public static bool isGameWon;
-
+    public bool isGameWon;
 }

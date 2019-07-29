@@ -5,13 +5,14 @@ using BayatGames.SaveGameFree;
 using BayatGames.SaveGameFree.Serializers;
 using UnityEngine;
 
-public class DataLoader : MonoBehaviour
+public class SaveDataManager : MonoBehaviour
 {
-    private static string slotFile;
-    private static string imageSlotFile;
-    private static string slotPath;
-
-    private PlayerController playerController;
+    //THIS CLASS WILL MANAGE ALL THE SAVINGS AND THE LOADINGS OF GAME DATA
+    //MONITORED DATA:
+    //AI PRESENT IN THE SCENE
+    //ALL THE VALUES STORED IN THE GameData CLASS
+    //THREAT INFO(WHICH ARE SPAWNING, WHICH ARE SPAWNED)
+    //
     public void StartDataLoader()
     {
         //SaveGame.Serializer = new SaveGameXmlSerializer();

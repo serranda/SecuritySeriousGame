@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ServerPcListener : MonoBehaviour
@@ -20,13 +21,29 @@ public class ServerPcListener : MonoBehaviour
     public static bool isThreatDetected;
     public List<Threat> threatDetectedList;
 
+    private ILevelManager manager;
+
 
     private void Start()
     {
+        manager = SetLevelManager();
+
         isThreatDetected = false;
 
         interactiveSprite = GetComponent<InteractiveSprite>();
     }
+
+    private ILevelManager SetLevelManager()
+    {
+        ILevelManager iManager;
+        if (SceneManager.GetActiveScene().buildIndex == StringDb.level1SceneIndex)
+            iManager = FindObjectOfType<Level1Manager>();
+        else
+            iManager = FindObjectOfType<Level2Manager>();
+
+        return iManager;
+    }
+
 
     public void SetSeverPcListeners()
     {
@@ -49,7 +66,7 @@ public class ServerPcListener : MonoBehaviour
                 buttons[0].onClick.RemoveAllListeners();
                 buttons[0].onClick.AddListener(delegate
                 {
-                    ClassDb.level1Manager.SetFirewallActive(false);
+                    manager.SetFirewallActive(false);
                     interactiveSprite.ToggleMenu();
                 });
             }
@@ -59,7 +76,7 @@ public class ServerPcListener : MonoBehaviour
                 buttons[0].onClick.RemoveAllListeners();
                 buttons[0].onClick.AddListener(delegate
                 {
-                    ClassDb.level1Manager.SetFirewallActive(true);
+                    manager.SetFirewallActive(true);
                     interactiveSprite.ToggleMenu();
                 });
             }
@@ -71,7 +88,7 @@ public class ServerPcListener : MonoBehaviour
                 buttons[1].onClick.RemoveAllListeners();
                 buttons[1].onClick.AddListener(delegate
                 {
-                    ClassDb.level1Manager.SetRemoteIdsActive(false);
+                    manager.SetRemoteIdsActive(false);
                     interactiveSprite.ToggleMenu();
                 });
             }
@@ -81,7 +98,7 @@ public class ServerPcListener : MonoBehaviour
                 buttons[1].onClick.RemoveAllListeners();
                 buttons[1].onClick.AddListener(delegate
                 {
-                    ClassDb.level1Manager.SetRemoteIdsActive(true);
+                    manager.SetRemoteIdsActive(true);
                     interactiveSprite.ToggleMenu();
                 });
             }
@@ -92,7 +109,7 @@ public class ServerPcListener : MonoBehaviour
                 buttons[2].onClick.RemoveAllListeners();
                 buttons[2].onClick.AddListener(delegate
                 {
-                    ClassDb.level1Manager.SetLocalIdsActive(false);
+                    manager.SetLocalIdsActive(false);
                     interactiveSprite.ToggleMenu();
                 });
             }
@@ -102,7 +119,7 @@ public class ServerPcListener : MonoBehaviour
                 buttons[2].onClick.RemoveAllListeners();
                 buttons[2].onClick.AddListener(delegate
                 {
-                    ClassDb.level1Manager.SetLocalIdsActive(true);
+                    manager.SetLocalIdsActive(true);
                     interactiveSprite.ToggleMenu();
                 });
             }
@@ -149,7 +166,7 @@ public class ServerPcListener : MonoBehaviour
                 buttons[0].onClick.RemoveAllListeners();
                 buttons[0].onClick.AddListener(delegate
                 {
-                    ClassDb.level1Manager.SetFirewallActive(false);
+                    manager.SetFirewallActive(false);
                     interactiveSprite.ToggleMenu();
                 });
             }
@@ -159,7 +176,7 @@ public class ServerPcListener : MonoBehaviour
                 buttons[0].onClick.RemoveAllListeners();
                 buttons[0].onClick.AddListener(delegate
                 {
-                    ClassDb.level1Manager.SetFirewallActive(true);
+                    manager.SetFirewallActive(true);
                     interactiveSprite.ToggleMenu();
                 });
             }
@@ -171,7 +188,7 @@ public class ServerPcListener : MonoBehaviour
                 buttons[1].onClick.RemoveAllListeners();
                 buttons[1].onClick.AddListener(delegate
                 {
-                    ClassDb.level1Manager.SetRemoteIdsActive(false);
+                    manager.SetRemoteIdsActive(false);
                     interactiveSprite.ToggleMenu();
                 });
             }
@@ -181,7 +198,7 @@ public class ServerPcListener : MonoBehaviour
                 buttons[1].onClick.RemoveAllListeners();
                 buttons[1].onClick.AddListener(delegate
                 {
-                    ClassDb.level1Manager.SetRemoteIdsActive(true);
+                    manager.SetRemoteIdsActive(true);
                     interactiveSprite.ToggleMenu();
                 });
             }
@@ -192,7 +209,7 @@ public class ServerPcListener : MonoBehaviour
                 buttons[2].onClick.RemoveAllListeners();
                 buttons[2].onClick.AddListener(delegate
                 {
-                    ClassDb.level1Manager.SetLocalIdsActive(false);
+                    manager.SetLocalIdsActive(false);
                     interactiveSprite.ToggleMenu();
                 });
             }
@@ -202,7 +219,7 @@ public class ServerPcListener : MonoBehaviour
                 buttons[2].onClick.RemoveAllListeners();
                 buttons[2].onClick.AddListener(delegate
                 {
-                    ClassDb.level1Manager.SetLocalIdsActive(true);
+                    manager.SetLocalIdsActive(true);
                     interactiveSprite.ToggleMenu();
                 });
             }
@@ -226,7 +243,7 @@ public class ServerPcListener : MonoBehaviour
     {
 
         TimeEvent progressEvent = ClassDb.timeEventManager.NewTimeEvent(
-            GameData.serverAntiMalwareTime, sprite.gameObject, true, true);
+            manager.GetGameData().serverAntiMalwareTime, sprite.gameObject, true, true);
 
         if (Level1Manager.hasStuxnetDeployed)
         {
@@ -243,7 +260,7 @@ public class ServerPcListener : MonoBehaviour
             yield return new WaitUntil(() => Level1Manager.hasPlantChecked);
         }
 
-        ClassDb.level1Manager.timeEventList.Add(progressEvent);
+        manager.GetTimeEventList().Add(progressEvent);
 
         antiMalwareScanRoutine = AntiMalwareScan(progressEvent, sprite);
         StartCoroutine(antiMalwareScanRoutine);
@@ -251,21 +268,21 @@ public class ServerPcListener : MonoBehaviour
 
     private IEnumerator AntiMalwareScan(TimeEvent progressEvent, InteractiveSprite sprite)
     {
-        yield return new WaitWhile(() => ClassDb.level1Manager.timeEventList.Contains(progressEvent));
+        yield return new WaitWhile(() => manager.GetTimeEventList().Contains(progressEvent));
 
         //Reset money loss due to replay attack
-        ClassDb.level1Manager.moneyLossList[StringDb.ThreatAttack.malware] = 0;
-        ClassDb.level1Manager.moneyLossList[StringDb.ThreatAttack.stuxnet] = 0;
+        manager.getMoneyLossList()[StringDb.ThreatAttack.malware] = 0;
+        manager.getMoneyLossList()[StringDb.ThreatAttack.stuxnet] = 0;
 
         ////reset base money earn
         //ClassDb.worldManager.totalMoneyEarnPerMinute = StringDb.baseEarn;
 
         //restart money generation
-        ClassDb.level1Manager.isMoneyLoss = true;
+        manager.SetMoneyLossBool(true);
         //ClassDb.worldManager.isMoneyEarn = true;
         
         //restart all time event
-        ClassDb.timeEventManager.StartTimeEventList(ClassDb.level1Manager.timeEventList);
+        ClassDb.timeEventManager.StartTimeEventList(manager.GetTimeEventList());
 
         sprite.SetInteraction(true);
 
@@ -290,9 +307,9 @@ public class ServerPcListener : MonoBehaviour
 
         //start duration: 90 min
         TimeEvent progressEvent = ClassDb.timeEventManager.NewTimeEvent(
-            GameData.serverIdsCleanTime, interactiveSprite.gameObject, true, true);
+            manager.GetGameData().serverIdsCleanTime, interactiveSprite.gameObject, true, true);
 
-        ClassDb.level1Manager.timeEventList.Add(progressEvent);
+        manager.GetTimeEventList().Add(progressEvent);
 
         idsCleanRoutine = IdsClean(progressEvent);
         StartCoroutine(idsCleanRoutine);
@@ -300,14 +317,14 @@ public class ServerPcListener : MonoBehaviour
 
     private IEnumerator IdsClean(TimeEvent progressEvent)
     {
-        threatDetectedList = ClassDb.level1Manager.threatDetectedList;
+        threatDetectedList = manager.GetThreatDetectedList();
 
-        yield return new WaitWhile(() => ClassDb.level1Manager.timeEventList.Contains(progressEvent));
+        yield return new WaitWhile(() => manager.GetTimeEventList().Contains(progressEvent));
 
         foreach (Threat threat in threatDetectedList)
         {
-            ClassDb.level1Manager.timeEventList.Remove(ClassDb.timeEventManager.GetThreatTimeEvent(threat));
-            ClassDb.level1Manager.remoteThreats.Remove(threat);
+            manager.GetTimeEventList().Remove(ClassDb.timeEventManager.GetThreatTimeEvent(threat));
+            manager.GetRemoteThreats().Remove(threat);
         }
 
         isThreatDetected = false;
@@ -321,8 +338,8 @@ public class ServerPcListener : MonoBehaviour
         interactiveSprite.SetInteraction(false);
 
         TimeEvent progressEvent = ClassDb.timeEventManager.NewTimeEvent(
-            GameData.serverRebootTime, interactiveSprite.gameObject, true, true);
-        ClassDb.level1Manager.timeEventList.Add(progressEvent);
+            manager.GetGameData().serverRebootTime, interactiveSprite.gameObject, true, true);
+        manager.GetTimeEventList().Add(progressEvent);
 
         rebootRoutine = RebootServer(progressEvent);
         StartCoroutine(rebootRoutine);
@@ -330,20 +347,20 @@ public class ServerPcListener : MonoBehaviour
 
     private IEnumerator RebootServer(TimeEvent progressEvent)
     {
-        yield return new WaitWhile(() => ClassDb.level1Manager.timeEventList.Contains(progressEvent));
+        yield return new WaitWhile(() => manager.GetTimeEventList().Contains(progressEvent));
 
         //Reset money loss due to dos attack
-        ClassDb.level1Manager.moneyLossList[StringDb.ThreatAttack.dos] = 0;
+        manager.getMoneyLossList()[StringDb.ThreatAttack.dos] = 0;
         
         ////reset base money earn
         //ClassDb.worldManager.totalMoneyEarnPerMinute = StringDb.baseEarn;
 
         //restart money generation
-        ClassDb.level1Manager.isMoneyLoss = true;
+        manager.SetMoneyLossBool(true);
         //ClassDb.worldManager.isMoneyEarn = true;
 
         //restart all time event
-        ClassDb.timeEventManager.StartTimeEventList(ClassDb.level1Manager.timeEventList);
+        ClassDb.timeEventManager.StartTimeEventList(manager.GetTimeEventList());
 
         interactiveSprite.SetInteraction(true);
 
@@ -366,7 +383,7 @@ public class ServerPcListener : MonoBehaviour
     public IEnumerator BeforeCheckNetworkCfg(InteractiveSprite sprite)
     {
         TimeEvent progressEvent = ClassDb.timeEventManager.NewTimeEvent(
-            GameData.serverCheckCfgTime, sprite.gameObject, true, true);
+            manager.GetGameData().serverCheckCfgTime, sprite.gameObject, true, true);
 
         if (Level1Manager.hasReplayDeployed)
         {
@@ -395,8 +412,8 @@ public class ServerPcListener : MonoBehaviour
 
             yield return new WaitUntil(() => Level1Manager.hasMalwareChecked);
         }
-        
-        ClassDb.level1Manager.timeEventList.Add(progressEvent);
+
+        manager.GetTimeEventList().Add(progressEvent);
 
         checkNetworkRoutine = CheckNetworkCfg(progressEvent, sprite);
         StartCoroutine(checkNetworkRoutine);
@@ -404,22 +421,22 @@ public class ServerPcListener : MonoBehaviour
 
     private IEnumerator CheckNetworkCfg(TimeEvent progressEvent, InteractiveSprite sprite)
     {
-        yield return new WaitWhile(() => ClassDb.level1Manager.timeEventList.Contains(progressEvent));
+        yield return new WaitWhile(() => manager.GetTimeEventList().Contains(progressEvent));
 
         //Reset money loss due to replay attack
-        ClassDb.level1Manager.moneyLossList[StringDb.ThreatAttack.replay] = 0;
-        ClassDb.level1Manager.moneyLossList[StringDb.ThreatAttack.mitm] = 0;
-        ClassDb.level1Manager.moneyLossList[StringDb.ThreatAttack.dragonfly] = 0;
+        manager.getMoneyLossList()[StringDb.ThreatAttack.replay] = 0;
+        manager.getMoneyLossList()[StringDb.ThreatAttack.mitm] = 0;
+        manager.getMoneyLossList()[StringDb.ThreatAttack.dragonfly] = 0;
 
         ////reset base money earn
         //ClassDb.worldManager.totalMoneyEarnPerMinute = StringDb.baseEarn;
 
         //restart money generation
-        ClassDb.level1Manager.isMoneyLoss = true;
+        manager.SetMoneyLossBool(true);
         //ClassDb.worldManager.isMoneyEarn = true;
 
         //restart all time event
-        ClassDb.timeEventManager.StartTimeEventList(ClassDb.level1Manager.timeEventList);
+        ClassDb.timeEventManager.StartTimeEventList(manager.GetTimeEventList());
 
         sprite.SetInteraction(true);
 

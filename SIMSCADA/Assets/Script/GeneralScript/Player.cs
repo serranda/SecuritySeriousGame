@@ -6,6 +6,8 @@ public class Player
     public string password;
     public string name;
     public string surname;
+
+    public static int staticInt = 72;
     public string folderName
     {
         get

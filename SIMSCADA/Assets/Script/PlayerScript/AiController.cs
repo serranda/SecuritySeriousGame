@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using MuteColossus;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 // ReSharper disable IteratorNeverReturns
@@ -84,8 +85,11 @@ public class AiController : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
     private static readonly int inputY = Animator.StringToHash("inputY");
     private static readonly int inputX = Animator.StringToHash("inputX");
 
+    private ILevelManager manager;
+
     private void OnEnable()
     {
+        manager = SetLevelManager();
         rb2D = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         boxCollider2D = GetComponent<BoxCollider2D>();
@@ -106,7 +110,7 @@ public class AiController : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
 
         wrongDestinationCounter = 0;
 
-        aiId = GameData.lastAiId;
+        aiId = manager.GetGameData().lastAiId;
         radiusBase = 15;
         aiSpeed = 1.5f * StringDb.speedMultiplier;
         onClickAi = false;
@@ -129,7 +133,7 @@ public class AiController : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
         if (toDestroy) return;
         spriteToAnimate = prSpriteName;
         ToggleMenu();
-        GameData.pressedSprite = gameObject.name;
+        manager.GetGameData().pressedSprite = gameObject.name;
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -152,6 +156,17 @@ public class AiController : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
 
         aiSpeed = 1.5f * StringDb.speedMultiplier;
 
+    }
+
+    private ILevelManager SetLevelManager()
+    {
+        ILevelManager iManager;
+        if (SceneManager.GetActiveScene().buildIndex == StringDb.level1SceneIndex)
+            iManager = FindObjectOfType<Level1Manager>();
+        else
+            iManager = FindObjectOfType<Level2Manager>();
+
+        return iManager;
     }
 
     public void AfterEnable()
@@ -195,7 +210,7 @@ public class AiController : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
 
     private void SetTrustedAi()
     {
-        isTrusted = Random.Range(0, 100) <= GameData.trustedEmployees * 100 / GameData.totalEmployees ;
+        isTrusted = Random.Range(0, 100) <= manager.GetGameData().trustedEmployees * 100 / manager.GetGameData().totalEmployees ;
         if (isTrusted)
         {
             dangerResistance = StringDb.AiDangerResistance.veryHigh;
@@ -222,7 +237,7 @@ public class AiController : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
         //normal employer, need to know which security level is set
         else
         {
-            switch (GameData.serverSecurity)
+            switch (manager.GetGameData().serverSecurity)
             {
                 case StringDb.ServerSecurity.strict:
                     pathfinder = ClassDb.strictedPathfinder;
@@ -299,9 +314,9 @@ public class AiController : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
             {
                 spriteNumber = Random.Range(1, 6).ToString("D2");
 
-            } while (spriteNumber.Equals(GameData.lastFemaleSpriteNumber));
+            } while (spriteNumber.Equals(manager.GetGameData().lastFemaleSpriteNumber));
 
-            GameData.lastFemaleSpriteNumber = spriteNumber;
+            manager.GetGameData().lastFemaleSpriteNumber = spriteNumber;
         }
         else
         {
@@ -309,9 +324,9 @@ public class AiController : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
             {
                 spriteNumber = Random.Range(1, 6).ToString("D2");
 
-            } while (spriteNumber.Equals(GameData.lastMaleSpriteNumber));
+            } while (spriteNumber.Equals(manager.GetGameData().lastMaleSpriteNumber));
 
-            GameData.lastMaleSpriteNumber = spriteNumber;
+            manager.GetGameData().lastMaleSpriteNumber = spriteNumber;
         }
 
     }
@@ -609,7 +624,7 @@ public class AiController : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
 
     public void ToggleMenu()
     {
-        if (ActionButtonManager.buttonEnabled && gameObject.name == GameData.pressedSprite)
+        if (ActionButtonManager.buttonEnabled && gameObject.name == manager.GetGameData().pressedSprite)
         {
             ClassDb.prefabManager.ReturnPrefab(actionMenu.gameObject, PrefabManager.actionIndex);
         }

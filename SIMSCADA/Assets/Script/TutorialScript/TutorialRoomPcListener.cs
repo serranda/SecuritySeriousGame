@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class TutorialRoomPcListener : MonoBehaviour
@@ -26,11 +27,25 @@ public class TutorialRoomPcListener : MonoBehaviour
     private IEnumerator hmipanelRoutine;
     private IEnumerator market1Routine;
     private IEnumerator market2Routine;
+    private ILevelManager manager;
 
 
     private void Start()
     {
+        manager = SetLevelManager();
+        
         interactiveSprite = GetComponent<TutorialInteractiveSprite>();
+    }
+
+    private ILevelManager SetLevelManager()
+    {
+        ILevelManager iManager;
+        if (SceneManager.GetActiveScene().buildIndex == StringDb.level1SceneIndex)
+            iManager = FindObjectOfType<Level1Manager>();
+        else
+            iManager = FindObjectOfType<Level2Manager>();
+
+        return iManager;
     }
 
     public void SetComputerListeners()
@@ -44,7 +59,7 @@ public class TutorialRoomPcListener : MonoBehaviour
 
         List<Button> buttons;
 
-        if (GameData.pointOutPurchased)
+        if (manager.GetGameData().pointOutPurchased)
         {
             if (Level1Manager.hasDosDeployed ||
                 Level1Manager.hasPhishingDeployed ||
@@ -79,7 +94,7 @@ public class TutorialRoomPcListener : MonoBehaviour
                     buttons[2].onClick.RemoveAllListeners();
                     buttons[2].onClick.AddListener(delegate
                     {
-                        ClassDb.level1Manager.SetFirewallActive(false);
+                        manager.SetFirewallActive(false);
                         interactiveSprite.ToggleMenu();
                     });
                 }
@@ -89,7 +104,7 @@ public class TutorialRoomPcListener : MonoBehaviour
                     buttons[2].onClick.RemoveAllListeners();
                     buttons[2].onClick.AddListener(delegate
                     {
-                        ClassDb.level1Manager.SetFirewallActive(true);
+                        manager.SetFirewallActive(true);
                         interactiveSprite.ToggleMenu();
                     });
                 }
@@ -101,7 +116,7 @@ public class TutorialRoomPcListener : MonoBehaviour
                     buttons[3].onClick.RemoveAllListeners();
                     buttons[3].onClick.AddListener(delegate
                     {
-                        ClassDb.level1Manager.SetRemoteIdsActive(false);
+                        manager.SetRemoteIdsActive(false);
                         interactiveSprite.ToggleMenu();
                     });
                 }
@@ -111,7 +126,7 @@ public class TutorialRoomPcListener : MonoBehaviour
                     buttons[3].onClick.RemoveAllListeners();
                     buttons[3].onClick.AddListener(delegate
                     {
-                        ClassDb.level1Manager.SetRemoteIdsActive(true);
+                        manager.SetRemoteIdsActive(true);
                         interactiveSprite.ToggleMenu();
                     });
                 }
@@ -122,7 +137,7 @@ public class TutorialRoomPcListener : MonoBehaviour
                     buttons[4].onClick.RemoveAllListeners();
                     buttons[4].onClick.AddListener(delegate
                     {
-                        ClassDb.level1Manager.SetLocalIdsActive(false);
+                        manager.SetLocalIdsActive(false);
                         interactiveSprite.ToggleMenu();
                     });
                 }
@@ -132,7 +147,7 @@ public class TutorialRoomPcListener : MonoBehaviour
                     buttons[4].onClick.RemoveAllListeners();
                     buttons[4].onClick.AddListener(delegate
                     {
-                        ClassDb.level1Manager.SetLocalIdsActive(true);
+                        manager.SetLocalIdsActive(true);
                         interactiveSprite.ToggleMenu();
                     });
                 }
@@ -188,7 +203,7 @@ public class TutorialRoomPcListener : MonoBehaviour
                     buttons[2].onClick.RemoveAllListeners();
                     buttons[2].onClick.AddListener(delegate
                     {
-                        ClassDb.level1Manager.SetFirewallActive(false);
+                        manager.SetFirewallActive(false);
                         interactiveSprite.ToggleMenu();
                     });
                 }
@@ -198,7 +213,7 @@ public class TutorialRoomPcListener : MonoBehaviour
                     buttons[2].onClick.RemoveAllListeners();
                     buttons[2].onClick.AddListener(delegate
                     {
-                        ClassDb.level1Manager.SetFirewallActive(true);
+                        manager.SetFirewallActive(true);
                         interactiveSprite.ToggleMenu();
                     });
                 }
@@ -210,7 +225,7 @@ public class TutorialRoomPcListener : MonoBehaviour
                     buttons[3].onClick.RemoveAllListeners();
                     buttons[3].onClick.AddListener(delegate
                     {
-                        ClassDb.level1Manager.SetRemoteIdsActive(false);
+                        manager.SetRemoteIdsActive(false);
                         interactiveSprite.ToggleMenu();
                     });
                 }
@@ -220,7 +235,7 @@ public class TutorialRoomPcListener : MonoBehaviour
                     buttons[3].onClick.RemoveAllListeners();
                     buttons[3].onClick.AddListener(delegate
                     {
-                        ClassDb.level1Manager.SetRemoteIdsActive(true);
+                        manager.SetRemoteIdsActive(true);
                         interactiveSprite.ToggleMenu();
                     });
                 }
@@ -231,7 +246,7 @@ public class TutorialRoomPcListener : MonoBehaviour
                     buttons[4].onClick.RemoveAllListeners();
                     buttons[4].onClick.AddListener(delegate
                     {
-                        ClassDb.level1Manager.SetLocalIdsActive(false);
+                        manager.SetLocalIdsActive(false);
                         interactiveSprite.ToggleMenu();
                     });
                 }
@@ -241,7 +256,7 @@ public class TutorialRoomPcListener : MonoBehaviour
                     buttons[4].onClick.RemoveAllListeners();
                     buttons[4].onClick.AddListener(delegate
                     {
-                        ClassDb.level1Manager.SetLocalIdsActive(true);
+                        manager.SetLocalIdsActive(true);
                         interactiveSprite.ToggleMenu();
                     });
                 }
@@ -290,7 +305,7 @@ public class TutorialRoomPcListener : MonoBehaviour
                     buttons[2].onClick.RemoveAllListeners();
                     buttons[2].onClick.AddListener(delegate
                     {
-                        ClassDb.level1Manager.SetFirewallActive(false);
+                        manager.SetFirewallActive(false);
                         interactiveSprite.ToggleMenu();
                     });
                 }
@@ -300,7 +315,7 @@ public class TutorialRoomPcListener : MonoBehaviour
                     buttons[2].onClick.RemoveAllListeners();
                     buttons[2].onClick.AddListener(delegate
                     {
-                        ClassDb.level1Manager.SetFirewallActive(true);
+                        manager.SetFirewallActive(true);
                         interactiveSprite.ToggleMenu();
                     });
                 }
@@ -311,7 +326,7 @@ public class TutorialRoomPcListener : MonoBehaviour
                     buttons[3].onClick.RemoveAllListeners();
                     buttons[3].onClick.AddListener(delegate
                     {
-                        ClassDb.level1Manager.SetRemoteIdsActive(false);
+                        manager.SetRemoteIdsActive(false);
                         interactiveSprite.ToggleMenu();
                     });
                 }
@@ -321,7 +336,7 @@ public class TutorialRoomPcListener : MonoBehaviour
                     buttons[3].onClick.RemoveAllListeners();
                     buttons[3].onClick.AddListener(delegate
                     {
-                        ClassDb.level1Manager.SetRemoteIdsActive(true);
+                        manager.SetRemoteIdsActive(true);
                         interactiveSprite.ToggleMenu();
                     });
                 }
@@ -332,7 +347,7 @@ public class TutorialRoomPcListener : MonoBehaviour
                     buttons[4].onClick.RemoveAllListeners();
                     buttons[4].onClick.AddListener(delegate
                     {
-                        ClassDb.level1Manager.SetLocalIdsActive(false);
+                        manager.SetLocalIdsActive(false);
                         interactiveSprite.ToggleMenu();
                     });
                 }
@@ -342,7 +357,7 @@ public class TutorialRoomPcListener : MonoBehaviour
                     buttons[4].onClick.RemoveAllListeners();
                     buttons[4].onClick.AddListener(delegate
                     {
-                        ClassDb.level1Manager.SetLocalIdsActive(true);
+                        manager.SetLocalIdsActive(true);
                         interactiveSprite.ToggleMenu();
                     });
                 }
@@ -390,7 +405,7 @@ public class TutorialRoomPcListener : MonoBehaviour
                     buttons[2].onClick.RemoveAllListeners();
                     buttons[2].onClick.AddListener(delegate
                     {
-                        ClassDb.level1Manager.SetFirewallActive(false);
+                        manager.SetFirewallActive(false);
                         interactiveSprite.ToggleMenu();
                     });
                 }
@@ -400,7 +415,7 @@ public class TutorialRoomPcListener : MonoBehaviour
                     buttons[2].onClick.RemoveAllListeners();
                     buttons[2].onClick.AddListener(delegate
                     {
-                        ClassDb.level1Manager.SetFirewallActive(true);
+                        manager.SetFirewallActive(true);
                         interactiveSprite.ToggleMenu();
                     });
                 }
@@ -412,7 +427,7 @@ public class TutorialRoomPcListener : MonoBehaviour
                     buttons[3].onClick.RemoveAllListeners();
                     buttons[3].onClick.AddListener(delegate
                     {
-                        ClassDb.level1Manager.SetRemoteIdsActive(false);
+                        manager.SetRemoteIdsActive(false);
                         interactiveSprite.ToggleMenu();
                     });
                 }
@@ -422,7 +437,7 @@ public class TutorialRoomPcListener : MonoBehaviour
                     buttons[3].onClick.RemoveAllListeners();
                     buttons[3].onClick.AddListener(delegate
                     {
-                        ClassDb.level1Manager.SetRemoteIdsActive(true);
+                        manager.SetRemoteIdsActive(true);
                         interactiveSprite.ToggleMenu();
                     });
                 }
@@ -433,7 +448,7 @@ public class TutorialRoomPcListener : MonoBehaviour
                     buttons[4].onClick.RemoveAllListeners();
                     buttons[4].onClick.AddListener(delegate
                     {
-                        ClassDb.level1Manager.SetLocalIdsActive(false);
+                        manager.SetLocalIdsActive(false);
                         interactiveSprite.ToggleMenu();
                     });
                 }
@@ -443,7 +458,7 @@ public class TutorialRoomPcListener : MonoBehaviour
                     buttons[4].onClick.RemoveAllListeners();
                     buttons[4].onClick.AddListener(delegate
                     {
-                        ClassDb.level1Manager.SetLocalIdsActive(true);
+                        manager.SetLocalIdsActive(true);
                         interactiveSprite.ToggleMenu();
                     });
                 }

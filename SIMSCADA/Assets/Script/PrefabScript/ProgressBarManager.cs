@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 
@@ -13,8 +14,13 @@ public class ProgressBarManager : MonoBehaviour, IPointerEnterHandler, IPointerE
 
     private CanvasGroup canvasGroup;
 
+    private ILevelManager manager;
+
+
     private void Start()
     {
+        manager = SetLevelManager();
+
         progressBar = GetComponent<Canvas>();
         canvasGroup = GetComponent<CanvasGroup>();
     }
@@ -24,7 +30,7 @@ public class ProgressBarManager : MonoBehaviour, IPointerEnterHandler, IPointerE
         Debug.Log(progressBar.name + " ENTERED");
 
         TimeEvent first = null;
-        foreach (TimeEvent x in ClassDb.level1Manager.timeEventList)
+        foreach (TimeEvent x in manager.GetTimeEventList())
         {
             if (x.progressBar != progressBar) continue;
             first = x;
@@ -57,7 +63,7 @@ public class ProgressBarManager : MonoBehaviour, IPointerEnterHandler, IPointerE
         Debug.Log(progressBar.name + " EXITED");
 
         TimeEvent first = null;
-        foreach (TimeEvent x in ClassDb.level1Manager.timeEventList)
+        foreach (TimeEvent x in manager.GetTimeEventList())
         {
             if (x.progressBar != progressBar) continue;
             first = x;
@@ -66,6 +72,17 @@ public class ProgressBarManager : MonoBehaviour, IPointerEnterHandler, IPointerE
 
         if (first == null || !first.stoppable) return;
         ClassDb.prefabManager.ReturnPrefab(button.gameObject, PrefabManager.pbBtnIndex);
+    }
+
+    private ILevelManager SetLevelManager()
+    {
+        ILevelManager iManager;
+        if (SceneManager.GetActiveScene().buildIndex == StringDb.level1SceneIndex)
+            iManager = FindObjectOfType<Level1Manager>();
+        else
+            iManager = FindObjectOfType<Level2Manager>();
+
+        return iManager;
     }
 
 
@@ -102,6 +119,6 @@ public class ProgressBarManager : MonoBehaviour, IPointerEnterHandler, IPointerE
             GetComponentInParent<AiListener>().StopAllCoroutines();
         }
 
-        ClassDb.level1Manager.timeEventList.Remove(ClassDb.level1Manager.timeEventList.FirstOrDefault(x => x.progressBar == progressBar));
+        manager.GetTimeEventList().Remove(manager.GetTimeEventList().FirstOrDefault(x => x.progressBar == progressBar));
     }
 }

@@ -1,14 +1,33 @@
 ﻿using System;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using WeightedRandomization;
 using Random = UnityEngine.Random;
 
 public class ThreatManager : MonoBehaviour
 {
+    private ILevelManager manager;
+
+    private void Start()
+    {
+        manager = SetLevelManager();
+    }
+
+    private ILevelManager SetLevelManager()
+    {
+        ILevelManager iManager;
+        if (SceneManager.GetActiveScene().buildIndex == StringDb.level1SceneIndex)
+            iManager = FindObjectOfType<Level1Manager>();
+        else
+            iManager = FindObjectOfType<Level2Manager>();
+
+        return iManager;
+    }
+
     public Threat NewRandomLevel1Threat()
     {
-        int id = ++GameData.lastThreatId;
+        int id = ++manager.GetGameData().lastThreatId;
 
         StringDb.ThreatType threatType = (StringDb.ThreatType)Random.Range(0, 3);
 
@@ -25,7 +44,7 @@ public class ThreatManager : MonoBehaviour
             case StringDb.ThreatType.local:
                 do
                 {
-                    threatAttack = (StringDb.ThreatAttack)GameData.threatRandomizer.GetNext();
+                    threatAttack = (StringDb.ThreatAttack)manager.GetGameData().threatRandomizer.GetNext();
                 } while ((int)threatAttack < 3 ||
                          threatAttack == StringDb.ThreatAttack.stuxnet ||
                          threatAttack == StringDb.ThreatAttack.dragonfly ||
@@ -34,7 +53,7 @@ public class ThreatManager : MonoBehaviour
             case StringDb.ThreatType.remote:
                 do
                 {
-                    threatAttack = (StringDb.ThreatAttack)GameData.threatRandomizer.GetNext();
+                    threatAttack = (StringDb.ThreatAttack)manager.GetGameData().threatRandomizer.GetNext();
 
                 } while ((int)threatAttack > 5 ||
                          threatAttack == StringDb.ThreatAttack.replay ||
@@ -91,7 +110,7 @@ public class ThreatManager : MonoBehaviour
     }
     public Threat NewRandomLevel2Threat()
     {
-        int id = ++GameData.lastThreatId;
+        int id = ++manager.GetGameData().lastThreatId;
 
         StringDb.ThreatType threatType = (StringDb.ThreatType)Random.Range(0, 3);
 
@@ -108,14 +127,14 @@ public class ThreatManager : MonoBehaviour
             case StringDb.ThreatType.local:
                 do
                 {
-                    threatAttack = (StringDb.ThreatAttack)GameData.threatRandomizer.GetNext();
+                    threatAttack = (StringDb.ThreatAttack)manager.GetGameData().threatRandomizer.GetNext();
 
                 } while ((int)threatAttack < 3);
                 break;
             case StringDb.ThreatType.remote:
                 do
                 {
-                    threatAttack = (StringDb.ThreatAttack)GameData.threatRandomizer.GetNext();
+                    threatAttack = (StringDb.ThreatAttack)manager.GetGameData().threatRandomizer.GetNext();
 
                 } while ((int)threatAttack > 5);
                 break;
@@ -170,7 +189,7 @@ public class ThreatManager : MonoBehaviour
 
     public Threat NewThreatFromTimeEvent(AiController ai)
     {
-        TimeEvent timeEvent = ClassDb.level1Manager.timeEventList.FirstOrDefault(x => x.threat.aiController == ai);
+        TimeEvent timeEvent = manager.GetTimeEventList().FirstOrDefault(x => x.threat.aiController == ai);
 
         if (timeEvent == null) return null;
 
@@ -186,7 +205,7 @@ public class ThreatManager : MonoBehaviour
     //---------------------------------------------------------------------------------------------------------------------
     public Threat NewLocalThreat()
     {
-        int id = ++GameData.lastThreatId;
+        int id = ++manager.GetGameData().lastThreatId;
         StringDb.ThreatType threatType = StringDb.ThreatType.local;
 
         float deployTime = Random.Range(2f, 6f);
@@ -197,7 +216,7 @@ public class ThreatManager : MonoBehaviour
 
         do
         {
-            threatAttack = (StringDb.ThreatAttack)GameData.threatRandomizer.GetNext();
+            threatAttack = (StringDb.ThreatAttack)manager.GetGameData().threatRandomizer.GetNext();
 
         } while ((int)threatAttack < 3);
 
@@ -236,7 +255,7 @@ public class ThreatManager : MonoBehaviour
 
     public Threat NewRemoteThreat()
     {
-        int id = ++GameData.lastThreatId;
+        int id = ++manager.GetGameData().lastThreatId;
         StringDb.ThreatType threatType = StringDb.ThreatType.remote;
 
         float deployTime = Random.Range(2f, 6f);
@@ -247,7 +266,7 @@ public class ThreatManager : MonoBehaviour
 
         do
         {
-            threatAttack = (StringDb.ThreatAttack)GameData.threatRandomizer.GetNext();
+            threatAttack = (StringDb.ThreatAttack)manager.GetGameData().threatRandomizer.GetNext();
 
         } while ((int)threatAttack > 5);
 
@@ -286,7 +305,7 @@ public class ThreatManager : MonoBehaviour
 
     public Threat NewFakeLocalThreat()
     {
-        int id = ++GameData.lastThreatId;
+        int id = ++manager.GetGameData().lastThreatId;
         StringDb.ThreatType threatType = StringDb.ThreatType.fakeLocal;
 
         float deployTime = Random.Range(2f, 6f);

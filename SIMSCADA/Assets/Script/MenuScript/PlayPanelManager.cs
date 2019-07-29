@@ -70,7 +70,8 @@ public class PlayPanelManager : MonoBehaviour
                 slotCurrentBtn.onClick.AddListener(delegate
                 {
                     //Debug.Log(index);
-                    GameData.slotIndex = index;
+                    //TODO FIX
+                    //GameData.slotIndex = index;
                     ClassDb.sceneLoader.StartLoadByIndex(StringDb.level1SceneIndex);
                 });
                 byte[] data = File.ReadAllBytes(string.Concat(slotPath, StringDb.imageSlotExt));
@@ -92,7 +93,8 @@ public class PlayPanelManager : MonoBehaviour
                 slotCurrentBtn.onClick.AddListener(delegate
                 {
                     //Debug.Log(index);
-                    GameData.slotIndex = index;
+                    //TODO FIX
+                    //GameData.slotIndex = index;
                     ClassDb.sceneLoader.StartLoadByIndex(StringDb.level1SceneIndex);
                 });
                 slotImageList[index].sprite = Resources.Load<Sprite>("LoadPicture/EmptySlotImage");

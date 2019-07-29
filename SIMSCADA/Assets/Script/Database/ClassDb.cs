@@ -4,8 +4,8 @@ using UnityEngine.SceneManagement;
 public class ClassDb : MonoBehaviour
 {
     public static PrefabManager prefabManager;
-    public static Level1Manager level1Manager;
-    public static TutorialManager tutorialManager;
+    //public static Level1Manager level1Manager;
+    //public static TutorialManager tutorialManager;
     public static MenuManager menuManager;
     public static SceneLoader sceneLoader;
     public static CharactersCommon charactersCommon;
@@ -22,7 +22,7 @@ public class ClassDb : MonoBehaviour
     public static DialogBoxManager dialogBoxManager;
     public static TutorialDialogBoxManager tutorialDialogBoxManager;
     public static IdCardManager idCardManager;
-    public static DataLoader dataLoader;
+    public static SaveDataManager saveDataManager;
     public static DataCollector dataCollector;
     public static LogManager logManager;
 
@@ -32,8 +32,8 @@ public class ClassDb : MonoBehaviour
     private void Awake()
     {
         prefabManager = GetComponent<PrefabManager>();
-        level1Manager = GetComponent<Level1Manager>();
-        tutorialManager = GetComponent<TutorialManager>();
+        //level1Manager = GetComponent<Level1Manager>();
+        //tutorialManager = GetComponent<TutorialManager>();
         menuManager = GetComponent<MenuManager>();
         sceneLoader = GetComponent<SceneLoader>();
         charactersCommon = GetComponent<CharactersCommon>();
@@ -50,7 +50,7 @@ public class ClassDb : MonoBehaviour
         dialogBoxManager = GetComponent<DialogBoxManager>();
         tutorialDialogBoxManager = GetComponent<TutorialDialogBoxManager>();
         idCardManager = GetComponent<IdCardManager>();
-        dataLoader = GetComponent<DataLoader>();
+        saveDataManager = GetComponent<SaveDataManager>();
         dataCollector = GetComponent<DataCollector>();
         logManager = GetComponent<LogManager>();
 

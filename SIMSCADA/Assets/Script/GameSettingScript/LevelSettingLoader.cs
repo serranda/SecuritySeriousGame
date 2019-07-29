@@ -6,7 +6,6 @@ public class LevelSettingLoader : MonoBehaviour
 
     public void Awake()
     {
-
         gameSettingManager.StartCheckWebSettingsFileRoutine();
     }
 

@@ -14,7 +14,8 @@ public class SceneLoader : MonoBehaviour
 
     public void StartLoadByIndex(int sceneIndex)
     {
-        GameData.lastSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        //TODO FIX
+        //GameData.lastSceneIndex = SceneManager.GetActiveScene().buildIndex;
 
         loadingScreen = ClassDb.prefabManager.GetPrefab(ClassDb.prefabManager.prefabLoadingScreen.gameObject,
             PrefabManager.loadingScreenIndex).GetComponent<Canvas>();

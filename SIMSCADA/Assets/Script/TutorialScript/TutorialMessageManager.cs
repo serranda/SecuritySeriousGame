@@ -2,12 +2,31 @@
 using System.Collections;
 using System.Globalization;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class TutorialMessageManager : MonoBehaviour
 {
-
     private IEnumerator exitRoutine;
+
+    private ILevelManager manager;
+
+    private void Start()
+    {
+        manager = SetLevelManager();
+    }
+
+    private ILevelManager SetLevelManager()
+    {
+        ILevelManager iManager;
+        if (SceneManager.GetActiveScene().buildIndex == StringDb.level1SceneIndex)
+            iManager = FindObjectOfType<Level1Manager>();
+        else
+            iManager = FindObjectOfType<Level2Manager>();
+
+        return iManager;
+    }
+
 
     public TutorialDialogBoxMessage MessageFromJson(TextAsset jsonFile)
     {
@@ -403,7 +422,7 @@ public class TutorialMessageManager : MonoBehaviour
         {
             ClassDb.pauseManager.TogglePauseMenu();
             ClassDb.dialogBoxManager.ToggleDialogBox();
-            ClassDb.sceneLoader.StartLoadByIndex(GameData.lastSceneIndex);
+            ClassDb.sceneLoader.StartLoadByIndex(manager.GetGameData().lastSceneIndex);
         });
 
         DialogBoxManager.dialogBoxBtnBack.onClick.RemoveAllListeners();

@@ -2,17 +2,36 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class TimeEventManager : MonoBehaviour
 {
     private IEnumerator deployRoutine;
 
+    private ILevelManager manager;
+
+    private void Start()
+    {
+        manager = SetLevelManager();
+    }
+
+    private ILevelManager SetLevelManager()
+    {
+        ILevelManager iManager;
+        if (SceneManager.GetActiveScene().buildIndex == StringDb.level1SceneIndex)
+            iManager = FindObjectOfType<Level1Manager>();
+        else
+            iManager = FindObjectOfType<Level2Manager>();
+
+        return iManager;
+    }
+
     public TimeEvent NewTimeEvent(float duration, GameObject parent, bool visible, bool stoppable)
     {
         //Debug.Log(parent.name);
 
-        int id = ++GameData.lastTimeEventId;
+        int id = ++manager.GetGameData().lastTimeEventId;
 
         float percentagePerMin = 100 / duration;
 
@@ -34,7 +53,7 @@ public class TimeEventManager : MonoBehaviour
 
     public TimeEvent NewTimeEventFromThreat(Threat threat, GameObject parent, bool visible, bool stoppable)
     {
-        int id = ++GameData.lastTimeEventId;
+        int id = ++manager.GetGameData().lastTimeEventId;
 
         //threat deploy time is in hour while percentage is calculated on minute scale
         float duration = threat.deployTime * 60;
@@ -73,7 +92,7 @@ public class TimeEventManager : MonoBehaviour
             if (timeEvent.threat != StringDb.timeEventThreat)
             {
                 //ClassDb.worldManager.DeployThreat(timeEvent.threat);
-                deployRoutine = ClassDb.level1Manager.DeployThreat(timeEvent.threat);
+                deployRoutine = manager.DeployThreat(timeEvent.threat);
                 StartCoroutine(deployRoutine);
             }
             timeEvents.Remove(timeEvent);
@@ -109,7 +128,7 @@ public class TimeEventManager : MonoBehaviour
 
     public TimeEvent GetThreatTimeEvent(Threat threat)
     {
-        TimeEvent timeEvent = ClassDb.level1Manager.timeEventList.Find(x => x.threat == threat);
+        TimeEvent timeEvent = manager.GetTimeEventList().Find(x => x.threat == threat);
 
         return timeEvent;
     }

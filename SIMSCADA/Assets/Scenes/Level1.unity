@@ -8618,6 +8618,7 @@ MonoBehaviour:
   simulationSpeedMultiplier: 1
   millisecondsPerMinutes: 10000
   threatSpawnBaseTime: 2000
+  gameData: {fileID: 921579333}
 --- !u!4 &921579331
 Transform:
   m_ObjectHideFlags: 0
@@ -8644,6 +8645,72 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6d15d865d41eed4f84886b7eeb2fc3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pressedSprite: 
+  firstLaunch: 1
+  slotIndex: 0
+  lastSceneIndex: 0
+  lastThreatId: 0
+  lastTimeEventId: 0
+  lastAiId: 0
+  pointOutPurchased: 0
+  localIdsUpgraded: 0
+  isFirstDos: 1
+  isFirstPhishing: 1
+  isFirstMalware: 1
+  isFirstStuxnet: 1
+  isFirstDragonfly: 1
+  isFirstMitm: 1
+  isFirstReplay: 1
+  idCardUpgraded: 0
+  researchUpgrade: 0
+  money: 0
+  successfulThreat: 0
+  totalThreat: 0
+  trustedEmployees: 0
+  totalEmployees: 0
+  reputation: 0
+  minutePercentage: 0
+  remoteIdsCheckTime: 0
+  localIdsCheckTime: 0
+  threatSpawnTime: 0
+  threatSpawnRate: 0
+  remoteIdsSuccessRate: 30
+  remoteIdsCheckRate: 30
+  localIdsCheckRate: 30
+  localIdsWrongCounter: 10
+  firewallSuccessRate: 30
+  itemStoreList: []
+  defenseDos: 10
+  defensePhishing: 10
+  defenseReplay: 10
+  defenseMitm: 10
+  defenseMalware: 10
+  defenseStuxnet: 10
+  defenseDragonfly: 10
+  defenseCreateRemote: 10
+  defensePlantResistance: 10
+  idCardTime: 20
+  serverAmount: 1
+  pcAmount: 1
+  telephoneAmount: 1
+  securityCheckAmount: 1
+  serverRebootTime: 40
+  serverScanTime: 40
+  serverCheckCfgTime: 40
+  serverIdsCleanTime: 40
+  serverAntiMalwareTime: 40
+  pcRecapTime: 40
+  pcPointOutTime: 40
+  telephoneCheckPlantTime: 40
+  telephoneMoneyTime: 30
+  telephoneMoneyCoolDown: 2
+  serverSecurity: 0
+  lastMaleSpriteNumber: 
+  lastFemaleSpriteNumber: 
+  monthlyThreat: 0
+  winCounter: 0
+  lossCounter: 0
+  isGameWon: 0
 --- !u!114 &921579334
 MonoBehaviour:
   m_ObjectHideFlags: 0

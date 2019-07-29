@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
@@ -24,8 +25,13 @@ public class IdCardManager : MonoBehaviour
 
     //private static Sprite[] sprites;
 
+    private ILevelManager manager;
+
+
     private void OnEnable()
     {
+        manager = SetLevelManager();
+
         idCardEnabled = true;
 
         //sprites = Resources.LoadAll<Sprite>(Path.Combine(StringDb.marksFolder, StringDb.marksPrefix));
@@ -44,7 +50,7 @@ public class IdCardManager : MonoBehaviour
         attackerNote = GameObject.Find(StringDb.idCardAttackerNote).GetComponent<TextMeshProUGUI>();
         attackerLbl = GameObject.Find(StringDb.idCardAttackerLbl).GetComponent<TextMeshProUGUI>();
 
-        if (!GameData.idCardUpgraded) return;
+        if (!manager.GetGameData().idCardUpgraded) return;
 
         attackerNote.GetComponent<CanvasGroup>().alpha = 1.0f;
         attackerLbl.GetComponent<CanvasGroup>().alpha = 1.0f;
@@ -54,6 +60,17 @@ public class IdCardManager : MonoBehaviour
     {
         idCardEnabled = false;
     }
+    private ILevelManager SetLevelManager()
+    {
+        ILevelManager iManager;
+        if (SceneManager.GetActiveScene().buildIndex == StringDb.level1SceneIndex)
+            iManager = FindObjectOfType<Level1Manager>();
+        else
+            iManager = FindObjectOfType<Level2Manager>();
+
+        return iManager;
+    }
+
 
     public void ToggleIdCard()
     {
@@ -78,7 +95,7 @@ public class IdCardManager : MonoBehaviour
         surnameTmPro.text = aiSurname;
         jobTmPro.text = aiJob;
         trustedTmPro.text = aiTrusted ? "Trusted" : "Normal";
-        if (GameData.idCardUpgraded)
+        if (manager.GetGameData().idCardUpgraded)
         {
             attackerNote.text = string.Format(aiAttacker ?
                 Resources.Load<TextAsset>(StringDb.attacker + Random.Range(1, 4)).text :

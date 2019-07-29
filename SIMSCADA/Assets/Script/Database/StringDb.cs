@@ -12,7 +12,7 @@ public class StringDb
     public static string dataTimeFormat = "[dd/MMM/yyyy:hh:mm:ss zzz]";
 
     //string values for php script and server folder
-    public static string serverAddress = "http://192.168.1.117/TestLoginBuildWebGL";
+    public static string serverAddress = "http://192.168.1.118/TestLoginBuildWebGL";
     public static string phpFolder = "PHP";
     public static string playerDataFolder = "PlayerData";
     public static string createPlayerFolderScript = "createPlayerFolder.php";

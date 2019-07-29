@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ServerRoomManager : MonoBehaviour
@@ -18,8 +19,12 @@ public class ServerRoomManager : MonoBehaviour
     private SecurityListener securityListener;
     private TutorialSecurityListener tutorialSecurityListener;
 
+    private ILevelManager manager;
+
     private void OnEnable()
     {
+        manager = SetLevelManager();
+
         securityListener = FindObjectOfType<SecurityListener>();
         tutorialSecurityListener = FindObjectOfType<TutorialSecurityListener>();
 
@@ -45,9 +50,20 @@ public class ServerRoomManager : MonoBehaviour
         SetTogglePressed();
     }
 
+    private ILevelManager SetLevelManager()
+    {
+        ILevelManager iManager;
+        if (SceneManager.GetActiveScene().buildIndex == StringDb.level1SceneIndex)
+            iManager = FindObjectOfType<Level1Manager>();
+        else
+            iManager = FindObjectOfType<Level2Manager>();
+
+        return iManager;
+    }
+
     private void SetTogglePressed()
     {
-        switch (GameData.serverSecurity)
+        switch (manager.GetGameData().serverSecurity)
         {
             case StringDb.ServerSecurity.strict:
                 activeToggle = strictToggle;
@@ -76,13 +92,13 @@ public class ServerRoomManager : MonoBehaviour
         switch (activeToggle.name)
         {
             case StringDb.strictToggle:
-                GameData.serverSecurity = StringDb.ServerSecurity.strict;
+                manager.GetGameData().serverSecurity = StringDb.ServerSecurity.strict;
                 break;
             case StringDb.mediumToggle:
-                GameData.serverSecurity = StringDb.ServerSecurity.medium;
+                manager.GetGameData().serverSecurity = StringDb.ServerSecurity.medium;
                 break;
             case StringDb.looseToggle:
-                GameData.serverSecurity = StringDb.ServerSecurity.loose;
+                manager.GetGameData().serverSecurity = StringDb.ServerSecurity.loose;
                 break;
             default:
                 throw new ArgumentOutOfRangeException();

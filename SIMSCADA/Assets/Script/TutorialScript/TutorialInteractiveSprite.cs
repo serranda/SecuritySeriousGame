@@ -6,6 +6,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class TutorialInteractiveSprite : MonoBehaviour, IPointerUpHandler, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
@@ -26,11 +27,13 @@ public class TutorialInteractiveSprite : MonoBehaviour, IPointerUpHandler, IPoin
 
     public bool hasMenu;
 
+    private ILevelManager manager;
 
     // Start is called before the first frame update
     private void Start()
     {
-        
+        manager = SetLevelManager();
+
         interactiveSprite = GetComponent<SpriteRenderer>();
         boxCollider2D = GetComponent<BoxCollider2D>();
 
@@ -84,7 +87,18 @@ public class TutorialInteractiveSprite : MonoBehaviour, IPointerUpHandler, IPoin
     public void OnPointerClick(PointerEventData eventData)
     {
         ToggleMenu();
-        GameData.pressedSprite = gameObject.name;
+        manager.GetGameData().pressedSprite = gameObject.name;
+    }
+
+    private ILevelManager SetLevelManager()
+    {
+        ILevelManager iManager;
+        if (SceneManager.GetActiveScene().buildIndex == StringDb.level1SceneIndex)
+            iManager = FindObjectOfType<Level1Manager>();
+        else
+            iManager = FindObjectOfType<Level2Manager>();
+
+        return iManager;
     }
 
     private void SetSprite(int index)
@@ -95,7 +109,7 @@ public class TutorialInteractiveSprite : MonoBehaviour, IPointerUpHandler, IPoin
 
     public void ToggleMenu()
     {
-        if (ActionButtonManager.buttonEnabled && gameObject.name == GameData.pressedSprite)
+        if (ActionButtonManager.buttonEnabled && gameObject.name == manager.GetGameData().pressedSprite)
         {
             ClassDb.prefabManager.ReturnPrefab(actionMenu.gameObject, PrefabManager.actionIndex);
 
@@ -171,16 +185,16 @@ public class TutorialInteractiveSprite : MonoBehaviour, IPointerUpHandler, IPoin
         switch (gameObject.tag)
         {
             case StringDb.telephoneTag:
-                limit = GameData.telephoneAmount;
+                limit = manager.GetGameData().telephoneAmount;
                 break;
             case StringDb.securityCheckTag:
-                limit = GameData.securityCheckAmount;
+                limit = manager.GetGameData().securityCheckAmount;
                 break;
             case StringDb.roomPcTag:
-                limit = GameData.pcAmount;
+                limit = manager.GetGameData().pcAmount;
                 break;
             case StringDb.serverPcTag:
-                limit = GameData.serverAmount;
+                limit = manager.GetGameData().serverAmount;
                 break;
             default:
                 limit = 1;
@@ -189,7 +203,6 @@ public class TutorialInteractiveSprite : MonoBehaviour, IPointerUpHandler, IPoin
 
         SetOperative(Convert.ToInt32(gameObject.name.Trim(gameObject.tag.ToCharArray())) <= limit);
     }
-
 
     private void SetOperative(bool colliderEnabled)
     {

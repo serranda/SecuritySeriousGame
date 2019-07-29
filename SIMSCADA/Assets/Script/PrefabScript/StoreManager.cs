@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
@@ -28,8 +29,12 @@ public class StoreManager : MonoBehaviour
     private RoomPcListener roomPcListener;
     private TutorialRoomPcListener tutorialRoomPcListener;
 
+    private ILevelManager manager;
+
     private void OnEnable()
     {
+        manager = SetLevelManager();
+
         roomPcListener = FindObjectOfType<RoomPcListener>();
         tutorialRoomPcListener = FindObjectOfType<TutorialRoomPcListener>();
 
@@ -41,7 +46,7 @@ public class StoreManager : MonoBehaviour
 
         content.sizeDelta = new Vector2(content.sizeDelta.x, 300f * (itemAsset.Count-1));  
 
-        itemList = GameData.itemStoreList;
+        itemList = manager.GetGameData().itemStoreList;
 
         itemDescription = GameObject.Find("InfoTxt").GetComponent<TextMeshProUGUI>();
 
@@ -124,13 +129,25 @@ public class StoreManager : MonoBehaviour
             ClassDb.prefabManager.ReturnPrefab(buttonToDestroy.gameObject, PrefabManager.storeItemIndex);
         }
 
-        GameData.itemStoreList = itemList;
+        manager.GetGameData().itemStoreList = itemList;
     }
 
     private void Update()
     {
         purchaseButton.interactable = itemStoreSelected != defaultItemStore;
     }
+
+    private ILevelManager SetLevelManager()
+    {
+        ILevelManager iManager;
+        if (SceneManager.GetActiveScene().buildIndex == StringDb.level1SceneIndex)
+            iManager = FindObjectOfType<Level1Manager>();
+        else
+            iManager = FindObjectOfType<Level2Manager>();
+
+        return iManager;
+    }
+
 
     private ItemStore ItemStoreFromJson(TextAsset jsonFile)
     {
@@ -146,7 +163,7 @@ public class StoreManager : MonoBehaviour
 
     public void PurchaseItem(ItemStore itemStore)
     {
-        GameData.money-= itemStore.price;
+        manager.GetGameData().money-= itemStore.price;
         SetItemLevel(itemStore);
         CheckItemLevel(itemStore);
         ApplyItemEffect(itemStore);
@@ -181,17 +198,17 @@ public class StoreManager : MonoBehaviour
         {
             case 0:
                 //PURCHASED FIREWALL UPGRADE; INCREASING FIREWALL SUCCESS RATE
-                GameData.firewallSuccessRate += 10;
+                manager.GetGameData().firewallSuccessRate += 10;
                 break;
             case 1:
                 //PURCHASED IDS UPGRADE; INCREASING REMOTE IDS SUCCESS RATE
-                GameData.remoteIdsCheckRate -= 2.0f;
-                GameData.remoteIdsSuccessRate += 15;
-                GameData.defenseDos += 5;
+                manager.GetGameData().remoteIdsCheckRate -= 2.0f;
+                manager.GetGameData().remoteIdsSuccessRate += 15;
+                manager.GetGameData().defenseDos += 5;
                 break;
             case 2:
                 //PURCHASED SERVER UPGRADE; NEW SERVER AVAILABLE
-                GameData.serverAmount += 1;
+                manager.GetGameData().serverAmount += 1;
                 List<GameObject> servers = GameObject.FindGameObjectsWithTag(StringDb.serverPcTag).ToList();
                 foreach (GameObject server in servers)
                 {
@@ -200,7 +217,7 @@ public class StoreManager : MonoBehaviour
                 break;
             case 3:
                 //PURCHASED PC UPGRADE; NEW PC AVAILABLE
-                GameData.pcAmount += 1;
+                manager.GetGameData().pcAmount += 1;
                 List<GameObject> pcs = GameObject.FindGameObjectsWithTag(StringDb.roomPcTag).ToList();
                 foreach (GameObject pc in pcs)
                 {
@@ -209,7 +226,7 @@ public class StoreManager : MonoBehaviour
                 break;
             case 4:
                 //PURCHASED TELEPHONE UPGRADE; NEW TELEPHONE AVAILABLE
-                GameData.telephoneAmount += 1;
+                manager.GetGameData().telephoneAmount += 1;
                 List<GameObject> telephones = GameObject.FindGameObjectsWithTag(StringDb.telephoneTag).ToList();
                 foreach (GameObject telephone in telephones)
                 {
@@ -218,100 +235,100 @@ public class StoreManager : MonoBehaviour
                 break;
             case 5:
                 //PURCHASED SERVER UPGRADE; DECREASING TIME FOR SERVER ACTIVITIES
-                GameData.serverRebootTime -= 5.0f;
-                GameData.serverScanTime -= 5.0f;
-                GameData.serverCheckCfgTime -= 5.0f;
-                GameData.serverIdsCleanTime -= 5.0f;
-                GameData.serverAntiMalwareTime -= 5.0f;
+                manager.GetGameData().serverRebootTime -= 5.0f;
+                manager.GetGameData().serverScanTime -= 5.0f;
+                manager.GetGameData().serverCheckCfgTime -= 5.0f;
+                manager.GetGameData().serverIdsCleanTime -= 5.0f;
+                manager.GetGameData().serverAntiMalwareTime -= 5.0f;
                 break;
             case 6:
                 //PURCHASED PC UPGRADE; DECREASING TIME FOR PC ACTIVITIES
-                GameData.pcRecapTime -= 5.0f;
-                GameData.pcPointOutTime -= 5.0f;
+                manager.GetGameData().pcRecapTime -= 5.0f;
+                manager.GetGameData().pcPointOutTime -= 5.0f;
                 break;
             case 7:
                 //PURCHASED TELEPHONE UPGRADE; DECREASING TIME FOR TELEPHONE ACTIVITIES
-                GameData.telephoneCheckPlantTime -= 5.0f;
-                GameData.telephoneMoneyTime -= 2.0f;
-                GameData.telephoneMoneyCoolDown -= 0.3f;
+                manager.GetGameData().telephoneCheckPlantTime -= 5.0f;
+                manager.GetGameData().telephoneMoneyTime -= 2.0f;
+                manager.GetGameData().telephoneMoneyCoolDown -= 0.3f;
                 break;
             case 8:
                 //PURCHASED ID CARD UPGRADE; DECREASING TIME FOR SHOW ID CARD
-                GameData.idCardTime -= 3.0f;
+                manager.GetGameData().idCardTime -= 3.0f;
                 break;
             case 9:
                 //PURCHASED EMPLOYEE FORMATION COURSE; INCREASING TRUSTED EMPLOYEE
-                int newTrustedEmployees = (int)(0.1 * GameData.trustedEmployees);
-                if (GameData.trustedEmployees + newTrustedEmployees > GameData.totalEmployees)
+                int newTrustedEmployees = (int)(0.1 * manager.GetGameData().trustedEmployees);
+                if (manager.GetGameData().trustedEmployees + newTrustedEmployees > manager.GetGameData().totalEmployees)
                 {
                     //message to inform about too many trusted employees
                     ClassDb.levelMessageManager.StartNewTrustedEmployees();
                 }
                 else
                 {
-                    GameData.trustedEmployees += newTrustedEmployees;
+                    manager.GetGameData().trustedEmployees += newTrustedEmployees;
                 }
                 break;
             case 10:
                 //PURCHASED PLANT UPGRADE; INCREASING PLANT RESISTANCE TO DAMAGE
-                GameData.defensePlantResistance += 20;
-                GameData.defenseStuxnet += 2;
+                manager.GetGameData().defensePlantResistance += 20;
+                manager.GetGameData().defenseStuxnet += 2;
                 break;
             case 11:
                 //PURCHASED IPS; INCREASING SUCCESS AGAINST DOS ATTACK
-                GameData.defenseDos += 15;
+                manager.GetGameData().defenseDos += 15;
                 break;
             case 12:
                 //PURCHASED BLACKLIST SERVER; INCREASING SUCCESS AGAINST PHISHING MAIL DAN DRAGONFLY
-                GameData.defensePhishing += 20;
-                GameData.defenseDragonfly += 2;
+                manager.GetGameData().defensePhishing += 20;
+                manager.GetGameData().defenseDragonfly += 2;
                 break;
             case 13:
                 //PURCHASED ALERT SYSTEM FOR HMI; INCREASING SUCCESS AGAINST REPLAY ATTACK
-                GameData.defenseReplay += 20;
+                manager.GetGameData().defenseReplay += 20;
                 break;
             case 14:
                 //PURCHASED HMI UPGRADE; INCREASING SUCCESS AGAINST MITM ATTACK
-                GameData.defenseMitm += 20;
+                manager.GetGameData().defenseMitm += 20;
                 break;
             case 15:
                 //PURCHASED ANTIMALWARE UPGRADE; INCREASING SUCCESS AGAINST MALWARE ATTACK
-                GameData.defenseMalware += 20;
+                manager.GetGameData().defenseMalware += 20;
                 break;
             case 16:
                 //PURCHASED STUXNET DEFENSE; INCREASING SUCCESS AGAINST STUXNET ATTACK
-                GameData.defenseStuxnet += 20;
+                manager.GetGameData().defenseStuxnet += 20;
                 break;
             case 17:
                 //PURCHASED DRAGONFLY DEFENSE; INCREASING SUCCESS AGAINST DRAGONFLY ATTACK
-                GameData.defenseDragonfly += 20;
+                manager.GetGameData().defenseDragonfly += 20;
                 break;
             case 18:
                 //PURCHASED LOCAL IDS UPGRADE; DECREASING TIME FOR LOCAL IDS AND VALUES FOR INTERNAL SECURITY MANAGEMENT
-                GameData.localIdsCheckRate -= 2.0f;
-                GameData.localIdsWrongCounter -= 2;
-                GameData.defenseCreateRemote += 20;
+                manager.GetGameData().localIdsCheckRate -= 2.0f;
+                manager.GetGameData().localIdsWrongCounter -= 2;
+                manager.GetGameData().defenseCreateRemote += 20;
                 break;
             case 19:
                 //PURCHASED UPGRADE TO ENABLE ABILITY TO POINT OUT LOCAL THREAT
-                GameData.pointOutPurchased = true;
+                manager.GetGameData().pointOutPurchased = true;
                 break;
             case 20:
                 //PURCHASED UPGRADE IDS LOCAL; POINTS OUT ONLY THE REAL LOCAL THREAT, NOT THE FAKE ONE
-                GameData.localIdsUpgraded = true;
+                manager.GetGameData().localIdsUpgraded = true;
                 break;
             case 21:
                 //PURCHASED ID CARD UPGRADE; NOW IT SHOWS IF AN EMPLOYEE IS AN ATTACKER OR NOT
-                GameData.idCardUpgraded = true;
+                manager.GetGameData().idCardUpgraded = true;
                 break;
             case 22:
                 //PURCHASED HIRING CAMPAIGN: INCREASE EMPLOYEES NUMBER
-                int employeesHired = (int) (Random.Range(0.1f, 0.25f) * GameData.totalEmployees);
+                int employeesHired = (int) (Random.Range(0.1f, 0.25f) * manager.GetGameData().totalEmployees);
                 ClassDb.levelMessageManager.StartNewEmployeesHired(employeesHired);
                 break;
             case 23:
                 //PURCHASED RESEARCH UPGRADE: ENABLED MONTHLY REPORT AND THREAT TENDENCIES  
-                GameData.researchUpgrade = true;
+                manager.GetGameData().researchUpgrade = true;
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
@@ -325,6 +342,7 @@ public class StoreManager : MonoBehaviour
     {
         itemList.Add(itemStore);
     }
+
     private void UpdateGui()
     {
         foreach (ItemStore item in itemList)

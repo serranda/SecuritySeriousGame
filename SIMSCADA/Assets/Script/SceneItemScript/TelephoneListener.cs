@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class TelephoneListener : MonoBehaviour
@@ -14,12 +15,16 @@ public class TelephoneListener : MonoBehaviour
 
     public bool telephoneOnCoolDown;
 
-
     public static Dictionary<Threat, float> replayThreats;
     public static Dictionary<Threat, float> stuxnetThreats;
 
+    private ILevelManager manager;
+
+
     private void Start()
-    { 
+    {
+        manager = SetLevelManager();
+
         interactiveSprite = GetComponent<InteractiveSprite>();
 
         replayThreats = new Dictionary<Threat, float>();
@@ -27,6 +32,18 @@ public class TelephoneListener : MonoBehaviour
 
         telephoneOnCoolDown = false;
     }
+
+    private ILevelManager SetLevelManager()
+    {
+        ILevelManager iManager;
+        if (SceneManager.GetActiveScene().buildIndex == StringDb.level1SceneIndex)
+            iManager = FindObjectOfType<Level1Manager>();
+        else
+            iManager = FindObjectOfType<Level2Manager>();
+
+        return iManager;
+    }
+
 
     public void SetTelephoneListeners()
     {
@@ -102,9 +119,9 @@ public class TelephoneListener : MonoBehaviour
         int successRate = Random.Range(0, 100);
 
         TimeEvent progressEvent = ClassDb.timeEventManager.NewTimeEvent(
-            GameData.telephoneMoneyTime, interactiveSprite.gameObject, true, true);
+            manager.GetGameData().telephoneMoneyTime, interactiveSprite.gameObject, true, true);
 
-        ClassDb.level1Manager.timeEventList.Add(progressEvent);
+        manager.GetTimeEventList().Add(progressEvent);
 
         moneyRoutine = GetMoney(progressEvent, successRate);
         StartCoroutine(moneyRoutine);
@@ -113,23 +130,23 @@ public class TelephoneListener : MonoBehaviour
     private IEnumerator GetMoney(TimeEvent progressEvent, int successRate)
     {
 
-        yield return new WaitWhile(() => ClassDb.level1Manager.timeEventList.Contains(progressEvent));
+        yield return new WaitWhile(() => manager.GetTimeEventList().Contains(progressEvent));
 
-        if (!(successRate >= GameData.reputation))
+        if (!(successRate >= manager.GetGameData().reputation))
         {
-            float deltaMoney = Random.Range(0f, 5f) * GameData.money / 100;
-            GameData.money += deltaMoney;
+            float deltaMoney = Random.Range(0f, 5f) * manager.GetGameData().money / 100;
+            manager.GetGameData().money += deltaMoney;
             ClassDb.levelMessageManager.StartMoneyEarn(deltaMoney);
         }
 
         TimeEvent coolDownEvent = ClassDb.timeEventManager.NewTimeEvent(
-            GameData.telephoneMoneyCoolDown * 60, interactiveSprite.gameObject, true, false);
+            manager.GetGameData().telephoneMoneyCoolDown * 60, interactiveSprite.gameObject, true, false);
 
-        ClassDb.level1Manager.timeEventList.Add(coolDownEvent);
+        manager.GetTimeEventList().Add(coolDownEvent);
 
         telephoneOnCoolDown = true;
 
-        yield return new WaitWhile(() => ClassDb.level1Manager.timeEventList.Contains(coolDownEvent));
+        yield return new WaitWhile(() => manager.GetTimeEventList().Contains(coolDownEvent));
 
         telephoneOnCoolDown = false;
 
@@ -141,9 +158,9 @@ public class TelephoneListener : MonoBehaviour
         interactiveSprite.SetInteraction(false);
 
         TimeEvent progressEvent = ClassDb.timeEventManager.NewTimeEvent(
-            GameData.telephoneCheckPlantTime, interactiveSprite.gameObject, true, true);
+            manager.GetGameData().telephoneCheckPlantTime, interactiveSprite.gameObject, true, true);
 
-        ClassDb.level1Manager.timeEventList.Add(progressEvent);
+        manager.GetTimeEventList().Add(progressEvent);
 
         checkPlantRoutine = CheckPlant(progressEvent);
 
@@ -152,7 +169,7 @@ public class TelephoneListener : MonoBehaviour
 
     public IEnumerator CheckPlant(TimeEvent progressEvent)
     {
-        yield return new WaitWhile(() => ClassDb.level1Manager.timeEventList.Contains(progressEvent));
+        yield return new WaitWhile(() => manager.GetTimeEventList().Contains(progressEvent));
 
 
         if (Level1Manager.hasReplayDeployed)
@@ -161,14 +178,14 @@ public class TelephoneListener : MonoBehaviour
             {
                 float success = Random.Range(0, 100);
 
-                if (!(success > GameData.defensePlantResistance)) continue;
+                if (!(success > manager.GetGameData().defensePlantResistance)) continue;
                 //Inform how much money has been lost
                 ClassDb.levelMessageManager.StartMoneyLoss(pair.Key.threatType, pair.Value);
 
                 //wait for closing dialog box
                 yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);
 
-                GameData.money -= pair.Value;
+                manager.GetGameData().money -= pair.Value;
 
             }
 
@@ -183,7 +200,7 @@ public class TelephoneListener : MonoBehaviour
             {
                 float success = Random.Range(0, 100);
 
-                if (!(success > GameData.defensePlantResistance))
+                if (!(success > manager.GetGameData().defensePlantResistance))
                 {
                     ClassDb.levelMessageManager.StartThreatStopped(pair.Key);
 
@@ -197,7 +214,7 @@ public class TelephoneListener : MonoBehaviour
                 //wait for closing dialog box
                 yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);
 
-                GameData.money -= pair.Value;
+                manager.GetGameData().money -= pair.Value;
 
             }
 

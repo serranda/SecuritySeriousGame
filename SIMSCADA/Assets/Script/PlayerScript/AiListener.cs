@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using MuteColossus;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class AiListener : MonoBehaviour
 {
@@ -9,9 +10,26 @@ public class AiListener : MonoBehaviour
     private IEnumerator checkRoutine;
     private IEnumerator showRoutine;
 
+    private ILevelManager manager;
+
+
+
     private void OnEnable()
     {
         aiController = GetComponent<AiController>();
+        manager = SetLevelManager();
+
+    }
+
+    private ILevelManager SetLevelManager()
+    {
+        ILevelManager iManager;
+        if (SceneManager.GetActiveScene().buildIndex == StringDb.level1SceneIndex)
+            iManager = FindObjectOfType<Level1Manager>();
+        else
+            iManager = FindObjectOfType<Level2Manager>();
+
+        return iManager;
     }
 
     public void StartCheckAiId()
@@ -41,8 +59,8 @@ public class AiListener : MonoBehaviour
         aiController.SetInteraction(false);
         //yield return new WaitWhile(() => aiController.playerController.pathUpdated);
         TimeEvent progressEvent = ClassDb.timeEventManager.NewTimeEvent(
-            GameData.idCardTime, aiController.gameObject, true, true);
-        ClassDb.level1Manager.timeEventList.Add(progressEvent);
+            manager.GetGameData().idCardTime, aiController.gameObject, true, true);
+        manager.GetTimeEventList().Add(progressEvent);
 
         aiController.idChecked = true;
 
@@ -52,7 +70,7 @@ public class AiListener : MonoBehaviour
 
     private IEnumerator ShowAiId(TimeEvent progressEvent)
     {
-        yield return new WaitWhile(() => ClassDb.level1Manager.timeEventList.Contains(progressEvent));
+        yield return new WaitWhile(() => manager.GetTimeEventList().Contains(progressEvent));
         yield return new WaitWhile(() => IdCardManager.idCardEnabled);
         ClassDb.idCardManager.ToggleIdCard();
 
@@ -82,7 +100,7 @@ public class AiListener : MonoBehaviour
         aiController.onClickAi = false;
         ClassDb.spawnCharacter.RemoveAi(aiGameObject);
 
-        ClassDb.level1Manager.StopLocalThreat(aiController.timeEvent.threat);
+        manager.StopLocalThreat(aiController.timeEvent.threat);
         ClassDb.levelMessageManager.StartThreatStopped(aiController.timeEvent.threat);
     }
 }

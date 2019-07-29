@@ -58,8 +58,12 @@ public class TutorialManager : MonoBehaviour
     private IEnumerator finalMessageRoutine;
     private IEnumerator startGameRoutine;
 
+    private ILevelManager manager;
+
     private void Start()
     {
+        manager = SetLevelManager();
+
         roomPcFirstTime = true;
         firstTimeHMIPanel = true;
         firstTimeMarket = true;
@@ -76,20 +80,33 @@ public class TutorialManager : MonoBehaviour
         Debug.Log(notebookFirstTime + " Notebook first time");
 
         //spawn hud prefab
-        ClassDb.level1Manager.SpawnHud();
+        manager.SpawnHud();
 
         //set initial values ofr hud
-        ClassDb.level1Manager.SetStartingValues();
+        manager.SetStartingValues();
 
         //start time in game
-        ClassDb.level1Manager.StartTimeRoutine();
+        manager.StartTimeRoutine();
 
         tutorialIsFinished = false;
 
         //start coroutine for first message
         welcome1Routine = Welcome1Routine();
+
         StartCoroutine(welcome1Routine);
     }
+
+    private ILevelManager SetLevelManager()
+    {
+        ILevelManager iManager;
+        if (SceneManager.GetActiveScene().buildIndex == StringDb.level1SceneIndex)
+            iManager = FindObjectOfType<Level1Manager>();
+        else
+            iManager = FindObjectOfType<Level2Manager>();
+
+        return iManager;
+    }
+
 
     private IEnumerator Welcome1Routine()
     {
@@ -469,10 +486,10 @@ public class TutorialManager : MonoBehaviour
         StopAllCoroutines();
 
         //set initial values ofr hud
-        ClassDb.level1Manager.SetStartingValues();
+        manager.SetStartingValues();
 
         //Start routine for the game components
-        ClassDb.level1Manager.StartAllCoroutines();
+        manager.StartAllCoroutines();
 
         tutorialIsFinished = true;
 

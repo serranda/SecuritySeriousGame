@@ -15,7 +15,7 @@ public class MenuManager: MonoBehaviour
 
     public void Awake()
     {
-        playerName.text =string.Concat("Benvenuto ", StringDb.player.username) ;
+        playerName.text =string.Concat("Benvenuto ", StringDb.player.username.ToUpper()) ;
 
         gameSettingManager.StartCheckWebSettingsFileRoutine();
     }

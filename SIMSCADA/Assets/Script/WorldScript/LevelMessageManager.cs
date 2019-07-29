@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Globalization;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LevelMessageManager : MonoBehaviour
@@ -28,7 +29,25 @@ public class LevelMessageManager : MonoBehaviour
     private IEnumerator showReportRoutine;
     private IEnumerator endGameRoutine;
 
+    private ILevelManager manager;
+
     private float messageDelay = 0f;
+
+    private void Start()
+    {
+        manager = SetLevelManager();
+    }
+
+    private ILevelManager SetLevelManager()
+    {
+        ILevelManager iManager;
+        if (SceneManager.GetActiveScene().buildIndex == StringDb.level1SceneIndex)
+            iManager = FindObjectOfType<Level1Manager>();
+        else
+            iManager = FindObjectOfType<Level2Manager>();
+
+        return iManager;
+    }
 
 
     public DialogBoxMessage MessageFromJson(TextAsset jsonFile)
@@ -69,7 +88,8 @@ public class LevelMessageManager : MonoBehaviour
         DialogBoxManager.dialogBoxBtnNext.onClick.AddListener(delegate
         {
             ClassDb.dialogBoxManager.ToggleDialogBox();
-            ClassDb.level1Manager.StopAllCoroutines();
+            //TODO CHECK IF METHOD IS WORKING CORRECTLY
+            manager.StopAllCoroutines();
             ClassDb.sceneLoader.StartLoadByIndex(StringDb.tutorialSceneIndex);
 
         }); ;
@@ -338,7 +358,7 @@ public class LevelMessageManager : MonoBehaviour
         {
             ClassDb.pauseManager.TogglePauseMenu();
             ClassDb.dialogBoxManager.ToggleDialogBox();
-            ClassDb.dataLoader.SaveOffice();
+            ClassDb.saveDataManager.SaveOffice();
             ClassDb.sceneLoader.StartLoadByIndex(StringDb.menuSceneIndex);
         });
 
@@ -637,7 +657,7 @@ public class LevelMessageManager : MonoBehaviour
         DialogBoxManager.dialogBoxBtnNext.onClick.AddListener(delegate
         {
             ClassDb.dialogBoxManager.ToggleDialogBox();
-            GameData.totalEmployees += employeesHired;
+            manager.GetGameData().totalEmployees += employeesHired;
         });
 
         DialogBoxManager.dialogBoxBtnBack.onClick.RemoveAllListeners();
@@ -730,7 +750,7 @@ public class LevelMessageManager : MonoBehaviour
         ClassDb.dialogBoxManager.ToggleDialogBox();
 
         DialogBoxMessage message;
-        message = MessageFromJson(GameData.isGameWon ? 
+        message = MessageFromJson(manager.GetGameData().isGameWon ? 
             Resources.Load<TextAsset>(StringDb.endGameWin) : 
             Resources.Load<TextAsset>(StringDb.endGameLoss));
 
@@ -747,8 +767,8 @@ public class LevelMessageManager : MonoBehaviour
         DialogBoxManager.dialogBoxBtnNext.onClick.AddListener(delegate
         {
             ClassDb.dialogBoxManager.ToggleDialogBox();
-            //TODO LOAD LEVEL 2
-            ClassDb.sceneLoader.StartLoadByIndex(2);
+            //LOAD LEVEL 2
+            ClassDb.sceneLoader.StartLoadByIndex(StringDb.level2SceneIndex);
         });
 
         DialogBoxManager.dialogBoxBtnBack.onClick.RemoveAllListeners();
