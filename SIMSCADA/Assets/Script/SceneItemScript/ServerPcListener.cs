@@ -49,18 +49,18 @@ public class ServerPcListener : MonoBehaviour
     {
         List<Button> buttons;
 
-        if (Level1Manager.hasDosDeployed ||
-            Level1Manager.hasPhishingDeployed ||
-            Level1Manager.hasReplayDeployed ||
-            Level1Manager.hasMitmDeployed ||
-            Level1Manager.hasMalwareDeployed ||
-            Level1Manager.hasStuxnetDeployed ||
-            Level1Manager.hasDragonflyDeployed ||
+        if (manager.GetGameData().hasDosDeployed ||
+            manager.GetGameData().hasPhishingDeployed ||
+            manager.GetGameData().hasReplayDeployed ||
+            manager.GetGameData().hasMitmDeployed ||
+            manager.GetGameData().hasMalwareDeployed ||
+            manager.GetGameData().hasStuxnetDeployed ||
+            manager.GetGameData().hasDragonflyDeployed ||
             isThreatDetected)
         {
             buttons = interactiveSprite.actionButtonManager.GetActiveCanvasGroup(7);
 
-            if (Level1Manager.isFirewallActive)
+            if (manager.GetGameData().isFirewallActive)
             {
                 buttons[0].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva Firewall";
                 buttons[0].onClick.RemoveAllListeners();
@@ -82,7 +82,7 @@ public class ServerPcListener : MonoBehaviour
             }
 
 
-            if (Level1Manager.isRemoteIdsActive)
+            if (manager.GetGameData().isRemoteIdsActive)
             {
                 buttons[1].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva IDS";
                 buttons[1].onClick.RemoveAllListeners();
@@ -103,7 +103,7 @@ public class ServerPcListener : MonoBehaviour
                 });
             }
 
-            if (Level1Manager.isLocalIdsActive)
+            if (manager.GetGameData().isLocalIdsActive)
             {
                 buttons[2].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva Controlli Locali";
                 buttons[2].onClick.RemoveAllListeners();
@@ -160,7 +160,7 @@ public class ServerPcListener : MonoBehaviour
         {
             buttons = interactiveSprite.actionButtonManager.GetActiveCanvasGroup(3);
 
-            if (Level1Manager.isFirewallActive)
+            if (manager.GetGameData().isFirewallActive)
             {
                 buttons[0].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva Firewall";
                 buttons[0].onClick.RemoveAllListeners();
@@ -182,7 +182,7 @@ public class ServerPcListener : MonoBehaviour
             }
 
 
-            if (Level1Manager.isRemoteIdsActive)
+            if (manager.GetGameData().isRemoteIdsActive)
             {
                 buttons[1].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva IDS";
                 buttons[1].onClick.RemoveAllListeners();
@@ -203,7 +203,7 @@ public class ServerPcListener : MonoBehaviour
                 });
             }
 
-            if (Level1Manager.isLocalIdsActive)
+            if (manager.GetGameData().isLocalIdsActive)
             {
                 buttons[2].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva Controlli Locali";
                 buttons[2].onClick.RemoveAllListeners();
@@ -245,9 +245,9 @@ public class ServerPcListener : MonoBehaviour
         TimeEvent progressEvent = ClassDb.timeEventManager.NewTimeEvent(
             manager.GetGameData().serverAntiMalwareTime, sprite.gameObject, true, true);
 
-        if (Level1Manager.hasStuxnetDeployed)
+        if (manager.GetGameData().hasStuxnetDeployed)
         {
-            if (!Level1Manager.hasPlantChecked)
+            if (!manager.GetGameData().hasPlantChecked)
             {
                 //MESSAGE TO INFORM ABOUT CHECKING PLANT
                 ClassDb.levelMessageManager.StartPlantCheck();
@@ -257,10 +257,10 @@ public class ServerPcListener : MonoBehaviour
 
             }
 
-            yield return new WaitUntil(() => Level1Manager.hasPlantChecked);
+            yield return new WaitUntil(() => manager.GetGameData().hasPlantChecked);
         }
 
-        manager.GetTimeEventList().Add(progressEvent);
+        manager.GetGameData().timeEventList.Add(progressEvent);
 
         antiMalwareScanRoutine = AntiMalwareScan(progressEvent, sprite);
         StartCoroutine(antiMalwareScanRoutine);
@@ -268,36 +268,36 @@ public class ServerPcListener : MonoBehaviour
 
     private IEnumerator AntiMalwareScan(TimeEvent progressEvent, InteractiveSprite sprite)
     {
-        yield return new WaitWhile(() => manager.GetTimeEventList().Contains(progressEvent));
+        yield return new WaitWhile(() => manager.GetGameData().timeEventList.Contains(progressEvent));
 
         //Reset money loss due to replay attack
-        manager.getMoneyLossList()[StringDb.ThreatAttack.malware] = 0;
-        manager.getMoneyLossList()[StringDb.ThreatAttack.stuxnet] = 0;
+        manager.GetGameData().moneyLossList[StringDb.ThreatAttack.malware] = 0;
+        manager.GetGameData().moneyLossList[StringDb.ThreatAttack.stuxnet] = 0;
 
         ////reset base money earn
         //ClassDb.worldManager.totalMoneyEarnPerMinute = StringDb.baseEarn;
 
         //restart money generation
-        manager.SetMoneyLossBool(true);
+        manager.GetGameData().isMoneyLoss = true;
         //ClassDb.worldManager.isMoneyEarn = true;
         
         //restart all time event
-        ClassDb.timeEventManager.StartTimeEventList(manager.GetTimeEventList());
+        ClassDb.timeEventManager.StartTimeEventList(manager.GetGameData().timeEventList);
 
         sprite.SetInteraction(true);
 
         //reset flag to restart threat generation
-        Level1Manager.hasMalwareDeployed = false;
-        Level1Manager.hasStuxnetDeployed = false;
+        manager.GetGameData().hasMalwareDeployed = false;
+        manager.GetGameData().hasStuxnetDeployed = false;
 
-        if (Level1Manager.hasDragonflyDeployed)
+        if (manager.GetGameData().hasDragonflyDeployed)
         {
-            Level1Manager.hasMalwareChecked = true;
+            manager.GetGameData().hasMalwareChecked = true;
             yield break;
         }
 
         //MESSAGE FOR RECAP
-        Level1Manager.hasThreatManaged = true;
+        manager.GetGameData().hasThreatManaged = true;
 
     }
 
@@ -309,7 +309,7 @@ public class ServerPcListener : MonoBehaviour
         TimeEvent progressEvent = ClassDb.timeEventManager.NewTimeEvent(
             manager.GetGameData().serverIdsCleanTime, interactiveSprite.gameObject, true, true);
 
-        manager.GetTimeEventList().Add(progressEvent);
+        manager.GetGameData().timeEventList.Add(progressEvent);
 
         idsCleanRoutine = IdsClean(progressEvent);
         StartCoroutine(idsCleanRoutine);
@@ -317,14 +317,14 @@ public class ServerPcListener : MonoBehaviour
 
     private IEnumerator IdsClean(TimeEvent progressEvent)
     {
-        threatDetectedList = manager.GetThreatDetectedList();
+        threatDetectedList = manager.GetGameData().threatDetectedList;
 
-        yield return new WaitWhile(() => manager.GetTimeEventList().Contains(progressEvent));
+        yield return new WaitWhile(() => manager.GetGameData().timeEventList.Contains(progressEvent));
 
         foreach (Threat threat in threatDetectedList)
         {
-            manager.GetTimeEventList().Remove(ClassDb.timeEventManager.GetThreatTimeEvent(threat));
-            manager.GetRemoteThreats().Remove(threat);
+            manager.GetGameData().timeEventList.Remove(ClassDb.timeEventManager.GetThreatTimeEvent(threat));
+            manager.GetGameData().remoteThreats.Remove(threat);
         }
 
         isThreatDetected = false;
@@ -339,7 +339,7 @@ public class ServerPcListener : MonoBehaviour
 
         TimeEvent progressEvent = ClassDb.timeEventManager.NewTimeEvent(
             manager.GetGameData().serverRebootTime, interactiveSprite.gameObject, true, true);
-        manager.GetTimeEventList().Add(progressEvent);
+        manager.GetGameData().timeEventList.Add(progressEvent);
 
         rebootRoutine = RebootServer(progressEvent);
         StartCoroutine(rebootRoutine);
@@ -347,28 +347,28 @@ public class ServerPcListener : MonoBehaviour
 
     private IEnumerator RebootServer(TimeEvent progressEvent)
     {
-        yield return new WaitWhile(() => manager.GetTimeEventList().Contains(progressEvent));
+        yield return new WaitWhile(() => manager.GetGameData().timeEventList.Contains(progressEvent));
 
         //Reset money loss due to dos attack
-        manager.getMoneyLossList()[StringDb.ThreatAttack.dos] = 0;
-        
+        manager.GetGameData().moneyLossList[StringDb.ThreatAttack.dos] = 0;
+
         ////reset base money earn
         //ClassDb.worldManager.totalMoneyEarnPerMinute = StringDb.baseEarn;
 
         //restart money generation
-        manager.SetMoneyLossBool(true);
+        manager.GetGameData().isMoneyLoss = true;
         //ClassDb.worldManager.isMoneyEarn = true;
 
         //restart all time event
-        ClassDb.timeEventManager.StartTimeEventList(manager.GetTimeEventList());
+        ClassDb.timeEventManager.StartTimeEventList(manager.GetGameData().timeEventList);
 
         interactiveSprite.SetInteraction(true);
 
         //reset flag to restart threat generation
-        Level1Manager.hasDosDeployed = false;
+        manager.GetGameData().hasDosDeployed = false;
 
         //MESSAGE FOR RECAP
-        Level1Manager.hasThreatManaged = true;
+        manager.GetGameData().hasThreatManaged = true;
 
     }
 
@@ -385,9 +385,9 @@ public class ServerPcListener : MonoBehaviour
         TimeEvent progressEvent = ClassDb.timeEventManager.NewTimeEvent(
             manager.GetGameData().serverCheckCfgTime, sprite.gameObject, true, true);
 
-        if (Level1Manager.hasReplayDeployed)
+        if (manager.GetGameData().hasReplayDeployed)
         {
-            if (!Level1Manager.hasPlantChecked)
+            if (!manager.GetGameData().hasPlantChecked)
             {
                 //MESSAGE TO INFORM ABOUT CHECKING PLANT
                 ClassDb.levelMessageManager.StartPlantCheck();
@@ -396,12 +396,12 @@ public class ServerPcListener : MonoBehaviour
                 yield return new WaitUntil(() => DialogBoxManager.dialogEnabled);
             }
 
-            yield return new WaitUntil(() => Level1Manager.hasPlantChecked);
+            yield return new WaitUntil(() => manager.GetGameData().hasPlantChecked);
         }
 
-        if (Level1Manager.hasDragonflyDeployed)
+        if (manager.GetGameData().hasDragonflyDeployed)
         {
-            if(!Level1Manager.hasMalwareChecked)
+            if(!manager.GetGameData().hasMalwareChecked)
             {
                 //MESSAGE TO INFORM ABOUT CHECKING MALWARE
                 ClassDb.levelMessageManager.StartMalwareCheck();
@@ -410,10 +410,10 @@ public class ServerPcListener : MonoBehaviour
                 yield return new WaitUntil(() => DialogBoxManager.dialogEnabled);
             }
 
-            yield return new WaitUntil(() => Level1Manager.hasMalwareChecked);
+            yield return new WaitUntil(() => manager.GetGameData().hasMalwareChecked);
         }
 
-        manager.GetTimeEventList().Add(progressEvent);
+        manager.GetGameData().timeEventList.Add(progressEvent);
 
         checkNetworkRoutine = CheckNetworkCfg(progressEvent, sprite);
         StartCoroutine(checkNetworkRoutine);
@@ -421,32 +421,32 @@ public class ServerPcListener : MonoBehaviour
 
     private IEnumerator CheckNetworkCfg(TimeEvent progressEvent, InteractiveSprite sprite)
     {
-        yield return new WaitWhile(() => manager.GetTimeEventList().Contains(progressEvent));
+        yield return new WaitWhile(() => manager.GetGameData().timeEventList.Contains(progressEvent));
 
         //Reset money loss due to replay attack
-        manager.getMoneyLossList()[StringDb.ThreatAttack.replay] = 0;
-        manager.getMoneyLossList()[StringDb.ThreatAttack.mitm] = 0;
-        manager.getMoneyLossList()[StringDb.ThreatAttack.dragonfly] = 0;
+        manager.GetGameData().moneyLossList[StringDb.ThreatAttack.replay] = 0;
+        manager.GetGameData().moneyLossList[StringDb.ThreatAttack.mitm] = 0;
+        manager.GetGameData().moneyLossList[StringDb.ThreatAttack.dragonfly] = 0;
 
         ////reset base money earn
         //ClassDb.worldManager.totalMoneyEarnPerMinute = StringDb.baseEarn;
 
         //restart money generation
-        manager.SetMoneyLossBool(true);
+        manager.GetGameData().isMoneyLoss = true;
         //ClassDb.worldManager.isMoneyEarn = true;
 
         //restart all time event
-        ClassDb.timeEventManager.StartTimeEventList(manager.GetTimeEventList());
+        ClassDb.timeEventManager.StartTimeEventList(manager.GetGameData().timeEventList);
 
         sprite.SetInteraction(true);
 
         //reset flag to restart threat generation
-        Level1Manager.hasReplayDeployed = false;
-        Level1Manager.hasMitmDeployed = false;
-        Level1Manager.hasDragonflyDeployed = false;
+        manager.GetGameData().hasReplayDeployed = false;
+        manager.GetGameData().hasMitmDeployed = false;
+        manager.GetGameData().hasDragonflyDeployed = false;
 
         //MESSAGE FOR RECAP
-        Level1Manager.hasThreatManaged = true;
+        manager.GetGameData().hasThreatManaged = true;
 
 
     }

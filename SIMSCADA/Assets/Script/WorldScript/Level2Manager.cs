@@ -10,18 +10,7 @@ using Random = UnityEngine.Random;
 
 public class Level2Manager : MonoBehaviour, ILevelManager
 {
-    //structure for time event
-    public List<TimeEvent> timeEventList;
-
-    public List<Threat> deployedThreatList;
-
-    public List<Threat> remoteThreats;
-    public List<Threat> localThreats;
-    public List<Threat> threatDetectedList;
-
     private HudManager hudManager;
-
-    private int previousMonth;
 
     private IEnumerator newMinuteRoutine;
     private IEnumerator newThreatRoutine;
@@ -29,49 +18,18 @@ public class Level2Manager : MonoBehaviour, ILevelManager
     private IEnumerator localIdsRoutine;
     private IEnumerator threatManagementRoutine;
 
-    public bool isMoneyLoss;
-    public Dictionary<StringDb.ThreatAttack, float> moneyLossList;
-    [SerializeField] private float totalMoneyLossPerMinute;
-
-    public float totalMoneyEarnPerMinute;
-
-    public float totalCostPerMinute;
-
-    public int simulationSpeedMultiplier;
-
-    [SerializeField] [Range(100, 10000)] private int millisecondsPerMinutes = 500;
-
-    [SerializeField] [Range(500, 3000)] private int threatSpawnBaseTime = 2000;
-
-    public static bool hasReplayDeployed;
-    public static bool hasDosDeployed;
-    public static bool hasPhishingDeployed;
-    public static bool hasMitmDeployed;
-    public static bool hasMalwareDeployed;
-    public static bool hasStuxnetDeployed;
-    public static bool hasDragonflyDeployed;
-
-    public static bool hasPlantChecked;
-    public static bool hasMalwareChecked;
-
-    public static bool hasThreatManaged;
-
-    public static bool isFirewallActive;
-    public static bool isRemoteIdsActive;
-    public static bool isLocalIdsActive;
-
     [SerializeField] private GameData gameData;
 
     private void Start()
     {
         //initializing list for managing threat and time event
-        timeEventList = new List<TimeEvent>();
-        deployedThreatList = new List<Threat>();
-        remoteThreats = new List<Threat>();
-        localThreats = new List<Threat>();
-        threatDetectedList = new List<Threat>();
+        gameData.timeEventList = new List<TimeEvent>();
+        gameData.deployedThreatList = new List<Threat>();
+        gameData.remoteThreats = new List<Threat>();
+        gameData.localThreats = new List<Threat>();
+        gameData.threatDetectedList = new List<Threat>();
 
-        moneyLossList = new Dictionary<StringDb.ThreatAttack, float>()
+        gameData.moneyLossList = new Dictionary<StringDb.ThreatAttack, float>()
         {
             {StringDb.ThreatAttack.dos, 0f},
             {StringDb.ThreatAttack.phishing, 0f},
@@ -85,24 +43,23 @@ public class Level2Manager : MonoBehaviour, ILevelManager
         SpawnHud();
 
         //isMoneyEarn = false;
-        isMoneyLoss = false;
+        gameData.isMoneyLoss = false;
 
-        hasDosDeployed = false;
-        hasPhishingDeployed = false;
-        hasReplayDeployed = false;
-        hasMitmDeployed = false;
-        hasMalwareDeployed = false;
-        hasStuxnetDeployed = false;
-        hasDragonflyDeployed = false;
+        gameData.hasDosDeployed = false;
+        gameData.hasPhishingDeployed = false;
+        gameData.hasReplayDeployed = false;
+        gameData.hasMitmDeployed = false;
+        gameData.hasMalwareDeployed = false;
+        gameData.hasStuxnetDeployed = false;
+        gameData.hasDragonflyDeployed = false;
 
-        hasPlantChecked = true;
-        hasMalwareChecked = true;
+        gameData.hasPlantChecked = true;
+        gameData.hasMalwareChecked = true;
 
-        hasThreatManaged = false;
+        gameData.hasThreatManaged = false;
 
         //TODO check for data saves and eventually load it
-
-        //ClassDb.saveDataManager.StartDataLoader();
+        //ClassDb.gameDataManager.StartDataLoader();
 
         //start and set gui setting parameters
         if (gameData.firstLaunch)
@@ -127,30 +84,30 @@ public class Level2Manager : MonoBehaviour, ILevelManager
 
     private void Update()
     {
-        simulationSpeedMultiplier = StringDb.speedMultiplier;
+        gameData.simulationSpeedMultiplier = StringDb.speedMultiplier;
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             ClassDb.pauseManager.TogglePauseMenu();
         }
 
-        ////DEBUG
-        ////---------------------------------------------------------------------------------------------------------------------
-        //if (Input.GetKeyDown(KeyCode.N))
-        //    StartCoroutine(GetRemoteThreats());
+        //DEBUG
+        //---------------------------------------------------------------------------------------------------------------------
+        if (Input.GetKeyDown(KeyCode.N))
+            StartCoroutine(NewRemoteThreats());
 
-        //if (Input.GetKeyDown(KeyCode.B))
-        //    StartCoroutine(GetLocalThreats());
+        if (Input.GetKeyDown(KeyCode.B))
+            StartCoroutine(NewLocalThreats());
 
-        //if (Input.GetKeyDown(KeyCode.M))
-        //{
-        //    Threat threat = ClassDb.threatManager.NewRandomLevel2Threat();
-        //    InstantiateNewThreat(threat);
-        //}
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            Threat threat = ClassDb.threatManager.NewRandomLevel2Threat();
+            InstantiateNewThreat(threat);
+        }
 
-        //if (Input.GetKeyDown(KeyCode.V))
-        //    StartCoroutine(GetFakeLocalThreats());
-        ////---------------------------------------------------------------------------------------------------------------------
+        if (Input.GetKeyDown(KeyCode.V))
+            StartCoroutine(NewFakeLocalThreats());
+        //---------------------------------------------------------------------------------------------------------------------
 
         if (Input.GetMouseButtonDown(1) && ActionButtonManager.buttonEnabled)
         {
@@ -163,7 +120,7 @@ public class Level2Manager : MonoBehaviour, ILevelManager
 
         UpdateMinutes();
 
-        gameData.threatSpawnRate = threatSpawnBaseTime / (float)gameData.totalEmployees;
+        gameData.threatSpawnRate = gameData.threatSpawnBaseTime / (float)gameData.totalEmployees;
         if (gameData.threatSpawnRate < 10)
         {
             gameData.threatSpawnRate = 10;
@@ -171,42 +128,42 @@ public class Level2Manager : MonoBehaviour, ILevelManager
 
     }
 
-    ////DEBUG
-    ////---------------------------------------------------------------------------------------------------------------------
-    //private IEnumerator GetRemoteThreats()
-    //{
-    //    for (int i = 0; i < 1; i++)
-    //    {
-    //        Threat threat = ClassDb.threatManager.NewRemoteThreat();
+    //DEBUG
+    //---------------------------------------------------------------------------------------------------------------------
+    private IEnumerator NewRemoteThreats()
+    {
+        for (int i = 0; i < 1; i++)
+        {
+            Threat threat = ClassDb.threatManager.NewRemoteThreat();
 
-    //        InstantiateNewThreat(threat);
+            InstantiateNewThreat(threat);
 
-    //        yield return new WaitForSeconds(3);
-    //    }
-    //}
+            yield return new WaitForSeconds(3);
+        }
+    }
 
-    //private IEnumerator GetLocalThreats()
-    //{
-    //    for (int i = 0; i < 1; i++)
-    //    {
-    //        Threat threat = ClassDb.threatManager.NewLocalThreat();
-    //        InstantiateNewThreat(threat);
+    private IEnumerator NewLocalThreats()
+    {
+        for (int i = 0; i < 1; i++)
+        {
+            Threat threat = ClassDb.threatManager.NewLocalThreat();
+            InstantiateNewThreat(threat);
 
-    //        yield return new WaitForSeconds(1);
-    //    }
-    //}
+            yield return new WaitForSeconds(1);
+        }
+    }
 
-    //private IEnumerator GetFakeLocalThreats()
-    //{
-    //    for (int i = 0; i < 1; i++)
-    //    {
-    //        Threat threat = ClassDb.threatManager.NewFakeLocalThreat();
-    //        InstantiateNewThreat(threat);
+    private IEnumerator NewFakeLocalThreats()
+    {
+        for (int i = 0; i < 1; i++)
+        {
+            Threat threat = ClassDb.threatManager.NewFakeLocalThreat();
+            InstantiateNewThreat(threat);
 
-    //        yield return new WaitForSeconds(1);
-    //    }
-    //}
-    ////---------------------------------------------------------------------------------------------------------------------
+            yield return new WaitForSeconds(1);
+        }
+    }
+    //---------------------------------------------------------------------------------------------------------------------
 
     public void SpawnHud()
     {
@@ -246,8 +203,8 @@ public class Level2Manager : MonoBehaviour, ILevelManager
         localIdsRoutine = LocalIdsCheckRoutine();
         StartCoroutine(localIdsRoutine);
 
-        newThreatRoutine = CreateNewThreat();
-        StartCoroutine(newThreatRoutine);
+        //newThreatRoutine = CreateNewThreat();
+        //StartCoroutine(newThreatRoutine);
 
         //---------------------------------------------------------------------------------------------------------------------
         Debug.Log("COROUTINES STARTED");
@@ -256,7 +213,7 @@ public class Level2Manager : MonoBehaviour, ILevelManager
 
     public void UpdateMinutes()
     {
-        gameData.minutePercentage += simulationSpeedMultiplier * 10000 * Time.fixedDeltaTime * Time.timeScale / millisecondsPerMinutes;
+        gameData.minutePercentage += gameData.simulationSpeedMultiplier * 10000 * Time.fixedDeltaTime * Time.timeScale / gameData.millisecondsPerMinutes;
     }
 
     public IEnumerator OnNewMinute()
@@ -267,43 +224,43 @@ public class Level2Manager : MonoBehaviour, ILevelManager
 
             //Debug.Log("DeltaTime: " + Time.fixedDeltaTime + " MinutePercentage: " + StringDb.minutePercentage);
 
-            timeEventList = ClassDb.timeEventManager.UpdateTimeEventList(timeEventList);
+            gameData.timeEventList = ClassDb.timeEventManager.UpdateTimeEventList(gameData.timeEventList);
 
-            previousMonth = gameData.date.Month;
+            gameData.previousMonth = gameData.date.Month;
 
             gameData.date = gameData.date.AddMinutes(1.0);
 
-            if (gameData.date.Month != previousMonth)
+            if (gameData.date.Month != gameData.previousMonth)
             {
                 OnNewMonth();
             }
 
-            totalMoneyEarnPerMinute = StringDb.baseEarn * gameData.totalEmployees;
+            gameData.totalMoneyEarnPerMinute = StringDb.baseEarn * gameData.totalEmployees;
 
-            if (isMoneyLoss)
+            if (gameData.isMoneyLoss)
             {
-                totalMoneyLossPerMinute = moneyLossList.Values.Sum();
-                isMoneyLoss = false;
+                gameData.totalMoneyLossPerMinute = gameData.moneyLossList.Values.Sum();
+                gameData.isMoneyLoss = false;
             }
 
-            totalCostPerMinute = 0;
+            gameData.totalCostPerMinute = 0;
 
-            if (isFirewallActive)
+            if (gameData.isFirewallActive)
             {
-                totalCostPerMinute += StringDb.firewallCost * gameData.totalEmployees;
+                gameData.totalCostPerMinute += StringDb.firewallCost * gameData.totalEmployees;
             }
 
-            if (isRemoteIdsActive)
+            if (gameData.isRemoteIdsActive)
             {
-                totalCostPerMinute += StringDb.idsCost * gameData.totalEmployees;
+                gameData.totalCostPerMinute += StringDb.idsCost * gameData.totalEmployees;
             }
 
-            if (isLocalIdsActive)
+            if (gameData.isLocalIdsActive)
             {
-                totalCostPerMinute += StringDb.localSecurityCost * gameData.totalEmployees;
+                gameData.totalCostPerMinute += StringDb.localSecurityCost * gameData.totalEmployees;
             }
 
-            gameData.money += totalMoneyEarnPerMinute - totalCostPerMinute - totalMoneyLossPerMinute;
+            gameData.money += gameData.totalMoneyEarnPerMinute - gameData.totalCostPerMinute - gameData.totalMoneyLossPerMinute;
 
             gameData.remoteIdsCheckTime += gameData.minutePercentage;
 
@@ -430,14 +387,7 @@ public class Level2Manager : MonoBehaviour, ILevelManager
 
             yield return new WaitUntil(() => gameData.threatSpawnTime > gameData.threatSpawnRate);
 
-            yield return new WaitWhile(() =>
-                hasDosDeployed ||
-                hasPhishingDeployed ||
-                hasReplayDeployed ||
-                hasMitmDeployed ||
-                hasMalwareDeployed ||
-                hasStuxnetDeployed ||
-                hasDragonflyDeployed);
+            yield return new WaitWhile(() => gameData.hasDosDeployed || gameData.hasPhishingDeployed || gameData.hasReplayDeployed || gameData.hasMitmDeployed || gameData.hasMalwareDeployed || gameData.hasStuxnetDeployed || gameData.hasDragonflyDeployed);
 
             //Debug.Log(StringDb.threatSpawnRate);
 
@@ -486,12 +436,12 @@ public class Level2Manager : MonoBehaviour, ILevelManager
         TimeEvent timeEvent = ClassDb.timeEventManager.NewTimeEventFromThreat(threat, threat.aiController.gameObject, true, false);
 
         //add timeEvent created from threat in the timeEventList
-        timeEventList.Add(timeEvent);
+        gameData.timeEventList.Add(timeEvent);
 
         threat.aiController.timeEvent = timeEvent;
         threat.aiController.AfterEnable();
 
-        localThreats.Add(threat);
+        gameData.localThreats.Add(threat);
 
         Debug.Log(threat);
     }
@@ -503,12 +453,12 @@ public class Level2Manager : MonoBehaviour, ILevelManager
         TimeEvent timeEvent = ClassDb.timeEventManager.NewTimeEventFromThreat(threat, threat.aiController.gameObject, false, false);
 
         //add timeEvent created from threat in the timeEventList
-        timeEventList.Add(timeEvent);
+        gameData.timeEventList.Add(timeEvent);
 
         threat.aiController.timeEvent = timeEvent;
         threat.aiController.AfterEnable();
 
-        remoteThreats.Add(threat);
+        gameData.remoteThreats.Add(threat);
 
         Debug.Log(threat);
     }
@@ -521,12 +471,12 @@ public class Level2Manager : MonoBehaviour, ILevelManager
         TimeEvent timeEvent = ClassDb.timeEventManager.NewTimeEventFromThreat(threat, threat.aiController.gameObject, true, false);
 
         //add timeEvent created from threat in the timeEventList
-        timeEventList.Add(timeEvent);
+        gameData.timeEventList.Add(timeEvent);
 
         threat.aiController.timeEvent = timeEvent;
         threat.aiController.AfterEnable();
 
-        localThreats.Add(threat);
+        gameData.localThreats.Add(threat);
 
         Debug.Log(threat);
     }
@@ -547,9 +497,9 @@ public class Level2Manager : MonoBehaviour, ILevelManager
                 (threat.aiController.isTrusted || (int)threat.threatDanger < (int)threat.aiController.dangerResistance))
             {
                 if (threat.threatType == StringDb.ThreatType.remote)
-                    remoteThreats.Remove(threat);
+                    gameData.remoteThreats.Remove(threat);
                 else
-                    localThreats.Remove(threat);
+                    gameData.localThreats.Remove(threat);
 
                 gameData.totalThreat += 1;
                 UpdateReputation(threat, StringDb.ThreatStatus.unarmed);
@@ -561,9 +511,9 @@ public class Level2Manager : MonoBehaviour, ILevelManager
 
             //REMOTE THREAT; CHECK IF FIREWALL INTERCEPT BEFORE DEPLOY
             if (threat.threatType == StringDb.ThreatType.remote &&
-                Random.Range(0, 100) < gameData.firewallSuccessRate && isFirewallActive)
+                Random.Range(0, 100) < gameData.firewallSuccessRate && gameData.isFirewallActive)
             {
-                remoteThreats.Remove(threat);
+                gameData.remoteThreats.Remove(threat);
 
                 gameData.totalThreat += 1;
                 UpdateReputation(threat, StringDb.ThreatStatus.unarmed);
@@ -588,21 +538,20 @@ public class Level2Manager : MonoBehaviour, ILevelManager
             {
                 case StringDb.ThreatAttack.dos:
                     //flag to inform about dos attack
-                    if (!hasDosDeployed)
-                        hasDosDeployed = true;
+                    if (!gameData.hasDosDeployed) gameData.hasDosDeployed = true;
 
                     //Stop all time events before setting money loss
-                    ClassDb.timeEventManager.StopTimeEventList(timeEventList);
+                    ClassDb.timeEventManager.StopTimeEventList(gameData.timeEventList);
 
                     ////Stop earning until rebooting is executed
                     //totalMoneyEarnPerMinute = 0f;
 
                     //Set money loss for rebooting and check flag to start money loss
-                    moneyLossList[StringDb.ThreatAttack.dos] += threat.moneyLossPerMinute * totalMoneyEarnPerMinute;
-                    isMoneyLoss = true;
+                    gameData.moneyLossList[StringDb.ThreatAttack.dos] += threat.moneyLossPerMinute * gameData.totalMoneyEarnPerMinute;
+                    gameData.isMoneyLoss = true;
 
                     //Set flag to start evaluate threat management result
-                    hasThreatManaged = false;
+                    gameData.hasThreatManaged = false;
                     StartThreatManagementResultData(threat);
 
                     if (gameData.isFirstDos)
@@ -615,8 +564,7 @@ public class Level2Manager : MonoBehaviour, ILevelManager
 
                 case StringDb.ThreatAttack.phishing:
                     //flag to inform about dos attack
-                    if (!hasPhishingDeployed)
-                        hasPhishingDeployed = true;
+                    if (!gameData.hasPhishingDeployed) gameData.hasPhishingDeployed = true;
 
                     //Calculate money loss according to the formula moneyLossPerMinute * 60 * threat number of hour  
                     moneyLoss = threat.moneyLossPerMinute * 60 * threat.deployTime;
@@ -627,7 +575,7 @@ public class Level2Manager : MonoBehaviour, ILevelManager
                     //Decreasing money by moneyloss amount
                     gameData.money -= moneyLoss;
 
-                    hasPhishingDeployed = false;
+                    gameData.hasPhishingDeployed = false;
 
                     if (gameData.isFirstPhishing)
                     {
@@ -641,21 +589,20 @@ public class Level2Manager : MonoBehaviour, ILevelManager
 
                 case StringDb.ThreatAttack.replay:
                     //flag to inform about replay attack
-                    if (!hasReplayDeployed)
-                        hasReplayDeployed = true;
+                    if (!gameData.hasReplayDeployed) gameData.hasReplayDeployed = true;
 
                     //Stop all time events before setting money loss
-                    ClassDb.timeEventManager.StopTimeEventList(timeEventList);
+                    ClassDb.timeEventManager.StopTimeEventList(gameData.timeEventList);
 
                     ////Stop earning until checking is executed
                     //totalMoneyEarnPerMinute = 0f;
 
                     //flag to inform about check plant by phone
-                    hasPlantChecked = false;
+                    gameData.hasPlantChecked = false;
 
                     //set money loss until check network cfg has been executed and check flag to start money loss
-                    moneyLossList[StringDb.ThreatAttack.replay] += threat.moneyLossPerMinute * totalMoneyEarnPerMinute;
-                    isMoneyLoss = true;
+                    gameData.moneyLossList[StringDb.ThreatAttack.replay] += threat.moneyLossPerMinute * gameData.totalMoneyEarnPerMinute;
+                    gameData.isMoneyLoss = true;
 
                     //Calculate money loss according to the formula moneyLossPerMinute * 60 * threat number of hour  
                     moneyLoss = threat.moneyLossPerMinute * 60 * threat.deployTime;
@@ -664,7 +611,7 @@ public class Level2Manager : MonoBehaviour, ILevelManager
                     TelephoneListener.replayThreats.Add(threat, moneyLoss);
 
                     //Set flag to start evaluate threat management result
-                    hasThreatManaged = false;
+                    gameData.hasThreatManaged = false;
                     StartThreatManagementResultData(threat);
 
                     if (gameData.isFirstReplay)
@@ -679,21 +626,20 @@ public class Level2Manager : MonoBehaviour, ILevelManager
 
                 case StringDb.ThreatAttack.mitm:
                     //flag to inform about mitm attack
-                    if (!hasMitmDeployed)
-                        hasMitmDeployed = true;
+                    if (!gameData.hasMitmDeployed) gameData.hasMitmDeployed = true;
 
                     //Stop all time events before setting money loss
-                    ClassDb.timeEventManager.StopTimeEventList(timeEventList);
+                    ClassDb.timeEventManager.StopTimeEventList(gameData.timeEventList);
 
                     ////Stop earning until checking is executed
                     //totalMoneyEarnPerMinute = 0f;
 
                     //set money loss until check network cfg has been executed and check flag to start money loss
-                    moneyLossList[StringDb.ThreatAttack.mitm] += threat.moneyLossPerMinute * totalMoneyEarnPerMinute;
-                    isMoneyLoss = true;
+                    gameData.moneyLossList[StringDb.ThreatAttack.mitm] += threat.moneyLossPerMinute * gameData.totalMoneyEarnPerMinute;
+                    gameData.isMoneyLoss = true;
 
                     //Set flag to start evaluate threat management result
-                    hasThreatManaged = false;
+                    gameData.hasThreatManaged = false;
                     StartThreatManagementResultData(threat);
 
                     if (gameData.isFirstMitm)
@@ -708,21 +654,20 @@ public class Level2Manager : MonoBehaviour, ILevelManager
 
                 case StringDb.ThreatAttack.stuxnet:
                     //flag to inform about stuxnet attack
-                    if (!hasStuxnetDeployed)
-                        hasStuxnetDeployed = true;
+                    if (!gameData.hasStuxnetDeployed) gameData.hasStuxnetDeployed = true;
 
                     //Stop all time events before setting money loss
-                    ClassDb.timeEventManager.StopTimeEventList(timeEventList);
+                    ClassDb.timeEventManager.StopTimeEventList(gameData.timeEventList);
 
                     ////Stop earning until scan is executed
                     //totalMoneyEarnPerMinute = 0f;
 
                     //flag to inform about check plant by phone
-                    hasPlantChecked = false;
+                    gameData.hasPlantChecked = false;
 
                     //set money loss until scan has been executed and check flag to start money loss
-                    moneyLossList[StringDb.ThreatAttack.stuxnet] += threat.moneyLossPerMinute * totalMoneyEarnPerMinute;
-                    isMoneyLoss = true;
+                    gameData.moneyLossList[StringDb.ThreatAttack.stuxnet] += threat.moneyLossPerMinute * gameData.totalMoneyEarnPerMinute;
+                    gameData.isMoneyLoss = true;
 
                     //Calculate money loss according to the formula moneyLossPerMinute * 60 * threat number of hour  
                     moneyLoss = threat.moneyLossPerMinute * 60 * threat.deployTime;
@@ -731,7 +676,7 @@ public class Level2Manager : MonoBehaviour, ILevelManager
                     TelephoneListener.stuxnetThreats.Add(threat, moneyLoss);
 
                     //Set flag to start evaluate threat management result
-                    hasThreatManaged = false;
+                    gameData.hasThreatManaged = false;
                     StartThreatManagementResultData(threat);
 
                     if (gameData.isFirstStuxnet)
@@ -746,21 +691,20 @@ public class Level2Manager : MonoBehaviour, ILevelManager
 
                 case StringDb.ThreatAttack.dragonfly:
                     //flag to inform about dragonfly attack
-                    if (!hasDragonflyDeployed)
-                        hasDragonflyDeployed = true;
+                    if (!gameData.hasDragonflyDeployed) gameData.hasDragonflyDeployed = true;
 
                     //Stop all time events before setting money loss
-                    ClassDb.timeEventManager.StopTimeEventList(timeEventList);
+                    ClassDb.timeEventManager.StopTimeEventList(gameData.timeEventList);
 
                     ////Stop earning until scan is executed
                     //totalMoneyEarnPerMinute = 0f;
 
                     //flag to inform about check malware
-                    hasMalwareChecked = false;
+                    gameData.hasMalwareChecked = false;
 
                     //set money loss until scan has been executed and check flag to start money loss
-                    moneyLossList[StringDb.ThreatAttack.dragonfly] += threat.moneyLossPerMinute * totalMoneyEarnPerMinute;
-                    isMoneyLoss = true;
+                    gameData.moneyLossList[StringDb.ThreatAttack.dragonfly] += threat.moneyLossPerMinute * gameData.totalMoneyEarnPerMinute;
+                    gameData.isMoneyLoss = true;
 
                     //Calculate money loss according to the formula moneyLossPerMinute * 60 * threat number of hour  
                     moneyLoss = threat.moneyLossPerMinute * 60 * threat.deployTime;
@@ -775,7 +719,7 @@ public class Level2Manager : MonoBehaviour, ILevelManager
                     gameData.money -= moneyLoss;
 
                     //Set flag to start evaluate threat management result
-                    hasThreatManaged = false;
+                    gameData.hasThreatManaged = false;
                     StartThreatManagementResultData(threat);
 
                     if (gameData.isFirstDragonfly)
@@ -790,18 +734,17 @@ public class Level2Manager : MonoBehaviour, ILevelManager
 
                 case StringDb.ThreatAttack.malware:
                     //flag to inform about malware attack
-                    if (!hasMalwareDeployed)
-                        hasMalwareDeployed = true;
+                    if (!gameData.hasMalwareDeployed) gameData.hasMalwareDeployed = true;
 
                     //Stop all time events before setting money loss
-                    ClassDb.timeEventManager.StopTimeEventList(timeEventList);
+                    ClassDb.timeEventManager.StopTimeEventList(gameData.timeEventList);
 
                     ////Stop earning until scan is executed
                     //totalMoneyEarnPerMinute = 0f;
 
                     //set money loss until scan has been executed and check flag to start money loss
-                    moneyLossList[StringDb.ThreatAttack.malware] += threat.moneyLossPerMinute * totalMoneyEarnPerMinute;
-                    isMoneyLoss = true;
+                    gameData.moneyLossList[StringDb.ThreatAttack.malware] += threat.moneyLossPerMinute * gameData.totalMoneyEarnPerMinute;
+                    gameData.isMoneyLoss = true;
 
                     //Calculate money loss according to the formula moneyLossPerMinute * 60 * threat number of hour 
                     moneyLoss = threat.moneyLossPerMinute * 60 * threat.deployTime;
@@ -816,7 +759,7 @@ public class Level2Manager : MonoBehaviour, ILevelManager
                     gameData.money -= moneyLoss;
 
                     //Set flag to start evaluate threat management result
-                    hasThreatManaged = false;
+                    gameData.hasThreatManaged = false;
                     StartThreatManagementResultData(threat);
 
                     if (gameData.isFirstMalware)
@@ -836,7 +779,7 @@ public class Level2Manager : MonoBehaviour, ILevelManager
                     //WAIT BEFORE CREATE NEW THREAT
                     yield return new WaitWhile(() => threat.aiController.pathUpdated);
 
-                    localThreats.Remove(threat);
+                    gameData.localThreats.Remove(threat);
 
                     Threat newThreat = ClassDb.threatManager.NewRemoteThreat();
 
@@ -850,7 +793,7 @@ public class Level2Manager : MonoBehaviour, ILevelManager
 
                     ClassDb.spawnCharacter.RemoveAi(threat.aiController.gameObject);
 
-                    localThreats.Remove(threat);
+                    gameData.localThreats.Remove(threat);
 
                     //Calculate money earn according to the formula moneyLossPerMinute * 60 * threat number of hour  
                     int moneyEarn = (int)(threat.moneyLossPerMinute * 60 * threat.deployTime);
@@ -911,7 +854,7 @@ public class Level2Manager : MonoBehaviour, ILevelManager
     {
         float threatSuccessRate = Random.Range(0, 100);
 
-        if (threat.threatType == StringDb.ThreatType.remote && !isFirewallActive)
+        if (threat.threatType == StringDb.ThreatType.remote && !gameData.isFirewallActive)
         {
             return true;
         }
@@ -1002,7 +945,7 @@ public class Level2Manager : MonoBehaviour, ILevelManager
     {
         try
         {
-            localThreats.Remove(threat);
+            gameData.localThreats.Remove(threat);
         }
         catch (Exception e)
         {
@@ -1058,12 +1001,12 @@ public class Level2Manager : MonoBehaviour, ILevelManager
     {
         for (; ; )
         {
-            yield return new WaitWhile(() => !isRemoteIdsActive);
+            yield return new WaitWhile(() => !gameData.isRemoteIdsActive);
 
             Debug.Log("IDS ACTIVE");
 
             yield return new WaitWhile(() => ServerPcListener.isThreatDetected);
-            yield return new WaitUntil(() => remoteThreats.Count > 0);
+            yield return new WaitUntil(() => gameData.remoteThreats.Count > 0);
             gameData.remoteIdsCheckTime = 0;
 
             yield return new WaitUntil(() => gameData.remoteIdsCheckTime > gameData.remoteIdsCheckRate);
@@ -1073,15 +1016,15 @@ public class Level2Manager : MonoBehaviour, ILevelManager
 
     public void RemoteIdsCheck()
     {
-        threatDetectedList.Clear();
+        gameData.threatDetectedList.Clear();
 
-        foreach (Threat threat in remoteThreats)
+        foreach (Threat threat in gameData.remoteThreats)
         {
             if (Random.Range(1, 100) < gameData.remoteIdsSuccessRate)
-                threatDetectedList.Add(threat);
+                gameData.threatDetectedList.Add(threat);
         }
 
-        if (threatDetectedList.Count <= 0) return;
+        if (gameData.threatDetectedList.Count <= 0) return;
 
         ClassDb.levelMessageManager.StartIdsInterception();
 
@@ -1092,11 +1035,11 @@ public class Level2Manager : MonoBehaviour, ILevelManager
     {
         for (; ; )
         {
-            yield return new WaitWhile(() => !isLocalIdsActive);
+            yield return new WaitWhile(() => !gameData.isLocalIdsActive);
 
             Debug.Log("LOCAL SECURITY ACTIVE");
 
-            yield return new WaitUntil(() => localThreats.Count > 0);
+            yield return new WaitUntil(() => gameData.localThreats.Count > 0);
             gameData.localIdsCheckTime = 0;
 
             yield return new WaitUntil(() => gameData.localIdsCheckTime > gameData.localIdsCheckRate);
@@ -1108,7 +1051,7 @@ public class Level2Manager : MonoBehaviour, ILevelManager
     {
         if (gameData.localIdsUpgraded)
         {
-            foreach (Threat threat in localThreats)
+            foreach (Threat threat in gameData.localThreats)
             {
                 if (threat.threatType != StringDb.ThreatType.local) continue;
                 if (threat.aiController.wrongDestinationCounter <= gameData.localIdsWrongCounter ||
@@ -1118,7 +1061,7 @@ public class Level2Manager : MonoBehaviour, ILevelManager
         }
         else
         {
-            foreach (Threat threat in localThreats)
+            foreach (Threat threat in gameData.localThreats)
             {
                 if (threat.aiController.wrongDestinationCounter <= gameData.localIdsWrongCounter ||
                     threat.aiController.isSuspected) continue;
@@ -1138,7 +1081,7 @@ public class Level2Manager : MonoBehaviour, ILevelManager
         DateTime deployGameTime = gameData.date;
         DateTime deployRealTime = DateTime.Now;
 
-        yield return new WaitWhile(() => !hasThreatManaged);
+        yield return new WaitWhile(() => !gameData.hasThreatManaged);
 
         DateTime managedGameTime = gameData.date;
         DateTime managedRealTime = DateTime.Now;
@@ -1158,17 +1101,17 @@ public class Level2Manager : MonoBehaviour, ILevelManager
 
     public void SetFirewallActive(bool active)
     {
-        isFirewallActive = active;
+        gameData.isFirewallActive = active;
     }
 
     public void SetRemoteIdsActive(bool active)
     {
-        isRemoteIdsActive = active;
+        gameData.isRemoteIdsActive = active;
     }
 
     public void SetLocalIdsActive(bool active)
     {
-        isLocalIdsActive = active;
+        gameData.isLocalIdsActive = active;
     }
 
     public GameData GetGameData()
@@ -1176,33 +1119,4 @@ public class Level2Manager : MonoBehaviour, ILevelManager
         return gameData;
     }
 
-    public List<TimeEvent> GetTimeEventList()
-    {
-        return timeEventList;
-    }
-
-    public List<Threat> GetLocalThreats()
-    {
-        return localThreats;
-    }
-
-    public List<Threat> GetRemoteThreats()
-    {
-        return remoteThreats;
-    }
-
-    public List<Threat> GetThreatDetectedList()
-    {
-        return threatDetectedList;
-    }
-
-    public Dictionary<StringDb.ThreatAttack, float> getMoneyLossList()
-    {
-        return moneyLossList;
-    }
-
-    public void SetMoneyLossBool(bool b)
-    {
-        isMoneyLoss = b;
-    }
 }

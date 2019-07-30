@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class TutorialTelephoneListener : MonoBehaviour
@@ -20,17 +21,33 @@ public class TutorialTelephoneListener : MonoBehaviour
     private IEnumerator telephone1Routine;
     private IEnumerator telephone2Routine;
 
+    private ILevelManager manager;
+
+
     public static Dictionary<Threat, float> replayThreats;
     public static Dictionary<Threat, float> stuxnetThreats;
 
     private void Start()
-    { 
+    {
+        manager = SetLevelManager();
+
         interactiveSprite = GetComponent<TutorialInteractiveSprite>();
 
         replayThreats = new Dictionary<Threat, float>();
         stuxnetThreats = new Dictionary<Threat, float>();
 
         telephoneOnCoolDown = false;
+    }
+
+    private ILevelManager SetLevelManager()
+    {
+        ILevelManager iManager;
+        if (SceneManager.GetActiveScene().buildIndex == StringDb.level1SceneIndex)
+            iManager = FindObjectOfType<Level1Manager>();
+        else
+            iManager = FindObjectOfType<Level2Manager>();
+
+        return iManager;
     }
 
     public void SetTelephoneListeners()
@@ -43,13 +60,13 @@ public class TutorialTelephoneListener : MonoBehaviour
         }
         List<Button> buttons;
 
-        if (Level1Manager.hasDosDeployed ||
-            Level1Manager.hasPhishingDeployed ||
-            Level1Manager.hasReplayDeployed ||
-            Level1Manager.hasMitmDeployed ||
-            Level1Manager.hasMalwareDeployed ||
-            Level1Manager.hasStuxnetDeployed ||
-            Level1Manager.hasDragonflyDeployed)
+        if (manager.GetGameData().hasDosDeployed ||
+            manager.GetGameData().hasPhishingDeployed ||
+            manager.GetGameData().hasReplayDeployed ||
+            manager.GetGameData().hasMitmDeployed ||
+            manager.GetGameData().hasMalwareDeployed ||
+            manager.GetGameData().hasStuxnetDeployed ||
+            manager.GetGameData().hasDragonflyDeployed)
         {
             buttons = interactiveSprite.actionButtonManager.GetActiveCanvasGroup(3);
 

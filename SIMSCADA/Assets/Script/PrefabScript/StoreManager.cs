@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -29,11 +30,15 @@ public class StoreManager : MonoBehaviour
     private RoomPcListener roomPcListener;
     private TutorialRoomPcListener tutorialRoomPcListener;
 
+    private Sprite[] sprites;
+
     private ILevelManager manager;
 
     private void OnEnable()
     {
         manager = SetLevelManager();
+
+        sprites = Resources.LoadAll<Sprite>("ItemStoreSprite");
 
         roomPcListener = FindObjectOfType<RoomPcListener>();
         tutorialRoomPcListener = FindObjectOfType<TutorialRoomPcListener>();
@@ -68,7 +73,7 @@ public class StoreManager : MonoBehaviour
             }
         });
 
-
+        //POPULATE ITEMLIST
         if (itemList.Count == 0)
         {
             foreach (TextAsset textAsset in itemAsset)
@@ -78,11 +83,13 @@ public class StoreManager : MonoBehaviour
             }
         }
 
+        //SORT ITEMLIST
+        itemList.Sort(ItemStore.NameComparer);
+
         foreach (ItemStore item in itemList)
         {
             GameObject itemOnList = ClassDb.prefabManager.GetPrefab(ClassDb.prefabManager.prefabStoreItem.gameObject, PrefabManager.storeItemIndex);
             item.itemObject = itemOnList;
-            CheckItemLevel(item);
             itemOnList.transform.SetParent(content);
             itemOnList.transform.localScale = Vector3.one;
             itemOnList.name = "Item" + itemList.IndexOf(item);
@@ -93,9 +100,15 @@ public class StoreManager : MonoBehaviour
             ItemStore item1 = item;
             itemOnList.GetComponent<Button>().onClick.AddListener(delegate
             {
+                if (itemStoreSelected != defaultItemStore)
+                {
+                    itemStoreSelected.itemObject.GetComponent<Button>().image.sprite = sprites[0];
+                }
                 itemStoreSelected = item1;
+                item1.itemObject.GetComponent<Button>().image.sprite = sprites[sprites.Length-1];
                 SetDescription(itemStoreSelected);
             });
+            CheckItemLevel(item);
         }
 
         purchaseButton.onClick.RemoveAllListeners();
@@ -110,7 +123,7 @@ public class StoreManager : MonoBehaviour
         {
             foreach (ItemStore item in itemList)
             {
-                item.itemObject.GetComponent<Button>().interactable = true;
+                CheckItemLevel(item);
             }
         }
         else
@@ -163,6 +176,9 @@ public class StoreManager : MonoBehaviour
 
     public void PurchaseItem(ItemStore itemStore)
     {
+        //reset sprite
+        itemStore.itemObject.GetComponent<Button>().image.sprite = sprites[0];
+
         manager.GetGameData().money-= itemStore.price;
         SetItemLevel(itemStore);
         CheckItemLevel(itemStore);
@@ -189,7 +205,8 @@ public class StoreManager : MonoBehaviour
         if (itemStore.finalLevel == -1) return;
         if (itemStore.currentLevel < itemStore.finalLevel) return;
         itemStore.itemObject.GetComponent<Button>().interactable = false;
-        itemStore.currentLevel--;
+        Debug.Log("ITEM NOT INTERACTABLE");
+        //itemStore.currentLevel--;
     }
 
     private void ApplyItemEffect(ItemStore itemStore)
@@ -333,7 +350,7 @@ public class StoreManager : MonoBehaviour
             default:
                 throw new ArgumentOutOfRangeException();
         }
-
+        //TODO GET DATA ABOUT PURCHASE
         //ClassDb.dataCollector.GetUpgradeData(itemStore, DateTime.Now);
 
     }

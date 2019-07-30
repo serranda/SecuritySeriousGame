@@ -49,13 +49,13 @@ public class TelephoneListener : MonoBehaviour
     {
         List<Button> buttons;
 
-        if (Level1Manager.hasDosDeployed ||
-            Level1Manager.hasPhishingDeployed ||
-            Level1Manager.hasReplayDeployed ||
-            Level1Manager.hasMitmDeployed ||
-            Level1Manager.hasMalwareDeployed ||
-            Level1Manager.hasStuxnetDeployed ||
-            Level1Manager.hasDragonflyDeployed)
+        if (manager.GetGameData().hasDosDeployed ||
+            manager.GetGameData().hasPhishingDeployed ||
+            manager.GetGameData().hasReplayDeployed ||
+            manager.GetGameData().hasMitmDeployed ||
+            manager.GetGameData().hasMalwareDeployed ||
+            manager.GetGameData().hasStuxnetDeployed ||
+            manager.GetGameData().hasDragonflyDeployed)
         {
             buttons = interactiveSprite.actionButtonManager.GetActiveCanvasGroup(3);
 
@@ -121,7 +121,7 @@ public class TelephoneListener : MonoBehaviour
         TimeEvent progressEvent = ClassDb.timeEventManager.NewTimeEvent(
             manager.GetGameData().telephoneMoneyTime, interactiveSprite.gameObject, true, true);
 
-        manager.GetTimeEventList().Add(progressEvent);
+        manager.GetGameData().timeEventList.Add(progressEvent);
 
         moneyRoutine = GetMoney(progressEvent, successRate);
         StartCoroutine(moneyRoutine);
@@ -130,7 +130,7 @@ public class TelephoneListener : MonoBehaviour
     private IEnumerator GetMoney(TimeEvent progressEvent, int successRate)
     {
 
-        yield return new WaitWhile(() => manager.GetTimeEventList().Contains(progressEvent));
+        yield return new WaitWhile(() => manager.GetGameData().timeEventList.Contains(progressEvent));
 
         if (!(successRate >= manager.GetGameData().reputation))
         {
@@ -142,11 +142,11 @@ public class TelephoneListener : MonoBehaviour
         TimeEvent coolDownEvent = ClassDb.timeEventManager.NewTimeEvent(
             manager.GetGameData().telephoneMoneyCoolDown * 60, interactiveSprite.gameObject, true, false);
 
-        manager.GetTimeEventList().Add(coolDownEvent);
+        manager.GetGameData().timeEventList.Add(coolDownEvent);
 
         telephoneOnCoolDown = true;
 
-        yield return new WaitWhile(() => manager.GetTimeEventList().Contains(coolDownEvent));
+        yield return new WaitWhile(() => manager.GetGameData().timeEventList.Contains(coolDownEvent));
 
         telephoneOnCoolDown = false;
 
@@ -160,7 +160,7 @@ public class TelephoneListener : MonoBehaviour
         TimeEvent progressEvent = ClassDb.timeEventManager.NewTimeEvent(
             manager.GetGameData().telephoneCheckPlantTime, interactiveSprite.gameObject, true, true);
 
-        manager.GetTimeEventList().Add(progressEvent);
+        manager.GetGameData().timeEventList.Add(progressEvent);
 
         checkPlantRoutine = CheckPlant(progressEvent);
 
@@ -169,10 +169,10 @@ public class TelephoneListener : MonoBehaviour
 
     public IEnumerator CheckPlant(TimeEvent progressEvent)
     {
-        yield return new WaitWhile(() => manager.GetTimeEventList().Contains(progressEvent));
+        yield return new WaitWhile(() => manager.GetGameData().timeEventList.Contains(progressEvent));
 
 
-        if (Level1Manager.hasReplayDeployed)
+        if (manager.GetGameData().hasReplayDeployed)
         {
             foreach (KeyValuePair<Threat, float> pair in replayThreats)
             {
@@ -194,7 +194,7 @@ public class TelephoneListener : MonoBehaviour
         }
 
 
-        if (Level1Manager.hasStuxnetDeployed)
+        if (manager.GetGameData().hasStuxnetDeployed)
         {
             foreach (KeyValuePair<Threat, float> pair in stuxnetThreats)
             {
@@ -224,6 +224,6 @@ public class TelephoneListener : MonoBehaviour
 
         interactiveSprite.SetInteraction(true);
 
-        Level1Manager.hasPlantChecked = true;
+        manager.GetGameData().hasPlantChecked = true;
     }
 }

@@ -22,7 +22,7 @@ public class ClassDb : MonoBehaviour
     public static DialogBoxManager dialogBoxManager;
     public static TutorialDialogBoxManager tutorialDialogBoxManager;
     public static IdCardManager idCardManager;
-    public static SaveDataManager saveDataManager;
+    public static GameDataManager gameDataManager;
     public static DataCollector dataCollector;
     public static LogManager logManager;
 
@@ -50,7 +50,7 @@ public class ClassDb : MonoBehaviour
         dialogBoxManager = GetComponent<DialogBoxManager>();
         tutorialDialogBoxManager = GetComponent<TutorialDialogBoxManager>();
         idCardManager = GetComponent<IdCardManager>();
-        saveDataManager = GetComponent<SaveDataManager>();
+        gameDataManager = GetComponent<GameDataManager>();
         dataCollector = GetComponent<DataCollector>();
         logManager = GetComponent<LogManager>();
 

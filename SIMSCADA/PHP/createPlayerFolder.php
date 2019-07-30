@@ -11,21 +11,20 @@
 	error_reporting(0);
 	ini_set('display_errors', 0);
 	
-	$folderName = $_POST["folderName"];	
+	$playerFolder = $_POST["playerFolder"];	
 	
-	$folderPath = '../PlayerData/'.$folderName.'/';
+	$playerFolderPath = '../Data/'.$playerFolder.'/';
 
-	if (!is_dir($folderPath))
+	if (!is_dir($playerFolderPath))
 	{
-		if(mkdir($folderPath) !== FALSE)
+		if(mkdir($playerFolderPath) !== FALSE)
 		{
 			echo "Folder Created";
 		}
 		else
 		{
 			echo "Error Creating Folder";
-		}
-		
+		}		
 	}
 	else
 	{

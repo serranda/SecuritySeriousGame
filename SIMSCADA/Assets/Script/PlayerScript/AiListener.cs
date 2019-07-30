@@ -12,8 +12,6 @@ public class AiListener : MonoBehaviour
 
     private ILevelManager manager;
 
-
-
     private void OnEnable()
     {
         aiController = GetComponent<AiController>();
@@ -60,7 +58,7 @@ public class AiListener : MonoBehaviour
         //yield return new WaitWhile(() => aiController.playerController.pathUpdated);
         TimeEvent progressEvent = ClassDb.timeEventManager.NewTimeEvent(
             manager.GetGameData().idCardTime, aiController.gameObject, true, true);
-        manager.GetTimeEventList().Add(progressEvent);
+        manager.GetGameData().timeEventList.Add(progressEvent);
 
         aiController.idChecked = true;
 
@@ -70,7 +68,7 @@ public class AiListener : MonoBehaviour
 
     private IEnumerator ShowAiId(TimeEvent progressEvent)
     {
-        yield return new WaitWhile(() => manager.GetTimeEventList().Contains(progressEvent));
+        yield return new WaitWhile(() => manager.GetGameData().timeEventList.Contains(progressEvent));
         yield return new WaitWhile(() => IdCardManager.idCardEnabled);
         ClassDb.idCardManager.ToggleIdCard();
 

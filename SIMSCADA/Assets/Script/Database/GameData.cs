@@ -138,4 +138,62 @@ public class GameData : MonoBehaviour
 
     //values to check if game has been won or lost
     public bool isGameWon;
+
+    //list for time event
+    public List<TimeEvent> timeEventList;
+
+    //list for deployed threat
+    public List<Threat> deployedThreatList;
+
+    //list for remote threat, local threat and detected threat still deploying
+    public List<Threat> remoteThreats;
+    public List<Threat> localThreats;
+    public List<Threat> threatDetectedList;
+
+    //int for previous month check (in order to increase month)
+    public int previousMonth;
+
+    //flag to check if there is a money loss
+    public bool isMoneyLoss;
+
+    //dictionary in which are stored alle the money loss factor relative to all types of threat
+    public Dictionary<StringDb.ThreatAttack, float> moneyLossList;
+
+    //sums of all the money loss per minutes factor
+    public float totalMoneyLossPerMinute;
+
+    //sums of all the money earns per minutes
+    public float totalMoneyEarnPerMinute;
+
+    public float totalCostPerMinute;
+
+    //int for the speed factor mutiplier
+    public int simulationSpeedMultiplier;
+
+    //int for the time simulation; how many milliseconds needed for a minute in game time
+    [Range(100, 10000)] public int millisecondsPerMinutes = 500;
+
+    //int for the spawn rate of threat
+    [Range(500, 3000)] public int threatSpawnBaseTime = 2000;
+
+    //flags to check which type of threat has been deployed
+    public bool hasReplayDeployed;
+    public bool hasDosDeployed;
+    public bool hasPhishingDeployed;
+    public bool hasMitmDeployed;
+    public bool hasMalwareDeployed;
+    public bool hasStuxnetDeployed;
+    public bool hasDragonflyDeployed;
+
+    //flags to check if, before going on with the defensive action, the plant has been checked or has been done a malware scan
+    public bool hasPlantChecked;
+    public bool hasMalwareChecked;
+
+    //flag to check if all the correct actions has been done and the threat has been managed
+    public bool hasThreatManaged;
+
+    //flags to check if the firewall, the remote ids or the local ids has been activated
+    public bool isFirewallActive;
+    public bool isRemoteIdsActive;
+    public bool isLocalIdsActive;
 }

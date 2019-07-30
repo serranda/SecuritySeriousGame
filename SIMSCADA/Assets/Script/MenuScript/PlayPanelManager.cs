@@ -60,9 +60,10 @@ public class PlayPanelManager : MonoBehaviour
 
         foreach(Button slotCurrentBtn in slotBtnList)
         {
+            //TODO CHECK ALL THE PATH
             int index = slotBtnList.IndexOf(slotCurrentBtn);
             string slotFile = StringDb.slotName + index;
-            string slotPath = Path.Combine(StringDb.slotFolderPath, slotFile);
+            string slotPath = Path.Combine("", slotFile);
             if (File.Exists(slotPath))
             {
                 slotCurrentBtn.GetComponentInChildren<TextMeshProUGUI>().text = "Carica";
@@ -74,7 +75,7 @@ public class PlayPanelManager : MonoBehaviour
                     //GameData.slotIndex = index;
                     ClassDb.sceneLoader.StartLoadByIndex(StringDb.level1SceneIndex);
                 });
-                byte[] data = File.ReadAllBytes(string.Concat(slotPath, StringDb.imageSlotExt));
+                byte[] data = File.ReadAllBytes(string.Concat(slotPath, StringDb.imageExt));
                 Texture2D texture = new Texture2D(300, 300, TextureFormat.ARGB32, false);
                 texture.LoadImage(data);
                 Sprite sprite = Sprite.Create(

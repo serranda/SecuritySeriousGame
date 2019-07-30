@@ -8,20 +8,20 @@
 ?>
 <?php
 	
-	$folderName = $_POST["folderName"];
-	$fileName = $_POST["fileName"];
-	$fileContent = $_POST["fileContent"];
+	$playerFolder = $_POST["playerFolder"];
+	$logName = $_POST["logName"];
+	$logContent = $_POST["logContent"];
 	
-	$filePath = '../PlayerData/'.$folderName.'/'.$fileName.'.log';
+	$logPath = '../Data/'.$playerFolder.'/'.$logName.'.log';
 
-	if (file_put_contents($filePath, $fileContent, FILE_APPEND) !== false) 
+	if (file_put_contents($logPath, $logContent, FILE_APPEND) !== false) 
 	{
-		echo "File created (" . basename($filePath) . ").";
+		echo "File created (" . basename($logPath) . ").";
 		
 	} 
 	else 
 	{
-		echo "Cannot create the file (" . basename($filePath) . ").";
+		echo "Cannot create the file (" . basename($logPath) . ").";
 	}
 	
 

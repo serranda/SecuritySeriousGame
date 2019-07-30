@@ -68,18 +68,5 @@ interface ILevelManager
 
     GameData GetGameData();
 
-    List<TimeEvent> GetTimeEventList();
-
-    List<Threat> GetLocalThreats();
-
-    List<Threat> GetRemoteThreats();
-
-    List<Threat> GetThreatDetectedList();
-
-    Dictionary<StringDb.ThreatAttack, float> getMoneyLossList();
-
-    void SetMoneyLossBool(bool b);
-
     void StopAllCoroutines();
-
 }

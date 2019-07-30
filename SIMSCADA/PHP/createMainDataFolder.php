@@ -11,21 +11,24 @@
 	error_reporting(0);
 	ini_set('display_errors', 0);
 	
-	$playerListPath = '../PlayerData/players.txt';
+	$mainDataFolder = $_POST["mainDataFolder"];	
+	
+	$mainDataFolderPath = '../'.$mainDataFolder.'/';
 
-	if(!file_exists($playerListPath))
+	if (!is_dir($mainDataFolderPath))
 	{
-		file_put_contents($playerListPath, "");
-		echo "File Created";
-	}
-	else if(file_get_contents($playerListPath)==FALSE)
-	{
-		echo "File Empty";
+		if(mkdir($mainDataFolderPath) !== FALSE)
+		{
+			echo "Folder Created";
+		}
+		else
+		{
+			echo "Error Creating Folder";
+		}		
 	}
 	else
 	{
-		$file = file_get_contents($playerListPath);
-		echo $file;		
+		echo "Folder Already Exists";
 	}	
 
 ?>

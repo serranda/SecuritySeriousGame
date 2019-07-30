@@ -358,7 +358,7 @@ public class LevelMessageManager : MonoBehaviour
         {
             ClassDb.pauseManager.TogglePauseMenu();
             ClassDb.dialogBoxManager.ToggleDialogBox();
-            ClassDb.saveDataManager.SaveOffice();
+            ClassDb.gameDataManager.StartSaveLevelGameData();
             ClassDb.sceneLoader.StartLoadByIndex(StringDb.menuSceneIndex);
         });
 
@@ -603,6 +603,8 @@ public class LevelMessageManager : MonoBehaviour
     {
         newTrustedEmployeesRoutine = NewTrustedEmployees();
         StartCoroutine(newTrustedEmployeesRoutine);
+        //TODO ADD PROGRESS BAR FOR ENTIRE UPDATING COURSE
+
     }
 
     private IEnumerator NewTrustedEmployees()
@@ -633,6 +635,7 @@ public class LevelMessageManager : MonoBehaviour
     {
         newEmployeesHiredRoutine = NewEmployeesHired(employeesHired);
         StartCoroutine(newEmployeesHiredRoutine);
+        //TODO ADD PROGRESS BAR FOR ENTIRE HIRING CAMPAIGN
     }
 
     private IEnumerator NewEmployeesHired(int employeesHired)

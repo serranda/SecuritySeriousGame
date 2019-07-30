@@ -8606,18 +8606,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4da890a36d5e334d903343a8fbcfb74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeEventList: []
-  deployedThreatList: []
-  remoteThreats: []
-  localThreats: []
-  threatDetectedList: []
-  isMoneyLoss: 0
-  totalMoneyLossPerMinute: 0
-  totalMoneyEarnPerMinute: 0
-  totalCostPerMinute: 0
-  simulationSpeedMultiplier: 1
-  millisecondsPerMinutes: 10000
-  threatSpawnBaseTime: 2000
   gameData: {fileID: 921579333}
 --- !u!4 &921579331
 Transform:
@@ -8711,6 +8699,32 @@ MonoBehaviour:
   winCounter: 0
   lossCounter: 0
   isGameWon: 0
+  timeEventList: []
+  deployedThreatList: []
+  remoteThreats: []
+  localThreats: []
+  threatDetectedList: []
+  previousMonth: 0
+  isMoneyLoss: 0
+  totalMoneyLossPerMinute: 0
+  totalMoneyEarnPerMinute: 0
+  totalCostPerMinute: 0
+  simulationSpeedMultiplier: 0
+  millisecondsPerMinutes: 10000
+  threatSpawnBaseTime: 2000
+  hasReplayDeployed: 0
+  hasDosDeployed: 0
+  hasPhishingDeployed: 0
+  hasMitmDeployed: 0
+  hasMalwareDeployed: 0
+  hasStuxnetDeployed: 0
+  hasDragonflyDeployed: 0
+  hasPlantChecked: 0
+  hasMalwareChecked: 0
+  hasThreatManaged: 0
+  isFirewallActive: 0
+  isRemoteIdsActive: 0
+  isLocalIdsActive: 0
 --- !u!114 &921579334
 MonoBehaviour:
   m_ObjectHideFlags: 0

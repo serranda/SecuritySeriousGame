@@ -7,7 +7,7 @@ using UnityEngine.Networking;
 
 public class LogManager : MonoBehaviour
 {
-    private string filename = "playerLog";
+    private string logName = "playerLog";
 
     private IEnumerator writeRoutine;
 
@@ -21,11 +21,11 @@ public class LogManager : MonoBehaviour
     {
         WWWForm form = new WWWForm();
 
-        string fieldContent = string.Concat(DateTime.Now.ToString(StringDb.dataTimeFormat), " [", logEvent.ToString().ToUpper() , "] ", content,"\n");
+        string logContent = string.Concat(DateTime.Now.ToString(StringDb.dataTimeFormat), " [", logEvent.ToString().ToUpper() , "] ", content,"\n");
 
-        form.AddField("folderName", player.folderName);
-        form.AddField("fileName", filename);
-        form.AddField("fileContent", fieldContent);
+        form.AddField("playerFolder", player.folderName);
+        form.AddField("logName", logName);
+        form.AddField("logContent", logContent);
 
 
         using (UnityWebRequest www =

@@ -14,20 +14,20 @@
 	
 	$mode = $_POST["mode"];
 	
-	$folderName = $_POST["folderName"];
+	$playerFolder = $_POST["playerFolder"];
 	$settingsFolder = $_POST["settingsFolder"];
 	$settingFileName = $_POST["settingFileName"];
 	
-	$settingsFolderPath = '../PlayerData/'.$folderName.'/'.$settingsFolder.'/';
-	$settingsFilePath = $settingsFolderPath.$settingFileName;
+	$playerSettingsFolderPath = '../Data/'.$playerFolder.'/'.$settingsFolder.'/';
+	$playerSettingsFilePath = $playerSettingsFolderPath.$settingFileName;
 	
 	
 	//read file content and send to unity
 	if($mode == 'r')
 	{
-		if(file_get_contents($settingsFilePath) !== FALSE)
+		if(file_get_contents($playerSettingsFilePath) !== FALSE)
 		{
-			$file = file_get_contents($settingsFilePath);
+			$file = file_get_contents($playerSettingsFilePath);
 			echo $file;
 
 		}
@@ -35,9 +35,9 @@
 		{			
 			echo "Error Reading File";		
 
-			if (!is_dir($settingsFolderPath))
+			if (!is_dir($playerSettingsFolderPath))
 			{
-				mkdir($settingsFolderPath);			
+				mkdir($playerSettingsFolderPath);			
 			}
 		}
 	}	
@@ -46,13 +46,13 @@
 	{		
 		$settingsContent = $_POST["settingsContent"];
 
-		if (file_put_contents($settingsFilePath, $settingsContent) !== FALSE) 
+		if (file_put_contents($playerSettingsFilePath, $settingsContent) !== FALSE) 
 		{
-			echo "File updated (" . basename($settingsFilePath) . ").";		
+			echo "File updated (" . basename($playerSettingsFilePath) . ").";		
 		} 
 		else 
 		{
-			echo "Cannot update the file (" . basename($settingsFilePath) . ").";
+			echo "Cannot update the file (" . basename($playerSettingsFilePath) . ").";
 		}
 	}
 

@@ -61,13 +61,13 @@ public class TutorialRoomPcListener : MonoBehaviour
 
         if (manager.GetGameData().pointOutPurchased)
         {
-            if (Level1Manager.hasDosDeployed ||
-                Level1Manager.hasPhishingDeployed ||
-                Level1Manager.hasReplayDeployed ||
-                Level1Manager.hasMitmDeployed ||
-                Level1Manager.hasMalwareDeployed ||
-                Level1Manager.hasStuxnetDeployed ||
-                Level1Manager.hasDragonflyDeployed)
+            if (manager.GetGameData().hasDosDeployed ||
+                manager.GetGameData().hasPhishingDeployed ||
+                manager.GetGameData().hasReplayDeployed ||
+                manager.GetGameData().hasMitmDeployed ||
+                manager.GetGameData().hasMalwareDeployed ||
+                manager.GetGameData().hasStuxnetDeployed ||
+                manager.GetGameData().hasDragonflyDeployed)
             {
                 buttons = interactiveSprite.actionButtonManager.GetActiveCanvasGroup(8);
 
@@ -88,7 +88,7 @@ public class TutorialRoomPcListener : MonoBehaviour
 
                 });
 
-                if (Level1Manager.isFirewallActive)
+                if (manager.GetGameData().isFirewallActive)
                 {
                     buttons[2].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva Firewall";
                     buttons[2].onClick.RemoveAllListeners();
@@ -110,7 +110,7 @@ public class TutorialRoomPcListener : MonoBehaviour
                 }
 
 
-                if (Level1Manager.isRemoteIdsActive)
+                if (manager.GetGameData().isRemoteIdsActive)
                 {
                     buttons[3].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva IDS";
                     buttons[3].onClick.RemoveAllListeners();
@@ -131,7 +131,7 @@ public class TutorialRoomPcListener : MonoBehaviour
                     });
                 }
 
-                if (Level1Manager.isLocalIdsActive)
+                if (manager.GetGameData().isLocalIdsActive)
                 {
                     buttons[4].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva Controlli Locali";
                     buttons[4].onClick.RemoveAllListeners();
@@ -197,7 +197,7 @@ public class TutorialRoomPcListener : MonoBehaviour
 
                 });
 
-                if (Level1Manager.isFirewallActive)
+                if (manager.GetGameData().isFirewallActive)
                 {
                     buttons[2].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva Firewall";
                     buttons[2].onClick.RemoveAllListeners();
@@ -219,7 +219,7 @@ public class TutorialRoomPcListener : MonoBehaviour
                 }
 
 
-                if (Level1Manager.isRemoteIdsActive)
+                if (manager.GetGameData().isRemoteIdsActive)
                 {
                     buttons[3].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva IDS";
                     buttons[3].onClick.RemoveAllListeners();
@@ -240,7 +240,7 @@ public class TutorialRoomPcListener : MonoBehaviour
                     });
                 }
 
-                if (Level1Manager.isLocalIdsActive)
+                if (manager.GetGameData().isLocalIdsActive)
                 {
                     buttons[4].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva Controlli Locali";
                     buttons[4].onClick.RemoveAllListeners();
@@ -272,13 +272,13 @@ public class TutorialRoomPcListener : MonoBehaviour
         }
         else
         {
-            if (Level1Manager.hasDosDeployed ||
-                Level1Manager.hasPhishingDeployed ||
-                Level1Manager.hasReplayDeployed ||
-                Level1Manager.hasMitmDeployed ||
-                Level1Manager.hasMalwareDeployed ||
-                Level1Manager.hasStuxnetDeployed ||
-                Level1Manager.hasDragonflyDeployed)
+            if (manager.GetGameData().hasDosDeployed ||
+                manager.GetGameData().hasPhishingDeployed ||
+                manager.GetGameData().hasReplayDeployed ||
+                manager.GetGameData().hasMitmDeployed ||
+                manager.GetGameData().hasMalwareDeployed ||
+                manager.GetGameData().hasStuxnetDeployed ||
+                manager.GetGameData().hasDragonflyDeployed)
             {
                 buttons = interactiveSprite.actionButtonManager.GetActiveCanvasGroup(7);
 
@@ -299,7 +299,7 @@ public class TutorialRoomPcListener : MonoBehaviour
 
                 });
 
-                if (Level1Manager.isFirewallActive)
+                if (manager.GetGameData().isFirewallActive)
                 {
                     buttons[2].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva Firewall";
                     buttons[2].onClick.RemoveAllListeners();
@@ -320,7 +320,7 @@ public class TutorialRoomPcListener : MonoBehaviour
                     });
                 }
 
-                if (Level1Manager.isRemoteIdsActive)
+                if (manager.GetGameData().isRemoteIdsActive)
                 {
                     buttons[3].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva IDS";
                     buttons[3].onClick.RemoveAllListeners();
@@ -341,7 +341,7 @@ public class TutorialRoomPcListener : MonoBehaviour
                     });
                 }
 
-                if (Level1Manager.isLocalIdsActive)
+                if (manager.GetGameData().isLocalIdsActive)
                 {
                     buttons[4].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva Controlli Locali";
                     buttons[4].onClick.RemoveAllListeners();
@@ -399,7 +399,7 @@ public class TutorialRoomPcListener : MonoBehaviour
 
                 });
 
-                if (Level1Manager.isFirewallActive)
+                if (manager.GetGameData().isFirewallActive)
                 {
                     buttons[2].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva Firewall";
                     buttons[2].onClick.RemoveAllListeners();
@@ -421,7 +421,7 @@ public class TutorialRoomPcListener : MonoBehaviour
                 }
 
 
-                if (Level1Manager.isRemoteIdsActive)
+                if (manager.GetGameData().isRemoteIdsActive)
                 {
                     buttons[3].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva IDS";
                     buttons[3].onClick.RemoveAllListeners();
@@ -442,7 +442,7 @@ public class TutorialRoomPcListener : MonoBehaviour
                     });
                 }
 
-                if (Level1Manager.isLocalIdsActive)
+                if (manager.GetGameData().isLocalIdsActive)
                 {
                     buttons[4].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva Controlli Locali";
                     buttons[4].onClick.RemoveAllListeners();

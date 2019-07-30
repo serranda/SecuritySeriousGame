@@ -189,7 +189,7 @@ public class ThreatManager : MonoBehaviour
 
     public Threat NewThreatFromTimeEvent(AiController ai)
     {
-        TimeEvent timeEvent = manager.GetTimeEventList().FirstOrDefault(x => x.threat.aiController == ai);
+        TimeEvent timeEvent = manager.GetGameData().timeEventList.FirstOrDefault(x => x.threat.aiController == ai);
 
         if (timeEvent == null) return null;
 

@@ -36,7 +36,7 @@ Una volta individuati gli aspetti teorici, intendo analizzare l'aspetto pratico 
 
 ### Implementazione e analisi dei criteri di valutazione
 
-Giunti a questo punto, procederò con lo sviluppo vero e proprio del videogioco, così come alla definzione dei vari criteri di valutazione. Questi serviranno nella fase di testing e raccolta dati per capire se il videogioco riesce a raggiungere lo scopo finale di insgenamento, oltre a dare una misura quantitativa dell'effettivo apprendimento dell'utente finale.
+Giunti a questo punto, procederò con lo sviluppo vero e proprio del videogioco, così come alla definizione dei vari criteri di valutazione. Questi serviranno nella fase di testing e raccolta dati per capire se il videogioco riesce a raggiungere lo scopo finale di insegnamento, oltre a dare una misura quantitativa dell'effettivo apprendimento dell'utente finale.
 
 ### Conclusione e sviluppi futuri
 
@@ -48,7 +48,7 @@ Nella conclusione verranno evidenziati i punti salienti del lavoro svolto, anali
 
 ### Punti in corso
 
-Implementazione del videogioco
+Perfezionamento del gioco e delle funzionalità per la raccolta dati (attualmente il gioco presenta tutte le principali componenti di gameplay; saranno eseguiti una serie di test tecnici per verificare il loro corretto funzionamento, dopodiché si procederà on la raccolta dati)
 
 ### Punti in attesa 
 
@@ -65,12 +65,11 @@ Analisi dei criteri di valutazione
 - Implementazione della parte grafica del videogioco
 (È stato scelto Unity come motore grafico per lo sviluppo. Sviluppate le componenti grafiche basiche per creare un livello demo)
 
--Implementazione della parte di gameplay
+- Implementazione della parte di gameplay
 (Sono state sviluppate le componenti principali che caratterizzano il gameplay del gioco)
 
 ### Previsioni per le prossime settimane
 
-- Completamento del gioco e del report scritto
-(Inserimento all'interno del gioco dei concetti di teoria, in contemporanea al completamento della scrittura del report)
+- Completamento del report scritto (Il report verrà completato con i capitoli relativi alla parte tecnica del gioco: quali strumenti sono stati utilizzati, come è stato affrontato lo sviluppo, perché sono state prese determinate scelte di gameplay)
 
 

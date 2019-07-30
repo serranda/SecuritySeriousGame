@@ -57,14 +57,14 @@ public class GameSettingManager : MonoBehaviour
         WWWForm form = new WWWForm();
 
         form.AddField("mode", "r");
-        form.AddField("folderName", StringDb.player.folderName);
+        form.AddField("playerFolder", StringDb.player.folderName);
         form.AddField("settingsFolder", StringDb.settingsWebFolderPath);
         form.AddField("settingFileName", StringDb.settingName + StringDb.settingExt);
 
         using (UnityWebRequest www =
             UnityWebRequest.Post(
                 Path.Combine(StringDb.serverAddress,
-                    Path.Combine(StringDb.phpFolder, StringDb.settingsFileManagerScript)), form))
+                    Path.Combine(StringDb.phpFolder, StringDb.playerSettingsManagerScript)), form))
         {
             yield return www.SendWebRequest();
 
@@ -210,7 +210,7 @@ public class GameSettingManager : MonoBehaviour
 
         form.AddField("mode", "w");
 
-        form.AddField("folderName", StringDb.player.folderName);
+        form.AddField("playerFolder", StringDb.player.folderName);
         form.AddField("settingsFolder", StringDb.settingsWebFolderPath);
         form.AddField("settingFileName", StringDb.settingName + StringDb.settingExt);
         form.AddField("settingsContent", jsonData);
@@ -219,7 +219,7 @@ public class GameSettingManager : MonoBehaviour
         using (UnityWebRequest www =
             UnityWebRequest.Post(
                 Path.Combine(StringDb.serverAddress,
-                    Path.Combine(StringDb.phpFolder, StringDb.settingsFileManagerScript)), form))
+                    Path.Combine(StringDb.phpFolder, StringDb.playerSettingsManagerScript)), form))
         {
             yield return www.SendWebRequest();
 

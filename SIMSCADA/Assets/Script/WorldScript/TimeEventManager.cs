@@ -128,7 +128,7 @@ public class TimeEventManager : MonoBehaviour
 
     public TimeEvent GetThreatTimeEvent(Threat threat)
     {
-        TimeEvent timeEvent = manager.GetTimeEventList().Find(x => x.threat == threat);
+        TimeEvent timeEvent = manager.GetGameData().timeEventList.Find(x => x.threat == threat);
 
         return timeEvent;
     }

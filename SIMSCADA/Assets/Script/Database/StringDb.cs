@@ -14,13 +14,14 @@ public class StringDb
     //string values for php script and server folder
     public static string serverAddress = "http://192.168.1.118/TestLoginBuildWebGL";
     public static string phpFolder = "PHP";
-    public static string playerDataFolder = "PlayerData";
+    public static string mainDataFolder = "Data";
     public static string createPlayerFolderScript = "createPlayerFolder.php";
-    public static string createPlayerDataFolderScript = "createPlayerDataFolder.php";
-    public static string checkPlayerListScript = "checkPlayerList.php";
-    public static string updatePlayerListScript = "updatePlayerList.php";
+    public static string createMainDataFolderScript = "createMainDataFolder.php";
+    public static string playersListManager = "playersListManager.php";
     public static string writePlayerLogScript = "writePlayerLog.php";
-    public static string settingsFileManagerScript = "settingsFileManager.php";
+    public static string playerSettingsManagerScript = "playerSettingsManager.php";
+    public static string playerSaveManagerScript = "playerSaveManager.php";
+    public static string imageSaveManagerScript = "imageSaveManager.php";
 
     //player object reference
     //DEBUG
@@ -38,7 +39,6 @@ public class StringDb
     public static string settingFolder = "settings";
     public static string settingName = "gamesettings";
     public static string settingsWebFolderPath = settingFolder;
-    public static string settingsWebFilePath = Path.Combine(settingsWebFolderPath, settingName + settingExt);
 
     //string values for element of dialog box prefab
     public static string dialogBoxTitle = "DB_Title";
@@ -65,7 +65,6 @@ public class StringDb
     public static string completeField = "LoginMessages/CompleteField";
     public static string existingPlayer = "LoginMessages/ExistingPlayer";
     public static string playerNotRegistered = "LoginMessages/PlayerNotRegistered";
-
 
     //string values for level message files in resources folder
     public static string purchase = "Messages/ConfirmPurchase";
@@ -163,9 +162,9 @@ public class StringDb
 
     //string values for save files and folder
     public static string slotName = "slot";
-    public static string imageSlotExt = ".png";
-    public static string slotFolder = "saves";
-    public static string slotFolderPath = Path.Combine(Application.persistentDataPath, slotFolder);
+    public static string slotExt = ".ini";
+    public static string imageExt = ".png";
+    public static string saveFolder = "saves";
 
     //string values for interactive sprite in the scene
     public const string telephoneTag = "Telephone";
