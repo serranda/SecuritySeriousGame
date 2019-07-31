@@ -324,13 +324,13 @@ public class LevelMessageManager : MonoBehaviour
 
     }
 
-    public void StartExit()
+    public void StartExit(byte[] imageBytes)
     {
-        exitRoutine = Exit();
+        exitRoutine = Exit(imageBytes);
         StartCoroutine(exitRoutine);
     }
 
-    private IEnumerator Exit()
+    private IEnumerator Exit(byte[] imageBytes)
     {
         yield return new WaitForSeconds(messageDelay);
         yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);
@@ -358,7 +358,7 @@ public class LevelMessageManager : MonoBehaviour
         {
             ClassDb.pauseManager.TogglePauseMenu();
             ClassDb.dialogBoxManager.ToggleDialogBox();
-            ClassDb.gameDataManager.StartSaveLevelGameData();
+            ClassDb.gameDataManager.StartSaveLevelGameData(imageBytes);
             ClassDb.sceneLoader.StartLoadByIndex(StringDb.menuSceneIndex);
         });
 

@@ -82,9 +82,6 @@ public class TutorialManager : MonoBehaviour
         //spawn hud prefab
         manager.SpawnHud();
 
-        //set initial values ofr hud
-        manager.SetStartingValues();
-
         //start time in game
         manager.StartTimeRoutine();
 
@@ -484,9 +481,6 @@ public class TutorialManager : MonoBehaviour
         yield return new WaitUntil(() => finalMessage);
 
         StopAllCoroutines();
-
-        //set initial values ofr hud
-        manager.SetStartingValues();
 
         //Start routine for the game components
         manager.StartAllCoroutines();

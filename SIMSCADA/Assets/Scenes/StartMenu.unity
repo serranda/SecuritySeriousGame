@@ -873,8 +873,6 @@ MonoBehaviour:
     type: 3}
   prefabTutorialDialogBox: {fileID: 8820521834165243605, guid: e1d4d8360f5ea8e4eb7479903b5a071b,
     type: 3}
-  prefabPauseMenu: {fileID: 8061761798454725255, guid: 1dd9f1eea2461204dbdb09310c250a9e,
-    type: 3}
   prefabScadaScreen: {fileID: 8751767737131481360, guid: 6d6bf3a531a91b7428859afd7b2855c6,
     type: 3}
   prefabStoreScreen: {fileID: 3855610171553746910, guid: d0a92a2e5fe869e42bc9db9964518c24,
@@ -953,6 +951,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 102dc603e23678e4b90b0667d946da83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slotBtnList: []
+  slotImageList: []
+  slotInfoList: []
 --- !u!114 &198637144
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3979,6 +3980,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 102dc603e23678e4b90b0667d946da83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slotBtnList:
+  - {fileID: 867967190}
+  - {fileID: 1727602967}
+  - {fileID: 1489761608}
+  slotImageList:
+  - {fileID: 241338593}
+  - {fileID: 1025504773}
+  - {fileID: 116026984}
+  slotInfoList:
+  - {fileID: 746576599}
+  - {fileID: 1682825194}
+  - {fileID: 1648130563}
 --- !u!225 &1189905827
 CanvasGroup:
   m_ObjectHideFlags: 0

@@ -29,7 +29,6 @@
 		{
 			$file = file_get_contents($playerSaveFilePath);
 			echo $file;
-
 		}
 		else
 		{			

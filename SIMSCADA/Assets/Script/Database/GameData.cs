@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using WeightedRandomization;
 
-public class GameData : MonoBehaviour
+[System.Serializable]
+
+public class GameData
 {
     //reference for the last sprite pressed; used for spawning action menu
     public string pressedSprite;
@@ -47,13 +49,13 @@ public class GameData : MonoBehaviour
     public bool researchUpgrade;
 
     //hud values
-    public DateTime date;
-    public float money;
+    public DateTime date = new DateTime(2019, 01, 01, 08, 00, 00);
+    public float money = 1000;
     public int successfulThreat;
     public int totalThreat;
-    public int trustedEmployees;
-    public int totalEmployees;
-    public float reputation;
+    public int trustedEmployees = 10;
+    public int totalEmployees = 50;
+    public float reputation = 35;
 
     //time value for day simulation
     public float minutePercentage;
@@ -108,7 +110,7 @@ public class GameData : MonoBehaviour
     public float telephoneMoneyCoolDown = 2.0f;
 
     //value for security level
-    public StringDb.ServerSecurity serverSecurity;
+    public StringDb.ServerSecurity serverSecurity = StringDb.ServerSecurity.medium;
 
     //value for last ai sprite generated
     public string lastMaleSpriteNumber;
@@ -140,15 +142,15 @@ public class GameData : MonoBehaviour
     public bool isGameWon;
 
     //list for time event
-    public List<TimeEvent> timeEventList;
+    public List<TimeEvent> timeEventList = new List<TimeEvent>();
 
     //list for deployed threat
-    public List<Threat> deployedThreatList;
+    public List<Threat> deployedThreatList = new List<Threat>();
 
     //list for remote threat, local threat and detected threat still deploying
-    public List<Threat> remoteThreats;
-    public List<Threat> localThreats;
-    public List<Threat> threatDetectedList;
+    public List<Threat> remoteThreats = new List<Threat>();
+    public List<Threat> localThreats = new List<Threat>();
+    public List<Threat> threatDetectedList = new List<Threat>();
 
     //int for previous month check (in order to increase month)
     public int previousMonth;
@@ -157,7 +159,16 @@ public class GameData : MonoBehaviour
     public bool isMoneyLoss;
 
     //dictionary in which are stored alle the money loss factor relative to all types of threat
-    public Dictionary<StringDb.ThreatAttack, float> moneyLossList;
+    public Dictionary<StringDb.ThreatAttack, float> moneyLossList = new Dictionary<StringDb.ThreatAttack, float>()
+    {
+        {StringDb.ThreatAttack.dos, 0f},
+        {StringDb.ThreatAttack.phishing, 0f},
+        {StringDb.ThreatAttack.replay, 0f},
+        {StringDb.ThreatAttack.mitm, 0f},
+        {StringDb.ThreatAttack.stuxnet, 0f},
+        {StringDb.ThreatAttack.dragonfly, 0f},
+        {StringDb.ThreatAttack.malware, 0f}
+    };
 
     //sums of all the money loss per minutes factor
     public float totalMoneyLossPerMinute;
@@ -168,13 +179,13 @@ public class GameData : MonoBehaviour
     public float totalCostPerMinute;
 
     //int for the speed factor mutiplier
-    public int simulationSpeedMultiplier;
+    public int simulationSpeedMultiplier = 1;
 
     //int for the time simulation; how many milliseconds needed for a minute in game time
-    [Range(100, 10000)] public int millisecondsPerMinutes = 500;
+    public int millisecondsPerMinutes = 10000;
 
     //int for the spawn rate of threat
-    [Range(500, 3000)] public int threatSpawnBaseTime = 2000;
+    public int threatSpawnBaseTime = 2000;
 
     //flags to check which type of threat has been deployed
     public bool hasReplayDeployed;
@@ -186,8 +197,8 @@ public class GameData : MonoBehaviour
     public bool hasDragonflyDeployed;
 
     //flags to check if, before going on with the defensive action, the plant has been checked or has been done a malware scan
-    public bool hasPlantChecked;
-    public bool hasMalwareChecked;
+    public bool hasPlantChecked = true;
+    public bool hasMalwareChecked = true;
 
     //flag to check if all the correct actions has been done and the threat has been managed
     public bool hasThreatManaged;

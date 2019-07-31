@@ -3,6 +3,7 @@ using TMPro;
 using System;
 using System.Globalization;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class HudManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
@@ -25,8 +26,12 @@ public class HudManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     public Toggle activeToggle;
 
+    private ILevelManager manager;
+
     private void OnEnable()
     {
+        manager = SetLevelManager();
+
         date = GameObject.Find("Date").GetComponent<TextMeshProUGUI>();
         money = GameObject.Find("MoneyInt").GetComponent<TextMeshProUGUI>();
         successfulThreat = GameObject.Find("SuccessfulThreat").GetComponent<TextMeshProUGUI>();
@@ -43,6 +48,18 @@ public class HudManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
         SetTogglePressed();
     }
+
+    private ILevelManager SetLevelManager()
+    {
+        ILevelManager iManager;
+        if (SceneManager.GetActiveScene().buildIndex == StringDb.level1SceneIndex)
+            iManager = FindObjectOfType<Level1Manager>();
+        else
+            iManager = FindObjectOfType<Level2Manager>();
+
+        return iManager;
+    }
+
     public void UpdateHud(DateTime dateHud, float moneyHud, int successfulThreatHud, int totalThreatHud, int trustedEmployeesHud,
         int totalEmployeesHud, float reputationHud)
     {
@@ -54,6 +71,7 @@ public class HudManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         totalEmployees.text = totalEmployeesHud.ToString();
         reputation.text = SetReputationString(reputationHud);
     }
+
     public void UpdateHud(float moneyHud, int successfulThreatHud, int totalThreatHud, int totalEmployeesHud, float reputationHud)
     {
         money.text = Math.Round(moneyHud, 0).ToString(CultureInfo.CurrentCulture) + " €";
@@ -81,7 +99,7 @@ public class HudManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     private void SetTogglePressed()
     {
-        switch (StringDb.speedMultiplier)
+        switch (manager.GetGameData().simulationSpeedMultiplier)
         {
             case 1:
                 activeToggle = toggleX1;
@@ -131,16 +149,16 @@ public class HudManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         switch (activeToggle.name)
         {
             case StringDb.toggleX1:
-                StringDb.speedMultiplier = 1;
+                manager.GetGameData().simulationSpeedMultiplier = 1;
                 break;
             case StringDb.toggleX2:
-                StringDb.speedMultiplier = 2;
+                manager.GetGameData().simulationSpeedMultiplier = 2;
                 break;
             case StringDb.toggleX5:
-                StringDb.speedMultiplier = 5;
+                manager.GetGameData().simulationSpeedMultiplier = 5;
                 break;
             case StringDb.toggleX10:
-                StringDb.speedMultiplier = 10;
+                manager.GetGameData().simulationSpeedMultiplier = 10;
                 break;
             default:
                 throw new ArgumentOutOfRangeException();

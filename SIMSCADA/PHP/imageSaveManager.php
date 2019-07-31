@@ -9,27 +9,25 @@
 <?php
 
 	error_reporting(0);
-	ini_set('display_errors', 0);
-	
+	ini_set('display_errors', 0);	
 	
 	$mode = $_POST["mode"];
 	
 	$playerFolder = $_POST["playerFolder"];
 	$saveFolder = $_POST["saveFolder"];
-	$imageFileName = basename($_FILES['imageFile']['name']);
+	$imageFileName = $_POST["imageFileName"];
 	
 	$playerSaveFolderPath = '../Data/'.$playerFolder.'/'.$saveFolder.'/';
-	$imageSaveFilePath = $playerSaveFolderPath.$imageFileName;
+	$imageSaveFilePath = $playerSaveFolderPath.$imageFileName;	
 	
-	
-	//read file content and send to unity
+	//check if image exists and send url to server
 	if($mode == 'r')
 	{
 		if(file_get_contents($imageSaveFilePath) !== FALSE)
 		{
-			$file = file_get_contents($imageSaveFilePath);
-			echo $file;
+			$imageURL = $_SERVER["SERVER_NAME"].'/TestLoginBuildWebGL/Data/'.$playerFolder.'/'.$saveFolder.'/'.$imageFileName;
 
+			echo $imageURL;
 		}
 		else
 		{			
@@ -41,11 +39,9 @@
 			}
 		}
 	}	
-	//write settings value into file
+	//upload image to server
 	else
-	{		
-		//$imageFile = $_FILES["imageFile"];
-					
+	{				
 		if (!is_dir($playerSaveFolderPath))
 		{
 			mkdir($playerSaveFolderPath);			

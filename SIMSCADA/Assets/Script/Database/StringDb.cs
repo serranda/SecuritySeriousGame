@@ -22,6 +22,7 @@ public class StringDb
     public static string playerSettingsManagerScript = "playerSettingsManager.php";
     public static string playerSaveManagerScript = "playerSaveManager.php";
     public static string imageSaveManagerScript = "imageSaveManager.php";
+    public static string getFileInfoScript = "getFileInfo.php";
 
     //player object reference
     //DEBUG
@@ -200,8 +201,8 @@ public class StringDb
     public const string toggleX5 = "toggleX5";
     public const string toggleX10 = "toggleX10";
 
-    //values for speed multiplier
-    public static int speedMultiplier = 1;
+    ////values for speed multiplier
+    //public static int speedMultiplier = 1;
 
     //values for floor tile map
     public static string floorTileMap = "TM_Floor";

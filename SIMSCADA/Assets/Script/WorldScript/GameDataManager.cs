@@ -10,28 +10,34 @@ using UnityEngine.SceneManagement;
 
 public class GameDataManager : MonoBehaviour
 {
-    private GameData gameData;
+    private GameData gameData = new GameData();
 
     private ILevelManager manager;
 
     private IEnumerator saveRoutine;
     private IEnumerator loadRoutine;
 
+    public static bool gameDataLoaded;
+
     //THIS CLASS WILL MANAGE ALL THE SAVINGS AND THE LOADINGS OF GAME DATA
 
-    public void StartSaveLevelGameData()
+    public void StartSaveLevelGameData(byte[] bytes)
     {
-        saveRoutine = SaveLevelGameData();
+        saveRoutine = SaveLevelGameData(bytes);
         StartCoroutine(saveRoutine);
     }
 
-    private IEnumerator SaveLevelGameData()
+    private IEnumerator SaveLevelGameData(byte[] bytes)
     {
         //GET THE CORRECT LEVELMANAGER
         manager = SetLevelManager();
 
         //GET GAMEDATA FROM THE MANAGER
         gameData = manager.GetGameData();
+
+        //IF IS FIRST LAUNCH SET TO FALSE
+        if (gameData.firstLaunch)
+            gameData.firstLaunch = false;
 
         //PARSE GAMEDATA INSTANCE INTO JSON
         string data = JsonUtility.ToJson(gameData, true);
@@ -64,12 +70,8 @@ public class GameDataManager : MonoBehaviour
             }
         }
 
-        yield return new WaitForEndOfFrame();
-
-        //CREATE SCREEN CAPTURE
-        //TODO CREATE SCREEN CAPTURE BEFORE EXIT MESSAGE/PAUSE MENU
-        Texture2D texture2D = ScreenCapture.CaptureScreenshotAsTexture();
-        byte[] imageFile = texture2D.EncodeToPNG();
+        //GET SCREEN CAPTURE
+        byte[] imageBytes = bytes;
 
         //CREATE NEW WWWFORM FOR SENDING IMAGE
         WWWForm formImage = new WWWForm();
@@ -78,7 +80,8 @@ public class GameDataManager : MonoBehaviour
         formImage.AddField("mode", "w");
         formImage.AddField("playerFolder", StringDb.player.folderName);
         formImage.AddField("saveFolder", StringDb.saveFolder);
-        formImage.AddBinaryData("imageFile", imageFile, StringDb.slotName + manager.GetGameData().slotIndex + StringDb.imageExt, "image/png");
+        formImage.AddField("imageFileName", StringDb.slotName + manager.GetGameData().slotIndex + StringDb.imageExt);
+        formImage.AddBinaryData("imageFile", imageBytes);
 
         //UPLOAD JSON DATA FROM GAMEDATA CLASS
         using (UnityWebRequest www =
@@ -101,6 +104,10 @@ public class GameDataManager : MonoBehaviour
 
     public void StartLoadLevelGameData()
     {
+        //SET THE FLAG TO CHECK IF GAME DATAT HAS BEEN LOADED TO FALSE
+        gameDataLoaded = false;
+
+        //START CORUTINE TO LOAD GAMEDATA FROM SERVER
         loadRoutine = LoadLevelGameData();
         StartCoroutine(loadRoutine);
     }
@@ -147,10 +154,14 @@ public class GameDataManager : MonoBehaviour
                     //SET GAMEDATA VARIABLE WITH JSON DATA DESERIALIZED
                     gameData = JsonUtility.FromJson<GameData>(data);
 
-                    //TODO SET MANAGER GAMEDATA WITH PREVIOUS GAMEDATA VALUES
+                    //SET MANAGER GAMEDATA WITH GAMEDATA VALUES RETRIEVED FROM SERVER
+                    manager.SetGameData(gameData);
                 }
             }
         }
+
+        //GAME DATA LOADED SET THE FLAG TO TRUE
+        gameDataLoaded = true;
     }
 
     private ILevelManager SetLevelManager()

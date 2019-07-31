@@ -4,9 +4,9 @@ using UnityEngine;
 
 interface ILevelManager
 {
-    void SpawnHud();
+    IEnumerator StarterCoroutine();
 
-    void SetStartingValues();
+    void SpawnHud();
 
     void StartTimeRoutine();
 
@@ -67,6 +67,8 @@ interface ILevelManager
     void SetLocalIdsActive(bool active);
 
     GameData GetGameData();
+
+    void SetGameData(GameData data);
 
     void StopAllCoroutines();
 }

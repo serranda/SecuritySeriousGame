@@ -112,7 +112,7 @@ public class AiController : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
 
         aiId = manager.GetGameData().lastAiId;
         radiusBase = 15;
-        aiSpeed = 1.5f * StringDb.speedMultiplier;
+        aiSpeed = 1.5f * manager.GetGameData().simulationSpeedMultiplier;
         onClickAi = false;
 
         //playerController = GameObject.Find(StringDb.playerPrefabName).GetComponent<PlayerController>();
@@ -154,7 +154,7 @@ public class AiController : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
     {
         radius = radiusBase  * (1 - timeEvent.currentPercentage / 100);
 
-        aiSpeed = 1.5f * StringDb.speedMultiplier;
+        aiSpeed = 1.5f * manager.GetGameData().simulationSpeedMultiplier;
 
     }
 

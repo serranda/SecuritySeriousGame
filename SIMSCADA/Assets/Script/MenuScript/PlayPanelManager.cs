@@ -1,23 +1,23 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Networking;
 
 public class PlayPanelManager : MonoBehaviour
 {
-    private Button slot1Btn;
-    private Button slot2Btn;
-    private Button slot3Btn;
 
-    private Image slot1Img;
-    private Image slot2Img;
-    private Image slot3Img;
+    [SerializeField] private List<Button> slotBtnList = new List<Button>();
 
-    private TextMeshProUGUI slot1Info;
-    private TextMeshProUGUI slot2Info;
-    private TextMeshProUGUI slot3Info;
+    [SerializeField] private List<Image> slotImageList = new List<Image>();
+
+    [SerializeField] private List<TextMeshProUGUI> slotInfoList = new List<TextMeshProUGUI>();
+
+    private IEnumerator checkSlotRoutine;
+
 
     private void OnEnable()
     {
@@ -25,82 +25,157 @@ public class PlayPanelManager : MonoBehaviour
         //if slotN is free=true --> play new game
         //else load slotN
 
-        slot1Btn = GameObject.Find("Play0").GetComponent<Button>();
-        slot2Btn = GameObject.Find("Play1").GetComponent<Button>();
-        slot3Btn = GameObject.Find("Play2").GetComponent<Button>();
-
-        slot1Img = GameObject.Find("Screen0").GetComponent<Image>();
-        slot2Img = GameObject.Find("Screen1").GetComponent<Image>();
-        slot3Img = GameObject.Find("Screen2").GetComponent<Image>();
-
-        slot1Info = GameObject.Find("Info0").GetComponent<TextMeshProUGUI>();
-        slot2Info = GameObject.Find("Info1").GetComponent<TextMeshProUGUI>();
-        slot3Info = GameObject.Find("Info2").GetComponent<TextMeshProUGUI>();
-
-        List<Button> slotBtnList = new List<Button>()
+        foreach(Button button in slotBtnList)
         {
-            slot1Btn,
-            slot2Btn,
-            slot3Btn
-        };
+            int index = slotBtnList.IndexOf(button);
+            Image image = slotImageList[index];
+            TextMeshProUGUI info = slotInfoList[index];
+            
+            StartCheckSlotSave(button, image, info, index);
+        }
+    }
 
-        List<Image> slotImageList = new List<Image>()
-        {
-            slot1Img,
-            slot2Img,
-            slot3Img
-        };
+    private void StartCheckSlotSave(Button button, Image image, TextMeshProUGUI info, int index)
+    {
+        checkSlotRoutine = CheckSlotSave(button, image, info, index);
+        StartCoroutine(checkSlotRoutine);
+    }
 
-        List<TextMeshProUGUI> slotInfoList = new List<TextMeshProUGUI>()
-        {
-            slot1Info,
-            slot2Info,
-            slot3Info
-        };
+    private IEnumerator CheckSlotSave(Button button, Image image, TextMeshProUGUI info, int index)
+    {
+        //CREATE NEW WWWFORM FOR GETTING DATA
+        WWWForm form = new WWWForm();
 
-        foreach(Button slotCurrentBtn in slotBtnList)
+        //ADD FIELD TO FORM
+        form.AddField("mode", "r");
+        form.AddField("playerFolder", StringDb.player.folderName);
+        form.AddField("saveFolder", StringDb.saveFolder);
+        form.AddField("imageFileName", StringDb.slotName + index + StringDb.imageExt);
+
+        //DOWNLOAD JSON DATA FOR GAMEDATA CLASS
+        using (UnityWebRequest www =
+            UnityWebRequest.Post(
+                Path.Combine(StringDb.serverAddress,
+                    Path.Combine(StringDb.phpFolder, StringDb.imageSaveManagerScript)), form))
         {
-            //TODO CHECK ALL THE PATH
-            int index = slotBtnList.IndexOf(slotCurrentBtn);
-            string slotFile = StringDb.slotName + index;
-            string slotPath = Path.Combine("", slotFile);
-            if (File.Exists(slotPath))
+            yield return www.SendWebRequest();
+
+            if (www.isNetworkError || www.isHttpError)
             {
-                slotCurrentBtn.GetComponentInChildren<TextMeshProUGUI>().text = "Carica";
-                slotCurrentBtn.onClick.RemoveAllListeners();
-                slotCurrentBtn.onClick.AddListener(delegate
-                {
-                    //Debug.Log(index);
-                    //TODO FIX
-                    //GameData.slotIndex = index;
-                    ClassDb.sceneLoader.StartLoadByIndex(StringDb.level1SceneIndex);
-                });
-                byte[] data = File.ReadAllBytes(string.Concat(slotPath, StringDb.imageExt));
-                Texture2D texture = new Texture2D(300, 300, TextureFormat.ARGB32, false);
-                texture.LoadImage(data);
-                Sprite sprite = Sprite.Create(
-                    texture, 
-                    new Rect(0.0f, 0.0f, texture.width, texture.height), 
-                    new Vector2(0.5f, 0.5f), 
-                    63);
-                slotImageList[index].sprite = sprite;
-                slotImageList[index].preserveAspect = true;
-                slotInfoList[index].text = File.GetLastWriteTime(slotPath).ToString("dd/MM/yyyy HH:mm");
+                Debug.Log(www.error);
             }
             else
             {
-                slotCurrentBtn.GetComponentInChildren<TextMeshProUGUI>().text = "Gioca";
-                slotCurrentBtn.onClick.RemoveAllListeners();
-                slotCurrentBtn.onClick.AddListener(delegate
+                Debug.Log(www.downloadHandler.text);
+
+                //FILE DOESN'T EXIST, SLOT FREE
+                if (www.downloadHandler.text == "Error Reading File")
                 {
-                    //Debug.Log(index);
-                    //TODO FIX
-                    //GameData.slotIndex = index;
-                    ClassDb.sceneLoader.StartLoadByIndex(StringDb.level1SceneIndex);
-                });
-                slotImageList[index].sprite = Resources.Load<Sprite>("LoadPicture/EmptySlotImage");
-                slotImageList[index].preserveAspect = true;
-                slotInfoList[index].text = "DATI NON DISPONIBILI";
+                    //SET TEXT OF BUTTON
+                    button.GetComponentInChildren<TextMeshProUGUI>().text = "Gioca";
+
+                    //SET LISTENER ON BUTTON TO START LEVEL 1
+                    button.onClick.RemoveAllListeners();
+                    button.onClick.AddListener(delegate
+                    {
+                        //Debug.Log(index);
+                        //TODO SET SLOT INDEX; THIS WILL BE USED IN SLOT FILE NAME TO PREVENT OVERWRITE BETWEEN SLOT
+                        //GameData.slotIndex = index;
+                        ClassDb.sceneLoader.StartLoadByIndex(StringDb.level1SceneIndex);
+                    });
+
+                    //SET IMAGE SPRITE TO DEFAULT FREE SLOT IMAGE
+                    image.sprite = Resources.Load<Sprite>("LoadPicture/EmptySlotImage");
+                    image.preserveAspect = true;
+
+                    //SET INFO TO NOTICE FREE SLOT
+                    info.text = "SLOT DI SALVATAGGIO LIBERO";
+
+                }
+                //FILE EXISTS, SET IMAGE, BUTTON AND INFO
+                else
+                {
+                    //SET TEXT OF BUTTON
+                    button.GetComponentInChildren<TextMeshProUGUI>().text = "Carica";
+
+                    //SET LISTENER ON BUTTON TO START LEVEL 1
+                    button.onClick.RemoveAllListeners();
+                    button.onClick.AddListener(delegate
+                    {
+                        //Debug.Log(index);
+                        //TODO SET SLOT INDEX; THIS WILL BE USED IN SLOT FILE NAME TO PREVENT OVERWRITE BETWEEN SLOT
+                        //GameData.slotIndex = index;
+                        ClassDb.sceneLoader.StartLoadByIndex(StringDb.level1SceneIndex);
+                    });
+
+                    //GET IMAGE URL 
+                    string imageURL = www.downloadHandler.text;
+
+                    //CREATE NEW WHITE TEXTURE
+                    Texture2D texture = Texture2D.whiteTexture;
+
+                    using (UnityWebRequest textureWWW = UnityWebRequestTexture.GetTexture(imageURL))
+                    {
+                        yield return textureWWW.SendWebRequest();
+
+                        if (textureWWW.isNetworkError || textureWWW.isHttpError)
+                        {
+                            Debug.Log(textureWWW.error);
+                        }
+                        else
+                        {
+                            //SET TEXTURE WITH ONE DOWNLOADED AT THE URL RETRIEVED BEFORE
+                            texture = ((DownloadHandlerTexture)textureWWW.downloadHandler).texture;
+                        }
+
+                    }
+
+                    //CREATE SPRITE AND APPLY PREVIOUS TEXTURE
+                    Sprite sprite = Sprite.Create(
+                        texture,
+                        new Rect(0.0f, 0.0f, texture.width, texture.height),
+                        new Vector2(0.5f, 0.5f),
+                        63);
+
+                    //SET IMAGE SPRITE WITH SCREENSHOT RETRIEVED FROM THE SERVER
+                    image.sprite = sprite;
+                    image.preserveAspect = true;
+
+                    //CREATE FORM TO GET STATS ABOUT IMAGE FILE
+                    WWWForm statForm = new WWWForm();
+
+                    //ADD FIELD TO FORM
+                    statForm.AddField("playerFolder", StringDb.player.folderName);
+                    statForm.AddField("saveFolder", StringDb.saveFolder);
+                    statForm.AddField("imageFileName", StringDb.slotName + index + StringDb.imageExt);
+
+                    //DOWNLOAD JSON DATA FOR GAMEDATA CLASS
+                    using (UnityWebRequest statWWW =
+                        UnityWebRequest.Post(
+                            Path.Combine(StringDb.serverAddress,
+                                Path.Combine(StringDb.phpFolder, StringDb.getFileInfoScript)), statForm))
+                    {
+                        yield return statWWW.SendWebRequest();
+
+                        if (statWWW.isNetworkError || statWWW.isHttpError)
+                        {
+                            Debug.Log(statWWW.error);
+                        }
+                        else
+                        {
+                            Debug.Log(statWWW.downloadHandler.text);
+
+                            string unixTimeStamp = statWWW.downloadHandler.text;
+
+                            DateTime date = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
+                            date = date.AddSeconds(int.Parse(unixTimeStamp)).ToLocalTime();
+                            //SET INFO WITH DATETIME INFORMATION ABOUT SAVE FILE
+                            info.text = date.ToString("dd/MM/yyyy HH:mm");
+                        }
+                    }
+
+
+                }
             }
         }
     }

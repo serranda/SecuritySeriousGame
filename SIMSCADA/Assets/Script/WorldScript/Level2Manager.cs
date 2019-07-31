@@ -12,79 +12,25 @@ public class Level2Manager : MonoBehaviour, ILevelManager
 {
     private HudManager hudManager;
 
+    private IEnumerator starterRoutine;
     private IEnumerator newMinuteRoutine;
     private IEnumerator newThreatRoutine;
     private IEnumerator remoteIdsRoutine;
     private IEnumerator localIdsRoutine;
     private IEnumerator threatManagementRoutine;
 
-    [SerializeField] private GameData gameData;
+    [SerializeField] GameData gameData = new GameData();
 
     private void Start()
     {
-        //initializing list for managing threat and time event
-        gameData.timeEventList = new List<TimeEvent>();
-        gameData.deployedThreatList = new List<Threat>();
-        gameData.remoteThreats = new List<Threat>();
-        gameData.localThreats = new List<Threat>();
-        gameData.threatDetectedList = new List<Threat>();
-
-        gameData.moneyLossList = new Dictionary<StringDb.ThreatAttack, float>()
-        {
-            {StringDb.ThreatAttack.dos, 0f},
-            {StringDb.ThreatAttack.phishing, 0f},
-            {StringDb.ThreatAttack.replay, 0f},
-            {StringDb.ThreatAttack.mitm, 0f},
-            {StringDb.ThreatAttack.stuxnet, 0f},
-            {StringDb.ThreatAttack.dragonfly, 0f},
-            {StringDb.ThreatAttack.malware, 0f}
-        };
-
-        SpawnHud();
-
-        //isMoneyEarn = false;
-        gameData.isMoneyLoss = false;
-
-        gameData.hasDosDeployed = false;
-        gameData.hasPhishingDeployed = false;
-        gameData.hasReplayDeployed = false;
-        gameData.hasMitmDeployed = false;
-        gameData.hasMalwareDeployed = false;
-        gameData.hasStuxnetDeployed = false;
-        gameData.hasDragonflyDeployed = false;
-
-        gameData.hasPlantChecked = true;
-        gameData.hasMalwareChecked = true;
-
-        gameData.hasThreatManaged = false;
-
-        //TODO check for data saves and eventually load it
-        //ClassDb.gameDataManager.StartDataLoader();
-
-        //start and set gui setting parameters
-        if (gameData.firstLaunch)
-        {
-            SetStartingValues();
-
-            ClassDb.levelMessageManager.StartWelcome();
-        }
-
-        StartTimeRoutine();
-
-        //DEBUG
-        //---------------------------------------------------------------------------------------------------------------------
-
-        //EVENT TO SET A THREAT TENDENCIES; IF RESEARCH REPORT IS ACTIVE DISPLAY MESSAGE 
-        SetMonthlyThreatAttack();
-
-        StartAllCoroutines();
-
-        //---------------------------------------------------------------------------------------------------------------------
+        starterRoutine = StarterCoroutine();
+        StartCoroutine(starterRoutine);
     }
 
     private void Update()
     {
-        gameData.simulationSpeedMultiplier = StringDb.speedMultiplier;
+        if (!GameDataManager.gameDataLoaded) return;
+        //gameData.simulationSpeedMultiplier = StringDb.speedMultiplier;
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -165,24 +111,44 @@ public class Level2Manager : MonoBehaviour, ILevelManager
     }
     //---------------------------------------------------------------------------------------------------------------------
 
+    public IEnumerator StarterCoroutine()
+    {
+        Debug.Log(gameData.firstLaunch);
+
+        //check for data saves and eventually load it
+        ClassDb.gameDataManager.StartLoadLevelGameData();
+
+        yield return new WaitUntil(() => GameDataManager.gameDataLoaded);
+
+        Debug.Log(gameData.firstLaunch);
+
+        SpawnHud();
+
+
+        //start and set gui setting parameters
+        if (gameData.firstLaunch)
+        {
+            ClassDb.levelMessageManager.StartWelcome();
+        }
+
+        StartTimeRoutine();
+
+        //DEBUG
+        //---------------------------------------------------------------------------------------------------------------------
+
+        //EVENT TO SET A THREAT TENDENCIES; IF RESEARCH REPORT IS ACTIVE DISPLAY MESSAGE 
+        SetMonthlyThreatAttack();
+
+        StartAllCoroutines();
+
+        //---------------------------------------------------------------------------------------------------------------------
+    }
+
     public void SpawnHud()
     {
         //instancing the hud
         ClassDb.prefabManager.GetPrefab(ClassDb.prefabManager.prefabHud.gameObject, PrefabManager.hudIndex).GetComponent<Canvas>();
         hudManager = GameObject.Find(StringDb.hudName).GetComponent<HudManager>();
-    }
-
-    public void SetStartingValues()
-    {
-        gameData.date = new DateTime(2019, 01, 01, 08, 00, 00);
-        gameData.money = 1000;
-        gameData.successfulThreat = 0;
-        gameData.totalThreat = 0;
-        gameData.trustedEmployees = 10;
-        gameData.totalEmployees = 50;
-        gameData.reputation = 35;
-
-        gameData.serverSecurity = StringDb.ServerSecurity.medium;
     }
 
     public void StartTimeRoutine()
@@ -1119,4 +1085,8 @@ public class Level2Manager : MonoBehaviour, ILevelManager
         return gameData;
     }
 
+    public void SetGameData(GameData data)
+    {
+        gameData = data;
+    }
 }

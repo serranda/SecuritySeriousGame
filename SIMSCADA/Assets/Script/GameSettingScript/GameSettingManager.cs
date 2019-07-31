@@ -40,7 +40,7 @@ public class GameSettingManager : MonoBehaviour
                 StartSaveSettingsWebFile(gameSettings);
             });
 
-            Debug.Log(applyButton.name + " LISTENER");
+            //Debug.Log(applyButton.name + " LISTENER");
         }
 
         audioSource = FindObjectOfType<AudioSource>();
