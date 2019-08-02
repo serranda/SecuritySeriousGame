@@ -35,7 +35,7 @@ public class TutorialSecurityListener : MonoBehaviour
         buttons[0].onClick.RemoveAllListeners();
         buttons[0].onClick.AddListener(delegate
         {
-            //ToggleServerRoomScreen();
+            //ToggleSecurityScreen();
             interactiveSprite.ToggleMenu();
         });
 

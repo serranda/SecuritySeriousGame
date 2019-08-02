@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ScadaManager : MonoBehaviour
@@ -10,8 +11,12 @@ public class ScadaManager : MonoBehaviour
     private RoomPcListener roomPcListener;
     private TutorialRoomPcListener tutorialRoomPcListener;
 
+    private ILevelManager manager;
+
     private void OnEnable()
     {
+        manager = SetLevelManager();
+
         roomPcListener = FindObjectOfType<RoomPcListener>();
         tutorialRoomPcListener = FindObjectOfType<TutorialRoomPcListener>();
 
@@ -19,15 +24,29 @@ public class ScadaManager : MonoBehaviour
         backBtn.onClick.RemoveAllListeners();
         backBtn.onClick.AddListener(delegate
         {
-            if (RoomPcListener.scadaEnabled)
+            if (manager.GetGameData().scadaEnabled)
             {
                 roomPcListener.ToggleScadaScreen();
             }
 
-            if (TutorialRoomPcListener.scadaEnabled)
-            {
-                tutorialRoomPcListener.ToggleScadaScreen();
-            }
+
+            ////TODO FIX TUTORIAL
+            //if (TutorialRoomPcListener.scadaEnabled)
+            //{
+            //    tutorialRoomPcListener.ToggleScadaScreen();
+            //}
         });
     }
+
+    private ILevelManager SetLevelManager()
+    {
+        ILevelManager iManager;
+        if (SceneManager.GetActiveScene().buildIndex == StringDb.level1SceneIndex)
+            iManager = FindObjectOfType<Level1Manager>();
+        else
+            iManager = FindObjectOfType<Level2Manager>();
+
+        return iManager;
+    }
+
 }

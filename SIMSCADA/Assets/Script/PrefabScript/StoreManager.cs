@@ -62,15 +62,16 @@ public class StoreManager : MonoBehaviour
         backBtn.onClick.RemoveAllListeners();
         backBtn.onClick.AddListener(delegate
         {
-            if (RoomPcListener.storeEnabled)
+            if (manager.GetGameData().storeEnabled)
             {
                 roomPcListener.ToggleStoreScreen();
             }
 
-            if (TutorialRoomPcListener.storeEnabled)
-            {
-                tutorialRoomPcListener.ToggleStoreScreen();
-            }
+            ////TODO FIX TUTORIAL
+            //if (TutorialRoomPcListener.storeEnabled)
+            //{
+            //    tutorialRoomPcListener.ToggleStoreScreen();
+            //}
         });
 
         //POPULATE ITEMLIST
@@ -119,18 +120,18 @@ public class StoreManager : MonoBehaviour
             });
 
         //disable interact with button until tutorial is finished
-        if (TutorialManager.tutorialIsFinished)
+        if (SceneManager.GetActiveScene().buildIndex == StringDb.tutorialSceneIndex)
         {
             foreach (ItemStore item in itemList)
             {
-                CheckItemLevel(item);
+                item.itemObject.GetComponent<Button>().interactable = false;
             }
         }
         else
         {
             foreach (ItemStore item in itemList)
             {
-                item.itemObject.GetComponent<Button>().interactable = false;
+                CheckItemLevel(item);
             }
         }
     }
@@ -160,7 +161,6 @@ public class StoreManager : MonoBehaviour
 
         return iManager;
     }
-
 
     private ItemStore ItemStoreFromJson(TextAsset jsonFile)
     {

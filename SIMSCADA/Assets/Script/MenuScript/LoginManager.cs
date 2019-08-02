@@ -116,6 +116,11 @@ public class LoginManager : MonoBehaviour
         //instanciate new wwwform
         WWWForm form = new WWWForm();
 
+        //add field to form
+        form.AddField("mode", "r");
+        form.AddField("mainDataFolder", StringDb.mainDataFolder);
+        form.AddField("playerListName", StringDb.playerListName);
+
         using (UnityWebRequest www =
             UnityWebRequest.Post(
                 Path.Combine(StringDb.serverAddress, Path.Combine(StringDb.phpFolder, StringDb.playersListManager)),
@@ -181,7 +186,10 @@ public class LoginManager : MonoBehaviour
         //instanciate new wwwform
         WWWForm form = new WWWForm();
 
+        //add field to form
         form.AddField("mode", "r");
+        form.AddField("mainDataFolder", StringDb.mainDataFolder);
+        form.AddField("playerListName", StringDb.playerListName);
 
         using (UnityWebRequest www =
             UnityWebRequest.Post(
@@ -254,8 +262,10 @@ public class LoginManager : MonoBehaviour
 
         Debug.Log("playerListData: " + playerListData);
 
+        //add filed and json data to form
         form.AddField("mode", "w");
-        //add json data to form
+        form.AddField("mainDataFolder", StringDb.mainDataFolder);
+        form.AddField("playerListName", StringDb.playerListName);
         form.AddField("playerListData", playerListData);
 
         using (UnityWebRequest www =
@@ -293,7 +303,8 @@ public class LoginManager : MonoBehaviour
         //instanciate new wwwform
         WWWForm form = new WWWForm();
 
-        //ADD PLAYER FOLDERNAME TO FORM FIELD
+        //ADD VALUES TO FORM FIELD
+        form.AddField("mainDataFolder", StringDb.mainDataFolder);
         form.AddField("playerFolder", player.folderName);
 
         using (UnityWebRequest www =

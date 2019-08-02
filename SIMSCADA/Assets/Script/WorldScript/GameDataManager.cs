@@ -47,9 +47,10 @@ public class GameDataManager : MonoBehaviour
 
         //ADD FIELD TO FORM
         formData.AddField("mode", "w");
+        formData.AddField("mainDataFolder", StringDb.mainDataFolder);
         formData.AddField("playerFolder", StringDb.player.folderName);
         formData.AddField("saveFolder", StringDb.saveFolder);
-        formData.AddField("saveFileName", StringDb.slotName + manager.GetGameData().slotIndex + StringDb.slotExt);
+        formData.AddField("saveFileName", StringDb.slotName + manager.GetGameData().indexSlot + StringDb.slotExt);
         formData.AddField("saveContent", data);
 
         //UPLOAD JSON DATA FROM GAMEDATA CLASS
@@ -78,9 +79,10 @@ public class GameDataManager : MonoBehaviour
 
         //ADD FIELD AND BINARY DATA TO FORM
         formImage.AddField("mode", "w");
+        formImage.AddField("mainDataFolder", StringDb.mainDataFolder);
         formImage.AddField("playerFolder", StringDb.player.folderName);
         formImage.AddField("saveFolder", StringDb.saveFolder);
-        formImage.AddField("imageFileName", StringDb.slotName + manager.GetGameData().slotIndex + StringDb.imageExt);
+        formImage.AddField("imageFileName", StringDb.slotName + manager.GetGameData().indexSlot + StringDb.imageExt);
         formImage.AddBinaryData("imageFile", imageBytes);
 
         //UPLOAD JSON DATA FROM GAMEDATA CLASS
@@ -122,9 +124,10 @@ public class GameDataManager : MonoBehaviour
 
         //ADD FIELD TO FORM
         form.AddField("mode", "r");
+        form.AddField("mainDataFolder", StringDb.mainDataFolder);
         form.AddField("playerFolder", StringDb.player.folderName);
         form.AddField("saveFolder", StringDb.saveFolder);
-        form.AddField("saveFileName", StringDb.slotName + manager.GetGameData().slotIndex + StringDb.slotExt);
+        form.AddField("saveFileName", StringDb.slotName + manager.GetGameData().indexSlot + StringDb.slotExt);
 
         //DOWNLOAD JSON DATA FOR GAMEDATA CLASS
         using (UnityWebRequest www =

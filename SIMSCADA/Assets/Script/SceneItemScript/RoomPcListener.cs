@@ -9,10 +9,8 @@ using UnityEngine.UI;
 public class RoomPcListener : MonoBehaviour
 {
     private static Canvas scadaScreen;
-    public static bool scadaEnabled;
 
     private static Canvas storeScreen;
-    public static bool storeEnabled;
 
     private IEnumerator localRecapRoutine;
     private IEnumerator localShowRoutine;
@@ -38,7 +36,6 @@ public class RoomPcListener : MonoBehaviour
 
         return iManager;
     }
-
 
     public void SetComputerListeners()
     {
@@ -458,29 +455,33 @@ public class RoomPcListener : MonoBehaviour
 
     public void ToggleScadaScreen()
     {
-        if (scadaEnabled)
+        manager = SetLevelManager();
+
+        if (manager.GetGameData().scadaEnabled)
         {
             ClassDb.prefabManager.ReturnPrefab(scadaScreen.gameObject, PrefabManager.scadaIndex);
-            scadaEnabled = false;
+            manager.GetGameData().scadaEnabled = false;
         }
         else
         {
             scadaScreen = ClassDb.prefabManager.GetPrefab(ClassDb.prefabManager.prefabScadaScreen.gameObject, PrefabManager.scadaIndex).GetComponent<Canvas>();
-            scadaEnabled = true;
+            manager.GetGameData().scadaEnabled = true;
         }
     }
 
     public void ToggleStoreScreen()
     {
-        if (storeEnabled)
+        manager = SetLevelManager();
+
+        if (manager.GetGameData().storeEnabled)
         {
             ClassDb.prefabManager.ReturnPrefab(storeScreen.gameObject, PrefabManager.storeIndex);
-            storeEnabled = false;
+            manager.GetGameData().storeEnabled = false;
         }
         else
         {
             storeScreen = ClassDb.prefabManager.GetPrefab(ClassDb.prefabManager.prefabStoreScreen.gameObject, PrefabManager.storeIndex).GetComponent<Canvas>();
-            storeEnabled = true;
+            manager.GetGameData().storeEnabled = true;
         }
     }
 

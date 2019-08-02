@@ -13,11 +13,12 @@
 	
 	$mode = $_POST["mode"];
 	
+	$mainDataFolder = $_POST["mainDataFolder"];
 	$playerFolder = $_POST["playerFolder"];
 	$saveFolder = $_POST["saveFolder"];
 	$imageFileName = $_POST["imageFileName"];
 	
-	$playerSaveFolderPath = '../Data/'.$playerFolder.'/'.$saveFolder.'/';
+	$playerSaveFolderPath = '../'.$mainDataFolder.'/'.$playerFolder.'/'.$saveFolder.'/';
 	$imageSaveFilePath = $playerSaveFolderPath.$imageFileName;	
 	
 	//check if image exists and send url to server
@@ -38,7 +39,25 @@
 				mkdir($playerSaveFolderPath);			
 			}
 		}
-	}	
+	}
+	//delete image from server
+	else if ($mode == 'd')
+	{
+		if(file_get_contents($imageSaveFilePath) !== FALSE)
+		{
+			unlink(realpath($imageSaveFilePath));
+			echo "Image Deleted";
+		}
+		else
+		{			
+			echo "Error Deleting Image";		
+
+			if (!is_dir($playerSaveFolderPath))
+			{
+				mkdir($playerSaveFolderPath);			
+			}
+		}
+	}
 	//upload image to server
 	else
 	{				

@@ -55,7 +55,7 @@ public class Level2Manager : MonoBehaviour, ILevelManager
             StartCoroutine(NewFakeLocalThreats());
         //---------------------------------------------------------------------------------------------------------------------
 
-        if (Input.GetMouseButtonDown(1) && ActionButtonManager.buttonEnabled)
+        if (Input.GetMouseButtonDown(1) && gameData.buttonEnabled)
         {
             Canvas actionMenu = GameObject.Find(StringDb.actionMenuName).GetComponent<Canvas>();
             ClassDb.prefabManager.ReturnPrefab(actionMenu.gameObject, PrefabManager.actionIndex);
@@ -124,20 +124,23 @@ public class Level2Manager : MonoBehaviour, ILevelManager
 
         SpawnHud();
 
-
         //start and set gui setting parameters
         if (gameData.firstLaunch)
         {
             ClassDb.levelMessageManager.StartWelcome();
+
+            //EVENT TO SET A THREAT TENDENCIES; IF RESEARCH REPORT IS ACTIVE DISPLAY MESSAGE 
+            SetMonthlyThreatAttack();
+        }
+        else
+        {
+            RestorePrefab(gameData);
         }
 
         StartTimeRoutine();
 
         //DEBUG
         //---------------------------------------------------------------------------------------------------------------------
-
-        //EVENT TO SET A THREAT TENDENCIES; IF RESEARCH REPORT IS ACTIVE DISPLAY MESSAGE 
-        SetMonthlyThreatAttack();
 
         StartAllCoroutines();
 
@@ -1088,5 +1091,10 @@ public class Level2Manager : MonoBehaviour, ILevelManager
     public void SetGameData(GameData data)
     {
         gameData = data;
+    }
+
+    public void RestorePrefab(GameData data)
+    {
+        throw new NotImplementedException();
     }
 }

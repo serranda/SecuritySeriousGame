@@ -8,11 +8,12 @@
 ?>
 <?php
 	
+	$mainDataFolder = $_POST["mainDataFolder"];
 	$playerFolder = $_POST["playerFolder"];
 	$saveFolder = $_POST["saveFolder"];
 	$imageFileName = $_POST["imageFileName"];
 	
-	$playerSaveFolderPath = '../Data/'.$playerFolder.'/'.$saveFolder.'/';
+	$playerSaveFolderPath = '../'.$mainDataFolder.'/'.$playerFolder.'/'.$saveFolder.'/';
 	$imageSaveFilePath = $playerSaveFolderPath.$imageFileName;	
 
 	if(file_get_contents($imageSaveFilePath) !== FALSE)

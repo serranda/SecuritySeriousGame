@@ -34,6 +34,8 @@ public class AiController : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
     private string hlSpriteName;
     private string prSpriteName;
     private string spriteNumber;
+    public string idSpriteName;
+
 
     public StringDb.AiDangerResistance dangerResistance;
 
@@ -355,6 +357,7 @@ public class AiController : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
         nSpriteName = StringDb.rscAiSpritePrefix + "_" + aiGender + "_" + spriteNumber;
         hlSpriteName = StringDb.rscAiSpritePrefix + "_" + aiGender + "_" + spriteNumber + StringDb.rscHlSpriteSuffix;
         prSpriteName = StringDb.rscAiSpritePrefix + "_" + aiGender + "_" + spriteNumber + StringDb.rscPrSpriteSuffix;
+        idSpriteName = null;
     }
 
     private IEnumerator AiRoutine()
@@ -624,7 +627,7 @@ public class AiController : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
 
     public void ToggleMenu()
     {
-        if (ActionButtonManager.buttonEnabled && gameObject.name == manager.GetGameData().pressedSprite)
+        if (manager.GetGameData().buttonEnabled && gameObject.name == manager.GetGameData().pressedSprite)
         {
             ClassDb.prefabManager.ReturnPrefab(actionMenu.gameObject, PrefabManager.actionIndex);
         }

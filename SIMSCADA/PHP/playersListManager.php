@@ -14,7 +14,10 @@
 	
 	$mode = $_POST["mode"];
 	
-	$playerListPath = '../Data/players.txt';	
+	$mainDataFolder = $_POST["mainDataFolder"];
+	$playerListName = $_POST["playerListName"];
+	
+	$playerListPath = '../'.$mainDataFolder.'/'.$playerListName;	
 	
 	//read file content and send to unity
 	if($mode == 'r')

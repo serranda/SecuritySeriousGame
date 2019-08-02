@@ -21,8 +21,10 @@ public class LogManager : MonoBehaviour
     {
         WWWForm form = new WWWForm();
 
-        string logContent = string.Concat(DateTime.Now.ToString(StringDb.dataTimeFormat), " [", logEvent.ToString().ToUpper() , "] ", content,"\n");
+        string logContent = string.Concat(DateTime.Now.ToString(StringDb.logTimeFormat), " [", logEvent.ToString().ToUpper() , "] ", content,"\n");
 
+        //ADD FIELD TO WWWFORM
+        form.AddField("mainDataFolder", StringDb.mainDataFolder);
         form.AddField("playerFolder", player.folderName);
         form.AddField("logName", logName);
         form.AddField("logContent", logContent);

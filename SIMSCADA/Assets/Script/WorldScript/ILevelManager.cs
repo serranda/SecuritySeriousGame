@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -71,4 +72,6 @@ interface ILevelManager
     void SetGameData(GameData data);
 
     void StopAllCoroutines();
+
+    void RestorePrefab(GameData data);
 }

@@ -115,7 +115,7 @@ public class InteractiveSprite : MonoBehaviour, IPointerUpHandler, IPointerDownH
 
     public void ToggleMenu()
     {
-        if (ActionButtonManager.buttonEnabled && gameObject.name == manager.GetGameData().pressedSprite)
+        if (manager.GetGameData().buttonEnabled && gameObject.name == manager.GetGameData().pressedSprite)
         {
             ClassDb.prefabManager.ReturnPrefab(actionMenu.gameObject, PrefabManager.actionIndex);
 

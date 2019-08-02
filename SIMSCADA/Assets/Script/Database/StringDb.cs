@@ -6,15 +6,18 @@ using UnityEngine;
 
 public class StringDb
 {
-    //string values for language setting
+    //int value for store slot index
+    public static int indexSlot;
 
     //string vale for data format in log file
-    public static string dataTimeFormat = "[dd/MMM/yyyy:hh:mm:ss zzz]";
+    public static string logTimeFormat = "[dd/MMM/yyyy:hh:mm:ss zzz]";
+    public static string panelTimeFormat = "dd/MM/yyyy hh:mm:ss";
 
     //string values for php script and server folder
     public static string serverAddress = "http://192.168.1.118/TestLoginBuildWebGL";
     public static string phpFolder = "PHP";
     public static string mainDataFolder = "Data";
+    public static string playerListName = "players";
     public static string createPlayerFolderScript = "createPlayerFolder.php";
     public static string createMainDataFolderScript = "createMainDataFolder.php";
     public static string playersListManager = "playersListManager.php";
@@ -144,7 +147,7 @@ public class StringDb
     public static string noteBookTitleR = "TitleR";
     public static string noteBookToggleGroup = "BtnListToggleGroup";
 
-    //string values for tore screen prefab
+    //string values for store screen prefab
     public static string storeScreenName = "StoreScreen(Clone)";
 
     //string values for element of id card prefab

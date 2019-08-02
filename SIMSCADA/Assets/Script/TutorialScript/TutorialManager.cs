@@ -299,7 +299,7 @@ public class TutorialManager : MonoBehaviour
 
         //wait for click on notebook button
         yield return new WaitUntil(() => !notebookFirstTime);
-        yield return new WaitUntil(() => !NotebookManager.noteBookEnabled);
+        yield return new WaitUntil(() => !manager.GetGameData().noteBookEnabled);
 
         ////Toggle time
         //ClassDb.timeManager.ToggleTime();

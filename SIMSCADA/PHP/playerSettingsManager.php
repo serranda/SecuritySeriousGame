@@ -14,11 +14,12 @@
 	
 	$mode = $_POST["mode"];
 	
+	$mainDataFolder = $_POST["mainDataFolder"];
 	$playerFolder = $_POST["playerFolder"];
 	$settingsFolder = $_POST["settingsFolder"];
 	$settingFileName = $_POST["settingFileName"];
 	
-	$playerSettingsFolderPath = '../Data/'.$playerFolder.'/'.$settingsFolder.'/';
+	$playerSettingsFolderPath = '../'.$mainDataFolder.'/'.$playerFolder.'/'.$settingsFolder.'/';
 	$playerSettingsFilePath = $playerSettingsFolderPath.$settingFileName;
 	
 	

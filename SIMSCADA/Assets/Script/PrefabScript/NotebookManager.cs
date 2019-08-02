@@ -30,8 +30,6 @@ public class NotebookManager : MonoBehaviour
     private int pageCount;
     private int colorIndex;
 
-    public static bool noteBookEnabled;
-
     private List<TextAsset> lessonTextAssetList;
     private List<Lesson> lessonObjList;
 
@@ -40,8 +38,9 @@ public class NotebookManager : MonoBehaviour
     public static bool isFirstLesson;
     public static Threat firstLessonThreat;
 
-
     private IEnumerator notebookMessageRoutine;
+
+    private ILevelManager manager;
     
     private void Update()
     {
@@ -83,9 +82,11 @@ public class NotebookManager : MonoBehaviour
             StartCoroutine(notebookMessageRoutine);
         }
 
+        manager = SetLevelManager();
+
         toggleGroup = GameObject.Find(StringDb.noteBookToggleGroup).GetComponent<ToggleGroup>();
 
-        noteBookEnabled = true;
+        manager.GetGameData().noteBookEnabled = true;
 
         colorIndex = 0;
         pageCount = 0;
@@ -132,12 +133,26 @@ public class NotebookManager : MonoBehaviour
 
     private void OnDisable()
     {
-        noteBookEnabled = false;
+        manager.GetGameData().noteBookEnabled = false;
     }
+
+    private ILevelManager SetLevelManager()
+    {
+        ILevelManager iManager;
+        if (SceneManager.GetActiveScene().buildIndex == StringDb.level1SceneIndex)
+            iManager = FindObjectOfType<Level1Manager>();
+        else
+            iManager = FindObjectOfType<Level2Manager>();
+
+        return iManager;
+    }
+
 
     public void ToggleNoteBook()
     {
-        if (noteBookEnabled)
+        manager = SetLevelManager();
+
+        if (manager.GetGameData().noteBookEnabled)
         {
             ClassDb.prefabManager.ReturnPrefab(noteBook.gameObject, PrefabManager.noteBookIndex);
             foreach (Toggle lessonButton in btnList.content.GetComponentsInChildren<Toggle>())

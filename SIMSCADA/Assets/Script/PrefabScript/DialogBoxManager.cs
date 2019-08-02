@@ -13,6 +13,7 @@ public class DialogBoxManager : MonoBehaviour
 
     public static int i = 1;
 
+    //TODO move this flag on gamedata and try to set a string with the name of the dialog file txt
     public static bool dialogEnabled;
 
     private Canvas dialogBox;
@@ -30,7 +31,6 @@ public class DialogBoxManager : MonoBehaviour
         dialogBoxBtnBack = GameObject.Find(StringDb.dialogBoxBtnBack).GetComponent<Button>();
         dialogBoxBtnNextTxt = GameObject.Find(StringDb.dialogBoxBtnNext).GetComponentInChildren<TextMeshProUGUI>();
         dialogBoxBtnBackTxt = GameObject.Find(StringDb.dialogBoxBtnBack).GetComponentInChildren<TextMeshProUGUI>();
-
 
         dialogEnabled = true;
     }

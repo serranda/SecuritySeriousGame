@@ -84,6 +84,7 @@ public class TimeEventManager : MonoBehaviour
 
     public List<TimeEvent> UpdateTimeEventList(List<TimeEvent> timeEvents)
     {
+        //NEED TO ITERATE ON LIST.TOARRAY IN ORDER TO EDIT VALUES INSIDE LIST
         foreach (TimeEvent timeEvent in timeEvents.ToArray())
         {
             timeEvent.progressBar.GetComponentInChildren<Slider>().value = timeEvent.currentPercentage += timeEvent.percentagePerMin;
@@ -103,6 +104,8 @@ public class TimeEventManager : MonoBehaviour
 
         return timeEvents;
     }
+
+
 
     public void StopTimeEventList(List<TimeEvent> timeEvents)
     {

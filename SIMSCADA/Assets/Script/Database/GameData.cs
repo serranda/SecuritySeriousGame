@@ -15,7 +15,7 @@ public class GameData
     public bool firstLaunch = true;
 
     //id for save slot
-    public int slotIndex;
+    public int indexSlot;
 
     //id for last scene reference
     public int lastSceneIndex;
@@ -176,6 +176,7 @@ public class GameData
     //sums of all the money earns per minutes
     public float totalMoneyEarnPerMinute;
 
+    //sums of all the money cost per minutes need to keep active ids, firewall and local security
     public float totalCostPerMinute;
 
     //int for the speed factor mutiplier
@@ -207,4 +208,13 @@ public class GameData
     public bool isFirewallActive;
     public bool isRemoteIdsActive;
     public bool isLocalIdsActive;
+
+    //flags to check which prefab are active
+    public bool scadaEnabled;
+    public bool storeEnabled;
+    public bool securityScreenEnabled;
+    public bool noteBookEnabled;
+    public bool idCardEnabled;
+    public bool buttonEnabled;
+
 }

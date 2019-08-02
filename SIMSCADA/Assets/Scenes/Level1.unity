@@ -8608,7 +8608,7 @@ MonoBehaviour:
   gameData:
     pressedSprite: 
     firstLaunch: 1
-    slotIndex: 0
+    indexSlot: 0
     lastSceneIndex: 0
     lastThreatId: 0
     lastTimeEventId: 0
@@ -8698,6 +8698,12 @@ MonoBehaviour:
     isFirewallActive: 0
     isRemoteIdsActive: 0
     isLocalIdsActive: 0
+    scadaEnabled: 0
+    storeEnabled: 0
+    securityScreenEnabled: 0
+    noteBookEnabled: 0
+    idCardEnabled: 0
+    buttonEnabled: 0
 --- !u!4 &921579331
 Transform:
   m_ObjectHideFlags: 0
@@ -8744,7 +8750,7 @@ MonoBehaviour:
     type: 3}
   prefabIdCard: {fileID: 7717499470174760351, guid: 3cf3d089c319a854fabce8da1487cc24,
     type: 3}
-  prefabServerScreen: {fileID: 3855610171553746910, guid: a03a2c90b4aa359408f7f2e3b1afb09b,
+  prefabSecurityScreen: {fileID: 3855610171553746910, guid: a03a2c90b4aa359408f7f2e3b1afb09b,
     type: 3}
   prefabPlayer: {fileID: 8740880053666009925, guid: 6267110cdf2a49e4bb60fdb64d8ce790,
     type: 3}

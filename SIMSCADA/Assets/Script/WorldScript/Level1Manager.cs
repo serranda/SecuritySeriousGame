@@ -55,7 +55,7 @@ public class Level1Manager : MonoBehaviour, ILevelManager
             StartCoroutine(NewFakeLocalThreats());
         //---------------------------------------------------------------------------------------------------------------------
 
-        if (Input.GetMouseButtonDown(1) && ActionButtonManager.buttonEnabled)
+        if (Input.GetMouseButtonDown(1) && gameData.buttonEnabled)
         {
             Canvas actionMenu = GameObject.Find(StringDb.actionMenuName).GetComponent<Canvas>();
             ClassDb.prefabManager.ReturnPrefab(actionMenu.gameObject, PrefabManager.actionIndex);
@@ -124,15 +124,21 @@ public class Level1Manager : MonoBehaviour, ILevelManager
         if (gameData.firstLaunch)
         {
             ClassDb.levelMessageManager.StartWelcome();
+
+            //EVENT TO SET A THREAT TENDENCIES; IF RESEARCH REPORT IS ACTIVE DISPLAY MESSAGE 
+            SetMonthlyThreatAttack();
         }
+        else
+        {
+            RestorePrefab(gameData);
+        }
+
+        gameData.indexSlot = StringDb.indexSlot;
 
         StartTimeRoutine();
 
         //DEBUG
         //---------------------------------------------------------------------------------------------------------------------
-
-        //EVENT TO SET A THREAT TENDENCIES; IF RESEARCH REPORT IS ACTIVE DISPLAY MESSAGE 
-        SetMonthlyThreatAttack();
 
         StartAllCoroutines();
 
@@ -1087,5 +1093,57 @@ public class Level1Manager : MonoBehaviour, ILevelManager
     public void SetGameData(GameData data)
     {
         gameData = data;
+    }
+
+    public void RestorePrefab(GameData data)
+    {
+        //CHECK WHICH PREFAB SHOULD BE RESTORED
+        //PREFAB TO CHECK:
+
+        //STORESCREEN
+        if (data.storeEnabled)
+        {
+            data.storeEnabled = false;
+            FindObjectOfType<RoomPcListener>().ToggleStoreScreen();
+        }
+
+        //SCADASCREEN
+        if (data.scadaEnabled)
+        {
+            data.scadaEnabled = false;
+            FindObjectOfType<RoomPcListener>().ToggleScadaScreen();
+        }
+
+        //AI BASED ON BOTH LOCAL AND REMOTE THREAT
+
+        //SECURITYSCREEN
+        if (data.securityScreenEnabled)
+        {
+            data.securityScreenEnabled = false;
+            FindObjectOfType<SecurityListener>().ToggleSecurityScreen();
+        }
+
+        //PRESSED ITEM MENU
+        if (data.buttonEnabled)
+        {
+            data.buttonEnabled = false;
+            GameObject.Find(data.pressedSprite).GetComponent<InteractiveSprite>().ToggleMenu();
+        }
+
+        //DIALOG BOX
+
+        //IDCARD
+        if (data.idCardEnabled)
+        {
+            data.idCardEnabled = false;
+            FindObjectOfType<IdCardManager>().ToggleIdCard();
+        }
+
+        //NOTEBOOK
+        if (data.noteBookEnabled)
+        {
+            data.noteBookEnabled = false;
+            FindObjectOfType<NotebookManager>().ToggleNoteBook();
+        }
     }
 }

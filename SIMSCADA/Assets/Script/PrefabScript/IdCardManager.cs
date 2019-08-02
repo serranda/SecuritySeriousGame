@@ -10,7 +10,6 @@ using Random = UnityEngine.Random;
 
 public class IdCardManager : MonoBehaviour
 {
-    public static bool idCardEnabled;
     private static Canvas idCard;
 
     private static Button backBtn;
@@ -27,12 +26,11 @@ public class IdCardManager : MonoBehaviour
 
     private ILevelManager manager;
 
-
     private void OnEnable()
     {
         manager = SetLevelManager();
 
-        idCardEnabled = true;
+        manager.GetGameData().idCardEnabled = true;
 
         //sprites = Resources.LoadAll<Sprite>(Path.Combine(StringDb.marksFolder, StringDb.marksPrefix));
 
@@ -58,8 +56,9 @@ public class IdCardManager : MonoBehaviour
 
     private void OnDisable()
     {
-        idCardEnabled = false;
+        manager.GetGameData().idCardEnabled = false;
     }
+
     private ILevelManager SetLevelManager()
     {
         ILevelManager iManager;
@@ -71,10 +70,11 @@ public class IdCardManager : MonoBehaviour
         return iManager;
     }
 
-
     public void ToggleIdCard()
     {
-        if (idCardEnabled)
+        manager = SetLevelManager();
+
+        if (manager.GetGameData().idCardEnabled)
         {
             ClassDb.prefabManager.ReturnPrefab(idCard.gameObject, PrefabManager.icIndex);
         }
@@ -87,14 +87,20 @@ public class IdCardManager : MonoBehaviour
 
     public void SetLabels(string aiName, string aiSurname, string aiJob, bool aiTrusted ,bool aiAttacker, string spriteName)
     {
+        manager = SetLevelManager();
+
         string spriteFolder = Path.Combine(StringDb.rscSpriteFolder, StringDb.rscAiSpriteFolder);
         
         aiImage.sprite = Resources.LoadAll<Sprite>(Path.Combine(spriteFolder, spriteName))[0] ;
 
         nameTmPro.text = aiName;
+
         surnameTmPro.text = aiSurname;
+
         jobTmPro.text = aiJob;
+
         trustedTmPro.text = aiTrusted ? "Trusted" : "Normal";
+
         if (manager.GetGameData().idCardUpgraded)
         {
             attackerNote.text = string.Format(aiAttacker ?

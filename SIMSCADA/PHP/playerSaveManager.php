@@ -14,11 +14,12 @@
 	
 	$mode = $_POST["mode"];
 	
+	$mainDataFolder = $_POST["mainDataFolder"];
 	$playerFolder = $_POST["playerFolder"];
 	$saveFolder = $_POST["saveFolder"];
 	$saveFileName = $_POST["saveFileName"];
 	
-	$playerSaveFolderPath = '../Data/'.$playerFolder.'/'.$saveFolder.'/';
+	$playerSaveFolderPath = '../'.$mainDataFolder.'/'.$playerFolder.'/'.$saveFolder.'/';
 	$playerSaveFilePath = $playerSaveFolderPath.$saveFileName;
 	
 	
@@ -40,7 +41,25 @@
 			}
 		}
 	}	
-	//write settings value into file
+	//delete gamedata file from server
+	else if ($mode == 'd')
+	{
+		if(file_get_contents($playerSaveFilePath) !== FALSE)
+		{
+			unlink(realpath($playerSaveFilePath));
+			echo "File Deleted";
+		}
+		else
+		{			
+			echo "Error Deleting File";		
+
+			if (!is_dir($playerSaveFolderPath))
+			{
+				mkdir($playerSaveFolderPath);			
+			}
+		}
+	}
+	//write gamedata value into file
 	else
 	{		
 		$saveContent = $_POST["saveContent"];

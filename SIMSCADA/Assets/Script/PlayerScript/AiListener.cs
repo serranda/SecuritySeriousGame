@@ -69,25 +69,27 @@ public class AiListener : MonoBehaviour
     private IEnumerator ShowAiId(TimeEvent progressEvent)
     {
         yield return new WaitWhile(() => manager.GetGameData().timeEventList.Contains(progressEvent));
-        yield return new WaitWhile(() => IdCardManager.idCardEnabled);
+        yield return new WaitWhile(() => manager.GetGameData().idCardEnabled);
         ClassDb.idCardManager.ToggleIdCard();
 
-        string sprite;
-
-        if (aiController.isAttacker)
+        if (aiController.idSpriteName == null)
         {
-            string spriteNumber = Random.Range(1, 6).ToString("D2");
-            string spriteName = StringDb.rscAiSpritePrefix + "_" + CNG.instance.gen.GenerateNameObject(Gender.Other).GetGenderString() + "_" + spriteNumber;
+            if (aiController.isAttacker)
+            {
+                string spriteNumber = Random.Range(1, 6).ToString("D2");
+                string spriteName = StringDb.rscAiSpritePrefix + "_" + CNG.instance.gen.GenerateNameObject(Gender.Other).GetGenderString() + "_" + spriteNumber;
 
-            sprite = spriteName;
+                aiController.idSpriteName = spriteName;
+            }
+            else
+            {
+                aiController.idSpriteName = aiController.nSpriteName;
+            }
         }
-        else
-        {
-            sprite = aiController.nSpriteName;
-        }
+
 
         ClassDb.idCardManager.SetLabels(aiController.aiName, aiController.aiSurname, aiController.aiJob, aiController.isTrusted,
-            aiController.isAttacker, sprite);
+            aiController.isAttacker, aiController.idSpriteName);
 
         aiController.SetInteraction(true);
 

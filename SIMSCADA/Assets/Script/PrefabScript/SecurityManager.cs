@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class ServerRoomManager : MonoBehaviour
+public class SecurityManager : MonoBehaviour
 {
     private Toggle strictToggle;
     private Toggle neutralToggle;
@@ -36,14 +36,14 @@ public class ServerRoomManager : MonoBehaviour
         backBtn.onClick.RemoveAllListeners();
         backBtn.onClick.AddListener(delegate
         {
-            if (SecurityListener.serverRoomScreenEnabled)
+            if (manager.GetGameData().securityScreenEnabled)
             {
-                securityListener.ToggleServerRoomScreen();
+                securityListener.ToggleSecurityScreen();
             }
 
-            //if (TutorialSecurityListener.serverRoomScreenEnabled)
+            //if (TutorialSecurityListener.securityScreenEnabled)
             //{
-            //    tutorialSecurityListener.ToggleServerRoomScreen();
+            //    tutorialSecurityListener.ToggleSecurityScreen();
             //}
         });
 

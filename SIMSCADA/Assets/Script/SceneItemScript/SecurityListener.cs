@@ -2,17 +2,33 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class SecurityListener : MonoBehaviour
 {
-    private static Canvas serverRoomScreen;
-    public static bool serverRoomScreenEnabled;
+    private static Canvas securityScreen;
     private InteractiveSprite interactiveSprite;
+
+    private ILevelManager manager;
+
 
     private void Start()
     {
+        manager = SetLevelManager();
+
         interactiveSprite = GetComponent<InteractiveSprite>();
+    }
+
+    private ILevelManager SetLevelManager()
+    {
+        ILevelManager iManager;
+        if (SceneManager.GetActiveScene().buildIndex == StringDb.level1SceneIndex)
+            iManager = FindObjectOfType<Level1Manager>();
+        else
+            iManager = FindObjectOfType<Level2Manager>();
+
+        return iManager;
     }
 
     public void SetSecurityListeners()
@@ -24,7 +40,7 @@ public class SecurityListener : MonoBehaviour
         buttons[0].onClick.RemoveAllListeners();
         buttons[0].onClick.AddListener(delegate
         {
-            ToggleServerRoomScreen();
+            ToggleSecurityScreen();
             interactiveSprite.ToggleMenu();
         });
 
@@ -34,17 +50,17 @@ public class SecurityListener : MonoBehaviour
         }
     }
 
-    public void ToggleServerRoomScreen()
+    public void ToggleSecurityScreen()
     {
-        if (serverRoomScreenEnabled)
+        if (manager.GetGameData().securityScreenEnabled)
         {
-            ClassDb.prefabManager.ReturnPrefab(serverRoomScreen.gameObject, PrefabManager.serverIndex);
-            serverRoomScreenEnabled = false;
+            ClassDb.prefabManager.ReturnPrefab(securityScreen.gameObject, PrefabManager.securityIndex);
+            manager.GetGameData().securityScreenEnabled = false;
         }
         else
         {
-            serverRoomScreen = ClassDb.prefabManager.GetPrefab(ClassDb.prefabManager.prefabServerScreen.gameObject, PrefabManager.serverIndex).GetComponent<Canvas>();
-            serverRoomScreenEnabled = true;
+            securityScreen = ClassDb.prefabManager.GetPrefab(ClassDb.prefabManager.prefabSecurityScreen.gameObject, PrefabManager.securityIndex).GetComponent<Canvas>();
+            manager.GetGameData().securityScreenEnabled = true;
         }
     }
 }

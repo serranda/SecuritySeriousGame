@@ -2,25 +2,25 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ActionButtonManager : MonoBehaviour
 {
-    public static bool buttonEnabled;
-
-
     public List<Button> buttons;
+
+    private ILevelManager manager;
 
     private void Awake()
     {
-        buttonEnabled = false;
         GetButtons();
     }
 
     private void OnEnable()
     {
-        buttonEnabled = true;
+        manager = SetLevelManager();
 
+        manager.GetGameData().buttonEnabled = true;
     }
 
     private void OnDisable()
@@ -28,8 +28,19 @@ public class ActionButtonManager : MonoBehaviour
         ResetActiveButton();
         ResetButtonOnClick();
 
-        buttonEnabled = false;
+        manager.GetGameData().buttonEnabled = false;
 
+    }
+
+    private ILevelManager SetLevelManager()
+    {
+        ILevelManager iManager;
+        if (SceneManager.GetActiveScene().buildIndex == StringDb.level1SceneIndex)
+            iManager = FindObjectOfType<Level1Manager>();
+        else
+            iManager = FindObjectOfType<Level2Manager>();
+
+        return iManager;
     }
 
     public void GetButtons()

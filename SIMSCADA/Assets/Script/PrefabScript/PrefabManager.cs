@@ -14,7 +14,7 @@ public class PrefabManager : MonoBehaviour
     public Canvas prefabProgressBar;
     public Button prefabProgressBarButton;
     public Canvas prefabIdCard;
-    public Canvas prefabServerScreen;
+    public Canvas prefabSecurityScreen;
     public SpriteRenderer prefabPlayer;
     public SpriteRenderer prefabAi;
     public Button prefabStoreItem;
@@ -27,7 +27,7 @@ public class PrefabManager : MonoBehaviour
     private Stack<GameObject> inactiveTutorialDialogBox;
     private Stack<GameObject> inactiveScadaScreen;
     private Stack<GameObject> inactiveStoreScreen;
-    private Stack<GameObject> inactiveServerScreen;
+    private Stack<GameObject> inactiveSecurityScreen;
     private Stack<GameObject> inactiveNoteBook;
     private Stack<GameObject> inactiveHud;
     private Stack<GameObject> inactiveProgressBar;
@@ -45,7 +45,7 @@ public class PrefabManager : MonoBehaviour
     public static int tutorialDialogIndex;
     public static int scadaIndex;
     public static int storeIndex;
-    public static int serverIndex;
+    public static int securityIndex;
     public static int noteBookIndex;
     public static int hudIndex;
     public static int pbIndex;
@@ -68,7 +68,7 @@ public class PrefabManager : MonoBehaviour
         inactiveTutorialDialogBox = new Stack<GameObject>();
         inactiveScadaScreen = new Stack<GameObject>();
         inactiveStoreScreen = new Stack<GameObject>();
-        inactiveServerScreen = new Stack<GameObject>();
+        inactiveSecurityScreen = new Stack<GameObject>();
         inactiveNoteBook = new Stack<GameObject>();
         inactiveHud = new Stack<GameObject>();
         inactiveProgressBar = new Stack<GameObject>();
@@ -88,7 +88,7 @@ public class PrefabManager : MonoBehaviour
             inactiveTutorialDialogBox,
             inactiveScadaScreen,
             inactiveStoreScreen,
-            inactiveServerScreen,
+            inactiveSecurityScreen,
             inactiveNoteBook,
             inactiveHud,
             inactiveProgressBar,
@@ -107,7 +107,7 @@ public class PrefabManager : MonoBehaviour
         tutorialDialogIndex = stackList.IndexOf(inactiveTutorialDialogBox);
         scadaIndex = stackList.IndexOf(inactiveScadaScreen);
         storeIndex = stackList.IndexOf(inactiveStoreScreen);
-        serverIndex = stackList.IndexOf(inactiveServerScreen);
+        securityIndex = stackList.IndexOf(inactiveSecurityScreen);
         noteBookIndex = stackList.IndexOf(inactiveNoteBook);
         hudIndex = stackList.IndexOf(inactiveHud);
         pbIndex = stackList.IndexOf(inactiveProgressBar);

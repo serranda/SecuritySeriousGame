@@ -8,11 +8,12 @@
 ?>
 <?php
 	
+	$mainDataFolder = $_POST["mainDataFolder"];
 	$playerFolder = $_POST["playerFolder"];
 	$logName = $_POST["logName"];
 	$logContent = $_POST["logContent"];
 	
-	$logPath = '../Data/'.$playerFolder.'/'.$logName.'.log';
+	$logPath = '../'.$mainDataFolder.'/'.$playerFolder.'/'.$logName.'.log';
 
 	if (file_put_contents($logPath, $logContent, FILE_APPEND) !== false) 
 	{

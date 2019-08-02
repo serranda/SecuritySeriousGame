@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class FollowCursor : MonoBehaviour
 {
@@ -11,9 +12,13 @@ public class FollowCursor : MonoBehaviour
 
     //private FloorManager floorManager;
 
+    private ILevelManager manager;
+
 
     private void Start()
     {
+        manager = SetLevelManager();
+
         cameraMain = Camera.main;
         isCameraMainNull = cameraMain == null;
 
@@ -30,9 +35,9 @@ public class FollowCursor : MonoBehaviour
 
         if ( PauseManager.pauseEnabled
             || DialogBoxManager.dialogEnabled
-            || RoomPcListener.scadaEnabled
+            || manager.GetGameData().scadaEnabled
             || AiController.cursorOverAi
-            || RoomPcListener.storeEnabled
+            || manager.GetGameData().storeEnabled
             || InteractiveSprite.onSprite
             || isCameraMainNull
             || !Input.GetMouseButton(1)
@@ -46,5 +51,16 @@ public class FollowCursor : MonoBehaviour
         mouseWorldPosition.z = 0f;
         transform.position = mouseWorldPosition;
 
+    }
+
+    private ILevelManager SetLevelManager()
+    {
+        ILevelManager iManager;
+        if (SceneManager.GetActiveScene().buildIndex == StringDb.level1SceneIndex)
+            iManager = FindObjectOfType<Level1Manager>();
+        else
+            iManager = FindObjectOfType<Level2Manager>();
+
+        return iManager;
     }
 }

@@ -57,6 +57,7 @@ public class GameSettingManager : MonoBehaviour
         WWWForm form = new WWWForm();
 
         form.AddField("mode", "r");
+        form.AddField("mainDataFolder", StringDb.mainDataFolder);
         form.AddField("playerFolder", StringDb.player.folderName);
         form.AddField("settingsFolder", StringDb.settingsWebFolderPath);
         form.AddField("settingFileName", StringDb.settingName + StringDb.settingExt);
@@ -210,6 +211,7 @@ public class GameSettingManager : MonoBehaviour
 
         form.AddField("mode", "w");
 
+        form.AddField("mainDataFolder", StringDb.mainDataFolder);
         form.AddField("playerFolder", StringDb.player.folderName);
         form.AddField("settingsFolder", StringDb.settingsWebFolderPath);
         form.AddField("settingFileName", StringDb.settingName + StringDb.settingExt);
