@@ -412,7 +412,8 @@ public class TutorialMessageManager : MonoBehaviour
             message.head,
             message.body,
             message.backBtn,
-            message.nextBtn
+            message.nextBtn,
+            StringDb.tutorialExit
         );
 
         //set listeners for the buttons on the dialog box

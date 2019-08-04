@@ -1,5 +1,6 @@
 ﻿using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class DialogBoxManager : MonoBehaviour
@@ -11,9 +12,10 @@ public class DialogBoxManager : MonoBehaviour
     private static TextMeshProUGUI dialogBoxBtnNextTxt;
     private static TextMeshProUGUI dialogBoxBtnBackTxt;
 
-    public static int i = 1;
+    private ILevelManager manager;
 
-    //TODO move this flag on gamedata and try to set a string with the name of the dialog file txt
+    public static int dialogIndex = 1;
+
     public static bool dialogEnabled;
 
     private Canvas dialogBox;
@@ -33,20 +35,54 @@ public class DialogBoxManager : MonoBehaviour
         dialogBoxBtnBackTxt = GameObject.Find(StringDb.dialogBoxBtnBack).GetComponentInChildren<TextMeshProUGUI>();
 
         dialogEnabled = true;
+
+        SetGameDataDialogBool(dialogEnabled);
     }
 
     private void OnDisable()
     {
         SetButtonActive();
         dialogEnabled = false;
+
+        SetGameDataDialogBool(dialogEnabled);
     }
 
-    public void SetDialog(string title, string message, string buttonBack, string buttonNext)
+    private ILevelManager SetLevelManager()
+    {
+        ILevelManager iManager;
+        if (SceneManager.GetActiveScene().buildIndex == StringDb.level1SceneIndex)
+            iManager = FindObjectOfType<Level1Manager>();
+        else
+            iManager = FindObjectOfType<Level2Manager>();
+
+        return iManager;
+    }
+
+    private void SetGameDataDialogBool(bool dialogBool)
+    {
+        if (SetLevelManager() == null) return;
+        manager = SetLevelManager();
+
+        manager.GetGameData().dialogEnabled = dialogBool;
+    }
+
+    public void SetDialog(string title, string message, string buttonBack, string buttonNext, string dialogString)
     {
         dialogBoxTitle.SetText(title);
         dialogBoxMessage.SetText(message);
         dialogBoxBtnBackTxt.SetText(buttonBack);
         dialogBoxBtnNextTxt.SetText(buttonNext);
+
+        SetGameDataLastDialogString(dialogString);
+    }
+
+    private void SetGameDataLastDialogString(string dialogString)
+    {
+        if (SetLevelManager() == null) return;
+        if (dialogString == StringDb.exitTxt) return;
+        manager = SetLevelManager();
+
+        manager.GetGameData().lastDialogShowed = dialogString;
     }
 
     public void ToggleDialogBox()
@@ -59,7 +95,7 @@ public class DialogBoxManager : MonoBehaviour
         {
             dialogBox = ClassDb.prefabManager.GetPrefab(ClassDb.prefabManager.prefabDialogBox.gameObject, PrefabManager.dialogIndex).GetComponent<Canvas>();
 
-            dialogBox.name = "DialogBox" + i++;
+            dialogBox.name = "DialogBox" + dialogIndex++;
         }
         ClassDb.timeManager.ToggleTime();
     }

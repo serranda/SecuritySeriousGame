@@ -42,6 +42,9 @@ public class GameData
     public bool isFirstMitm = true;
     public bool isFirstReplay = true;
 
+    //values for first of his type deployed threat
+    public Threat firstThreat;
+
     //flag for id card upgrade
     public bool idCardUpgraded;
 
@@ -216,5 +219,30 @@ public class GameData
     public bool noteBookEnabled;
     public bool idCardEnabled;
     public bool buttonEnabled;
+    public bool dialogEnabled;
 
+    //string to set last message showed
+    public string lastDialogShowed;
+
+    //value for last itemStore purchased
+    public ItemStore lastItemStore;
+
+    //vale for last threat deployed
+    public Threat lastThreatDeployed;
+
+    //value for last threat stopped
+    public Threat lastThreatStopped;
+
+    //values for money amount and threat type which caused last money loss
+    public float lastAmountLoss;
+    public StringDb.ThreatType lastTypeLoss;
+
+    //value for last money earn amount
+    public float lastAmountEarn;
+
+    //values for last threat management result
+    public TimeSpan lastManagementTime;
+
+    //value for new employees hired
+    public int employeesHired;
 }

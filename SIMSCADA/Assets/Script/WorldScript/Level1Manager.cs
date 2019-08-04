@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -1131,6 +1132,91 @@ public class Level1Manager : MonoBehaviour, ILevelManager
         }
 
         //DIALOG BOX
+
+        //TODO CHECK IF ALL THE MESSAGES ARE RESTORED CORRECTLY
+        //TODO CHECK IF THE NEW GAMEDATA VARIABLES ARE SETTED CORRECTLY
+        if (data.dialogEnabled)
+        {
+            data.dialogEnabled = false;
+
+            switch (data.lastDialogShowed)
+            {
+                case StringDb.purchase:
+                    ClassDb.levelMessageManager.StartConfirmPurchase(data.lastItemStore);
+                    break;
+                case StringDb.failedCorruption:
+                    ClassDb.levelMessageManager.StartFailedCorruption();
+                    break;
+                case StringDb.idsCleaned:
+                    ClassDb.levelMessageManager.StartIdsClean();
+                    break;
+                case StringDb.idsInterception:
+                    ClassDb.levelMessageManager.StartIdsInterception();
+                    break;
+                case StringDb.moneyEarn:
+                    ClassDb.levelMessageManager.StartMoneyEarn(data.lastAmountEarn);
+                    break;
+                case StringDb.fakeLocalMoneyLoss:
+                    ClassDb.levelMessageManager.StartMoneyLoss(data.lastTypeLoss, data.lastAmountLoss);
+                    break;
+                case StringDb.localMoneyLoss:
+                    ClassDb.levelMessageManager.StartMoneyLoss(data.lastTypeLoss, data.lastAmountLoss);
+                    break;
+                case StringDb.remoteMoneyLoss:
+                    ClassDb.levelMessageManager.StartMoneyLoss(data.lastTypeLoss, data.lastAmountLoss);
+                    break;
+                case StringDb.suspiciousAi:
+                    ClassDb.levelMessageManager.StartSuspiciousAi();
+                    break;
+                case StringDb.localDeployed:
+                    ClassDb.levelMessageManager.StartThreatDeployed(data.lastThreatDeployed);
+                    break;
+                case StringDb.remoteDeployed:
+                    ClassDb.levelMessageManager.StartThreatDeployed(data.lastThreatDeployed);
+                    break;
+                case StringDb.fakeLocalStopped:
+                    ClassDb.levelMessageManager.StartThreatStopped(data.lastThreatStopped);
+                    break;
+                case StringDb.localStopped:
+                    ClassDb.levelMessageManager.StartThreatStopped(data.lastThreatStopped);
+                    break;
+                case StringDb.remoteStopped:
+                    ClassDb.levelMessageManager.StartThreatStopped(data.lastThreatStopped);
+                    break;
+                case StringDb.welcomeTxt:
+                    ClassDb.levelMessageManager.StartWelcome();
+                    break;
+                case StringDb.plantCheck:
+                    ClassDb.levelMessageManager.StartPlantCheck();
+                    break;
+                case StringDb.malwareCheck:
+                    ClassDb.levelMessageManager.StartMalwareCheck();
+                    break;
+                case StringDb.threatManagementResult:
+                    ClassDb.levelMessageManager.StartThreatManagementResult(data.lastManagementTime, data.lastAmountLoss);
+                    break;
+                case StringDb.newTrustedEmployees:
+                    ClassDb.levelMessageManager.StartNewTrustedEmployees();
+                    break;
+                case StringDb.newEmployeesHired:
+                    ClassDb.levelMessageManager.StartNewEmployeesHired(data.employeesHired);
+                    break;
+                case StringDb.showLessonFirstTime:
+                    ClassDb.levelMessageManager.StartShowLessonFirstTime(data.firstThreat);
+                    break;
+                case StringDb.researchReport:
+                    ClassDb.levelMessageManager.StartShowReport(data.monthlyThreat.ToString().ToUpper());
+                    break;
+                case StringDb.endGameWin:
+                    ClassDb.levelMessageManager.StartEndGame();
+                    break;
+                case StringDb.endGameLoss:
+                    ClassDb.levelMessageManager.StartEndGame();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
 
         //IDCARD
         if (data.idCardEnabled)

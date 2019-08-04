@@ -14,7 +14,7 @@ public class StringDb
     public static string panelTimeFormat = "dd/MM/yyyy hh:mm:ss";
 
     //string values for php script and server folder
-    public static string serverAddress = "http://192.168.1.118/TestLoginBuildWebGL";
+    public static string serverAddress = "http://192.168.1.113/TestLoginBuildWebGL";
     public static string phpFolder = "PHP";
     public static string mainDataFolder = "Data";
     public static string playerListName = "players";
@@ -71,35 +71,35 @@ public class StringDb
     public static string playerNotRegistered = "LoginMessages/PlayerNotRegistered";
 
     //string values for level message files in resources folder
-    public static string purchase = "Messages/ConfirmPurchase";
-    public static string exitTxt = "Messages/Exit";
-    public static string failedCorruption = "Messages/FailedCorruption";
-    public static string idsCleaned = "Messages/IdsCleaned";
-    public static string idsInterception = "Messages/IdsInterception";
-    public static string internalMessage = "Messages/InternalEmployee";
-    public static string moneyEarn = "Messages/MoneyEarn";
-    public static string fakeLocalMoneyLoss = "Messages/MoneyLossFakeLocal";
-    public static string localMoneyLoss = "Messages/MoneyLossLocal";
-    public static string remoteMoneyLoss = "Messages/MoneyLossRemote";
-    public static string suspiciousAi = "Messages/SuspiciousAi";
-    public static string localDeployed = "Messages/ThreatDeployedLocal";
-    public static string remoteDeployed = "Messages/ThreatDeployedRemote";
+    public const string purchase = "Messages/ConfirmPurchase";
+    public const string exitTxt = "Messages/Exit";
+    public const string failedCorruption = "Messages/FailedCorruption";
+    public const string idsCleaned = "Messages/IdsCleaned";
+    public const string idsInterception = "Messages/IdsInterception";
+    public const string internalMessage = "Messages/InternalEmployee";
+    public const string moneyEarn = "Messages/MoneyEarn";
+    public const string fakeLocalMoneyLoss = "Messages/MoneyLossFakeLocal";
+    public const string localMoneyLoss = "Messages/MoneyLossLocal";
+    public const string remoteMoneyLoss = "Messages/MoneyLossRemote";
+    public const string suspiciousAi = "Messages/SuspiciousAi";
+    public const string localDeployed = "Messages/ThreatDeployedLocal";
+    public const string remoteDeployed = "Messages/ThreatDeployedRemote";
+    public const string fakeLocalStopped = "Messages/ThreatStoppedFakeLocal";
+    public const string localStopped = "Messages/ThreatStoppedLocal";
+    public const string remoteStopped = "Messages/ThreatStoppedRemote";
+    public const string welcomeTxt = "Messages/Welcome";
+    public const string plantCheck = "Messages/PlantCheck";
+    public const string malwareCheck = "Messages/MalwareCheck";
+    public const string threatManagementResult = "Messages/ThreatManagementResult";
+    public const string newTrustedEmployees = "Messages/NewTrustedEmployees";
+    public const string newEmployeesHired = "Messages/NewEmployeesHired";
+    public const string tutorialExit = "Messages/TutorialExit";
+    public const string showLessonFirstTime = "Messages/ShowLessonFirstTime";
+    public const string researchReport = "Messages/ResearchReport";
+    public const string endGameWin = "Messages/EndGameWin";
+    public const string endGameLoss = "Messages/EndGameLoss";
     //public static string localThreatRecap = "Messages/ThreatRecapLocal";
     //public static string remoteThreatRecap = "Messages/ThreatRecapRemote";
-    public static string fakeLocalStopped = "Messages/ThreatStoppedFakeLocal";
-    public static string localStopped = "Messages/ThreatStoppedLocal";
-    public static string remoteStopped = "Messages/ThreatStoppedRemote";
-    public static string welcomeTxt = "Messages/Welcome";
-    public static string plantCheck = "Messages/PlantCheck";
-    public static string malwareCheck = "Messages/MalwareCheck";
-    public static string threatManagementResult = "Messages/ThreatManagementResult";
-    public static string newTrustedEmployees = "Messages/NewTrustedEmployees";
-    public static string newEmployeesHired = "Messages/NewEmployeesHired";
-    public static string tutorialExit = "Messages/TutorialExit";
-    public static string showLessonFirstTime = "Messages/ShowLessonFirstTime";
-    public static string researchReport = "Messages/ResearchReport";
-    public static string endGameWin = "Messages/EndGameWin";
-    public static string endGameLoss = "Messages/EndGameLoss";
 
     //string values for tutorial message files in resources folder
     public static string tutorialWelcome1 = "TutorialMessages/Welcome1";

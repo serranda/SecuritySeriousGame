@@ -80,7 +80,8 @@ public class LevelMessageManager : MonoBehaviour
             message.head,
             message.body,
             message.backBtn,
-            message.nextBtn
+            message.nextBtn,
+            StringDb.welcomeTxt
         );
 
         DialogBoxManager.dialogBoxBtnNext.onClick.RemoveAllListeners();
@@ -88,7 +89,7 @@ public class LevelMessageManager : MonoBehaviour
         DialogBoxManager.dialogBoxBtnNext.onClick.AddListener(delegate
         {
             ClassDb.dialogBoxManager.ToggleDialogBox();
-            //TODO CHECK IF METHOD IS WORKING CORRECTLY
+            //TODO CHECK IF StopAllCoroutines METHOD IS WORKING CORRECTLY
             manager.StopAllCoroutines();
             ClassDb.sceneLoader.StartLoadByIndex(StringDb.tutorialSceneIndex);
 
@@ -118,13 +119,18 @@ public class LevelMessageManager : MonoBehaviour
         ClassDb.dialogBoxManager.ToggleDialogBox();
 
         DialogBoxMessage message;
+
+        string dialogString;
+
         switch (threat.threatType)
         {
             case StringDb.ThreatType.local:
                 message = MessageFromJson(Resources.Load<TextAsset>(StringDb.localDeployed));
+                dialogString = StringDb.localDeployed;
                 break;
             case StringDb.ThreatType.remote:
                 message = MessageFromJson(Resources.Load<TextAsset>(StringDb.remoteDeployed));
+                dialogString = StringDb.remoteDeployed;
                 break;
             case StringDb.ThreatType.fakeLocal:
                 ClassDb.dialogBoxManager.ToggleDialogBox();
@@ -137,6 +143,7 @@ public class LevelMessageManager : MonoBehaviour
                 throw new ArgumentOutOfRangeException();
         }
 
+
         DialogBoxMessage messageIntern = threat.threatAttacker == StringDb.ThreatAttacker.intern
             ? MessageFromJson(Resources.Load<TextAsset>(StringDb.internalMessage))
             : StringDb.emptyMessage;
@@ -145,7 +152,8 @@ public class LevelMessageManager : MonoBehaviour
             message.head,
             string.Format(message.body + "\n" + messageIntern.body, threat.threatAttack),
             message.backBtn,
-            message.nextBtn
+            message.nextBtn,
+            dialogString
         );
 
         DialogBoxManager.dialogBoxBtnNext.onClick.RemoveAllListeners();
@@ -169,21 +177,27 @@ public class LevelMessageManager : MonoBehaviour
 
         ClassDb.dialogBoxManager.ToggleDialogBox();
 
-        DialogBoxMessage message = new DialogBoxMessage();
+        DialogBoxMessage message;
+
+        string dialogString;
 
         switch (threat.threatType)
         {
             case StringDb.ThreatType.local:
                 message =  MessageFromJson(Resources.Load<TextAsset>(StringDb.localStopped));
+                dialogString = StringDb.localStopped;
                 break;
             case StringDb.ThreatType.remote:
                 message = MessageFromJson(Resources.Load<TextAsset>(StringDb.remoteStopped));
+                dialogString = StringDb.remoteStopped;
                 break;
             case StringDb.ThreatType.fakeLocal:
                 message = MessageFromJson(Resources.Load<TextAsset>(StringDb.fakeLocalStopped));
+                dialogString = StringDb.fakeLocalStopped;
                 break;
             case StringDb.ThreatType.timeEvent:
-                break;
+                ClassDb.dialogBoxManager.ToggleDialogBox();
+                yield break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
@@ -204,7 +218,8 @@ public class LevelMessageManager : MonoBehaviour
             message.head,
             message.body + "\n" + messageIntern.body,
             message.backBtn,
-            message.nextBtn
+            message.nextBtn,
+            dialogString
         );
         
         DialogBoxManager.dialogBoxBtnNext.onClick.RemoveAllListeners();
@@ -234,7 +249,8 @@ public class LevelMessageManager : MonoBehaviour
             message.head,
             message.body,
             message.backBtn,
-            message.nextBtn
+            message.nextBtn,
+            StringDb.idsInterception
         );
 
         DialogBoxManager.dialogBoxBtnNext.onClick.RemoveAllListeners();
@@ -264,7 +280,8 @@ public class LevelMessageManager : MonoBehaviour
             message.head,
             message.body,
             message.backBtn,
-            message.nextBtn
+            message.nextBtn,
+            StringDb.idsCleaned
         );
 
         DialogBoxManager.dialogBoxBtnNext.onClick.RemoveAllListeners();
@@ -288,21 +305,27 @@ public class LevelMessageManager : MonoBehaviour
 
         ClassDb.dialogBoxManager.ToggleDialogBox();
 
-        DialogBoxMessage message = new DialogBoxMessage();
+        DialogBoxMessage message;
+
+        string dialogString;
 
         switch (type)
         {
             case StringDb.ThreatType.local:
                 message = MessageFromJson(Resources.Load<TextAsset>(StringDb.localMoneyLoss));
+                dialogString = StringDb.localMoneyLoss;
                 break;
             case StringDb.ThreatType.remote:
                 message = MessageFromJson(Resources.Load<TextAsset>(StringDb.remoteMoneyLoss));
+                dialogString = StringDb.remoteMoneyLoss;
                 break;
             case StringDb.ThreatType.fakeLocal:
                 message = MessageFromJson(Resources.Load<TextAsset>(StringDb.fakeLocalMoneyLoss));
+                dialogString = StringDb.fakeLocalMoneyLoss;
                 break;
             case StringDb.ThreatType.timeEvent:
-                break;
+                ClassDb.dialogBoxManager.ToggleDialogBox();
+                yield break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
@@ -312,7 +335,8 @@ public class LevelMessageManager : MonoBehaviour
             message.head,
             string.Format(message.body, Math.Round(moneyLoss, 0).ToString(CultureInfo.CurrentCulture)),
             message.backBtn,
-            message.nextBtn
+            message.nextBtn,
+            dialogString
         );
 
         DialogBoxManager.dialogBoxBtnNext.onClick.RemoveAllListeners();
@@ -348,7 +372,8 @@ public class LevelMessageManager : MonoBehaviour
             message.head,
             message.body,
             message.backBtn,
-            message.nextBtn
+            message.nextBtn,
+            StringDb.exitTxt
         );
 
         //set listeners for the buttons on the dialog box
@@ -392,7 +417,8 @@ public class LevelMessageManager : MonoBehaviour
             message.head,
             string.Format(message.body, item.price),
             message.backBtn,
-            message.nextBtn
+            message.nextBtn,
+            StringDb.purchase
         );
 
         //open dialog box
@@ -432,7 +458,8 @@ public class LevelMessageManager : MonoBehaviour
             message.head,
             message.body,
             message.backBtn,
-            message.nextBtn
+            message.nextBtn,
+            StringDb.failedCorruption
         );
 
         //set listeners for the buttons on the dialog box
@@ -467,7 +494,8 @@ public class LevelMessageManager : MonoBehaviour
             message.head,
             string.Format(message.body, Math.Round(moneyEarn, 0).ToString(CultureInfo.CurrentCulture)),
             message.backBtn,
-            message.nextBtn
+            message.nextBtn,
+            StringDb.moneyEarn
         );
 
         DialogBoxManager.dialogBoxBtnNext.onClick.RemoveAllListeners();
@@ -497,7 +525,8 @@ public class LevelMessageManager : MonoBehaviour
             message.head,
             message.body,
             message.backBtn,
-            message.nextBtn
+            message.nextBtn,
+            StringDb.suspiciousAi
         );
 
         DialogBoxManager.dialogBoxBtnNext.onClick.RemoveAllListeners();
@@ -527,7 +556,8 @@ public class LevelMessageManager : MonoBehaviour
             message.head,
             message.body,
             message.backBtn,
-            message.nextBtn
+            message.nextBtn,
+            StringDb.plantCheck
         );
 
         DialogBoxManager.dialogBoxBtnNext.onClick.RemoveAllListeners();
@@ -557,7 +587,8 @@ public class LevelMessageManager : MonoBehaviour
             message.head,
             message.body,
             message.backBtn,
-            message.nextBtn
+            message.nextBtn,
+            StringDb.malwareCheck
         );
 
         DialogBoxManager.dialogBoxBtnNext.onClick.RemoveAllListeners();
@@ -588,7 +619,8 @@ public class LevelMessageManager : MonoBehaviour
             string.Format(message.body, elapsedTime.TotalMinutes.ToString(CultureInfo.CurrentCulture), 
                 Math.Round(moneyLoss, 0).ToString(CultureInfo.CurrentCulture)),
             message.backBtn,
-            message.nextBtn
+            message.nextBtn,
+            StringDb.threatManagementResult
         );
 
         DialogBoxManager.dialogBoxBtnNext.onClick.RemoveAllListeners();
@@ -620,7 +652,8 @@ public class LevelMessageManager : MonoBehaviour
             message.head,
             message.body,
             message.backBtn,
-            message.nextBtn
+            message.nextBtn,
+            StringDb.newTrustedEmployees
         );
 
         DialogBoxManager.dialogBoxBtnNext.onClick.RemoveAllListeners();
@@ -652,7 +685,8 @@ public class LevelMessageManager : MonoBehaviour
             message.head,
             string.Format(message.body, employeesHired),
             message.backBtn,
-            message.nextBtn
+            message.nextBtn,
+            StringDb.newEmployeesHired
         );
 
         DialogBoxManager.dialogBoxBtnNext.onClick.RemoveAllListeners();
@@ -686,7 +720,8 @@ public class LevelMessageManager : MonoBehaviour
             message.head,
             string.Format(message.body, threat.threatAttack),
             message.backBtn,
-            message.nextBtn
+            message.nextBtn,
+            StringDb.showLessonFirstTime
         );
 
         DialogBoxManager.dialogBoxBtnNext.onClick.RemoveAllListeners();
@@ -725,7 +760,8 @@ public class LevelMessageManager : MonoBehaviour
             message.head,
             string.Format(message.body, threatAttack),
             message.backBtn,
-            message.nextBtn
+            message.nextBtn,
+            StringDb.researchReport
         );
 
         DialogBoxManager.dialogBoxBtnNext.onClick.RemoveAllListeners();
@@ -753,16 +789,29 @@ public class LevelMessageManager : MonoBehaviour
         ClassDb.dialogBoxManager.ToggleDialogBox();
 
         DialogBoxMessage message;
-        message = MessageFromJson(manager.GetGameData().isGameWon ? 
-            Resources.Load<TextAsset>(StringDb.endGameWin) : 
-            Resources.Load<TextAsset>(StringDb.endGameLoss));
+
+        string dialogString;
+
+
+        if (manager.GetGameData().isGameWon)
+        {
+            message = MessageFromJson(Resources.Load<TextAsset>(StringDb.endGameWin));
+            dialogString = StringDb.endGameWin;
+        }
+        else
+        {
+            message = MessageFromJson(Resources.Load<TextAsset>(StringDb.endGameLoss));
+            dialogString = StringDb.endGameLoss;
+
+        }
 
 
         ClassDb.dialogBoxManager.SetDialog(
             message.head,
             message.body,
             message.backBtn,
-            message.nextBtn
+            message.nextBtn,
+            dialogString
         );
 
         DialogBoxManager.dialogBoxBtnNext.onClick.RemoveAllListeners();

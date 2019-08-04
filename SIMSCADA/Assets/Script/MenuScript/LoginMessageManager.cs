@@ -38,7 +38,8 @@ public class LoginMessageManager : MonoBehaviour
             message.head,
             message.body,
             message.backBtn,
-            message.nextBtn
+            message.nextBtn,
+            StringDb.completeField
         );
 
         DialogBoxManager.dialogBoxBtnNext.onClick.RemoveAllListeners();
@@ -71,7 +72,8 @@ public class LoginMessageManager : MonoBehaviour
             message.head,
             message.body,
             message.backBtn,
-            message.nextBtn
+            message.nextBtn,
+            StringDb.existingPlayer
         );
 
         DialogBoxManager.dialogBoxBtnNext.onClick.RemoveAllListeners();
@@ -104,7 +106,8 @@ public class LoginMessageManager : MonoBehaviour
             message.head,
             message.body,
             message.backBtn,
-            message.nextBtn
+            message.nextBtn, 
+            StringDb.playerNotRegistered
         );
 
         DialogBoxManager.dialogBoxBtnNext.onClick.RemoveAllListeners();
