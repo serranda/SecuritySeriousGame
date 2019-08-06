@@ -14,9 +14,9 @@ public class ServerPcListener : MonoBehaviour
     private IEnumerator beforeAntiMalwareScanRoutine;
     private IEnumerator antiMalwareScanRoutine;
     private IEnumerator idsCleanRoutine;
-    private IEnumerator rebootRoutine;
+    private IEnumerator rebootServerRoutine;
     private IEnumerator beforeCheckNetworkRoutine;
-    private IEnumerator checkNetworkRoutine;
+    private IEnumerator checkNetworkCfgRoutine;
 
     public static bool isThreatDetected;
     public List<Threat> threatDetectedList;
@@ -44,10 +44,15 @@ public class ServerPcListener : MonoBehaviour
         return iManager;
     }
 
-
     public void SetSeverPcListeners()
     {
         List<Button> buttons;
+
+        //DEBUG OVERRIDE TO DELETE
+        manager.GetGameData().hasReplayDeployed = true;
+
+        //DEBUG OVERRIDE TO DELETE
+        manager.GetGameData().hasPlantChecked = false;
 
         if (manager.GetGameData().hasDosDeployed ||
             manager.GetGameData().hasPhishingDeployed ||
@@ -235,15 +240,33 @@ public class ServerPcListener : MonoBehaviour
     {
         sprite.SetInteraction(false);
 
-        beforeAntiMalwareScanRoutine = BeforeAntiMalwareScan(sprite);
+        TimeEvent progressEvent = ClassDb.timeEventManager.NewTimeEvent(
+            manager.GetGameData().serverAntiMalwareTime, sprite.gameObject, true, true, StringDb.antiMalwareScanRoutine);
+
+        beforeAntiMalwareScanRoutine = BeforeAntiMalwareScan(progressEvent, sprite);
         StartCoroutine(beforeAntiMalwareScanRoutine);
     }
 
-    private IEnumerator BeforeAntiMalwareScan(InteractiveSprite sprite)
+    public void RestartAntiMalwareScan(TimeEvent progressEvent, InteractiveSprite sprite)
     {
+        sprite.SetInteraction(false);
 
-        TimeEvent progressEvent = ClassDb.timeEventManager.NewTimeEvent(
-            manager.GetGameData().serverAntiMalwareTime, sprite.gameObject, true, true);
+        if (!manager.GetGameData().hasPlantChecked)
+        {
+            //TODO : CHECK
+            beforeAntiMalwareScanRoutine = BeforeAntiMalwareScan(progressEvent, sprite);
+            StartCoroutine(beforeAntiMalwareScanRoutine);
+        }
+        else
+        {
+            antiMalwareScanRoutine = AntiMalwareScan(progressEvent, sprite);
+            StartCoroutine(antiMalwareScanRoutine);
+        }
+
+    }
+
+    private IEnumerator BeforeAntiMalwareScan(TimeEvent progressEvent, InteractiveSprite sprite)
+    {
 
         if (manager.GetGameData().hasStuxnetDeployed)
         {
@@ -253,7 +276,7 @@ public class ServerPcListener : MonoBehaviour
                 ClassDb.levelMessageManager.StartPlantCheck();
 
                 //wait to close dialog to continue
-                yield return new WaitUntil(() => DialogBoxManager.dialogEnabled);
+                yield return new WaitUntil(() => manager.GetGameData().dialogEnabled);
 
             }
 
@@ -307,9 +330,17 @@ public class ServerPcListener : MonoBehaviour
 
         //start duration: 90 min
         TimeEvent progressEvent = ClassDb.timeEventManager.NewTimeEvent(
-            manager.GetGameData().serverIdsCleanTime, interactiveSprite.gameObject, true, true);
+            manager.GetGameData().serverIdsCleanTime, interactiveSprite.gameObject, true, true, StringDb.idsCleanRoutine);
 
         manager.GetGameData().timeEventList.Add(progressEvent);
+
+        idsCleanRoutine = IdsClean(progressEvent);
+        StartCoroutine(idsCleanRoutine);
+    }
+
+    public void RestartIdsClean(TimeEvent progressEvent)
+    {
+        interactiveSprite.SetInteraction(false);
 
         idsCleanRoutine = IdsClean(progressEvent);
         StartCoroutine(idsCleanRoutine);
@@ -338,11 +369,19 @@ public class ServerPcListener : MonoBehaviour
         interactiveSprite.SetInteraction(false);
 
         TimeEvent progressEvent = ClassDb.timeEventManager.NewTimeEvent(
-            manager.GetGameData().serverRebootTime, interactiveSprite.gameObject, true, true);
+            manager.GetGameData().serverRebootTime, interactiveSprite.gameObject, true, true, StringDb.rebootServerRoutine);
         manager.GetGameData().timeEventList.Add(progressEvent);
 
-        rebootRoutine = RebootServer(progressEvent);
-        StartCoroutine(rebootRoutine);
+        rebootServerRoutine = RebootServer(progressEvent);
+        StartCoroutine(rebootServerRoutine);
+    }
+
+    public void RestartRebootServer(TimeEvent progressEvent)
+    {
+        interactiveSprite.SetInteraction(false);
+
+        rebootServerRoutine = RebootServer(progressEvent);
+        StartCoroutine(rebootServerRoutine);
     }
 
     private IEnumerator RebootServer(TimeEvent progressEvent)
@@ -376,15 +415,52 @@ public class ServerPcListener : MonoBehaviour
     {
         sprite.SetInteraction(false);
 
-        beforeCheckNetworkRoutine = BeforeCheckNetworkCfg(sprite);
+        TimeEvent progressEvent = ClassDb.timeEventManager.NewTimeEvent(
+            manager.GetGameData().serverCheckCfgTime, sprite.gameObject, true, true, StringDb.checkNetworkCfgRoutine);
+
+        beforeCheckNetworkRoutine = BeforeCheckNetworkCfg(progressEvent, sprite);
         StartCoroutine(beforeCheckNetworkRoutine);
     }
 
-    public IEnumerator BeforeCheckNetworkCfg(InteractiveSprite sprite)
+    public void RestartCheckNetworkCfg(TimeEvent progressEvent, InteractiveSprite sprite)
     {
-        TimeEvent progressEvent = ClassDb.timeEventManager.NewTimeEvent(
-            manager.GetGameData().serverCheckCfgTime, sprite.gameObject, true, true);
+        sprite.SetInteraction(false);
 
+        if (manager.GetGameData().hasReplayDeployed)
+        {
+            if (!manager.GetGameData().hasPlantChecked)
+            {
+                //TODO : CHECK
+                beforeCheckNetworkRoutine = BeforeCheckNetworkCfg(progressEvent, sprite);
+                StartCoroutine(beforeCheckNetworkRoutine);
+            }
+            else
+            {
+                checkNetworkCfgRoutine = CheckNetworkCfg(progressEvent, sprite);
+                StartCoroutine(checkNetworkCfgRoutine);
+            }
+        }
+
+        if (manager.GetGameData().hasDragonflyDeployed)
+        {
+            if (!manager.GetGameData().hasMalwareChecked)
+            {
+                //TODO : CHECK
+                beforeCheckNetworkRoutine = BeforeCheckNetworkCfg(progressEvent, sprite);
+                StartCoroutine(beforeCheckNetworkRoutine);
+            }
+            else
+            {
+                checkNetworkCfgRoutine = CheckNetworkCfg(progressEvent, sprite);
+                StartCoroutine(checkNetworkCfgRoutine);
+            }
+        }
+
+    }
+
+
+    public IEnumerator BeforeCheckNetworkCfg(TimeEvent progressEvent, InteractiveSprite sprite)
+    {
         if (manager.GetGameData().hasReplayDeployed)
         {
             if (!manager.GetGameData().hasPlantChecked)
@@ -393,7 +469,7 @@ public class ServerPcListener : MonoBehaviour
                 ClassDb.levelMessageManager.StartPlantCheck();
 
                 //wait to close dialog to continue
-                yield return new WaitUntil(() => DialogBoxManager.dialogEnabled);
+                yield return new WaitUntil(() => manager.GetGameData().dialogEnabled);
             }
 
             yield return new WaitUntil(() => manager.GetGameData().hasPlantChecked);
@@ -407,7 +483,7 @@ public class ServerPcListener : MonoBehaviour
                 ClassDb.levelMessageManager.StartMalwareCheck();
 
                 //wait to close dialog to continue
-                yield return new WaitUntil(() => DialogBoxManager.dialogEnabled);
+                yield return new WaitUntil(() => manager.GetGameData().dialogEnabled);
             }
 
             yield return new WaitUntil(() => manager.GetGameData().hasMalwareChecked);
@@ -415,8 +491,8 @@ public class ServerPcListener : MonoBehaviour
 
         manager.GetGameData().timeEventList.Add(progressEvent);
 
-        checkNetworkRoutine = CheckNetworkCfg(progressEvent, sprite);
-        StartCoroutine(checkNetworkRoutine);
+        checkNetworkCfgRoutine = CheckNetworkCfg(progressEvent, sprite);
+        StartCoroutine(checkNetworkCfgRoutine);
     }
 
     private IEnumerator CheckNetworkCfg(TimeEvent progressEvent, InteractiveSprite sprite)

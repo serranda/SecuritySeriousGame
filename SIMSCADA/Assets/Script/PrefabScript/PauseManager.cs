@@ -79,7 +79,7 @@ public class PauseManager : MonoBehaviour
         {
             exitBtn.onClick.AddListener(delegate
             {
-                ClassDb.tutorialMessageManager.StartExit();
+                ClassDb.tutorialMessageManager.Exit();
             });
         }
         else

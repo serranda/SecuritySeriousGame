@@ -2,10 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 // ReSharper disable IteratorNeverReturns
 
@@ -35,6 +34,12 @@ public class Level1Manager : MonoBehaviour, ILevelManager
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            if (gameData.dialogEnabled)
+            {
+                //TODO SHOW MESSAGE TO CLOSE ALL THE DIALOG BOX BEFORE GO TO PAUSE
+                ClassDb.levelMessageManager.StartCloseDialog();
+                return;
+            }
             ClassDb.pauseManager.TogglePauseMenu();
         }
 
@@ -54,6 +59,7 @@ public class Level1Manager : MonoBehaviour, ILevelManager
 
         if (Input.GetKeyDown(KeyCode.V))
             StartCoroutine(NewFakeLocalThreats());
+
         //---------------------------------------------------------------------------------------------------------------------
 
         if (Input.GetMouseButtonDown(1) && gameData.buttonEnabled)
@@ -73,6 +79,7 @@ public class Level1Manager : MonoBehaviour, ILevelManager
             gameData.threatSpawnRate = 10;
         }
 
+        gameData.longDate = gameData.date.ToFileTimeUtc();
     }
 
     //DEBUG
@@ -110,6 +117,7 @@ public class Level1Manager : MonoBehaviour, ILevelManager
             yield return new WaitForSeconds(1);
         }
     }
+
     //---------------------------------------------------------------------------------------------------------------------
 
     public IEnumerator StarterCoroutine()
@@ -131,7 +139,7 @@ public class Level1Manager : MonoBehaviour, ILevelManager
         }
         else
         {
-            RestorePrefab(gameData);
+            RestorePrefabs(gameData);
         }
 
         gameData.indexSlot = StringDb.indexSlot;
@@ -403,7 +411,7 @@ public class Level1Manager : MonoBehaviour, ILevelManager
     public void StartLocalThreat(Threat threat)
     {
         //create aiPrefab and attaching to threat
-        threat.aiController = ClassDb.spawnCharacter.SpawnLocalAttackerAi(gameData.lastAiId++);
+        threat.aiController = ClassDb.spawnCharacter.SpawnLocalAi(gameData.lastAiId++);
 
         TimeEvent timeEvent = ClassDb.timeEventManager.NewTimeEventFromThreat(threat, threat.aiController.gameObject, true, false);
 
@@ -438,7 +446,7 @@ public class Level1Manager : MonoBehaviour, ILevelManager
     public void StartFakeLocalThreat(Threat threat)
     {
         //create aiPrefab and attaching to threat
-        threat.aiController = ClassDb.spawnCharacter.SpawnLocalNormalAi(gameData.lastAiId++);
+        threat.aiController = ClassDb.spawnCharacter.SpawnFakeLocalAi(gameData.lastAiId++);
 
         TimeEvent timeEvent = ClassDb.timeEventManager.NewTimeEventFromThreat(threat, threat.aiController.gameObject, true, false);
 
@@ -465,42 +473,44 @@ public class Level1Manager : MonoBehaviour, ILevelManager
             //DEBUG
             //---------------------------------------------------------------------------------------------------------------------
             //THREAT WITH INTERN ATTACKER; CHECK IF CORRUPTION ATTEMPT IS SUCCESSFUL
-            if (threat.threatAttacker == StringDb.ThreatAttacker.intern &&
-                (threat.aiController.isTrusted || (int)threat.threatDanger < (int)threat.aiController.dangerResistance))
+            if (threat.threatType != StringDb.ThreatType.fakeLocal)
             {
-                if (threat.threatType == StringDb.ThreatType.remote)
+                if (threat.threatAttacker == StringDb.ThreatAttacker.intern &&
+                    (threat.aiController.isTrusted || (int)threat.threatDanger < (int)threat.aiController.dangerResistance))
+                {
+                    if (threat.threatType == StringDb.ThreatType.remote)
+                        gameData.remoteThreats.Remove(threat);
+                    else
+                        gameData.localThreats.Remove(threat);
+
+                    gameData.totalThreat += 1;
+                    UpdateReputation(threat, StringDb.ThreatStatus.unarmed);
+
+                    ClassDb.spawnCharacter.RemoveAi(threat.aiController.gameObject);
+                    ClassDb.levelMessageManager.StartFailedCorruption();
+                    yield break;
+                }
+
+                //REMOTE THREAT; CHECK IF FIREWALL INTERCEPT BEFORE DEPLOY
+                if (threat.threatType == StringDb.ThreatType.remote &&
+                    Random.Range(0, 100) < gameData.firewallSuccessRate && gameData.isFirewallActive)
+                {
                     gameData.remoteThreats.Remove(threat);
-                else
-                    gameData.localThreats.Remove(threat);
 
-                gameData.totalThreat += 1;
-                UpdateReputation(threat, StringDb.ThreatStatus.unarmed);
+                    gameData.totalThreat += 1;
+                    UpdateReputation(threat, StringDb.ThreatStatus.unarmed);
 
-                ClassDb.spawnCharacter.RemoveAi(threat.aiController.gameObject);
-                ClassDb.levelMessageManager.StartFailedCorruption();
-                yield break;
+                    ClassDb.spawnCharacter.RemoveAi(threat.aiController.gameObject);
+                    ClassDb.levelMessageManager.StartThreatStopped(threat);
+                    yield break;
+                }
             }
-
-            //REMOTE THREAT; CHECK IF FIREWALL INTERCEPT BEFORE DEPLOY
-            if (threat.threatType == StringDb.ThreatType.remote &&
-                Random.Range(0, 100) < gameData.firewallSuccessRate && gameData.isFirewallActive)
-            {
-                gameData.remoteThreats.Remove(threat);
-
-                gameData.totalThreat += 1;
-                UpdateReputation(threat, StringDb.ThreatStatus.unarmed);
-
-                ClassDb.spawnCharacter.RemoveAi(threat.aiController.gameObject);
-                ClassDb.levelMessageManager.StartThreatStopped(threat);
-                yield break;
-            }
-
             //---------------------------------------------------------------------------------------------------------------------
 
             bool deployed = BeforeDeployThreat(threat);
 
             //wait for closing dialog box
-            yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);
+            yield return new WaitWhile(() => gameData.dialogEnabled);
 
             if (!deployed) yield break;
 
@@ -555,7 +565,7 @@ public class Level1Manager : MonoBehaviour, ILevelManager
                         //SHOW THE CORRISPONDENT LESSON
                         ClassDb.levelMessageManager.StartShowLessonFirstTime(threat);
                         //wait for closing dialog box
-                        yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);
+                        yield return new WaitWhile(() => gameData.dialogEnabled);
                     }
                     break;
 
@@ -592,7 +602,7 @@ public class Level1Manager : MonoBehaviour, ILevelManager
                         //SHOW THE CORRISPONDENT LESSON
                         ClassDb.levelMessageManager.StartShowLessonFirstTime(threat);
                         //wait for closing dialog box
-                        yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);
+                        yield return new WaitWhile(() => gameData.dialogEnabled);
                     }
                     break;
 
@@ -620,7 +630,7 @@ public class Level1Manager : MonoBehaviour, ILevelManager
                         //SHOW THE CORRISPONDENT LESSON
                         ClassDb.levelMessageManager.StartShowLessonFirstTime(threat);
                         //wait for closing dialog box
-                        yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);
+                        yield return new WaitWhile(() => gameData.dialogEnabled);
                     }
                     break;
 
@@ -657,7 +667,7 @@ public class Level1Manager : MonoBehaviour, ILevelManager
                         //SHOW THE CORRISPONDENT LESSON
                         ClassDb.levelMessageManager.StartShowLessonFirstTime(threat);
                         //wait for closing dialog box
-                        yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);
+                        yield return new WaitWhile(() => gameData.dialogEnabled);
                     }
                     break;
 
@@ -685,7 +695,7 @@ public class Level1Manager : MonoBehaviour, ILevelManager
                     ClassDb.levelMessageManager.StartMoneyLoss(threat.threatType, moneyLoss);
 
                     //wait for closing dialog box
-                    yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);
+                    yield return new WaitWhile(() => gameData.dialogEnabled);
 
                     //Decreasing money by moneyloss amount
                     gameData.money -= moneyLoss;
@@ -700,7 +710,7 @@ public class Level1Manager : MonoBehaviour, ILevelManager
                         //SHOW THE CORRISPONDENT LESSON
                         ClassDb.levelMessageManager.StartShowLessonFirstTime(threat);
                         //wait for closing dialog box
-                        yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);
+                        yield return new WaitWhile(() => gameData.dialogEnabled);
                     }
                     break;
 
@@ -725,7 +735,7 @@ public class Level1Manager : MonoBehaviour, ILevelManager
                     ClassDb.levelMessageManager.StartMoneyLoss(threat.threatType, moneyLoss);
 
                     //wait for closing dialog box
-                    yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);
+                    yield return new WaitWhile(() => gameData.dialogEnabled);
 
                     //Decreasing money by moneyloss amount
                     gameData.money -= moneyLoss;
@@ -740,7 +750,7 @@ public class Level1Manager : MonoBehaviour, ILevelManager
                         //SHOW THE CORRISPONDENT LESSON
                         ClassDb.levelMessageManager.StartShowLessonFirstTime(threat);
                         //wait for closing dialog box
-                        yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);
+                        yield return new WaitWhile(() => gameData.dialogEnabled);
                     }
                     break;
 
@@ -1067,7 +1077,7 @@ public class Level1Manager : MonoBehaviour, ILevelManager
         ClassDb.dataCollector.GetThreatData(threat, (float) elapsedRealTime.TotalSeconds);
 
         //wait to close dialog to continue
-        yield return new WaitUntil(() => DialogBoxManager.dialogEnabled);
+        yield return new WaitUntil(() => gameData.dialogEnabled);
 
     }
 
@@ -1096,7 +1106,7 @@ public class Level1Manager : MonoBehaviour, ILevelManager
         gameData = data;
     }
 
-    public void RestorePrefab(GameData data)
+    public void RestorePrefabs(GameData data)
     {
         //CHECK WHICH PREFAB SHOULD BE RESTORED
         //PREFAB TO CHECK:
@@ -1115,7 +1125,24 @@ public class Level1Manager : MonoBehaviour, ILevelManager
             FindObjectOfType<RoomPcListener>().ToggleScadaScreen();
         }
 
-        //AI BASED ON BOTH LOCAL AND REMOTE THREAT
+        //TIMEVENTS, INCLUDED RESTORE THE PROGRESSBAR, REMOTE AI AND LOCAL AI
+        if (data.timeEventList.Count > 0)
+        {
+            Debug.Log("RESTORING TIME EVENTS");
+            foreach (TimeEvent timeEvent in data.timeEventList)
+            {
+                //RESTORE NOTHREATS PROGRESS BAR, CHECKING THE PARENT NAME AND INSTANCING A NEW PROGRESSBAR
+                if (timeEvent.threat.threatType == StringDb.ThreatType.timeEvent)
+                {
+                    ClassDb.timeEventManager.RestoreTimeEvent(timeEvent);
+                }
+                else
+                {
+                    ClassDb.timeEventManager.RestoreThreatTimeEvent(timeEvent);
+                }
+            }
+
+        }
 
         //SECURITYSCREEN
         if (data.securityScreenEnabled)
@@ -1131,93 +1158,6 @@ public class Level1Manager : MonoBehaviour, ILevelManager
             GameObject.Find(data.pressedSprite).GetComponent<InteractiveSprite>().ToggleMenu();
         }
 
-        //DIALOG BOX
-
-        //TODO CHECK IF ALL THE MESSAGES ARE RESTORED CORRECTLY
-        //TODO CHECK IF THE NEW GAMEDATA VARIABLES ARE SETTED CORRECTLY
-        if (data.dialogEnabled)
-        {
-            data.dialogEnabled = false;
-
-            switch (data.lastDialogShowed)
-            {
-                case StringDb.purchase:
-                    ClassDb.levelMessageManager.StartConfirmPurchase(data.lastItemStore);
-                    break;
-                case StringDb.failedCorruption:
-                    ClassDb.levelMessageManager.StartFailedCorruption();
-                    break;
-                case StringDb.idsCleaned:
-                    ClassDb.levelMessageManager.StartIdsClean();
-                    break;
-                case StringDb.idsInterception:
-                    ClassDb.levelMessageManager.StartIdsInterception();
-                    break;
-                case StringDb.moneyEarn:
-                    ClassDb.levelMessageManager.StartMoneyEarn(data.lastAmountEarn);
-                    break;
-                case StringDb.fakeLocalMoneyLoss:
-                    ClassDb.levelMessageManager.StartMoneyLoss(data.lastTypeLoss, data.lastAmountLoss);
-                    break;
-                case StringDb.localMoneyLoss:
-                    ClassDb.levelMessageManager.StartMoneyLoss(data.lastTypeLoss, data.lastAmountLoss);
-                    break;
-                case StringDb.remoteMoneyLoss:
-                    ClassDb.levelMessageManager.StartMoneyLoss(data.lastTypeLoss, data.lastAmountLoss);
-                    break;
-                case StringDb.suspiciousAi:
-                    ClassDb.levelMessageManager.StartSuspiciousAi();
-                    break;
-                case StringDb.localDeployed:
-                    ClassDb.levelMessageManager.StartThreatDeployed(data.lastThreatDeployed);
-                    break;
-                case StringDb.remoteDeployed:
-                    ClassDb.levelMessageManager.StartThreatDeployed(data.lastThreatDeployed);
-                    break;
-                case StringDb.fakeLocalStopped:
-                    ClassDb.levelMessageManager.StartThreatStopped(data.lastThreatStopped);
-                    break;
-                case StringDb.localStopped:
-                    ClassDb.levelMessageManager.StartThreatStopped(data.lastThreatStopped);
-                    break;
-                case StringDb.remoteStopped:
-                    ClassDb.levelMessageManager.StartThreatStopped(data.lastThreatStopped);
-                    break;
-                case StringDb.welcomeTxt:
-                    ClassDb.levelMessageManager.StartWelcome();
-                    break;
-                case StringDb.plantCheck:
-                    ClassDb.levelMessageManager.StartPlantCheck();
-                    break;
-                case StringDb.malwareCheck:
-                    ClassDb.levelMessageManager.StartMalwareCheck();
-                    break;
-                case StringDb.threatManagementResult:
-                    ClassDb.levelMessageManager.StartThreatManagementResult(data.lastManagementTime, data.lastAmountLoss);
-                    break;
-                case StringDb.newTrustedEmployees:
-                    ClassDb.levelMessageManager.StartNewTrustedEmployees();
-                    break;
-                case StringDb.newEmployeesHired:
-                    ClassDb.levelMessageManager.StartNewEmployeesHired(data.employeesHired);
-                    break;
-                case StringDb.showLessonFirstTime:
-                    ClassDb.levelMessageManager.StartShowLessonFirstTime(data.firstThreat);
-                    break;
-                case StringDb.researchReport:
-                    ClassDb.levelMessageManager.StartShowReport(data.monthlyThreat.ToString().ToUpper());
-                    break;
-                case StringDb.endGameWin:
-                    ClassDb.levelMessageManager.StartEndGame();
-                    break;
-                case StringDb.endGameLoss:
-                    ClassDb.levelMessageManager.StartEndGame();
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
-
         //IDCARD
         if (data.idCardEnabled)
         {
@@ -1231,5 +1171,13 @@ public class Level1Manager : MonoBehaviour, ILevelManager
             data.noteBookEnabled = false;
             FindObjectOfType<NotebookManager>().ToggleNoteBook();
         }
+
+        //RESTORE RANDOMIZER WEIGHTS
+        SetRandomizer();
     }
+
+
+
+
+
 }

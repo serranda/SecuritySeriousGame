@@ -389,17 +389,17 @@ public class TutorialMessageManager : MonoBehaviour
 
     }
 
-    public void StartExit()
-    {
-        exitRoutine = Exit();
-        StartCoroutine(exitRoutine);
-    }
+    //public void StartExit()
+    //{
+    //    exitRoutine = Exit();
+    //    StartCoroutine(exitRoutine);
+    //}
 
-    private IEnumerator Exit()
+    public void Exit()
     {
-        yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);
+        //yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);
 
-        ClassDb.dialogBoxManager.ToggleDialogBox();
+        Canvas dialog = ClassDb.dialogBoxManager.OpenDialog();
 
         //disable interaction with pause menu
         ClassDb.pauseManager.pauseRaycaster.enabled = false;
@@ -408,29 +408,29 @@ public class TutorialMessageManager : MonoBehaviour
         //set the text on dialog box
         DialogBoxMessage message = ClassDb.levelMessageManager.MessageFromJson(Resources.Load<TextAsset>(StringDb.tutorialExit));
 
-        ClassDb.dialogBoxManager.SetDialog(
+        dialog.GetComponent<DialogBoxManager>().SetDialog(
             message.head,
             message.body,
             message.backBtn,
             message.nextBtn,
-            StringDb.tutorialExit
+            dialog
         );
 
         //set listeners for the buttons on the dialog box
-        DialogBoxManager.dialogBoxBtnNext.onClick.RemoveAllListeners();
-        DialogBoxManager.dialogBoxBtnNext.gameObject.SetActive(true);
-        DialogBoxManager.dialogBoxBtnNext.onClick.AddListener(delegate
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.RemoveAllListeners();
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.gameObject.SetActive(true);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.AddListener(delegate
         {
             ClassDb.pauseManager.TogglePauseMenu();
-            ClassDb.dialogBoxManager.ToggleDialogBox();
+            ClassDb.dialogBoxManager.CloseDialog(dialog);
             ClassDb.sceneLoader.StartLoadByIndex(manager.GetGameData().lastSceneIndex);
         });
 
-        DialogBoxManager.dialogBoxBtnBack.onClick.RemoveAllListeners();
-        DialogBoxManager.dialogBoxBtnBack.gameObject.SetActive(true);
-        DialogBoxManager.dialogBoxBtnBack.onClick.AddListener(delegate
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.onClick.RemoveAllListeners();
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.gameObject.SetActive(true);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.onClick.AddListener(delegate
         {
-            ClassDb.dialogBoxManager.ToggleDialogBox();
+            ClassDb.dialogBoxManager.CloseDialog(dialog);
             ClassDb.pauseManager.pauseRaycaster.enabled = true;
         });
     }

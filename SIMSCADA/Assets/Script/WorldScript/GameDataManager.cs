@@ -39,6 +39,9 @@ public class GameDataManager : MonoBehaviour
         if (gameData.firstLaunch)
             gameData.firstLaunch = false;
 
+        //SET LONG DATE VALUE
+        gameData.longDate = gameData.date.ToFileTimeUtc();
+
         //PARSE GAMEDATA INSTANCE INTO JSON
         string data = JsonUtility.ToJson(gameData, true);
 
@@ -156,6 +159,9 @@ public class GameDataManager : MonoBehaviour
 
                     //SET GAMEDATA VARIABLE WITH JSON DATA DESERIALIZED
                     gameData = JsonUtility.FromJson<GameData>(data);
+
+                    //SET DATE VALUE
+                    gameData.date = DateTime.FromFileTimeUtc(gameData.longDate);
 
                     //SET MANAGER GAMEDATA WITH GAMEDATA VALUES RETRIEVED FROM SERVER
                     manager.SetGameData(gameData);

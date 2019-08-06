@@ -28,29 +28,29 @@ public class LoginMessageManager : MonoBehaviour
     private IEnumerator CompleteAllField()
     {
         yield return new WaitForSeconds(messageDelay);
-        yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);
+        //yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);
 
-        ClassDb.dialogBoxManager.ToggleDialogBox();
+        Canvas dialog = ClassDb.dialogBoxManager.OpenDialog();
 
         LoginBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.completeField));
 
-        ClassDb.dialogBoxManager.SetDialog(
+        dialog.GetComponent<DialogBoxManager>().SetDialog(
             message.head,
             message.body,
             message.backBtn,
             message.nextBtn,
-            StringDb.completeField
+            dialog
         );
 
-        DialogBoxManager.dialogBoxBtnNext.onClick.RemoveAllListeners();
-        DialogBoxManager.dialogBoxBtnNext.gameObject.SetActive(true);
-        DialogBoxManager.dialogBoxBtnNext.onClick.AddListener(delegate
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.RemoveAllListeners();
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.gameObject.SetActive(true);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.AddListener(delegate
         {
-            ClassDb.dialogBoxManager.ToggleDialogBox();
+            ClassDb.dialogBoxManager.CloseDialog(dialog);
         });
 
-        DialogBoxManager.dialogBoxBtnBack.onClick.RemoveAllListeners();
-        DialogBoxManager.dialogBoxBtnBack.gameObject.SetActive(false);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.onClick.RemoveAllListeners();
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.gameObject.SetActive(false);
     }
 
     public void StartExistingPlayer()
@@ -62,29 +62,29 @@ public class LoginMessageManager : MonoBehaviour
     private IEnumerator ExistingPlayer()
     {
         yield return new WaitForSeconds(messageDelay);
-        yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);
+        //yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);
 
-        ClassDb.dialogBoxManager.ToggleDialogBox();
+        Canvas dialog = ClassDb.dialogBoxManager.OpenDialog();
 
         LoginBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.existingPlayer));
 
-        ClassDb.dialogBoxManager.SetDialog(
+        dialog.GetComponent<DialogBoxManager>().SetDialog(
             message.head,
             message.body,
             message.backBtn,
             message.nextBtn,
-            StringDb.existingPlayer
+            dialog
         );
 
-        DialogBoxManager.dialogBoxBtnNext.onClick.RemoveAllListeners();
-        DialogBoxManager.dialogBoxBtnNext.gameObject.SetActive(true);
-        DialogBoxManager.dialogBoxBtnNext.onClick.AddListener(delegate
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.RemoveAllListeners();
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.gameObject.SetActive(true);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.AddListener(delegate
         {
-            ClassDb.dialogBoxManager.ToggleDialogBox();
+            ClassDb.dialogBoxManager.CloseDialog(dialog);
         });
 
-        DialogBoxManager.dialogBoxBtnBack.onClick.RemoveAllListeners();
-        DialogBoxManager.dialogBoxBtnBack.gameObject.SetActive(false);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.onClick.RemoveAllListeners();
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.gameObject.SetActive(false);
     }
 
     public void StartPlayerNotRegistered()
@@ -96,28 +96,28 @@ public class LoginMessageManager : MonoBehaviour
     private IEnumerator PlayerNotRegistered()
     {
         yield return new WaitForSeconds(messageDelay);
-        yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);
+        //yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);
 
-        ClassDb.dialogBoxManager.ToggleDialogBox();
+        Canvas dialog = ClassDb.dialogBoxManager.OpenDialog();
 
         LoginBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.playerNotRegistered));
 
-        ClassDb.dialogBoxManager.SetDialog(
+        dialog.GetComponent<DialogBoxManager>().SetDialog(
             message.head,
             message.body,
             message.backBtn,
             message.nextBtn, 
-            StringDb.playerNotRegistered
+            dialog
         );
 
-        DialogBoxManager.dialogBoxBtnNext.onClick.RemoveAllListeners();
-        DialogBoxManager.dialogBoxBtnNext.gameObject.SetActive(true);
-        DialogBoxManager.dialogBoxBtnNext.onClick.AddListener(delegate
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.RemoveAllListeners();
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.gameObject.SetActive(true);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.AddListener(delegate
         {
-            ClassDb.dialogBoxManager.ToggleDialogBox();
+            ClassDb.dialogBoxManager.CloseDialog(dialog);
         });
 
-        DialogBoxManager.dialogBoxBtnBack.onClick.RemoveAllListeners();
-        DialogBoxManager.dialogBoxBtnBack.gameObject.SetActive(false);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.onClick.RemoveAllListeners();
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.gameObject.SetActive(false);
     }
 }

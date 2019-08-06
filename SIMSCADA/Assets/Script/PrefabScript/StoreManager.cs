@@ -21,11 +21,7 @@ public class StoreManager : MonoBehaviour
 
     private TextMeshProUGUI itemDescription;
 
-    public ItemStore itemStoreSelected;
-
     private RectTransform content;
-
-    private ItemStore defaultItemStore;
 
     private RoomPcListener roomPcListener;
     private TutorialRoomPcListener tutorialRoomPcListener;
@@ -54,9 +50,6 @@ public class StoreManager : MonoBehaviour
         itemList = manager.GetGameData().itemStoreList;
 
         itemDescription = GameObject.Find("InfoTxt").GetComponent<TextMeshProUGUI>();
-
-        defaultItemStore = new ItemStore();
-        itemStoreSelected = defaultItemStore;
 
         backBtn = GameObject.Find("BackBtn").GetComponent<Button>();
         backBtn.onClick.RemoveAllListeners();
@@ -101,13 +94,13 @@ public class StoreManager : MonoBehaviour
             ItemStore item1 = item;
             itemOnList.GetComponent<Button>().onClick.AddListener(delegate
             {
-                if (itemStoreSelected != defaultItemStore)
+                if (manager.GetGameData().itemStoreSelected.itemObject != null)
                 {
-                    itemStoreSelected.itemObject.GetComponent<Button>().image.sprite = sprites[0];
+                    manager.GetGameData().itemStoreSelected.itemObject.GetComponent<Button>().image.sprite = sprites[0];
                 }
-                itemStoreSelected = item1;
+                manager.GetGameData().itemStoreSelected = item1;
                 item1.itemObject.GetComponent<Button>().image.sprite = sprites[sprites.Length-1];
-                SetDescription(itemStoreSelected);
+                SetDescription(manager.GetGameData().itemStoreSelected);
             });
             CheckItemLevel(item);
         }
@@ -115,8 +108,7 @@ public class StoreManager : MonoBehaviour
         purchaseButton.onClick.RemoveAllListeners();
         purchaseButton.onClick.AddListener(delegate
             {
-                ClassDb.levelMessageManager.StartConfirmPurchase(itemStoreSelected);
-                itemList.Remove(itemStoreSelected);
+                ClassDb.levelMessageManager.StartConfirmPurchase(manager.GetGameData().itemStoreSelected);
             });
 
         //disable interact with button until tutorial is finished
@@ -148,7 +140,7 @@ public class StoreManager : MonoBehaviour
 
     private void Update()
     {
-        purchaseButton.interactable = itemStoreSelected != defaultItemStore;
+        purchaseButton.interactable = manager.GetGameData().itemStoreSelected.itemObject != null;
     }
 
     private ILevelManager SetLevelManager()
@@ -186,8 +178,9 @@ public class StoreManager : MonoBehaviour
         UpdateItemList(itemStore);
         UpdateGui();
 
-        itemStoreSelected = defaultItemStore;
-        SetDescription(itemStoreSelected);
+        manager.GetGameData().itemStoreSelected = new ItemStore();
+
+        SetDescription(manager.GetGameData().itemStoreSelected);
     }
 
     private void SetItemLevel(ItemStore itemStore)
@@ -205,8 +198,7 @@ public class StoreManager : MonoBehaviour
         if (itemStore.finalLevel == -1) return;
         if (itemStore.currentLevel < itemStore.finalLevel) return;
         itemStore.itemObject.GetComponent<Button>().interactable = false;
-        Debug.Log("ITEM NOT INTERACTABLE");
-        //itemStore.currentLevel--;
+        //Debug.Log("ITEM NOT INTERACTABLE");
     }
 
     private void ApplyItemEffect(ItemStore itemStore)
@@ -357,7 +349,9 @@ public class StoreManager : MonoBehaviour
 
     private void UpdateItemList(ItemStore itemStore)
     {
+        itemList.Remove(itemList.FirstOrDefault(store => store.name == itemStore.name));
         itemList.Add(itemStore);
+
     }
 
     private void UpdateGui()

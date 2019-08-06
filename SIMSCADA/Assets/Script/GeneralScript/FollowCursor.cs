@@ -34,7 +34,7 @@ public class FollowCursor : MonoBehaviour
     {
 
         if ( PauseManager.pauseEnabled
-            || DialogBoxManager.dialogEnabled
+            || manager.GetGameData().dialogEnabled
             || manager.GetGameData().scadaEnabled
             || AiController.cursorOverAi
             || manager.GetGameData().storeEnabled

@@ -73,5 +73,6 @@ interface ILevelManager
 
     void StopAllCoroutines();
 
-    void RestorePrefab(GameData data);
+    void RestorePrefabs(GameData data);
+
 }

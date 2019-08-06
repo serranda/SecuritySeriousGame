@@ -594,6 +594,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b793fa75d3396344bdfd3dce3ae0d18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dialogBoxTitle: {fileID: 8820521835686324025}
+  dialogBoxMessage: {fileID: 6758735665744844760}
+  dialogBoxBtnNext: {fileID: 8820521836079117942}
+  dialogBoxBtnBack: {fileID: 8820521835394095904}
+  dialogBoxBtnNextTxt: {fileID: 8820521834948829216}
+  dialogBoxBtnBackTxt: {fileID: 8820521834479730187}
 --- !u!222 &3342904286085023477
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -855,7 +861,7 @@ GameObject:
   - component: {fileID: 8820521834479730188}
   - component: {fileID: 8820521834479730187}
   m_Layer: 5
-  m_Name: Text
+  m_Name: BackText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1013,7 +1019,7 @@ GameObject:
   - component: {fileID: 8820521834948829217}
   - component: {fileID: 8820521834948829216}
   m_Layer: 5
-  m_Name: Text
+  m_Name: NextText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

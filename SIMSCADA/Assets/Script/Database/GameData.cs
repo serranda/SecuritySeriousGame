@@ -52,7 +52,8 @@ public class GameData
     public bool researchUpgrade;
 
     //hud values
-    public DateTime date = new DateTime(2019, 01, 01, 08, 00, 00);
+    public DateTime date = StringDb.starterDate;
+    public long longDate = StringDb.starterDate.ToFileTimeUtc();
     public float money = 1000;
     public int successfulThreat;
     public int totalThreat;
@@ -122,7 +123,7 @@ public class GameData
     //value for monthly threat tendencies 
     public StringDb.ThreatAttack monthlyThreat;
 
-    public Dictionary<StringDb.ThreatAttack, float> weights = new Dictionary<StringDb.ThreatAttack, float>
+    public ThreatAttackFloatDictionary weights = new ThreatAttackFloatDictionary
     {
         {StringDb.ThreatAttack.dos, 0f},
         {StringDb.ThreatAttack.phishing, 0f},
@@ -162,7 +163,7 @@ public class GameData
     public bool isMoneyLoss;
 
     //dictionary in which are stored alle the money loss factor relative to all types of threat
-    public Dictionary<StringDb.ThreatAttack, float> moneyLossList = new Dictionary<StringDb.ThreatAttack, float>()
+    public ThreatAttackFloatDictionary moneyLossList = new ThreatAttackFloatDictionary
     {
         {StringDb.ThreatAttack.dos, 0f},
         {StringDb.ThreatAttack.phishing, 0f},
@@ -221,11 +222,8 @@ public class GameData
     public bool buttonEnabled;
     public bool dialogEnabled;
 
-    //string to set last message showed
-    public string lastDialogShowed;
-
-    //value for last itemStore purchased
-    public ItemStore lastItemStore;
+    //value for item store selected
+    public ItemStore itemStoreSelected = new ItemStore();
 
     //vale for last threat deployed
     public Threat lastThreatDeployed;

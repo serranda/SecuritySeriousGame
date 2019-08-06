@@ -28,6 +28,7 @@ public class LevelMessageManager : MonoBehaviour
     private IEnumerator showLessonFirstTimeRoutine;
     private IEnumerator showReportRoutine;
     private IEnumerator endGameRoutine;
+    private IEnumerator closeDialogRoutine;
 
     private ILevelManager manager;
 
@@ -70,37 +71,35 @@ public class LevelMessageManager : MonoBehaviour
     {
         yield return new WaitForSeconds(messageDelay);
 
-        yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);
-
-        ClassDb.dialogBoxManager.ToggleDialogBox();
+        Canvas dialog = ClassDb.dialogBoxManager.OpenDialog();
 
         DialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.welcomeTxt));
 
-        ClassDb.dialogBoxManager.SetDialog(
+        dialog.GetComponent<DialogBoxManager>().SetDialog(
             message.head,
             message.body,
             message.backBtn,
             message.nextBtn,
-            StringDb.welcomeTxt
+            dialog
         );
 
-        DialogBoxManager.dialogBoxBtnNext.onClick.RemoveAllListeners();
-        DialogBoxManager.dialogBoxBtnNext.gameObject.SetActive(true);
-        DialogBoxManager.dialogBoxBtnNext.onClick.AddListener(delegate
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.RemoveAllListeners();
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.gameObject.SetActive(true);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.AddListener(delegate
         {
-            ClassDb.dialogBoxManager.ToggleDialogBox();
+            ClassDb.dialogBoxManager.CloseDialog(dialog);
             //TODO CHECK IF StopAllCoroutines METHOD IS WORKING CORRECTLY
             manager.StopAllCoroutines();
             ClassDb.sceneLoader.StartLoadByIndex(StringDb.tutorialSceneIndex);
 
         }); ;
 
-        DialogBoxManager.dialogBoxBtnBack.onClick.RemoveAllListeners();
-        DialogBoxManager.dialogBoxBtnBack.gameObject.SetActive(true);
-        DialogBoxManager.dialogBoxBtnBack.onClick.AddListener(delegate
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.onClick.RemoveAllListeners();
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.gameObject.SetActive(true);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.onClick.AddListener(delegate
         {
             TutorialManager.tutorialIsFinished = true;
-            ClassDb.dialogBoxManager.ToggleDialogBox();
+            ClassDb.dialogBoxManager.CloseDialog(dialog);
         });
 
     }
@@ -114,29 +113,26 @@ public class LevelMessageManager : MonoBehaviour
     private IEnumerator ThreatDeployed(Threat threat)
     {
         yield return new WaitForSeconds(messageDelay);
-        yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);
 
-        ClassDb.dialogBoxManager.ToggleDialogBox();
+        manager.GetGameData().lastThreatDeployed = threat;
+
+        Canvas dialog = ClassDb.dialogBoxManager.OpenDialog();
 
         DialogBoxMessage message;
-
-        string dialogString;
 
         switch (threat.threatType)
         {
             case StringDb.ThreatType.local:
                 message = MessageFromJson(Resources.Load<TextAsset>(StringDb.localDeployed));
-                dialogString = StringDb.localDeployed;
                 break;
             case StringDb.ThreatType.remote:
                 message = MessageFromJson(Resources.Load<TextAsset>(StringDb.remoteDeployed));
-                dialogString = StringDb.remoteDeployed;
                 break;
             case StringDb.ThreatType.fakeLocal:
-                ClassDb.dialogBoxManager.ToggleDialogBox();
+                ClassDb.dialogBoxManager.CloseDialog(dialog);
                 yield break;
             case StringDb.ThreatType.timeEvent:
-                ClassDb.dialogBoxManager.ToggleDialogBox();
+                ClassDb.dialogBoxManager.CloseDialog(dialog);
                 yield break;
 
             default:
@@ -148,20 +144,23 @@ public class LevelMessageManager : MonoBehaviour
             ? MessageFromJson(Resources.Load<TextAsset>(StringDb.internalMessage))
             : StringDb.emptyMessage;
 
-        ClassDb.dialogBoxManager.SetDialog(
+        dialog.GetComponent<DialogBoxManager>().SetDialog(
             message.head,
             string.Format(message.body + "\n" + messageIntern.body, threat.threatAttack),
             message.backBtn,
             message.nextBtn,
-            dialogString
+            dialog
         );
 
-        DialogBoxManager.dialogBoxBtnNext.onClick.RemoveAllListeners();
-        DialogBoxManager.dialogBoxBtnNext.gameObject.SetActive(true);
-        DialogBoxManager.dialogBoxBtnNext.onClick.AddListener(ClassDb.dialogBoxManager.ToggleDialogBox);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.RemoveAllListeners();
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.gameObject.SetActive(true);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.AddListener(delegate
+        {
+            ClassDb.dialogBoxManager.CloseDialog(dialog);
+        });
 
-        DialogBoxManager.dialogBoxBtnBack.onClick.RemoveAllListeners();
-        DialogBoxManager.dialogBoxBtnBack.gameObject.SetActive(false);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.onClick.RemoveAllListeners();
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.gameObject.SetActive(false);
     }
 
     public void StartThreatStopped(Threat threat)
@@ -173,30 +172,26 @@ public class LevelMessageManager : MonoBehaviour
     private IEnumerator ThreatStopped(Threat threat)
     {
         yield return new WaitForSeconds(messageDelay);
-        yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);
 
-        ClassDb.dialogBoxManager.ToggleDialogBox();
+        manager.GetGameData().lastThreatStopped = threat;
+
+        Canvas dialog = ClassDb.dialogBoxManager.OpenDialog();
 
         DialogBoxMessage message;
-
-        string dialogString;
 
         switch (threat.threatType)
         {
             case StringDb.ThreatType.local:
                 message =  MessageFromJson(Resources.Load<TextAsset>(StringDb.localStopped));
-                dialogString = StringDb.localStopped;
                 break;
             case StringDb.ThreatType.remote:
                 message = MessageFromJson(Resources.Load<TextAsset>(StringDb.remoteStopped));
-                dialogString = StringDb.remoteStopped;
                 break;
             case StringDb.ThreatType.fakeLocal:
                 message = MessageFromJson(Resources.Load<TextAsset>(StringDb.fakeLocalStopped));
-                dialogString = StringDb.fakeLocalStopped;
                 break;
             case StringDb.ThreatType.timeEvent:
-                ClassDb.dialogBoxManager.ToggleDialogBox();
+                ClassDb.dialogBoxManager.CloseDialog(dialog);
                 yield break;
             default:
                 throw new ArgumentOutOfRangeException();
@@ -214,20 +209,23 @@ public class LevelMessageManager : MonoBehaviour
             messageIntern = StringDb.emptyMessage;
         }
 
-        ClassDb.dialogBoxManager.SetDialog(
+        dialog.GetComponent<DialogBoxManager>().SetDialog(
             message.head,
             message.body + "\n" + messageIntern.body,
             message.backBtn,
             message.nextBtn,
-            dialogString
+            dialog
         );
-        
-        DialogBoxManager.dialogBoxBtnNext.onClick.RemoveAllListeners();
-        DialogBoxManager.dialogBoxBtnNext.gameObject.SetActive(true);
-        DialogBoxManager.dialogBoxBtnNext.onClick.AddListener(ClassDb.dialogBoxManager.ToggleDialogBox);
 
-        DialogBoxManager.dialogBoxBtnBack.onClick.RemoveAllListeners();
-        DialogBoxManager.dialogBoxBtnBack.gameObject.SetActive(false);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.RemoveAllListeners();
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.gameObject.SetActive(true);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.AddListener(delegate
+        {
+            ClassDb.dialogBoxManager.CloseDialog(dialog);
+        });
+
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.onClick.RemoveAllListeners();
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.gameObject.SetActive(false);
     }
 
     public void StartIdsInterception()
@@ -239,26 +237,28 @@ public class LevelMessageManager : MonoBehaviour
     private IEnumerator IdsInterception()
     {
         yield return new WaitForSeconds(messageDelay);
-        yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);
 
-        ClassDb.dialogBoxManager.ToggleDialogBox();
+        Canvas dialog = ClassDb.dialogBoxManager.OpenDialog();
 
         DialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.idsInterception));
 
-        ClassDb.dialogBoxManager.SetDialog(
+        dialog.GetComponent<DialogBoxManager>().SetDialog(
             message.head,
             message.body,
             message.backBtn,
             message.nextBtn,
-            StringDb.idsInterception
+            dialog
         );
 
-        DialogBoxManager.dialogBoxBtnNext.onClick.RemoveAllListeners();
-        DialogBoxManager.dialogBoxBtnNext.gameObject.SetActive(true);
-        DialogBoxManager.dialogBoxBtnNext.onClick.AddListener(ClassDb.dialogBoxManager.ToggleDialogBox);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.RemoveAllListeners();
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.gameObject.SetActive(true);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.AddListener(delegate
+        {
+            ClassDb.dialogBoxManager.CloseDialog(dialog);
+        });
 
-        DialogBoxManager.dialogBoxBtnBack.onClick.RemoveAllListeners();
-        DialogBoxManager.dialogBoxBtnBack.gameObject.SetActive(false);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.onClick.RemoveAllListeners();
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.gameObject.SetActive(false);
     }
 
     public void StartIdsClean()
@@ -270,26 +270,28 @@ public class LevelMessageManager : MonoBehaviour
     private IEnumerator IdsClean()
     {
         yield return new WaitForSeconds(messageDelay);
-        yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);
 
-        ClassDb.dialogBoxManager.ToggleDialogBox();
+        Canvas dialog = ClassDb.dialogBoxManager.OpenDialog();
 
         DialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.idsCleaned));
 
-        ClassDb.dialogBoxManager.SetDialog(
+        dialog.GetComponent<DialogBoxManager>().SetDialog(
             message.head,
             message.body,
             message.backBtn,
             message.nextBtn,
-            StringDb.idsCleaned
+            dialog
         );
 
-        DialogBoxManager.dialogBoxBtnNext.onClick.RemoveAllListeners();
-        DialogBoxManager.dialogBoxBtnNext.gameObject.SetActive(true);
-        DialogBoxManager.dialogBoxBtnNext.onClick.AddListener(ClassDb.dialogBoxManager.ToggleDialogBox);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.RemoveAllListeners();
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.gameObject.SetActive(true);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.AddListener(delegate
+        {
+            ClassDb.dialogBoxManager.CloseDialog(dialog);
+        });
 
-        DialogBoxManager.dialogBoxBtnBack.onClick.RemoveAllListeners();
-        DialogBoxManager.dialogBoxBtnBack.gameObject.SetActive(false);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.onClick.RemoveAllListeners();
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.gameObject.SetActive(false);
     }
 
     public void StartMoneyLoss(StringDb.ThreatType type, float moneyLoss)
@@ -301,50 +303,51 @@ public class LevelMessageManager : MonoBehaviour
     private IEnumerator MoneyLoss(StringDb.ThreatType type, float moneyLoss)
     {
         yield return new WaitForSeconds(messageDelay);
-        yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);
 
-        ClassDb.dialogBoxManager.ToggleDialogBox();
+        manager.GetGameData().lastTypeLoss = type;
+        manager.GetGameData().lastAmountLoss = moneyLoss;
+
+        Canvas dialog = ClassDb.dialogBoxManager.OpenDialog();
 
         DialogBoxMessage message;
 
-        string dialogString;
 
         switch (type)
         {
             case StringDb.ThreatType.local:
                 message = MessageFromJson(Resources.Load<TextAsset>(StringDb.localMoneyLoss));
-                dialogString = StringDb.localMoneyLoss;
                 break;
             case StringDb.ThreatType.remote:
                 message = MessageFromJson(Resources.Load<TextAsset>(StringDb.remoteMoneyLoss));
-                dialogString = StringDb.remoteMoneyLoss;
                 break;
             case StringDb.ThreatType.fakeLocal:
                 message = MessageFromJson(Resources.Load<TextAsset>(StringDb.fakeLocalMoneyLoss));
-                dialogString = StringDb.fakeLocalMoneyLoss;
                 break;
             case StringDb.ThreatType.timeEvent:
-                ClassDb.dialogBoxManager.ToggleDialogBox();
+                ClassDb.dialogBoxManager.CloseDialog(dialog);
                 yield break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
 
 
-        ClassDb.dialogBoxManager.SetDialog(
+        dialog.GetComponent<DialogBoxManager>().SetDialog(
             message.head,
             string.Format(message.body, Math.Round(moneyLoss, 0).ToString(CultureInfo.CurrentCulture)),
             message.backBtn,
             message.nextBtn,
-            dialogString
+            dialog
         );
 
-        DialogBoxManager.dialogBoxBtnNext.onClick.RemoveAllListeners();
-        DialogBoxManager.dialogBoxBtnNext.gameObject.SetActive(true);
-        DialogBoxManager.dialogBoxBtnNext.onClick.AddListener(ClassDb.dialogBoxManager.ToggleDialogBox);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.RemoveAllListeners();
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.gameObject.SetActive(true);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.AddListener(delegate
+        {
+            ClassDb.dialogBoxManager.CloseDialog(dialog);
+        });
 
-        DialogBoxManager.dialogBoxBtnBack.onClick.RemoveAllListeners();
-        DialogBoxManager.dialogBoxBtnBack.gameObject.SetActive(false);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.onClick.RemoveAllListeners();
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.gameObject.SetActive(false);
 
     }
 
@@ -357,9 +360,8 @@ public class LevelMessageManager : MonoBehaviour
     private IEnumerator Exit(byte[] imageBytes)
     {
         yield return new WaitForSeconds(messageDelay);
-        yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);
 
-        ClassDb.dialogBoxManager.ToggleDialogBox();
+        Canvas dialog = ClassDb.dialogBoxManager.OpenDialog();
 
         //disable interaction with pause menu
         ClassDb.pauseManager.pauseRaycaster.enabled = false;
@@ -368,30 +370,30 @@ public class LevelMessageManager : MonoBehaviour
         //set the text on dialog box
         DialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.exitTxt));
 
-        ClassDb.dialogBoxManager.SetDialog(
+        dialog.GetComponent<DialogBoxManager>().SetDialog(
             message.head,
             message.body,
             message.backBtn,
             message.nextBtn,
-            StringDb.exitTxt
+            dialog
         );
 
         //set listeners for the buttons on the dialog box
-        DialogBoxManager.dialogBoxBtnNext.onClick.RemoveAllListeners();
-        DialogBoxManager.dialogBoxBtnNext.gameObject.SetActive(true);
-        DialogBoxManager.dialogBoxBtnNext.onClick.AddListener(delegate 
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.RemoveAllListeners();
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.gameObject.SetActive(true);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.AddListener(delegate 
         {
             ClassDb.pauseManager.TogglePauseMenu();
-            ClassDb.dialogBoxManager.ToggleDialogBox();
+            ClassDb.dialogBoxManager.CloseDialog(dialog);
             ClassDb.gameDataManager.StartSaveLevelGameData(imageBytes);
             ClassDb.sceneLoader.StartLoadByIndex(StringDb.menuSceneIndex);
         });
 
-        DialogBoxManager.dialogBoxBtnBack.onClick.RemoveAllListeners();
-        DialogBoxManager.dialogBoxBtnBack.gameObject.SetActive(true);
-        DialogBoxManager.dialogBoxBtnBack.onClick.AddListener(delegate 
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.onClick.RemoveAllListeners();
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.gameObject.SetActive(true);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.onClick.AddListener(delegate 
         {
-            ClassDb.dialogBoxManager.ToggleDialogBox();
+            ClassDb.dialogBoxManager.CloseDialog(dialog);
             ClassDb.pauseManager.pauseRaycaster.enabled = true;
         });
     }
@@ -405,37 +407,35 @@ public class LevelMessageManager : MonoBehaviour
     private IEnumerator ConfirmPurchase(ItemStore item)
     {
         yield return new WaitForSeconds(messageDelay);
-        yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);
-
-        ClassDb.dialogBoxManager.ToggleDialogBox();
+        Canvas dialog = ClassDb.dialogBoxManager.OpenDialog();
 
         StoreManager storeManager = GameObject.Find(StringDb.storeScreenName).GetComponent<StoreManager>();
 
         DialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.purchase));
 
-        ClassDb.dialogBoxManager.SetDialog(
+        dialog.GetComponent<DialogBoxManager>().SetDialog(
             message.head,
             string.Format(message.body, item.price),
             message.backBtn,
             message.nextBtn,
-            StringDb.purchase
+            dialog
         );
 
         //open dialog box
         //set listeners for the buttons on the dialog box
-        DialogBoxManager.dialogBoxBtnNext.onClick.RemoveAllListeners();
-        DialogBoxManager.dialogBoxBtnNext.gameObject.SetActive(true);
-        DialogBoxManager.dialogBoxBtnNext.onClick.AddListener(delegate
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.RemoveAllListeners();
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.gameObject.SetActive(true);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.AddListener(delegate
         {
-            ClassDb.dialogBoxManager.ToggleDialogBox();
+            ClassDb.dialogBoxManager.CloseDialog(dialog);
             storeManager.PurchaseItem(item);
         });
 
-        DialogBoxManager.dialogBoxBtnBack.onClick.RemoveAllListeners();
-        DialogBoxManager.dialogBoxBtnBack.gameObject.SetActive(true);
-        DialogBoxManager.dialogBoxBtnBack.onClick.AddListener(delegate
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.onClick.RemoveAllListeners();
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.gameObject.SetActive(true);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.onClick.AddListener(delegate
         {
-            ClassDb.dialogBoxManager.ToggleDialogBox();
+            ClassDb.dialogBoxManager.CloseDialog(dialog);
         });
     }
 
@@ -448,30 +448,29 @@ public class LevelMessageManager : MonoBehaviour
     private IEnumerator FailedCorruption()
     {
         yield return new WaitForSeconds(messageDelay);
-        yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);
 
-        ClassDb.dialogBoxManager.ToggleDialogBox();
+        Canvas dialog = ClassDb.dialogBoxManager.OpenDialog();
 
         DialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.failedCorruption));
 
-        ClassDb.dialogBoxManager.SetDialog(
+        dialog.GetComponent<DialogBoxManager>().SetDialog(
             message.head,
             message.body,
             message.backBtn,
             message.nextBtn,
-            StringDb.failedCorruption
+            dialog
         );
 
         //set listeners for the buttons on the dialog box
-        DialogBoxManager.dialogBoxBtnNext.onClick.RemoveAllListeners();
-        DialogBoxManager.dialogBoxBtnNext.gameObject.SetActive(true);
-        DialogBoxManager.dialogBoxBtnNext.onClick.AddListener(delegate
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.RemoveAllListeners();
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.gameObject.SetActive(true);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.AddListener(delegate
         {
-            ClassDb.dialogBoxManager.ToggleDialogBox();
+            ClassDb.dialogBoxManager.CloseDialog(dialog);
         });
 
-        DialogBoxManager.dialogBoxBtnBack.onClick.RemoveAllListeners();
-        DialogBoxManager.dialogBoxBtnBack.gameObject.SetActive(false);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.onClick.RemoveAllListeners();
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.gameObject.SetActive(false);
 
     }
 
@@ -484,26 +483,30 @@ public class LevelMessageManager : MonoBehaviour
     private IEnumerator MoneyEarn(float moneyEarn)
     {
         yield return new WaitForSeconds(messageDelay);
-        yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);
 
-        ClassDb.dialogBoxManager.ToggleDialogBox();
+        manager.GetGameData().lastAmountEarn = moneyEarn;
+
+        Canvas dialog = ClassDb.dialogBoxManager.OpenDialog();
 
         DialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.moneyEarn));
 
-        ClassDb.dialogBoxManager.SetDialog(
+        dialog.GetComponent<DialogBoxManager>().SetDialog(
             message.head,
             string.Format(message.body, Math.Round(moneyEarn, 0).ToString(CultureInfo.CurrentCulture)),
             message.backBtn,
             message.nextBtn,
-            StringDb.moneyEarn
+            dialog
         );
 
-        DialogBoxManager.dialogBoxBtnNext.onClick.RemoveAllListeners();
-        DialogBoxManager.dialogBoxBtnNext.gameObject.SetActive(true);
-        DialogBoxManager.dialogBoxBtnNext.onClick.AddListener(ClassDb.dialogBoxManager.ToggleDialogBox);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.RemoveAllListeners();
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.gameObject.SetActive(true);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.AddListener(delegate
+        {
+            ClassDb.dialogBoxManager.CloseDialog(dialog);
+        });
 
-        DialogBoxManager.dialogBoxBtnBack.onClick.RemoveAllListeners();
-        DialogBoxManager.dialogBoxBtnBack.gameObject.SetActive(false);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.onClick.RemoveAllListeners();
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.gameObject.SetActive(false);
     }
 
     public void StartSuspiciousAi()
@@ -515,26 +518,28 @@ public class LevelMessageManager : MonoBehaviour
     private IEnumerator SuspiciousAi()
     {
         yield return new WaitForSeconds(messageDelay);
-        yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);
 
-        ClassDb.dialogBoxManager.ToggleDialogBox();
+        Canvas dialog = ClassDb.dialogBoxManager.OpenDialog();
 
         DialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.suspiciousAi));
 
-        ClassDb.dialogBoxManager.SetDialog(
+        dialog.GetComponent<DialogBoxManager>().SetDialog(
             message.head,
             message.body,
             message.backBtn,
             message.nextBtn,
-            StringDb.suspiciousAi
+            dialog
         );
 
-        DialogBoxManager.dialogBoxBtnNext.onClick.RemoveAllListeners();
-        DialogBoxManager.dialogBoxBtnNext.gameObject.SetActive(true);
-        DialogBoxManager.dialogBoxBtnNext.onClick.AddListener(ClassDb.dialogBoxManager.ToggleDialogBox);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.RemoveAllListeners();
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.gameObject.SetActive(true);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.AddListener(delegate
+        {
+            ClassDb.dialogBoxManager.CloseDialog(dialog);
+        });
 
-        DialogBoxManager.dialogBoxBtnBack.onClick.RemoveAllListeners();
-        DialogBoxManager.dialogBoxBtnBack.gameObject.SetActive(false);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.onClick.RemoveAllListeners();
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.gameObject.SetActive(false);
     }
 
     public void StartPlantCheck()
@@ -546,26 +551,28 @@ public class LevelMessageManager : MonoBehaviour
     private IEnumerator PlantCheck()
     {
         yield return new WaitForSeconds(messageDelay);
-        yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);
 
-        ClassDb.dialogBoxManager.ToggleDialogBox();
+        Canvas dialog = ClassDb.dialogBoxManager.OpenDialog();
 
         DialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.plantCheck));
 
-        ClassDb.dialogBoxManager.SetDialog(
+        dialog.GetComponent<DialogBoxManager>().SetDialog(
             message.head,
             message.body,
             message.backBtn,
             message.nextBtn,
-            StringDb.plantCheck
+            dialog
         );
 
-        DialogBoxManager.dialogBoxBtnNext.onClick.RemoveAllListeners();
-        DialogBoxManager.dialogBoxBtnNext.gameObject.SetActive(true);
-        DialogBoxManager.dialogBoxBtnNext.onClick.AddListener(ClassDb.dialogBoxManager.ToggleDialogBox);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.RemoveAllListeners();
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.gameObject.SetActive(true);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.AddListener(delegate
+        {
+            ClassDb.dialogBoxManager.CloseDialog(dialog);
+        });
 
-        DialogBoxManager.dialogBoxBtnBack.onClick.RemoveAllListeners();
-        DialogBoxManager.dialogBoxBtnBack.gameObject.SetActive(false);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.onClick.RemoveAllListeners();
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.gameObject.SetActive(false);
     }
 
     public void StartMalwareCheck()
@@ -577,26 +584,28 @@ public class LevelMessageManager : MonoBehaviour
     private IEnumerator MalwareCheck()
     {
         yield return new WaitForSeconds(messageDelay);
-        yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);
 
-        ClassDb.dialogBoxManager.ToggleDialogBox();
+        Canvas dialog = ClassDb.dialogBoxManager.OpenDialog();
 
         DialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.malwareCheck));
 
-        ClassDb.dialogBoxManager.SetDialog(
+        dialog.GetComponent<DialogBoxManager>().SetDialog(
             message.head,
             message.body,
             message.backBtn,
             message.nextBtn,
-            StringDb.malwareCheck
+            dialog
         );
 
-        DialogBoxManager.dialogBoxBtnNext.onClick.RemoveAllListeners();
-        DialogBoxManager.dialogBoxBtnNext.gameObject.SetActive(true);
-        DialogBoxManager.dialogBoxBtnNext.onClick.AddListener(ClassDb.dialogBoxManager.ToggleDialogBox);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.RemoveAllListeners();
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.gameObject.SetActive(true);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.AddListener(delegate
+        {
+            ClassDb.dialogBoxManager.CloseDialog(dialog);
+        });
 
-        DialogBoxManager.dialogBoxBtnBack.onClick.RemoveAllListeners();
-        DialogBoxManager.dialogBoxBtnBack.gameObject.SetActive(false);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.onClick.RemoveAllListeners();
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.gameObject.SetActive(false);
     }
 
     public void StartThreatManagementResult(TimeSpan elapsedTime, float moneyLoss)
@@ -608,97 +617,101 @@ public class LevelMessageManager : MonoBehaviour
     private IEnumerator ThreatManagementResult(TimeSpan elapsedTime, float moneyLoss)
     {
         yield return new WaitForSeconds(messageDelay);
-        yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);
 
-        ClassDb.dialogBoxManager.ToggleDialogBox();
+        manager.GetGameData().lastManagementTime = elapsedTime;
+        manager.GetGameData().lastAmountLoss = moneyLoss;
+
+        Canvas dialog = ClassDb.dialogBoxManager.OpenDialog();
 
         DialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.threatManagementResult));
 
-        ClassDb.dialogBoxManager.SetDialog(
+        dialog.GetComponent<DialogBoxManager>().SetDialog(
             message.head,
             string.Format(message.body, elapsedTime.TotalMinutes.ToString(CultureInfo.CurrentCulture), 
                 Math.Round(moneyLoss, 0).ToString(CultureInfo.CurrentCulture)),
             message.backBtn,
             message.nextBtn,
-            StringDb.threatManagementResult
+            dialog
         );
 
-        DialogBoxManager.dialogBoxBtnNext.onClick.RemoveAllListeners();
-        DialogBoxManager.dialogBoxBtnNext.gameObject.SetActive(true);
-        DialogBoxManager.dialogBoxBtnNext.onClick.AddListener(ClassDb.dialogBoxManager.ToggleDialogBox);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.RemoveAllListeners();
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.gameObject.SetActive(true);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.AddListener(delegate
+        {
+            ClassDb.dialogBoxManager.CloseDialog(dialog);
+        });
 
-        DialogBoxManager.dialogBoxBtnBack.onClick.RemoveAllListeners();
-        DialogBoxManager.dialogBoxBtnBack.gameObject.SetActive(false);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.onClick.RemoveAllListeners();
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.gameObject.SetActive(false);
     }
 
     public void StartNewTrustedEmployees()
     {
         newTrustedEmployeesRoutine = NewTrustedEmployees();
         StartCoroutine(newTrustedEmployeesRoutine);
-        //TODO ADD PROGRESS BAR FOR ENTIRE UPDATING COURSE
-
     }
 
     private IEnumerator NewTrustedEmployees()
     {
         yield return new WaitForSeconds(messageDelay);
-        yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);
 
-        ClassDb.dialogBoxManager.ToggleDialogBox();
+        Canvas dialog = ClassDb.dialogBoxManager.OpenDialog();
 
         DialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.newTrustedEmployees));
 
-        ClassDb.dialogBoxManager.SetDialog(
+        dialog.GetComponent<DialogBoxManager>().SetDialog(
             message.head,
             message.body,
             message.backBtn,
             message.nextBtn,
-            StringDb.newTrustedEmployees
+            dialog
         );
 
-        DialogBoxManager.dialogBoxBtnNext.onClick.RemoveAllListeners();
-        DialogBoxManager.dialogBoxBtnNext.gameObject.SetActive(true);
-        DialogBoxManager.dialogBoxBtnNext.onClick.AddListener(ClassDb.dialogBoxManager.ToggleDialogBox);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.RemoveAllListeners();
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.gameObject.SetActive(true);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.AddListener(delegate
+        {
+            ClassDb.dialogBoxManager.CloseDialog(dialog);
+        });
 
-        DialogBoxManager.dialogBoxBtnBack.onClick.RemoveAllListeners();
-        DialogBoxManager.dialogBoxBtnBack.gameObject.SetActive(false);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.onClick.RemoveAllListeners();
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.gameObject.SetActive(false);
     }
 
     public void StartNewEmployeesHired(int employeesHired)
     {
         newEmployeesHiredRoutine = NewEmployeesHired(employeesHired);
         StartCoroutine(newEmployeesHiredRoutine);
-        //TODO ADD PROGRESS BAR FOR ENTIRE HIRING CAMPAIGN
     }
 
     private IEnumerator NewEmployeesHired(int employeesHired)
     {
         yield return new WaitForSeconds(messageDelay);
-        yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);
-        yield return new WaitForSeconds(15);
 
-        ClassDb.dialogBoxManager.ToggleDialogBox();
+        manager.GetGameData().employeesHired = employeesHired;
+
+        Canvas dialog = ClassDb.dialogBoxManager.OpenDialog();
 
         DialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.newEmployeesHired));
 
-        ClassDb.dialogBoxManager.SetDialog(
+        dialog.GetComponent<DialogBoxManager>().SetDialog(
             message.head,
             string.Format(message.body, employeesHired),
             message.backBtn,
             message.nextBtn,
-            StringDb.newEmployeesHired
+            dialog
         );
 
-        DialogBoxManager.dialogBoxBtnNext.onClick.RemoveAllListeners();
-        DialogBoxManager.dialogBoxBtnNext.gameObject.SetActive(true);
-        DialogBoxManager.dialogBoxBtnNext.onClick.AddListener(delegate
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.RemoveAllListeners();
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.gameObject.SetActive(true);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.AddListener(delegate
         {
-            ClassDb.dialogBoxManager.ToggleDialogBox();
+            ClassDb.dialogBoxManager.CloseDialog(dialog);
             manager.GetGameData().totalEmployees += employeesHired;
         });
 
-        DialogBoxManager.dialogBoxBtnBack.onClick.RemoveAllListeners();
-        DialogBoxManager.dialogBoxBtnBack.gameObject.SetActive(false);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.onClick.RemoveAllListeners();
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.gameObject.SetActive(false);
     }
 
     public void StartShowLessonFirstTime(Threat threat)
@@ -710,25 +723,26 @@ public class LevelMessageManager : MonoBehaviour
     private IEnumerator ShowLessonFirstTime(Threat threat)
     {
         yield return new WaitForSeconds(messageDelay);
-        yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);
 
-        ClassDb.dialogBoxManager.ToggleDialogBox();
+        manager.GetGameData().firstThreat = threat;
+
+        Canvas dialog = ClassDb.dialogBoxManager.OpenDialog();
 
         DialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.showLessonFirstTime));
 
-        ClassDb.dialogBoxManager.SetDialog(
+        dialog.GetComponent<DialogBoxManager>().SetDialog(
             message.head,
             string.Format(message.body, threat.threatAttack),
             message.backBtn,
             message.nextBtn,
-            StringDb.showLessonFirstTime
+            dialog
         );
 
-        DialogBoxManager.dialogBoxBtnNext.onClick.RemoveAllListeners();
-        DialogBoxManager.dialogBoxBtnNext.gameObject.SetActive(true);
-        DialogBoxManager.dialogBoxBtnNext.onClick.AddListener(delegate
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.RemoveAllListeners();
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.gameObject.SetActive(true);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.AddListener(delegate
         {
-            ClassDb.dialogBoxManager.ToggleDialogBox();
+            ClassDb.dialogBoxManager.CloseDialog(dialog);
 
             NotebookManager.isFirstLesson = true;
             NotebookManager.firstLessonThreat = threat;
@@ -737,8 +751,8 @@ public class LevelMessageManager : MonoBehaviour
 
         });
 
-        DialogBoxManager.dialogBoxBtnBack.onClick.RemoveAllListeners();
-        DialogBoxManager.dialogBoxBtnBack.gameObject.SetActive(false);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.onClick.RemoveAllListeners();
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.gameObject.SetActive(false);
     }
 
     public void StartShowReport(string threatAttack)
@@ -750,29 +764,28 @@ public class LevelMessageManager : MonoBehaviour
     private IEnumerator ShowReport(string threatAttack)
     {
         yield return new WaitForSeconds(messageDelay);
-        yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);
 
-        ClassDb.dialogBoxManager.ToggleDialogBox();
+        Canvas dialog = ClassDb.dialogBoxManager.OpenDialog();
 
         DialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.researchReport));
 
-        ClassDb.dialogBoxManager.SetDialog(
+        dialog.GetComponent<DialogBoxManager>().SetDialog(
             message.head,
             string.Format(message.body, threatAttack),
             message.backBtn,
             message.nextBtn,
-            StringDb.researchReport
+            dialog
         );
 
-        DialogBoxManager.dialogBoxBtnNext.onClick.RemoveAllListeners();
-        DialogBoxManager.dialogBoxBtnNext.gameObject.SetActive(true);
-        DialogBoxManager.dialogBoxBtnNext.onClick.AddListener(delegate
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.RemoveAllListeners();
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.gameObject.SetActive(true);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.AddListener(delegate
         {
-            ClassDb.dialogBoxManager.ToggleDialogBox();
+            ClassDb.dialogBoxManager.CloseDialog(dialog);
         });
 
-        DialogBoxManager.dialogBoxBtnBack.onClick.RemoveAllListeners();
-        DialogBoxManager.dialogBoxBtnBack.gameObject.SetActive(false);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.onClick.RemoveAllListeners();
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.gameObject.SetActive(false);
     }
 
     public void StartEndGame()
@@ -784,9 +797,8 @@ public class LevelMessageManager : MonoBehaviour
     private IEnumerator EndGame()
     {
         yield return new WaitForSeconds(messageDelay);
-        yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);
 
-        ClassDb.dialogBoxManager.ToggleDialogBox();
+        Canvas dialog = ClassDb.dialogBoxManager.OpenDialog();
 
         DialogBoxMessage message;
 
@@ -805,33 +817,65 @@ public class LevelMessageManager : MonoBehaviour
 
         }
 
-
-        ClassDb.dialogBoxManager.SetDialog(
+        dialog.GetComponent<DialogBoxManager>().SetDialog(
             message.head,
             message.body,
             message.backBtn,
             message.nextBtn,
-            dialogString
+            dialog
         );
 
-        DialogBoxManager.dialogBoxBtnNext.onClick.RemoveAllListeners();
-        DialogBoxManager.dialogBoxBtnNext.gameObject.SetActive(true);
-        DialogBoxManager.dialogBoxBtnNext.onClick.AddListener(delegate
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.RemoveAllListeners();
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.gameObject.SetActive(true);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.AddListener(delegate
         {
-            ClassDb.dialogBoxManager.ToggleDialogBox();
+            ClassDb.dialogBoxManager.CloseDialog(dialog);
             //LOAD LEVEL 2
             ClassDb.sceneLoader.StartLoadByIndex(StringDb.level2SceneIndex);
         });
 
-        DialogBoxManager.dialogBoxBtnBack.onClick.RemoveAllListeners();
-        DialogBoxManager.dialogBoxBtnBack.gameObject.SetActive(true);
-        DialogBoxManager.dialogBoxBtnBack.onClick.AddListener(delegate
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.onClick.RemoveAllListeners();
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.gameObject.SetActive(true);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.onClick.AddListener(delegate
         {
-            ClassDb.dialogBoxManager.ToggleDialogBox();
+            ClassDb.dialogBoxManager.CloseDialog(dialog);
 
             ClassDb.prefabManager.GetPrefab(ClassDb.prefabManager.prefabGraph.gameObject, PrefabManager.graphIndex);
 
         });
+    }
+
+    public void StartCloseDialog()
+    {
+        closeDialogRoutine = CloseDialog();
+        StartCoroutine(closeDialogRoutine);
+    }
+
+    private IEnumerator CloseDialog()
+    {
+        yield return new WaitForSeconds(messageDelay);
+
+        Canvas dialog = ClassDb.dialogBoxManager.OpenDialog();
+
+        DialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.closeDialog));
+
+        dialog.GetComponent<DialogBoxManager>().SetDialog(
+            message.head,
+            message.body,
+            message.backBtn,
+            message.nextBtn,
+            dialog
+        );
+
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.RemoveAllListeners();
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.gameObject.SetActive(true);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.AddListener(delegate
+        {
+            ClassDb.dialogBoxManager.CloseDialog(dialog);
+        });
+
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.onClick.RemoveAllListeners();
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.gameObject.SetActive(false);
     }
 
 

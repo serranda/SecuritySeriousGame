@@ -12,8 +12,7 @@ public class RoomPcListener : MonoBehaviour
 
     private static Canvas storeScreen;
 
-    private IEnumerator localRecapRoutine;
-    private IEnumerator localShowRoutine;
+    private IEnumerator pointOutLocalThreatRoutine;
 
     private InteractiveSprite interactiveSprite;
 
@@ -485,57 +484,28 @@ public class RoomPcListener : MonoBehaviour
         }
     }
 
-    //public void StartLocalThreatRecap()
-    //{
-    //    //start duration: 90 min
-    //    TimeEvent progressEvent = ClassDb.timeEventManager.NewTimeEvent(
-    //        StringDb.pcRecapTime, GameObject.Find(StringDb.roomPc), true);
-
-    //    ClassDb.worldManager.timeEventList.Add(progressEvent);
-
-    //    localRecapRoutine = LocalThreatRecap(progressEvent);
-    //    StartCoroutine(localRecapRoutine);
-    //}
-
-    //IEnumerator LocalThreatRecap(TimeEvent progressEvent)
-    //{
-    //    interactiveSprite.SetInteraction(false);
-
-    //    yield return new WaitWhile(() => ClassDb.worldManager.timeEventList.Contains(progressEvent));
-
-    //    foreach (TimeEvent eventList in ClassDb.worldManager.timeEventList)
-    //    {
-    //        if(eventList.threat.threatType == StringDb.ThreatType.local)
-    //            threatList.Add(eventList.threat);
-    //    }
-
-    //    ClassDb.levelMessageManager.StartThreatRecap(StringDb.ThreatType.local, threatList.Count);
-
-    //    foreach (Threat threat in threatList)
-    //    {
-    //        threat.aiController.gameObject.GetComponent<AiController>().idScanned = true;
-    //    }
-
-    //    localRecapShowed = threatList.Count != 0;
-
-    //    interactiveSprite.SetInteraction(true);
-
-    //}
-
     public void StartPointOutLocalThreat()
     {
         interactiveSprite.SetInteraction(false);
 
         TimeEvent progressEvent = ClassDb.timeEventManager.NewTimeEvent(
-            manager.GetGameData().pcPointOutTime, interactiveSprite.gameObject, true, true);
+            manager.GetGameData().pcPointOutTime, interactiveSprite.gameObject, true, true, StringDb.pointOutLocalThreatRoutine);
 
         manager.GetGameData().timeEventList.Add(progressEvent);
 
-        localShowRoutine = PointOutLocalThreat(progressEvent);
-        StartCoroutine(localShowRoutine);
+        pointOutLocalThreatRoutine = PointOutLocalThreat(progressEvent);
+        StartCoroutine(pointOutLocalThreatRoutine);
     }
 
-    IEnumerator PointOutLocalThreat(TimeEvent progressEvent)
+    public void RestartPointOutLocalThreat(TimeEvent progressEvent)
+    {
+        interactiveSprite.SetInteraction(false);
+
+        pointOutLocalThreatRoutine = PointOutLocalThreat(progressEvent);
+        StartCoroutine(pointOutLocalThreatRoutine);
+    }
+
+    private IEnumerator PointOutLocalThreat(TimeEvent progressEvent)
     {
         yield return new WaitWhile(() => manager.GetGameData().timeEventList.Contains(progressEvent));
 
@@ -554,10 +524,26 @@ public class RoomPcListener : MonoBehaviour
         serverPcListener.StartCheckNetworkCfg(interactiveSprite);
     }
 
+    public void RestartCheckNetworkCfg(TimeEvent progressEvent)
+    {
+        ServerPcListener serverPcListener = FindObjectsOfType<ServerPcListener>()[0];
+
+        serverPcListener.RestartCheckNetworkCfg(progressEvent, interactiveSprite);
+    }
+
     private void StartAntiMalwareScan()
     {
         ServerPcListener serverPcListener = FindObjectsOfType<ServerPcListener>()[0];
 
         serverPcListener.StartAntiMalwareScan(interactiveSprite);
     }
+
+    public void RestartAntiMalwareScan(TimeEvent progressEvent)
+    {
+        ServerPcListener serverPcListener = FindObjectsOfType<ServerPcListener>()[0];
+
+        serverPcListener.RestartAntiMalwareScan(progressEvent, interactiveSprite);
+    }
+
+
 }

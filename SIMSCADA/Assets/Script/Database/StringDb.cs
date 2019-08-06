@@ -14,7 +14,7 @@ public class StringDb
     public static string panelTimeFormat = "dd/MM/yyyy hh:mm:ss";
 
     //string values for php script and server folder
-    public static string serverAddress = "http://192.168.1.113/TestLoginBuildWebGL";
+    public static string serverAddress = "http://192.168.1.119/TestLoginBuildWebGL";
     public static string phpFolder = "PHP";
     public static string mainDataFolder = "Data";
     public static string playerListName = "players";
@@ -98,6 +98,7 @@ public class StringDb
     public const string researchReport = "Messages/ResearchReport";
     public const string endGameWin = "Messages/EndGameWin";
     public const string endGameLoss = "Messages/EndGameLoss";
+    public const string closeDialog = "Messages/CloseDialog";
     //public static string localThreatRecap = "Messages/ThreatRecapLocal";
     //public static string remoteThreatRecap = "Messages/ThreatRecapRemote";
 
@@ -350,7 +351,23 @@ public class StringDb
     //parameters for local security cost
     public static float localSecurityCost = 0.03f;
 
+    //string values for time event routine that can be started in the ai listener
+    public const string showAiIdRoutine = "showAiIdRoutine";
 
+    //string values for time event routine that can be started in the server and pc listener
+    public const string pointOutLocalThreatRoutine = "pointOutLocalThreatRoutine";
+    public const string rebootServerRoutine = "rebootServerRoutine";
+    public const string idsCleanRoutine = "idsCleanRoutine";
+    public const string antiMalwareScanRoutine = "antiMalwareScanRoutine";
+    public const string checkNetworkCfgRoutine = "checkNetworkCfgRoutine";
+
+    //string values for time event routine that can be started in the telephone listener
+    public const string getMoneyRoutine = "getMoneyRoutine";
+    public const string checkPlantRoutine = "checkPlantRoutine";
+    public const string coolDownRoutine = "coolDownRoutine";
+
+    //starter date time values
+    public static DateTime starterDate = new DateTime(2019, 01, 01, 08, 00, 00);
 
 
 }

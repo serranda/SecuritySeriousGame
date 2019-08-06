@@ -134,7 +134,7 @@ public class Level2Manager : MonoBehaviour, ILevelManager
         }
         else
         {
-            RestorePrefab(gameData);
+            RestorePrefabs(gameData);
         }
 
         StartTimeRoutine();
@@ -400,7 +400,7 @@ public class Level2Manager : MonoBehaviour, ILevelManager
     public void StartLocalThreat(Threat threat)
     {
         //create aiPrefab and attaching to threat
-        threat.aiController = ClassDb.spawnCharacter.SpawnLocalAttackerAi(gameData.lastAiId++);
+        threat.aiController = ClassDb.spawnCharacter.SpawnLocalAi(gameData.lastAiId++);
 
         TimeEvent timeEvent = ClassDb.timeEventManager.NewTimeEventFromThreat(threat, threat.aiController.gameObject, true, false);
 
@@ -435,7 +435,7 @@ public class Level2Manager : MonoBehaviour, ILevelManager
     public void StartFakeLocalThreat(Threat threat)
     {
         //create aiPrefab and attaching to threat
-        threat.aiController = ClassDb.spawnCharacter.SpawnLocalNormalAi(gameData.lastAiId++);
+        threat.aiController = ClassDb.spawnCharacter.SpawnFakeLocalAi(gameData.lastAiId++);
 
         TimeEvent timeEvent = ClassDb.timeEventManager.NewTimeEventFromThreat(threat, threat.aiController.gameObject, true, false);
 
@@ -497,7 +497,7 @@ public class Level2Manager : MonoBehaviour, ILevelManager
             bool deployed = BeforeDeployThreat(threat);
 
             //wait for closing dialog box
-            yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);
+            yield return new WaitWhile(() => gameData.dialogEnabled);
 
             if (!deployed) yield break;
 
@@ -552,7 +552,7 @@ public class Level2Manager : MonoBehaviour, ILevelManager
                         //SHOW THE CORRISPONDENT LESSON
                         ClassDb.levelMessageManager.StartShowLessonFirstTime(threat);
                         //wait for closing dialog box
-                        yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);
+                        yield return new WaitWhile(() => gameData.dialogEnabled);
                     }
                     break;
 
@@ -589,7 +589,7 @@ public class Level2Manager : MonoBehaviour, ILevelManager
                         //SHOW THE CORRISPONDENT LESSON
                         ClassDb.levelMessageManager.StartShowLessonFirstTime(threat);
                         //wait for closing dialog box
-                        yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);
+                        yield return new WaitWhile(() => gameData.dialogEnabled);
                     }
                     break;
 
@@ -617,7 +617,7 @@ public class Level2Manager : MonoBehaviour, ILevelManager
                         //SHOW THE CORRISPONDENT LESSON
                         ClassDb.levelMessageManager.StartShowLessonFirstTime(threat);
                         //wait for closing dialog box
-                        yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);
+                        yield return new WaitWhile(() => gameData.dialogEnabled);
                     }
                     break;
 
@@ -654,7 +654,7 @@ public class Level2Manager : MonoBehaviour, ILevelManager
                         //SHOW THE CORRISPONDENT LESSON
                         ClassDb.levelMessageManager.StartShowLessonFirstTime(threat);
                         //wait for closing dialog box
-                        yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);
+                        yield return new WaitWhile(() => gameData.dialogEnabled);
                     }
                     break;
 
@@ -682,7 +682,7 @@ public class Level2Manager : MonoBehaviour, ILevelManager
                     ClassDb.levelMessageManager.StartMoneyLoss(threat.threatType, moneyLoss);
 
                     //wait for closing dialog box
-                    yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);
+                    yield return new WaitWhile(() => gameData.dialogEnabled);
 
                     //Decreasing money by moneyloss amount
                     gameData.money -= moneyLoss;
@@ -697,7 +697,7 @@ public class Level2Manager : MonoBehaviour, ILevelManager
                         //SHOW THE CORRISPONDENT LESSON
                         ClassDb.levelMessageManager.StartShowLessonFirstTime(threat);
                         //wait for closing dialog box
-                        yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);
+                        yield return new WaitWhile(() => gameData.dialogEnabled);
                     }
                     break;
 
@@ -722,7 +722,7 @@ public class Level2Manager : MonoBehaviour, ILevelManager
                     ClassDb.levelMessageManager.StartMoneyLoss(threat.threatType, moneyLoss);
 
                     //wait for closing dialog box
-                    yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);
+                    yield return new WaitWhile(() => gameData.dialogEnabled);
 
                     //Decreasing money by moneyloss amount
                     gameData.money -= moneyLoss;
@@ -737,7 +737,7 @@ public class Level2Manager : MonoBehaviour, ILevelManager
                         //SHOW THE CORRISPONDENT LESSON
                         ClassDb.levelMessageManager.StartShowLessonFirstTime(threat);
                         //wait for closing dialog box
-                        yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);
+                        yield return new WaitWhile(() => gameData.dialogEnabled);
                     }
                     break;
 
@@ -1064,7 +1064,7 @@ public class Level2Manager : MonoBehaviour, ILevelManager
         ClassDb.dataCollector.GetThreatData(threat, (float)elapsedRealTime.TotalSeconds);
 
         //wait to close dialog to continue
-        yield return new WaitUntil(() => DialogBoxManager.dialogEnabled);
+        yield return new WaitUntil(() => gameData.dialogEnabled);
 
     }
 
@@ -1093,8 +1093,55 @@ public class Level2Manager : MonoBehaviour, ILevelManager
         gameData = data;
     }
 
-    public void RestorePrefab(GameData data)
+    public void RestorePrefabs(GameData data)
     {
-        throw new NotImplementedException();
+        //CHECK WHICH PREFAB SHOULD BE RESTORED
+        //PREFAB TO CHECK:
+
+        //STORESCREEN
+        if (data.storeEnabled)
+        {
+            data.storeEnabled = false;
+            FindObjectOfType<RoomPcListener>().ToggleStoreScreen();
+        }
+
+        //SCADASCREEN
+        if (data.scadaEnabled)
+        {
+            data.scadaEnabled = false;
+            FindObjectOfType<RoomPcListener>().ToggleScadaScreen();
+        }
+
+        //AI BASED ON BOTH LOCAL AND REMOTE THREAT
+
+        //SECURITYSCREEN
+        if (data.securityScreenEnabled)
+        {
+            data.securityScreenEnabled = false;
+            FindObjectOfType<SecurityListener>().ToggleSecurityScreen();
+        }
+
+        //PRESSED ITEM MENU
+        if (data.buttonEnabled)
+        {
+            data.buttonEnabled = false;
+            GameObject.Find(data.pressedSprite).GetComponent<InteractiveSprite>().ToggleMenu();
+        }
+
+        //IDCARD
+        if (data.idCardEnabled)
+        {
+            data.idCardEnabled = false;
+            FindObjectOfType<IdCardManager>().ToggleIdCard();
+        }
+
+        //NOTEBOOK
+        if (data.noteBookEnabled)
+        {
+            data.noteBookEnabled = false;
+            FindObjectOfType<NotebookManager>().ToggleNoteBook();
+        }
     }
+
+
 }

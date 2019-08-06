@@ -36,7 +36,6 @@ public class AiController : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
     private string spriteNumber;
     public string idSpriteName;
 
-
     public StringDb.AiDangerResistance dangerResistance;
 
     //public PlayerController playerController;
@@ -669,7 +668,7 @@ public class AiController : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
             //{
             //    MovePlayerToAi();
             //}
-            aiListener.StartCheckAiId();
+            aiListener.StartShowAiId();
             ClassDb.prefabManager.ReturnPrefab(actionMenu.gameObject, PrefabManager.actionIndex);
         });
 

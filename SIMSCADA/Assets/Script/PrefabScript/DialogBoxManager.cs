@@ -5,46 +5,27 @@ using UnityEngine.UI;
 
 public class DialogBoxManager : MonoBehaviour
 {
-    private static TextMeshProUGUI dialogBoxTitle;
-    private static TextMeshProUGUI dialogBoxMessage;
-    public static Button dialogBoxBtnNext;
-    public static Button dialogBoxBtnBack;
-    private static TextMeshProUGUI dialogBoxBtnNextTxt;
-    private static TextMeshProUGUI dialogBoxBtnBackTxt;
+    [SerializeField] private TextMeshProUGUI dialogBoxTitle;
+    [SerializeField] private TextMeshProUGUI dialogBoxMessage;
+    public Button dialogBoxBtnNext;
+    public Button dialogBoxBtnBack;
+    [SerializeField] private TextMeshProUGUI dialogBoxBtnNextTxt;
+    [SerializeField] private TextMeshProUGUI dialogBoxBtnBackTxt;
 
     private ILevelManager manager;
 
     public static int dialogIndex = 1;
 
-    public static bool dialogEnabled;
-
-    private Canvas dialogBox;
-
-    private void Awake()
-    {
-        dialogEnabled = false;
-    }
-
     private void OnEnable()
     {
-        dialogBoxTitle = GameObject.Find(StringDb.dialogBoxTitle).GetComponent<TextMeshProUGUI>();
-        dialogBoxMessage = GameObject.Find(StringDb.dialogBoxMessage).GetComponent<TextMeshProUGUI>();
-        dialogBoxBtnNext = GameObject.Find(StringDb.dialogBoxBtnNext).GetComponent<Button>();
-        dialogBoxBtnBack = GameObject.Find(StringDb.dialogBoxBtnBack).GetComponent<Button>();
-        dialogBoxBtnNextTxt = GameObject.Find(StringDb.dialogBoxBtnNext).GetComponentInChildren<TextMeshProUGUI>();
-        dialogBoxBtnBackTxt = GameObject.Find(StringDb.dialogBoxBtnBack).GetComponentInChildren<TextMeshProUGUI>();
-
-        dialogEnabled = true;
-
-        SetGameDataDialogBool(dialogEnabled);
+        SetGameDataDialogBool();
     }
 
     private void OnDisable()
     {
         SetButtonActive();
-        dialogEnabled = false;
 
-        SetGameDataDialogBool(dialogEnabled);
+        SetGameDataDialogBool();
     }
 
     private ILevelManager SetLevelManager()
@@ -58,45 +39,62 @@ public class DialogBoxManager : MonoBehaviour
         return iManager;
     }
 
-    private void SetGameDataDialogBool(bool dialogBool)
+    private void SetSortOrder(Canvas dialogBox)
+    {
+        switch (dialogBoxTitle.text)
+        {
+            case "ESCI":
+                dialogBox.sortingOrder = 4;
+                break;
+            case "CHIUDI TUTTE LE FINESTRE":
+                dialogBox.sortingOrder = 3;
+                break;
+            default:
+                dialogBox.sortingOrder = 2;
+                break;
+        }
+    }
+
+    private void SetGameDataDialogBool()
     {
         if (SetLevelManager() == null) return;
         manager = SetLevelManager();
 
-        manager.GetGameData().dialogEnabled = dialogBool;
+        manager.GetGameData().dialogEnabled = FindObjectsOfType<DialogBoxManager>().Length > 1;
     }
 
-    public void SetDialog(string title, string message, string buttonBack, string buttonNext, string dialogString)
+    public void SetDialog(string title, string message, string buttonBack, string buttonNext, Canvas dialogBox)
     {
         dialogBoxTitle.SetText(title);
         dialogBoxMessage.SetText(message);
         dialogBoxBtnBackTxt.SetText(buttonBack);
         dialogBoxBtnNextTxt.SetText(buttonNext);
 
-        SetGameDataLastDialogString(dialogString);
+        SetSortOrder(dialogBox);
+
     }
 
-    private void SetGameDataLastDialogString(string dialogString)
+
+    public Canvas OpenDialog()
     {
+        Canvas dialogBox = ClassDb.prefabManager.GetPrefab(ClassDb.prefabManager.prefabDialogBox.gameObject, PrefabManager.dialogIndex).GetComponent<Canvas>();
+
+        dialogBox.name = "DialogBox" + dialogIndex++;
+
+        if (SetLevelManager() != null)
+        {
+            ClassDb.timeManager.ToggleTime();
+        }
+
+        return dialogBox;
+    }
+
+    public void CloseDialog(Canvas box)
+    {
+        ClassDb.prefabManager.ReturnPrefab(box.gameObject, PrefabManager.dialogIndex);
+
         if (SetLevelManager() == null) return;
-        if (dialogString == StringDb.exitTxt) return;
-        manager = SetLevelManager();
 
-        manager.GetGameData().lastDialogShowed = dialogString;
-    }
-
-    public void ToggleDialogBox()
-    {
-        if (dialogEnabled)
-        {
-            ClassDb.prefabManager.ReturnPrefab(dialogBox.gameObject, PrefabManager.dialogIndex);
-        }
-        else
-        {
-            dialogBox = ClassDb.prefabManager.GetPrefab(ClassDb.prefabManager.prefabDialogBox.gameObject, PrefabManager.dialogIndex).GetComponent<Canvas>();
-
-            dialogBox.name = "DialogBox" + dialogIndex++;
-        }
         ClassDb.timeManager.ToggleTime();
     }
 

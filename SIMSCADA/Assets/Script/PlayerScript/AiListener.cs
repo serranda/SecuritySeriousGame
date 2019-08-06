@@ -7,8 +7,7 @@ public class AiListener : MonoBehaviour
 {
     private AiController aiController;
 
-    private IEnumerator checkRoutine;
-    private IEnumerator showRoutine;
+    private IEnumerator showAiIdRoutine;
 
     private ILevelManager manager;
 
@@ -30,47 +29,55 @@ public class AiListener : MonoBehaviour
         return iManager;
     }
 
-    public void StartCheckAiId()
+    public void StartShowAiId()
     {
         aiController.onClickAi = true;
 
+        aiController.SetInteraction(false);
+
         aiController.StartWait();
+
+        float progressDuration;
 
         if (!aiController.idChecked)
         {
-            //checkRoutine = CheckAiId();
-            //StartCoroutine(checkRoutine);
-            CheckAiId();
+            progressDuration = manager.GetGameData().idCardTime;
         }
         else
         {
-            TimeEvent showEvent = ClassDb.timeEventManager.NewTimeEvent(
-                0, aiController.gameObject, false, true);
-
-            showRoutine = ShowAiId(showEvent);
-            StartCoroutine(showRoutine);
+            progressDuration = 0;
         }
-    }
 
-    private void CheckAiId()
-    {
-        aiController.SetInteraction(false);
-        //yield return new WaitWhile(() => aiController.playerController.pathUpdated);
         TimeEvent progressEvent = ClassDb.timeEventManager.NewTimeEvent(
-            manager.GetGameData().idCardTime, aiController.gameObject, true, true);
+            progressDuration, aiController.gameObject, true, true, StringDb.showAiIdRoutine);
+
         manager.GetGameData().timeEventList.Add(progressEvent);
 
-        aiController.idChecked = true;
+        showAiIdRoutine = ShowAiId(progressEvent);
+        StartCoroutine(showAiIdRoutine);
 
-        showRoutine = ShowAiId(progressEvent);
-        StartCoroutine(showRoutine);
+    }
+
+    public void RestartShowAiId(TimeEvent progressEvent)
+    {
+        aiController.onClickAi = true;
+
+        aiController.SetInteraction(false);
+
+        aiController.StartWait();
+
+        showAiIdRoutine = ShowAiId(progressEvent);
+        StartCoroutine(showAiIdRoutine);
     }
 
     private IEnumerator ShowAiId(TimeEvent progressEvent)
     {
         yield return new WaitWhile(() => manager.GetGameData().timeEventList.Contains(progressEvent));
         yield return new WaitWhile(() => manager.GetGameData().idCardEnabled);
+
         ClassDb.idCardManager.ToggleIdCard();
+
+        aiController.idChecked = true;
 
         if (aiController.idSpriteName == null)
         {
@@ -92,7 +99,6 @@ public class AiListener : MonoBehaviour
             aiController.isAttacker, aiController.idSpriteName);
 
         aiController.SetInteraction(true);
-
     }
 
     public void FireAi(GameObject aiGameObject)

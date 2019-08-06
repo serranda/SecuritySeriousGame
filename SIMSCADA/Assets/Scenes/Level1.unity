@@ -8622,6 +8622,15 @@ MonoBehaviour:
     isFirstDragonfly: 1
     isFirstMitm: 1
     isFirstReplay: 1
+    firstThreat:
+      id: 0
+      threatType: 0
+      deployTime: 0
+      threatAttacker: 0
+      threatDanger: 0
+      threatAttack: 0
+      aiController: {fileID: 0}
+      moneyLossPerMinute: 0
     idCardUpgraded: 0
     researchUpgrade: 0
     money: 1000
@@ -8704,6 +8713,38 @@ MonoBehaviour:
     noteBookEnabled: 0
     idCardEnabled: 0
     buttonEnabled: 0
+    dialogEnabled: 0
+    itemStoreSelected:
+      name: 
+      descriptionPath: 
+      imageName: 
+      price: 0
+      finalLevel: 0
+      effect: 0
+      currentLevel: 0
+      itemObject: {fileID: 0}
+    lastThreatDeployed:
+      id: 0
+      threatType: 0
+      deployTime: 0
+      threatAttacker: 0
+      threatDanger: 0
+      threatAttack: 0
+      aiController: {fileID: 0}
+      moneyLossPerMinute: 0
+    lastThreatStopped:
+      id: 0
+      threatType: 0
+      deployTime: 0
+      threatAttacker: 0
+      threatDanger: 0
+      threatAttack: 0
+      aiController: {fileID: 0}
+      moneyLossPerMinute: 0
+    lastAmountLoss: 0
+    lastTypeLoss: 0
+    lastAmountEarn: 0
+    employeesHired: 0
 --- !u!4 &921579331
 Transform:
   m_ObjectHideFlags: 0
@@ -8877,6 +8918,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b793fa75d3396344bdfd3dce3ae0d18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dialogBoxTitle: {fileID: 0}
+  dialogBoxMessage: {fileID: 0}
+  dialogBoxBtnNext: {fileID: 0}
+  dialogBoxBtnBack: {fileID: 0}
+  dialogBoxBtnNextTxt: {fileID: 0}
+  dialogBoxBtnBackTxt: {fileID: 0}
 --- !u!114 &921579344
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16031,7 +16078,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 3
   m_TargetDisplay: 0
 --- !u!114 &5142982831972985021
 MonoBehaviour:
@@ -16716,7 +16763,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.392}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.64705884}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:

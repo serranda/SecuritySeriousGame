@@ -28,7 +28,7 @@ public class TimeManager : MonoBehaviour
     public void ToggleTime()
     {
         if (SetLevelManager() == null) return;
-        if (!PauseManager.pauseEnabled && !DialogBoxManager.dialogEnabled && !manager.GetGameData().noteBookEnabled)
+        if (!PauseManager.pauseEnabled && !manager.GetGameData().dialogEnabled && !manager.GetGameData().noteBookEnabled)
         {
             Time.timeScale = 1.0f;
         }
