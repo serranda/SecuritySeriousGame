@@ -86,7 +86,8 @@ public class NotebookManager : MonoBehaviour
 
         toggleGroup = GameObject.Find(StringDb.noteBookToggleGroup).GetComponent<ToggleGroup>();
 
-        manager.GetGameData().noteBookEnabled = true;
+
+        if (manager != null) manager.GetGameData().noteBookEnabled = true;
 
         colorIndex = 0;
         pageCount = 0;
@@ -114,7 +115,17 @@ public class NotebookManager : MonoBehaviour
         });
 
         backBtn.onClick.RemoveAllListeners();
-        backBtn.onClick.AddListener(ToggleNoteBook);
+        backBtn.onClick.AddListener(delegate
+        {
+            if (manager != null)
+            {
+                ToggleNoteBook();
+            }
+            else
+            {
+                ToggleNoteBook(true);
+            }
+        });
 
         pageL = GameObject.Find(StringDb.noteBookPageL).GetComponent<TextMeshProUGUI>();
         pageR = GameObject.Find(StringDb.noteBookPageR).GetComponent<TextMeshProUGUI>();
@@ -133,7 +144,7 @@ public class NotebookManager : MonoBehaviour
 
     private void OnDisable()
     {
-        manager.GetGameData().noteBookEnabled = false;
+        if (manager != null) manager.GetGameData().noteBookEnabled = false;
     }
 
     private ILevelManager SetLevelManager()
@@ -167,6 +178,25 @@ public class NotebookManager : MonoBehaviour
 
         if(ClassDb.timeManager)
             ClassDb.timeManager.ToggleTime();
+
+    }
+
+    public void ToggleNoteBook(bool toggle)
+    {
+
+
+        if (toggle)
+        {
+            ClassDb.prefabManager.ReturnPrefab(noteBook.gameObject, PrefabManager.noteBookIndex);
+            foreach (Toggle lessonButton in btnList.content.GetComponentsInChildren<Toggle>())
+            {
+                ClassDb.prefabManager.ReturnPrefab(lessonButton.gameObject, PrefabManager.notebookButtonIndex);
+            }
+        }
+        else
+        {
+            noteBook = ClassDb.prefabManager.GetPrefab(ClassDb.prefabManager.prefabNoteBook.gameObject, PrefabManager.noteBookIndex).GetComponent<Canvas>();
+        }
 
     }
 

@@ -26,7 +26,7 @@
 	{
 		if(file_get_contents($imageSaveFilePath) !== FALSE)
 		{
-			$imageURL = $_SERVER["SERVER_NAME"].'/TestLoginBuildWebGL/Data/'.$playerFolder.'/'.$saveFolder.'/'.$imageFileName;
+			$imageURL = $_SERVER["SERVER_NAME"].'/SIMSCADA/Data/'.$playerFolder.'/'.$saveFolder.'/'.$imageFileName;
 
 			echo $imageURL;
 		}

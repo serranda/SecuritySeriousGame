@@ -14,7 +14,7 @@ public class StringDb
     public static string panelTimeFormat = "dd/MM/yyyy hh:mm:ss";
 
     //string values for php script and server folder
-    public static string serverAddressEditor = "http://192.168.1.119/TestLoginBuildWebGL";
+    public static string serverAddressEditor = "http://192.168.1.107/SIMSCADA";
     public static string serverAddress = Application.absoluteURL.TrimEnd('/');
     public static string phpFolder = "PHP";
     public static string mainDataFolder = "Data";
