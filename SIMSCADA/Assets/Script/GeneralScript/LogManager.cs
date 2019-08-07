@@ -19,6 +19,10 @@ public class LogManager : MonoBehaviour
 
     private IEnumerator WritePlayerLogRoutine(Player player, StringDb.logEvent logEvent, string content)
     {
+        string address = Application.absoluteURL == string.Empty
+            ? StringDb.serverAddressEditor
+            : StringDb.serverAddress;
+
         WWWForm form = new WWWForm();
 
         string logContent = string.Concat(DateTime.Now.ToString(StringDb.logTimeFormat), " [", logEvent.ToString().ToUpper() , "] ", content,"\n");
@@ -32,7 +36,7 @@ public class LogManager : MonoBehaviour
 
         using (UnityWebRequest www =
             UnityWebRequest.Post(
-                Path.Combine(StringDb.serverAddress, Path.Combine(StringDb.phpFolder, StringDb.writePlayerLogScript)),
+                Path.Combine(address, Path.Combine(StringDb.phpFolder, StringDb.writePlayerLogScript)),
                 form))
         {
             yield return www.SendWebRequest();

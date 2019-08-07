@@ -26,6 +26,12 @@ public class LoginManager : MonoBehaviour
 
     private void Start()
     {
+        string address = Application.absoluteURL == string.Empty
+            ? StringDb.serverAddressEditor
+            : StringDb.serverAddress;
+
+        Debug.Log("Address: " + address);
+
         //FORCE FULL SCREEN OFF
         Screen.fullScreen = false;
 
@@ -73,6 +79,10 @@ public class LoginManager : MonoBehaviour
 
     private IEnumerator CreatePlayerDataFolder()
     {
+        string address = Application.absoluteURL == string.Empty
+            ? StringDb.serverAddressEditor
+            : StringDb.serverAddress;
+
         //NEW WWWFORM FOR WEB REQUEST
         WWWForm form = new WWWForm();
 
@@ -82,7 +92,7 @@ public class LoginManager : MonoBehaviour
         //SEND REQUEST
         using (UnityWebRequest www =
             UnityWebRequest.Post(
-                Path.Combine(StringDb.serverAddress, Path.Combine(StringDb.phpFolder, StringDb.createMainDataFolderScript)),
+                Path.Combine(address, Path.Combine(StringDb.phpFolder, StringDb.createMainDataFolderScript)),
                 form))
         {
             yield return www.SendWebRequest();
@@ -108,6 +118,10 @@ public class LoginManager : MonoBehaviour
 
     private IEnumerator CheckRegisteringPlayerListRoutine()
     {
+        string address = Application.absoluteURL == string.Empty
+            ? StringDb.serverAddressEditor
+            : StringDb.serverAddress;
+        
         //create player instance with registration credential
         Player player = new Player(playerUserNameR.text, passwordR.text, playerName.text, playerSurname.text);
 
@@ -123,7 +137,7 @@ public class LoginManager : MonoBehaviour
 
         using (UnityWebRequest www =
             UnityWebRequest.Post(
-                Path.Combine(StringDb.serverAddress, Path.Combine(StringDb.phpFolder, StringDb.playersListManager)),
+                Path.Combine(address, Path.Combine(StringDb.phpFolder, StringDb.playersListManager)),
                 form))
         {
             yield return www.SendWebRequest();
@@ -178,6 +192,10 @@ public class LoginManager : MonoBehaviour
 
     private IEnumerator CheckLoggingPlayerListRoutine()
     {
+        string address = Application.absoluteURL == string.Empty
+            ? StringDb.serverAddressEditor
+            : StringDb.serverAddress;
+
         //create player instance with credential
         Player player = new Player(playerUserNameL.text, passwordL.text);
 
@@ -193,7 +211,7 @@ public class LoginManager : MonoBehaviour
 
         using (UnityWebRequest www =
             UnityWebRequest.Post(
-                Path.Combine(StringDb.serverAddress, Path.Combine(StringDb.phpFolder, StringDb.playersListManager)),
+                Path.Combine(address, Path.Combine(StringDb.phpFolder, StringDb.playersListManager)),
                 form))
         {
             yield return www.SendWebRequest();
@@ -249,6 +267,10 @@ public class LoginManager : MonoBehaviour
 
     private IEnumerator UpdatePlayerList(Player player, PlayerList players)
     {
+        string address = Application.absoluteURL == string.Empty
+            ? StringDb.serverAddressEditor
+            : StringDb.serverAddress;
+
         //instanciate new wwwform
         WWWForm form = new WWWForm();
 
@@ -270,7 +292,7 @@ public class LoginManager : MonoBehaviour
 
         using (UnityWebRequest www =
             UnityWebRequest.Post(
-                Path.Combine(StringDb.serverAddress, Path.Combine(StringDb.phpFolder, StringDb.playersListManager)),
+                Path.Combine(address, Path.Combine(StringDb.phpFolder, StringDb.playersListManager)),
                 form))
         {
             yield return www.SendWebRequest();
@@ -300,6 +322,10 @@ public class LoginManager : MonoBehaviour
 
     private IEnumerator CreatePlayerFolderRoutine(Player player)
     {
+        string address = Application.absoluteURL == string.Empty
+            ? StringDb.serverAddressEditor
+            : StringDb.serverAddress;
+
         //instanciate new wwwform
         WWWForm form = new WWWForm();
 
@@ -309,7 +335,7 @@ public class LoginManager : MonoBehaviour
 
         using (UnityWebRequest www =
             UnityWebRequest.Post(
-                Path.Combine(StringDb.serverAddress,
+                Path.Combine(address,
                     Path.Combine(StringDb.phpFolder, StringDb.createPlayerFolderScript)), form))
         {
             yield return www.SendWebRequest();

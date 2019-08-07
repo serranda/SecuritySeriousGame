@@ -23,9 +23,9 @@ public class GameSettingManager : MonoBehaviour
     private IEnumerator checkRoutine;
     private IEnumerator saveRoutine;
 
+
     private void OnEnable()
     {
-
         volumeSlider.onValueChanged.RemoveAllListeners();
         volumeSlider.onValueChanged.AddListener(delegate
         {
@@ -54,6 +54,10 @@ public class GameSettingManager : MonoBehaviour
 
     private IEnumerator CheckWebSettingsFileRoutine()
     {
+        string address = Application.absoluteURL == string.Empty
+            ? StringDb.serverAddressEditor
+            : StringDb.serverAddress;
+
         WWWForm form = new WWWForm();
 
         form.AddField("mode", "r");
@@ -64,7 +68,7 @@ public class GameSettingManager : MonoBehaviour
 
         using (UnityWebRequest www =
             UnityWebRequest.Post(
-                Path.Combine(StringDb.serverAddress,
+                Path.Combine(address,
                     Path.Combine(StringDb.phpFolder, StringDb.playerSettingsManagerScript)), form))
         {
             yield return www.SendWebRequest();
@@ -205,6 +209,10 @@ public class GameSettingManager : MonoBehaviour
 
     public IEnumerator SaveSettingsWebFile(GameSettings settings)
     {
+        string address = Application.absoluteURL == string.Empty
+            ? StringDb.serverAddressEditor
+            : StringDb.serverAddress;
+
         string jsonData = JsonUtility.ToJson(settings, true);
 
         WWWForm form = new WWWForm();
@@ -220,7 +228,7 @@ public class GameSettingManager : MonoBehaviour
 
         using (UnityWebRequest www =
             UnityWebRequest.Post(
-                Path.Combine(StringDb.serverAddress,
+                Path.Combine(address,
                     Path.Combine(StringDb.phpFolder, StringDb.playerSettingsManagerScript)), form))
         {
             yield return www.SendWebRequest();

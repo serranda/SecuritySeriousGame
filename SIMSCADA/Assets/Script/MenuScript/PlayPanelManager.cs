@@ -49,6 +49,10 @@ public class PlayPanelManager : MonoBehaviour
 
     private IEnumerator CheckSlotSave(Button playButton, Button deleteButton, Image image, TextMeshProUGUI info, int index)
     {
+        string address = Application.absoluteURL == string.Empty
+            ? StringDb.serverAddressEditor
+            : StringDb.serverAddress;
+
         //CREATE NEW WWWFORM FOR GETTING DATA
         WWWForm form = new WWWForm();
 
@@ -62,7 +66,7 @@ public class PlayPanelManager : MonoBehaviour
         //DOWNLOAD JSON DATA FOR GAMEDATA CLASS
         using (UnityWebRequest www =
             UnityWebRequest.Post(
-                Path.Combine(StringDb.serverAddress,
+                Path.Combine(address,
                     Path.Combine(StringDb.phpFolder, StringDb.imageSaveManagerScript)), form))
         {
             yield return www.SendWebRequest();
@@ -176,7 +180,7 @@ public class PlayPanelManager : MonoBehaviour
                     //DOWNLOAD JSON DATA FOR GAMEDATA CLASS
                     using (UnityWebRequest statWWW =
                         UnityWebRequest.Post(
-                            Path.Combine(StringDb.serverAddress,
+                            Path.Combine(address,
                                 Path.Combine(StringDb.phpFolder, StringDb.getFileInfoScript)), statForm))
                     {
                         yield return statWWW.SendWebRequest();
@@ -206,6 +210,10 @@ public class PlayPanelManager : MonoBehaviour
 
     private IEnumerator DeleteSlotSave(Button playButton, Button deleteButton, Image image, TextMeshProUGUI info, int index)
     {
+        string address = Application.absoluteURL == string.Empty
+            ? StringDb.serverAddressEditor
+            : StringDb.serverAddress;
+
         //CREATE NEW WWWFORM FOR DELETE SAVE FILE
         WWWForm deleteSaveForm = new WWWForm();
         //ADD FIELD TO FORM
@@ -218,7 +226,7 @@ public class PlayPanelManager : MonoBehaviour
         //SEND DELETE REQUEST TO SERVER
         using (UnityWebRequest deleteSaveWWW =
             UnityWebRequest.Post(
-                Path.Combine(StringDb.serverAddress,
+                Path.Combine(address,
                     Path.Combine(StringDb.phpFolder, StringDb.playerSaveManagerScript)),
                 deleteSaveForm))
         {
@@ -246,7 +254,7 @@ public class PlayPanelManager : MonoBehaviour
         //SEND DELETE REQUEST TO SERVER
         using (UnityWebRequest deleteImageWWW =
             UnityWebRequest.Post(
-                Path.Combine(StringDb.serverAddress,
+                Path.Combine(address,
                     Path.Combine(StringDb.phpFolder, StringDb.imageSaveManagerScript)),
                 deleteImageForm))
         {

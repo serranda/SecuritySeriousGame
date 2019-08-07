@@ -29,6 +29,10 @@ public class GameDataManager : MonoBehaviour
 
     private IEnumerator SaveLevelGameData(byte[] bytes)
     {
+        string address = Application.absoluteURL == string.Empty
+            ? StringDb.serverAddressEditor
+            : StringDb.serverAddress;
+
         //GET THE CORRECT LEVELMANAGER
         manager = SetLevelManager();
 
@@ -59,7 +63,7 @@ public class GameDataManager : MonoBehaviour
         //UPLOAD JSON DATA FROM GAMEDATA CLASS
         using (UnityWebRequest www =
             UnityWebRequest.Post(
-                Path.Combine(StringDb.serverAddress,
+                Path.Combine(address,
                     Path.Combine(StringDb.phpFolder, StringDb.playerSaveManagerScript)), formData))
         {
             yield return www.SendWebRequest();
@@ -91,7 +95,7 @@ public class GameDataManager : MonoBehaviour
         //UPLOAD JSON DATA FROM GAMEDATA CLASS
         using (UnityWebRequest www =
             UnityWebRequest.Post(
-                Path.Combine(StringDb.serverAddress,
+                Path.Combine(address,
                     Path.Combine(StringDb.phpFolder, StringDb.imageSaveManagerScript)), formImage))
         {
             yield return www.SendWebRequest();
@@ -119,6 +123,10 @@ public class GameDataManager : MonoBehaviour
 
     private IEnumerator LoadLevelGameData()
     {
+        string address = Application.absoluteURL == string.Empty
+            ? StringDb.serverAddressEditor
+            : StringDb.serverAddress;
+
         //GET THE CORRECT LEVELMANAGER
         manager = SetLevelManager();
 
@@ -135,7 +143,7 @@ public class GameDataManager : MonoBehaviour
         //DOWNLOAD JSON DATA FOR GAMEDATA CLASS
         using (UnityWebRequest www =
             UnityWebRequest.Post(
-                Path.Combine(StringDb.serverAddress,
+                Path.Combine(address,
                     Path.Combine(StringDb.phpFolder, StringDb.playerSaveManagerScript)), form))
         {
             yield return www.SendWebRequest();
