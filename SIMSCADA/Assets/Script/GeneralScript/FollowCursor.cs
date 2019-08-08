@@ -36,7 +36,7 @@ public class FollowCursor : MonoBehaviour
         if ( PauseManager.pauseEnabled
             || manager.GetGameData().dialogEnabled
             || manager.GetGameData().scadaEnabled
-            || AiController.cursorOverAi
+            || manager.GetGameData().cursorOverAi
             || manager.GetGameData().storeEnabled
             || InteractiveSprite.onSprite
             || isCameraMainNull

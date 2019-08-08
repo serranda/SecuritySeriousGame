@@ -16,24 +16,24 @@ public class AiController : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
 
     private Rigidbody2D rb2D;
 
-    private Vector3 offsetDraw;
-    private Vector3 scaleDraw;
+    public Vector3 offsetDraw;
+    public Vector3 scaleDraw;
 
     public bool isAttacker;
-    public bool toDestroy;
+    public bool destroy;
     public bool idChecked;
     public bool idScanned;
     public bool isTrusted;
     public bool isWaiting;
     public bool isSuspected;
-    private bool isAiPathValuesSet;
+    public bool isAiPathValuesSet;
 
     public Animator animator;
     public string spriteToAnimate;
     public string nSpriteName;
-    private string hlSpriteName;
-    private string prSpriteName;
-    private string spriteNumber;
+    public string hlSpriteName;
+    public string prSpriteName;
+    public string spriteNumber;
     public string idSpriteName;
 
     public StringDb.AiDangerResistance dangerResistance;
@@ -47,7 +47,7 @@ public class AiController : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
     public string aiJob;
     public string aiGender;
 
-    private List<Node> path;
+    public List<Node> path;
 
     public bool pathUpdated;
     private string cellLayout;
@@ -56,23 +56,23 @@ public class AiController : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
 
     public int wrongDestinationCounter;
 
-    private int radiusBase;
+    public int radiusBase;
     [SerializeField] private float radius;
 
-    public static bool cursorOverAi;
     public bool onClickAi;
     private Canvas actionMenu;
     private ActionButtonManager actionButtonManager;
 
-    [SerializeField] private Vector3Int aiStartCellPos;
-    [SerializeField] private Vector3Int aiDestCellPos;
+    public Vector3Int aiStartCellPos;
+    public Vector3Int aiCellPos;
+    public Vector3Int aiDestCellPos;
 
-    [SerializeField] private float aiSpeed;
-    [SerializeField] private Vector3Int aiObjective;
+    public float aiSpeed;
+    public Vector3Int aiObjective;
 
-    [SerializeField] private float timer;
+    public float timer;
 
-    [SerializeField] public TimeEvent timeEvent;
+    public TimeEvent timeEvent;
 
     private float isoX;
     private float isoY;
@@ -99,7 +99,7 @@ public class AiController : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
         ClassDb.charactersCommon.SetStartAnimation(animator);
 
         pathUpdated = false;
-        toDestroy = false;
+        destroy = false;
         idChecked = false;
         idScanned = false;
         pathfinderChanged = false;
@@ -131,7 +131,7 @@ public class AiController : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (toDestroy) return;
+        if (destroy) return;
         spriteToAnimate = prSpriteName;
         ToggleMenu();
         manager.GetGameData().pressedSprite = gameObject.name;
@@ -139,16 +139,16 @@ public class AiController : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (toDestroy) return;
+        if (destroy) return;
         spriteToAnimate = hlSpriteName;
-        cursorOverAi = true;
+        manager.GetGameData().cursorOverAi = true;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (toDestroy) return;
+        if (destroy) return;
         spriteToAnimate = nSpriteName;
-        cursorOverAi = false;
+        manager.GetGameData().cursorOverAi = false;
     }
 
     private void Update()
@@ -156,6 +156,8 @@ public class AiController : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
         radius = radiusBase  * (1 - timeEvent.currentPercentage / 100);
 
         aiSpeed = 1.5f * manager.GetGameData().simulationSpeedMultiplier;
+
+        aiCellPos = pathfinder.listTileMap[0].layoutGrid.WorldToCell(rb2D.position);
 
     }
 
@@ -378,7 +380,7 @@ public class AiController : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
         aiStartCellPos = pathfinder.listTileMap[0].layoutGrid.WorldToCell(new Vector3(position.x, position.y, 0));
 
 
-        if (toDestroy)
+        if (destroy)
         {
             //set destination for destroying ai
             aiDestCellPos = StringDb.aiSpawn;
@@ -446,7 +448,7 @@ public class AiController : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
             yield return new WaitForFixedUpdate();
         }
 
-        if (toDestroy)
+        if (destroy)
         {
             ClassDb.prefabManager.ReturnPrefab(gameObject, PrefabManager.aiIndex);
         }
@@ -618,7 +620,7 @@ public class AiController : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
         }
         else
         {
-            toDestroy = true;
+            destroy = true;
             StopAllCoroutines();
             SetAiDestination();
         }
@@ -658,38 +660,109 @@ public class AiController : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
     {
         AiListener aiListener = GetComponent<AiListener>();
 
-        List<Button> buttons = actionButtonManager.GetActiveCanvasGroup(3);
-
-        buttons[0].GetComponentInChildren<TextMeshProUGUI>().text = "Chiedi credenziali";
-        buttons[0].onClick.RemoveAllListeners();
-        buttons[0].onClick.AddListener(delegate
+        if (isWaiting)
         {
-            //if (!idChecked)
-            //{
-            //    MovePlayerToAi();
-            //}
-            aiListener.StartShowAiId();
-            ClassDb.prefabManager.ReturnPrefab(actionMenu.gameObject, PrefabManager.actionIndex);
-        });
+            List<Button> buttons = actionButtonManager.GetActiveCanvasGroup(3);
 
-        buttons[1].GetComponentInChildren<TextMeshProUGUI>().text = "Licenzia";
-        buttons[1].onClick.RemoveAllListeners();
-        buttons[1].onClick.AddListener(delegate
+            buttons[0].GetComponentInChildren<TextMeshProUGUI>().text = "Chiedi credenziali";
+            buttons[0].onClick.RemoveAllListeners();
+            buttons[0].onClick.AddListener(delegate
+            {
+                //if (!idChecked)
+                //{
+                //    MovePlayerToAi();
+                //}
+                aiListener.StartShowAiId();
+                ClassDb.prefabManager.ReturnPrefab(actionMenu.gameObject, PrefabManager.actionIndex);
+            });
+
+            buttons[1].GetComponentInChildren<TextMeshProUGUI>().text = "Licenzia";
+            buttons[1].onClick.RemoveAllListeners();
+            buttons[1].onClick.AddListener(delegate
+            {
+                aiListener.FireAi(gameObject);
+                ClassDb.prefabManager.ReturnPrefab(actionMenu.gameObject, PrefabManager.actionIndex);
+
+            });
+
+            buttons[2].GetComponentInChildren<TextMeshProUGUI>().text = "Lascia andare";
+            buttons[2].onClick.RemoveAllListeners();
+            buttons[2].onClick.AddListener(delegate
+            {
+                onClickAi = false;
+                ClassDb.prefabManager.ReturnPrefab(actionMenu.gameObject, PrefabManager.actionIndex);
+            });
+        }
+        else
         {
-            aiListener.FireAi(gameObject);
-            ClassDb.prefabManager.ReturnPrefab(actionMenu.gameObject, PrefabManager.actionIndex);
+            List<Button> buttons = actionButtonManager.GetActiveCanvasGroup(2);
 
-        });
+            buttons[0].GetComponentInChildren<TextMeshProUGUI>().text = "Chiedi credenziali";
+            buttons[0].onClick.RemoveAllListeners();
+            buttons[0].onClick.AddListener(delegate
+            {
+                //if (!idChecked)
+                //{
+                //    MovePlayerToAi();
+                //}
+                aiListener.StartShowAiId();
+                ClassDb.prefabManager.ReturnPrefab(actionMenu.gameObject, PrefabManager.actionIndex);
+            });
 
-        buttons[2].GetComponentInChildren<TextMeshProUGUI>().text = "Congeda";
-        buttons[2].onClick.RemoveAllListeners();
-        buttons[2].onClick.AddListener(delegate
+            buttons[1].GetComponentInChildren<TextMeshProUGUI>().text = "Licenzia";
+            buttons[1].onClick.RemoveAllListeners();
+            buttons[1].onClick.AddListener(delegate
+            {
+                aiListener.FireAi(gameObject);
+                ClassDb.prefabManager.ReturnPrefab(actionMenu.gameObject, PrefabManager.actionIndex);
+
+            });
+        }
+
+
+
+
+    }
+
+    public void BeforeDeploy()
+    {
+        SetAiDestination();
+    }
+
+    public bool ThreatDeployEligibility()
+    {
+        if (timeEvent.threat.threatType == StringDb.ThreatType.remote) return true;
+
+        Vector2 position = rb2D.position;
+        Vector3Int aiPosCell = pathfinder.listTileMap[0].layoutGrid.WorldToCell(new Vector3(position.x, position.y, 0));
+
+        return aiPosCell == aiObjective;
+    }
+
+    public void PointOutThreat()
+    {
+        //if (!isAttacker) return;
+        isSuspected = true;
+
+        //CHANGE SPRITE TO THE SUSPECTED ONES
+        hlSpriteName = hlSpriteName.Insert(12, "Suspected");
+        prSpriteName = prSpriteName.Insert(12, "Suspected");
+
+        Debug.Log(hlSpriteName + " " + prSpriteName);
+
+        ClassDb.levelMessageManager.StartSuspiciousAi();
+    }
+
+    public void SetInteraction(bool colliderEnabled)
+    {
+        boxCollider2D.enabled = colliderEnabled;
+
+        if (timeEvent.progressBar)
         {
-            onClickAi = false;
-            ClassDb.prefabManager.ReturnPrefab(actionMenu.gameObject, PrefabManager.actionIndex);
-        });
+            timeEvent.progressBar.GetComponent<CanvasGroup>().blocksRaycasts = colliderEnabled;
+        }
 
-
+        GetComponent<SpriteRenderer>().color = colliderEnabled ? Color.white : Color.grey;
     }
 
     //private void MovePlayerToAi()
@@ -737,44 +810,4 @@ public class AiController : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
     //    return playerDestination;
     //}
 
-    public void BeforeDeploy()
-    {
-        SetAiDestination();
-    }
-
-    public bool ThreatDeployEligibility()
-    {
-        if (timeEvent.threat.threatType == StringDb.ThreatType.remote) return true;
-
-        Vector2 position = rb2D.position;
-        Vector3Int aiPosCell = pathfinder.listTileMap[0].layoutGrid.WorldToCell(new Vector3(position.x, position.y, 0));
-
-        return aiPosCell == aiObjective;
-    }
-
-    public void PointOutThreat()
-    {
-        //if (!isAttacker) return;
-        isSuspected = true;
-
-        //CHANGE SPRITE TO THE SUSPECTED ONES
-        hlSpriteName = hlSpriteName.Insert(12, "Suspected");
-        prSpriteName = prSpriteName.Insert(12, "Suspected");
-
-        Debug.Log(hlSpriteName + " " + prSpriteName);
-
-        ClassDb.levelMessageManager.StartSuspiciousAi();
-    }
-
-    public void SetInteraction(bool colliderEnabled)
-    {
-        boxCollider2D.enabled = colliderEnabled;
-
-        if (timeEvent.progressBar)
-        {
-            timeEvent.progressBar.GetComponent<CanvasGroup>().blocksRaycasts = colliderEnabled;
-        }
-
-        GetComponent<SpriteRenderer>().color = colliderEnabled ? Color.white : Color.grey;
-    }
 }

@@ -8605,6 +8605,168 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0f445fd6c674bb40b414059e2a7ff64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameData:
+    pressedSprite: 
+    firstLaunch: 1
+    indexSlot: 0
+    lastSceneIndex: 0
+    lastThreatId: 0
+    lastTimeEventId: 0
+    lastAiId: 0
+    pointOutPurchased: 0
+    localIdsUpgraded: 0
+    isFirstDos: 1
+    isFirstPhishing: 1
+    isFirstMalware: 1
+    isFirstStuxnet: 1
+    isFirstDragonfly: 1
+    isFirstMitm: 1
+    isFirstReplay: 1
+    firstThreat:
+      id: 0
+      threatType: 0
+      deployTime: 0
+      threatAttacker: 0
+      threatDanger: 0
+      threatAttack: 0
+      aiController: {fileID: 0}
+      moneyLossPerMinute: 0
+    idCardUpgraded: 0
+    researchUpgrade: 0
+    longDate: 131908032000000000
+    money: 1000
+    successfulThreat: 0
+    totalThreat: 0
+    trustedEmployees: 10
+    totalEmployees: 50
+    reputation: 35
+    minutePercentage: 0
+    remoteIdsCheckTime: 0
+    localIdsCheckTime: 0
+    threatSpawnTime: 0
+    threatSpawnRate: 0
+    remoteIdsSuccessRate: 30
+    remoteIdsCheckRate: 30
+    localIdsCheckRate: 30
+    localIdsWrongCounter: 10
+    firewallSuccessRate: 30
+    itemStoreList: []
+    defenseDos: 10
+    defensePhishing: 10
+    defenseReplay: 10
+    defenseMitm: 10
+    defenseMalware: 10
+    defenseStuxnet: 10
+    defenseDragonfly: 10
+    defenseCreateRemote: 10
+    defensePlantResistance: 10
+    idCardTime: 20
+    serverAmount: 1
+    pcAmount: 1
+    telephoneAmount: 1
+    securityCheckAmount: 1
+    serverRebootTime: 40
+    serverScanTime: 40
+    serverCheckCfgTime: 40
+    serverIdsCleanTime: 40
+    serverAntiMalwareTime: 40
+    pcRecapTime: 40
+    pcPointOutTime: 40
+    telephoneCheckPlantTime: 40
+    telephoneMoneyTime: 30
+    telephoneMoneyCoolDown: 2
+    serverSecurity: 1
+    lastMaleSpriteNumber: 
+    lastFemaleSpriteNumber: 
+    monthlyThreat: 0
+    weights:
+      keys: 0000000001000000020000000300000004000000050000000600000007000000
+      values:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    winCounter: 0
+    lossCounter: 0
+    isGameWon: 0
+    timeEventList: []
+    deployedThreatList: []
+    remoteThreats: []
+    localThreats: []
+    threatDetectedList: []
+    previousMonth: 0
+    isMoneyLoss: 0
+    moneyLossList:
+      keys: 00000000010000000200000003000000040000000500000006000000
+      values:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    totalMoneyLossPerMinute: 0
+    totalMoneyEarnPerMinute: 0
+    totalCostPerMinute: 0
+    simulationSpeedMultiplier: 1
+    millisecondsPerMinutes: 10000
+    threatSpawnBaseTime: 2000
+    hasReplayDeployed: 0
+    hasDosDeployed: 0
+    hasPhishingDeployed: 0
+    hasMitmDeployed: 0
+    hasMalwareDeployed: 0
+    hasStuxnetDeployed: 0
+    hasDragonflyDeployed: 0
+    hasPlantChecked: 1
+    hasMalwareChecked: 1
+    hasThreatManaged: 0
+    isFirewallActive: 0
+    isRemoteIdsActive: 0
+    isLocalIdsActive: 0
+    scadaEnabled: 0
+    storeEnabled: 0
+    securityScreenEnabled: 0
+    noteBookEnabled: 0
+    idCardEnabled: 0
+    buttonEnabled: 0
+    dialogEnabled: 0
+    itemStoreSelected:
+      name: 
+      descriptionPath: 
+      imageName: 
+      price: 0
+      finalLevel: 0
+      effect: 0
+      currentLevel: 0
+      itemObject: {fileID: 0}
+    lastThreatDeployed:
+      id: 0
+      threatType: 0
+      deployTime: 0
+      threatAttacker: 0
+      threatDanger: 0
+      threatAttack: 0
+      aiController: {fileID: 0}
+      moneyLossPerMinute: 0
+    lastThreatStopped:
+      id: 0
+      threatType: 0
+      deployTime: 0
+      threatAttacker: 0
+      threatDanger: 0
+      threatAttack: 0
+      aiController: {fileID: 0}
+      moneyLossPerMinute: 0
+    lastAmountLoss: 0
+    lastTypeLoss: 0
+    lastAmountEarn: 0
+    employeesHired: 0
 --- !u!4 &921579331
 Transform:
   m_ObjectHideFlags: 0
@@ -8651,8 +8813,7 @@ MonoBehaviour:
     type: 3}
   prefabIdCard: {fileID: 7717499470174760351, guid: 3cf3d089c319a854fabce8da1487cc24,
     type: 3}
-  prefabServerScreen: {fileID: 3855610171553746910, guid: a03a2c90b4aa359408f7f2e3b1afb09b,
-    type: 3}
+  prefabSecurityScreen: {fileID: 0}
   prefabPlayer: {fileID: 8740880053666009925, guid: 6267110cdf2a49e4bb60fdb64d8ce790,
     type: 3}
   prefabAi: {fileID: 8740880053666009925, guid: eb79c2771e2260a4f8d495e9431648e2,
@@ -8778,6 +8939,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b793fa75d3396344bdfd3dce3ae0d18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dialogBoxTitle: {fileID: 0}
+  dialogBoxMessage: {fileID: 0}
+  dialogBoxBtnNext: {fileID: 0}
+  dialogBoxBtnBack: {fileID: 0}
+  dialogBoxBtnNextTxt: {fileID: 0}
+  dialogBoxBtnBackTxt: {fileID: 0}
 --- !u!114 &921579344
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12272,6 +12439,178 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!1 &1189271756
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1189271757}
+  - component: {fileID: 1189271759}
+  - component: {fileID: 1189271758}
+  - component: {fileID: 1189271760}
+  m_Layer: 5
+  m_Name: GameVersion
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1189271757
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1189271756}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.000015, y: 1.000015, z: 1.000015}
+  m_Children: []
+  m_Father: {fileID: 5142982831972985023}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 1920, y: 60}
+  m_Pivot: {x: 0, y: 0}
+--- !u!114 &1189271758
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1189271756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_text: v0.9
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: e833bd9a2ba996b43bccf54197b2e9d4, type: 2}
+  m_sharedMaterial: {fileID: 21003200751327136, guid: e833bd9a2ba996b43bccf54197b2e9d4,
+    type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4290493371
+  m_fontColor: {r: 0.73333335, g: 0.73333335, b: 0.73333335, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_outlineColor:
+    serializedVersion: 2
+    rgba: 4278190080
+  m_fontSize: 40
+  m_fontSizeBase: 40
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_textAlignment: 513
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_firstOverflowCharacterIndex: -1
+  m_linkedTextComponent: {fileID: 0}
+  m_isLinkedTextComponent: 0
+  m_isTextTruncated: 0
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_ignoreRectMaskCulling: 0
+  m_ignoreCulling: 1
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_VertexBufferAutoSizeReduction: 1
+  m_firstVisibleCharacter: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 10, y: 0, z: 0, w: 0}
+  m_textInfo:
+    textComponent: {fileID: 1189271758}
+    characterCount: 4
+    spriteCount: 0
+    spaceCount: 0
+    wordCount: 2
+    linkCount: 0
+    lineCount: 1
+    pageCount: 1
+    materialCount: 1
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_spriteAnimator: {fileID: 0}
+  m_hasFontAssetChanged: 0
+  m_subTextObjects:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &1189271759
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1189271756}
+  m_CullTransparentMesh: 0
+--- !u!114 &1189271760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1189271756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e045f324e8c26ae479987a7f62a450b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  versionText: {fileID: 1189271758}
 --- !u!1 &1202561536
 GameObject:
   m_ObjectHideFlags: 0
@@ -13254,7 +13593,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54e0cf4a00155154588a95b2a408a81a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  telephoneOnCoolDown: 0
 --- !u!61 &1585053673
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -14888,7 +15226,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54e0cf4a00155154588a95b2a408a81a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  telephoneOnCoolDown: 0
 --- !u!114 &2050405117
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15968,6 +16305,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 5142982832817372202}
+  - {fileID: 1189271757}
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

@@ -31,7 +31,7 @@ public class GameDataManager : MonoBehaviour
     {
         string address = Application.absoluteURL == string.Empty
             ? StringDb.serverAddressEditor
-            : StringDb.serverAddress;
+            : Application.absoluteURL.TrimEnd('/');
 
         //GET THE CORRECT LEVELMANAGER
         manager = SetLevelManager();
@@ -45,6 +45,19 @@ public class GameDataManager : MonoBehaviour
 
         //SET LONG DATE VALUE
         gameData.longDate = gameData.date.ToFileTimeUtc();
+
+        //SET ALL THE serializableAiController
+        foreach (TimeEvent timeEvent in gameData.timeEventList)
+        {
+            if (timeEvent.threat.aiController != null)
+            {
+                timeEvent.threat.serializableAiController = new SerializableAiController(timeEvent.threat.aiController);
+
+                Debug.Log(timeEvent.threat.aiController);
+            }
+
+            Debug.Log("FOREACH");
+        }
 
         //PARSE GAMEDATA INSTANCE INTO JSON
         string data = JsonUtility.ToJson(gameData, true);
@@ -125,13 +138,15 @@ public class GameDataManager : MonoBehaviour
     {
         string address = Application.absoluteURL == string.Empty
             ? StringDb.serverAddressEditor
-            : StringDb.serverAddress;
+            : Application.absoluteURL.TrimEnd('/');
 
         //GET THE CORRECT LEVELMANAGER
         manager = SetLevelManager();
 
         //CREATE NEW WWWFORM FOR GETTING DATA
         WWWForm form = new WWWForm();
+
+        Debug.Log("manager.GetGameData().indexSlot: " + manager.GetGameData().indexSlot);
 
         //ADD FIELD TO FORM
         form.AddField("mode", "r");

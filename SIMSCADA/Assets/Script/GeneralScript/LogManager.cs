@@ -21,7 +21,7 @@ public class LogManager : MonoBehaviour
     {
         string address = Application.absoluteURL == string.Empty
             ? StringDb.serverAddressEditor
-            : StringDb.serverAddress;
+            : Application.absoluteURL.TrimEnd('/');
 
         WWWForm form = new WWWForm();
 

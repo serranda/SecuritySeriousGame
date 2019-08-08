@@ -223,8 +223,6 @@ public class TimeEventManager : MonoBehaviour
         //rename progressbar
         progressBar.name = "ProgressBar" + timeEvent.id;
 
-        Debug.Log(timeEvent.threat.aiController.aiName);
-
         //attach the progressbar to parent object (retrieved by finding in the game)
         GameObject parent = GameObject.Find(timeEvent.progressBarParentName);
 
@@ -245,19 +243,30 @@ public class TimeEventManager : MonoBehaviour
         //set the progressbar reference to the time event
         timeEvent.progressBar = progressBar;
 
+        switch (timeEvent.threat.threatType)
+        {
+            case StringDb.ThreatType.local:
+                Debug.Log("LOCAL");
+                break;
+            case StringDb.ThreatType.remote:
+                Debug.Log("REMOTE");
+                break;
+            case StringDb.ThreatType.fakeLocal:
+                Debug.Log("FAKE LOCAL");
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
 
-        if (timeEvent.threat.threatType == StringDb.ThreatType.local)
-        {
-            Debug.Log("LOCAL");
-        }
-        if (timeEvent.threat.threatType == StringDb.ThreatType.fakeLocal)
-        {
-            Debug.Log("FAKE LOCAL");
-        }
-        if (timeEvent.threat.threatType == StringDb.ThreatType.remote)
-        {
-            Debug.Log("REMOTE");
-        }
+        //deserialize serializableAiController and create aiController instance
+        timeEvent.threat.aiController = ClassDb.spawnCharacter.RespawnLocalAi(timeEvent.threat.serializableAiController);
+
+        //set time event to aicontroller
+        timeEvent.threat.aiController.timeEvent = timeEvent;
+
+
+        Debug.Log(timeEvent.threat.aiController);
+
     }
 
 }

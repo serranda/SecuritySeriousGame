@@ -4,7 +4,6 @@ using UnityEngine;
 [System.Serializable]
 public class TimeEvent
 {
-    //TODO: ADD A VALUE IN ORDER TO STORE THE SUCCESSIVE METHOD WHICH WILL BE CALLED AT THE END OF TIME EVENT
     public int id;
     public float duration; //expressed in minute
     public float percentagePerMin;

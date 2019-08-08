@@ -15,7 +15,6 @@ public class AiListener : MonoBehaviour
     {
         aiController = GetComponent<AiController>();
         manager = SetLevelManager();
-
     }
 
     private ILevelManager SetLevelManager()

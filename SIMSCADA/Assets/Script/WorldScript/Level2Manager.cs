@@ -400,7 +400,7 @@ public class Level2Manager : MonoBehaviour, ILevelManager
     public void StartLocalThreat(Threat threat)
     {
         //create aiPrefab and attaching to threat
-        threat.aiController = ClassDb.spawnCharacter.SpawnLocalAi(gameData.lastAiId++);
+        //threat.aiController = ClassDb.spawnCharacter.SpawnLocalAi(gameData.lastAiId++);
 
         TimeEvent timeEvent = ClassDb.timeEventManager.NewTimeEventFromThreat(threat, threat.aiController.gameObject, true, false);
 
@@ -417,7 +417,7 @@ public class Level2Manager : MonoBehaviour, ILevelManager
 
     public void StartRemoteThreat(Threat threat)
     {
-        threat.aiController = ClassDb.spawnCharacter.SpawnRemoteAi(gameData.lastAiId++);
+        //threat.aiController = ClassDb.spawnCharacter.SpawnRemoteAi(gameData.lastAiId++);
 
         TimeEvent timeEvent = ClassDb.timeEventManager.NewTimeEventFromThreat(threat, threat.aiController.gameObject, false, false);
 
@@ -435,7 +435,7 @@ public class Level2Manager : MonoBehaviour, ILevelManager
     public void StartFakeLocalThreat(Threat threat)
     {
         //create aiPrefab and attaching to threat
-        threat.aiController = ClassDb.spawnCharacter.SpawnFakeLocalAi(gameData.lastAiId++);
+        //threat.aiController = ClassDb.spawnCharacter.SpawnFakeLocalAi(gameData.lastAiId++);
 
         TimeEvent timeEvent = ClassDb.timeEventManager.NewTimeEventFromThreat(threat, threat.aiController.gameObject, true, false);
 

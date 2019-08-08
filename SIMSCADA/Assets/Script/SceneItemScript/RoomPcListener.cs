@@ -511,6 +511,8 @@ public class RoomPcListener : MonoBehaviour
 
         foreach (Threat threat in manager.GetGameData().localThreats.Where(x => x.threatType == StringDb.ThreatType.local))
         {
+
+
             threat.aiController.PointOutThreat();
         }
 

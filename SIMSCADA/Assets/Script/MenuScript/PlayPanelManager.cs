@@ -31,6 +31,8 @@ public class PlayPanelManager : MonoBehaviour
         {
             int index = playBtnList.IndexOf(playButton);
 
+            //Debug.Log("index: " + index);
+
             Image image = imageList[index];
 
             Button deleteButton = deleteBtnList[index];
@@ -51,7 +53,7 @@ public class PlayPanelManager : MonoBehaviour
     {
         string address = Application.absoluteURL == string.Empty
             ? StringDb.serverAddressEditor
-            : StringDb.serverAddress;
+            : Application.absoluteURL.TrimEnd('/');
 
         //CREATE NEW WWWFORM FOR GETTING DATA
         WWWForm form = new WWWForm();
@@ -212,7 +214,7 @@ public class PlayPanelManager : MonoBehaviour
     {
         string address = Application.absoluteURL == string.Empty
             ? StringDb.serverAddressEditor
-            : StringDb.serverAddress;
+            : Application.absoluteURL.TrimEnd('/');
 
         //CREATE NEW WWWFORM FOR DELETE SAVE FILE
         WWWForm deleteSaveForm = new WWWForm();

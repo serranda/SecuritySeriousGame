@@ -243,4 +243,8 @@ public class GameData
 
     //value for new employees hired
     public int employeesHired;
+
+    //bool to check if cursor is over an ai sprite
+    public bool cursorOverAi;
+
 }

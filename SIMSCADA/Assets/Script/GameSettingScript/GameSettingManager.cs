@@ -56,7 +56,7 @@ public class GameSettingManager : MonoBehaviour
     {
         string address = Application.absoluteURL == string.Empty
             ? StringDb.serverAddressEditor
-            : StringDb.serverAddress;
+            : Application.absoluteURL.TrimEnd('/');
 
         WWWForm form = new WWWForm();
 
@@ -211,7 +211,7 @@ public class GameSettingManager : MonoBehaviour
     {
         string address = Application.absoluteURL == string.Empty
             ? StringDb.serverAddressEditor
-            : StringDb.serverAddress;
+            : Application.absoluteURL.TrimEnd('/');
 
         string jsonData = JsonUtility.ToJson(settings, true);
 

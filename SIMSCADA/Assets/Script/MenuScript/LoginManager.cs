@@ -28,7 +28,7 @@ public class LoginManager : MonoBehaviour
     {
         string address = Application.absoluteURL == string.Empty
             ? StringDb.serverAddressEditor
-            : StringDb.serverAddress;
+            : Application.absoluteURL.TrimEnd('/');
 
         Debug.Log("Address: " + address);
 
@@ -81,7 +81,7 @@ public class LoginManager : MonoBehaviour
     {
         string address = Application.absoluteURL == string.Empty
             ? StringDb.serverAddressEditor
-            : StringDb.serverAddress;
+            : Application.absoluteURL.TrimEnd('/');
 
         //NEW WWWFORM FOR WEB REQUEST
         WWWForm form = new WWWForm();
@@ -120,7 +120,7 @@ public class LoginManager : MonoBehaviour
     {
         string address = Application.absoluteURL == string.Empty
             ? StringDb.serverAddressEditor
-            : StringDb.serverAddress;
+            : Application.absoluteURL.TrimEnd('/');
         
         //create player instance with registration credential
         Player player = new Player(playerUserNameR.text, passwordR.text, playerName.text, playerSurname.text);
@@ -194,7 +194,7 @@ public class LoginManager : MonoBehaviour
     {
         string address = Application.absoluteURL == string.Empty
             ? StringDb.serverAddressEditor
-            : StringDb.serverAddress;
+            : Application.absoluteURL.TrimEnd('/');
 
         //create player instance with credential
         Player player = new Player(playerUserNameL.text, passwordL.text);
@@ -269,7 +269,7 @@ public class LoginManager : MonoBehaviour
     {
         string address = Application.absoluteURL == string.Empty
             ? StringDb.serverAddressEditor
-            : StringDb.serverAddress;
+            : Application.absoluteURL.TrimEnd('/');
 
         //instanciate new wwwform
         WWWForm form = new WWWForm();
@@ -324,7 +324,7 @@ public class LoginManager : MonoBehaviour
     {
         string address = Application.absoluteURL == string.Empty
             ? StringDb.serverAddressEditor
-            : StringDb.serverAddress;
+            : Application.absoluteURL.TrimEnd('/');
 
         //instanciate new wwwform
         WWWForm form = new WWWForm();

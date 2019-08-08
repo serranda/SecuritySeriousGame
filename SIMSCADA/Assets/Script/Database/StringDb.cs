@@ -15,7 +15,7 @@ public class StringDb
 
     //string values for php script and server folder
     public static string serverAddressEditor = "http://192.168.1.107/SIMSCADA";
-    public static string serverAddress = Application.absoluteURL.TrimEnd('/');
+    //public static string serverAddress = Application.absoluteURL.TrimEnd('/');
     public static string phpFolder = "PHP";
     public static string mainDataFolder = "Data";
     public static string playerListName = "players";
@@ -309,7 +309,7 @@ public class StringDb
 
     //value for timeEvent standard threat
     public static Threat timeEventThreat = new Threat(-1, ThreatType.timeEvent, -1,
-        ThreatAttacker.timeEvent, ThreatDanger.timeEvent, ThreatAttack.timeEvent, null, -1);
+        ThreatAttacker.timeEvent, ThreatDanger.timeEvent, ThreatAttack.timeEvent, -1);
 
     //empty DialogBoxMessage
     public static DialogBoxMessage emptyMessage = new DialogBoxMessage

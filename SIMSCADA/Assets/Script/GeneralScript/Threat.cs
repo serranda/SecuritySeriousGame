@@ -10,6 +10,7 @@ public class Threat
     public StringDb.ThreatDanger threatDanger;
     public StringDb.ThreatAttack threatAttack;
     public AiController aiController;
+    public SerializableAiController serializableAiController;
     public float moneyLossPerMinute;
 
     public Threat(int id, StringDb.ThreatType threatType, float deployTime, StringDb.ThreatAttacker threatAttacker, StringDb.ThreatDanger threatDanger, StringDb.ThreatAttack threatAttack, AiController aiController, float moneyLossPerMinute)
@@ -37,7 +38,8 @@ public class Threat
 
     public override string ToString()
     {
-        return string.Format("Id: {0}, ThreatType: {1}, DeployTime: {2}, ThreatAttacker: {3}, ThreatDanger: {4}, ThreatAttack: {5}, AiController: {6}, MoneyLossPerHour: {7}", 
-            id, threatType, deployTime, threatAttacker, threatDanger, threatAttack, aiController, moneyLossPerMinute);
+        return
+            $"Id: {id}, ThreatType: {threatType}, DeployTime: {deployTime}, ThreatAttacker: {threatAttacker}, ThreatDanger: {threatDanger}, " +
+            $"ThreatAttack: {threatAttack}, SerializableAiController: {aiController}, MoneyLossPerHour: {moneyLossPerMinute}";
     }
 }

@@ -45,11 +45,14 @@ public class Level1Manager : MonoBehaviour, ILevelManager
 
         //DEBUG
         //---------------------------------------------------------------------------------------------------------------------
-        if (Input.GetKeyDown(KeyCode.N))
-            StartCoroutine(NewRemoteThreats());
+        if (Input.GetKeyDown(KeyCode.V))
+            StartCoroutine(NewFakeLocalThreats());
 
         if (Input.GetKeyDown(KeyCode.B))
             StartCoroutine(NewLocalThreats());
+
+        if (Input.GetKeyDown(KeyCode.N))
+            StartCoroutine(NewRemoteThreats());
 
         if (Input.GetKeyDown(KeyCode.M))
         {
@@ -57,8 +60,7 @@ public class Level1Manager : MonoBehaviour, ILevelManager
             InstantiateNewThreat(threat);
         }
 
-        if (Input.GetKeyDown(KeyCode.V))
-            StartCoroutine(NewFakeLocalThreats());
+
 
         //---------------------------------------------------------------------------------------------------------------------
 
@@ -122,6 +124,8 @@ public class Level1Manager : MonoBehaviour, ILevelManager
 
     public IEnumerator StarterCoroutine()
     {
+        gameData.indexSlot = StringDb.indexSlot;
+
         //check for data saves and eventually load it
         ClassDb.gameDataManager.StartLoadLevelGameData();
 
@@ -142,7 +146,6 @@ public class Level1Manager : MonoBehaviour, ILevelManager
             RestorePrefabs(gameData);
         }
 
-        gameData.indexSlot = StringDb.indexSlot;
 
         StartTimeRoutine();
 
@@ -1175,9 +1178,4 @@ public class Level1Manager : MonoBehaviour, ILevelManager
         //RESTORE RANDOMIZER WEIGHTS
         SetRandomizer();
     }
-
-
-
-
-
 }
