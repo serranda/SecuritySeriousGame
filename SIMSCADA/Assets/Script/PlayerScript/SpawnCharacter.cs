@@ -17,116 +17,38 @@ public class SpawnCharacter : MonoBehaviour
         player.transform.position = position;
     }
 
-    public AiController SpawnLocalAi(int id)
+    public AiController SpawnAi(int id, bool isAttacker)
     {
         SpriteRenderer ai = ClassDb.prefabManager.GetPrefab(ClassDb.prefabManager.prefabAi.gameObject, PrefabManager.aiIndex)
             .GetComponent<SpriteRenderer>();
 
         ai.name = StringDb.aiPrefabName + id;
-        ai.sprite = Resources.LoadAll<Sprite>(Path.Combine(StringDb.rscSpriteFolder, StringDb.rscAiSpritePrefix))[0];
 
         //set spawning position, first time the cell and second the z position, in order to render correctly the character
         Vector3 position = ClassDb.regularPathfinder.listTileMap[0].layoutGrid.CellToWorld(new Vector3Int(StringDb.aiSpawn.x, StringDb.aiSpawn.y, 0));
         position = new Vector3(position.x, position.y, 0f);
+
         ai.transform.position = position;
 
         AiController aiController = ai.GetComponent<AiController>();
 
-        aiController.isAttacker = true;
+        aiController.isAttacker = isAttacker;
 
         return aiController;
     }
 
-    public AiController SpawnFakeLocalAi(int id)
-    {
-        SpriteRenderer ai = ClassDb.prefabManager.GetComponent<PrefabManager>().GetPrefab(ClassDb.prefabManager.prefabAi.gameObject, PrefabManager.aiIndex)
-            .GetComponent<SpriteRenderer>();
-
-        ai.name = StringDb.aiPrefabName + id;
-        ai.sprite = Resources.LoadAll<Sprite>(Path.Combine(StringDb.rscSpriteFolder, StringDb.rscAiSpritePrefix))[0];
-
-        //set spawning position, first time the cell and second the z position, in order to render correctly the character
-        Vector3 position = ClassDb.regularPathfinder.listTileMap[0].layoutGrid.CellToWorld(new Vector3Int(StringDb.aiSpawn.x, StringDb.aiSpawn.y, 0));
-        position = new Vector3(position.x, position.y, 0f);
-        ai.transform.position = position;
-
-        AiController aiController = ai.GetComponent<AiController>();
-
-        aiController.isAttacker = false;
-
-        return aiController;
-    }
-
-    public AiController SpawnRemoteAi(int id)
-    {
-        SpriteRenderer ai = ClassDb.prefabManager.GetComponent<PrefabManager>().GetPrefab(ClassDb.prefabManager.prefabAi.gameObject, PrefabManager.aiIndex)
-            .GetComponent<SpriteRenderer>();
-
-        ai.name = StringDb.aiPrefabName + id;
-
-        ai.enabled = false;
-
-        AiController aiController = ai.GetComponent<AiController>();
-
-        aiController.isAttacker = true;
-
-        return aiController;
-    }
-
-    public AiController RespawnLocalAi(SerializableAiController controller)
+    public AiController RespawnAi(SerializableAiController controller)
     {
         SpriteRenderer ai = ClassDb.prefabManager.GetPrefab(ClassDb.prefabManager.prefabAi.gameObject, PrefabManager.aiIndex)
             .GetComponent<SpriteRenderer>();
 
         ai.name = StringDb.aiPrefabName + controller.aiId;
-        //ai.sprite = Resources.LoadAll<Sprite>(Path.Combine(StringDb.rscSpriteFolder, StringDb.rscAiSpritePrefix))[0];
-
-        ////set spawning position, first time the cell and second the z position, in order to render correctly the character
-        //Vector3 position = ClassDb.regularPathfinder.listTileMap[0].layoutGrid.CellToWorld(new Vector3Int(StringDb.aiSpawn.x, StringDb.aiSpawn.y, 0));
-        //position = new Vector3(position.x, position.y, 0f);
-        //ai.transform.position = position;
 
         ai.transform.position = ClassDb.regularPathfinder.listTileMap[0].layoutGrid.CellToWorld(controller.aiCellPos);
 
         AiController aiController = ai.GetComponent<AiController>();
 
         aiController = controller.DeserializeAiController(aiController);
-
-        return aiController;
-    }
-
-    public AiController RespawnFakeLocalAi(int id)
-    {
-        SpriteRenderer ai = ClassDb.prefabManager.GetComponent<PrefabManager>().GetPrefab(ClassDb.prefabManager.prefabAi.gameObject, PrefabManager.aiIndex)
-            .GetComponent<SpriteRenderer>();
-
-        ai.name = StringDb.aiPrefabName + id;
-        ai.sprite = Resources.LoadAll<Sprite>(Path.Combine(StringDb.rscSpriteFolder, StringDb.rscAiSpritePrefix))[0];
-
-        //set spawning position, first time the cell and second the z position, in order to render correctly the character
-        Vector3 position = ClassDb.regularPathfinder.listTileMap[0].layoutGrid.CellToWorld(new Vector3Int(StringDb.aiSpawn.x, StringDb.aiSpawn.y, 0));
-        position = new Vector3(position.x, position.y, 0f);
-        ai.transform.position = position;
-
-        AiController aiController = ai.GetComponent<AiController>();
-
-        aiController.isAttacker = false;
-
-        return aiController;
-    }
-
-    public AiController RespawnRemoteAi(int id)
-    {
-        SpriteRenderer ai = ClassDb.prefabManager.GetComponent<PrefabManager>().GetPrefab(ClassDb.prefabManager.prefabAi.gameObject, PrefabManager.aiIndex)
-            .GetComponent<SpriteRenderer>();
-
-        ai.name = StringDb.aiPrefabName + id;
-
-        ai.enabled = false;
-
-        AiController aiController = ai.GetComponent<AiController>();
-
-        aiController.isAttacker = true;
 
         return aiController;
     }

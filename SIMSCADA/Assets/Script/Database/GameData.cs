@@ -247,4 +247,7 @@ public class GameData
     //bool to check if cursor is over an ai sprite
     public bool cursorOverAi;
 
+    //camera zoom value
+    public float cameraZoom;
+
 }

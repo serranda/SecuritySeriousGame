@@ -8630,6 +8630,41 @@ MonoBehaviour:
       threatDanger: 0
       threatAttack: 0
       aiController: {fileID: 0}
+      serializableAiController:
+        offsetDraw: {x: 0, y: 0, z: 0}
+        scaleDraw: {x: 0, y: 0, z: 0}
+        isAttacker: 0
+        destroy: 0
+        idChecked: 0
+        idScanned: 0
+        isTrusted: 0
+        isWaiting: 0
+        isSuspected: 0
+        isAiPathValuesSet: 0
+        spriteToAnimate: 
+        nSpriteName: 
+        hlSpriteName: 
+        prSpriteName: 
+        spriteNumber: 
+        idSpriteName: 
+        dangerResistance: 0
+        aiId: 0
+        aiName: 
+        aiSurname: 
+        aiJob: 
+        aiGender: 
+        path: []
+        pathUpdated: 0
+        pathfinderChanged: 0
+        wrongDestinationCounter: 0
+        radiusBase: 0
+        onClickAi: 0
+        aiStartCellPos: {x: 0, y: 0, z: 0}
+        aiCellPos: {x: 0, y: 0, z: 0}
+        aiDestCellPos: {x: 0, y: 0, z: 0}
+        aiSpeed: 0
+        aiObjective: {x: 0, y: 0, z: 0}
+        timer: 0
       moneyLossPerMinute: 0
     idCardUpgraded: 0
     researchUpgrade: 0
@@ -8753,6 +8788,41 @@ MonoBehaviour:
       threatDanger: 0
       threatAttack: 0
       aiController: {fileID: 0}
+      serializableAiController:
+        offsetDraw: {x: 0, y: 0, z: 0}
+        scaleDraw: {x: 0, y: 0, z: 0}
+        isAttacker: 0
+        destroy: 0
+        idChecked: 0
+        idScanned: 0
+        isTrusted: 0
+        isWaiting: 0
+        isSuspected: 0
+        isAiPathValuesSet: 0
+        spriteToAnimate: 
+        nSpriteName: 
+        hlSpriteName: 
+        prSpriteName: 
+        spriteNumber: 
+        idSpriteName: 
+        dangerResistance: 0
+        aiId: 0
+        aiName: 
+        aiSurname: 
+        aiJob: 
+        aiGender: 
+        path: []
+        pathUpdated: 0
+        pathfinderChanged: 0
+        wrongDestinationCounter: 0
+        radiusBase: 0
+        onClickAi: 0
+        aiStartCellPos: {x: 0, y: 0, z: 0}
+        aiCellPos: {x: 0, y: 0, z: 0}
+        aiDestCellPos: {x: 0, y: 0, z: 0}
+        aiSpeed: 0
+        aiObjective: {x: 0, y: 0, z: 0}
+        timer: 0
       moneyLossPerMinute: 0
     lastThreatStopped:
       id: 0
@@ -8762,11 +8832,48 @@ MonoBehaviour:
       threatDanger: 0
       threatAttack: 0
       aiController: {fileID: 0}
+      serializableAiController:
+        offsetDraw: {x: 0, y: 0, z: 0}
+        scaleDraw: {x: 0, y: 0, z: 0}
+        isAttacker: 0
+        destroy: 0
+        idChecked: 0
+        idScanned: 0
+        isTrusted: 0
+        isWaiting: 0
+        isSuspected: 0
+        isAiPathValuesSet: 0
+        spriteToAnimate: 
+        nSpriteName: 
+        hlSpriteName: 
+        prSpriteName: 
+        spriteNumber: 
+        idSpriteName: 
+        dangerResistance: 0
+        aiId: 0
+        aiName: 
+        aiSurname: 
+        aiJob: 
+        aiGender: 
+        path: []
+        pathUpdated: 0
+        pathfinderChanged: 0
+        wrongDestinationCounter: 0
+        radiusBase: 0
+        onClickAi: 0
+        aiStartCellPos: {x: 0, y: 0, z: 0}
+        aiCellPos: {x: 0, y: 0, z: 0}
+        aiDestCellPos: {x: 0, y: 0, z: 0}
+        aiSpeed: 0
+        aiObjective: {x: 0, y: 0, z: 0}
+        timer: 0
       moneyLossPerMinute: 0
     lastAmountLoss: 0
     lastTypeLoss: 0
     lastAmountEarn: 0
     employeesHired: 0
+    cursorOverAi: 0
+    cameraPosition: {x: 0, y: 0, z: 0}
 --- !u!4 &921579331
 Transform:
   m_ObjectHideFlags: 0
@@ -14693,7 +14800,34 @@ Tilemap:
   m_GameObject: {fileID: 1971081832}
   m_Enabled: 1
   m_Tiles:
-  - first: {x: -5, y: -14, z: 0}
+  - first: {x: -2, y: -17, z: 0}
+    second:
+      m_TileIndex: 51
+      m_TileSpriteIndex: 72
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 39
+      m_ObjectToInstantiate: {fileID: 0}
+      m_TileFlags: 1
+      m_ColliderType: 1
+  - first: {x: -2, y: -15, z: 0}
+    second:
+      m_TileIndex: 51
+      m_TileSpriteIndex: 72
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 39
+      m_ObjectToInstantiate: {fileID: 0}
+      m_TileFlags: 1
+      m_ColliderType: 1
+  - first: {x: -6, y: -9, z: 0}
+    second:
+      m_TileIndex: 51
+      m_TileSpriteIndex: 72
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 39
+      m_ObjectToInstantiate: {fileID: 0}
+      m_TileFlags: 1
+      m_ColliderType: 1
+  - first: {x: 3, y: -8, z: 0}
     second:
       m_TileIndex: 51
       m_TileSpriteIndex: 72
@@ -14711,7 +14845,25 @@ Tilemap:
       m_ObjectToInstantiate: {fileID: 0}
       m_TileFlags: 1
       m_ColliderType: 1
+  - first: {x: -12, y: -2, z: 0}
+    second:
+      m_TileIndex: 51
+      m_TileSpriteIndex: 72
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 39
+      m_ObjectToInstantiate: {fileID: 0}
+      m_TileFlags: 1
+      m_ColliderType: 1
   - first: {x: -6, y: 2, z: 0}
+    second:
+      m_TileIndex: 51
+      m_TileSpriteIndex: 72
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 39
+      m_ObjectToInstantiate: {fileID: 0}
+      m_TileFlags: 1
+      m_ColliderType: 1
+  - first: {x: 3, y: 2, z: 0}
     second:
       m_TileIndex: 51
       m_TileSpriteIndex: 72
@@ -14824,7 +14976,7 @@ Tilemap:
     m_Data: {fileID: 0}
   - m_RefCount: 0
     m_Data: {fileID: 0}
-  - m_RefCount: 3
+  - m_RefCount: 8
     m_Data: {fileID: 11400000, guid: 24fbd9604795fa643b44a3fe38538375, type: 2}
   m_TileSpriteArray:
   - m_RefCount: 0
@@ -14971,10 +15123,10 @@ Tilemap:
     m_Data: {fileID: 0}
   - m_RefCount: 0
     m_Data: {fileID: 0}
-  - m_RefCount: 3
+  - m_RefCount: 8
     m_Data: {fileID: 21300000, guid: e6fd4847e2d5fb94abb8a71c1d4f431c, type: 3}
   m_TileMatrixArray:
-  - m_RefCount: 3
+  - m_RefCount: 8
     m_Data:
       e00: 1
       e01: 0
@@ -15071,7 +15223,7 @@ Tilemap:
     m_Data: {r: NaN, g: NaN, b: NaN, a: NaN}
   - m_RefCount: 0
     m_Data: {r: NaN, g: NaN, b: NaN, a: NaN}
-  - m_RefCount: 3
+  - m_RefCount: 8
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}

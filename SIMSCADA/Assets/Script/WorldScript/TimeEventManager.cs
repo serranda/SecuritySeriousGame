@@ -165,7 +165,7 @@ public class TimeEventManager : MonoBehaviour
         //set threat reference
         timeEvent.threat = StringDb.timeEventThreat;
 
-        //check which routine need to be started after time event complete
+            //check which routine need to be started after time event complete
         switch (timeEvent.routine)
         {
             case StringDb.showAiIdRoutine:
@@ -209,6 +209,9 @@ public class TimeEventManager : MonoBehaviour
             case StringDb.coolDownRoutine:
                 parent.GetComponent<TelephoneListener>().RestartCoolDown(timeEvent);
                 break;
+            case "":
+                Debug.Log("EMPTY");
+                break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
@@ -217,6 +220,12 @@ public class TimeEventManager : MonoBehaviour
 
     public void RestoreThreatTimeEvent(TimeEvent timeEvent)
     {
+        //deserialize serializableAiController and create aiController instance
+        timeEvent.threat.aiController = ClassDb.spawnCharacter.RespawnAi(timeEvent.threat.serializableAiController);
+
+        //set time event to aicontroller
+        timeEvent.threat.aiController.timeEvent = timeEvent;
+
         //spawn a progressbar prefab
         Canvas progressBar = ClassDb.prefabManager.GetPrefab(ClassDb.prefabManager.prefabProgressBar.gameObject, PrefabManager.pbIndex).GetComponent<Canvas>();
 
@@ -243,29 +252,7 @@ public class TimeEventManager : MonoBehaviour
         //set the progressbar reference to the time event
         timeEvent.progressBar = progressBar;
 
-        switch (timeEvent.threat.threatType)
-        {
-            case StringDb.ThreatType.local:
-                Debug.Log("LOCAL");
-                break;
-            case StringDb.ThreatType.remote:
-                Debug.Log("REMOTE");
-                break;
-            case StringDb.ThreatType.fakeLocal:
-                Debug.Log("FAKE LOCAL");
-                break;
-            default:
-                throw new ArgumentOutOfRangeException();
-        }
-
-        //deserialize serializableAiController and create aiController instance
-        timeEvent.threat.aiController = ClassDb.spawnCharacter.RespawnLocalAi(timeEvent.threat.serializableAiController);
-
-        //set time event to aicontroller
-        timeEvent.threat.aiController.timeEvent = timeEvent;
-
-
-        Debug.Log(timeEvent.threat.aiController);
+        Debug.Log(timeEvent.threat.aiController.spriteToAnimate);
 
     }
 

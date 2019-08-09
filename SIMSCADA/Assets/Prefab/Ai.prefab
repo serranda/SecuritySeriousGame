@@ -170,29 +170,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71f726a286559ed43861bd139426d60b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  offsetDraw: {x: 0, y: 0, z: 0}
+  scaleDraw: {x: 0, y: 0, z: 0}
   isAttacker: 0
-  toDestroy: 0
+  destroy: 0
   idChecked: 0
   idScanned: 0
   isTrusted: 0
   isWaiting: 0
   isSuspected: 0
+  isAiPathValuesSet: 0
   animator: {fileID: 0}
   spriteToAnimate: 
   nSpriteName: 
+  hlSpriteName: 
+  prSpriteName: 
+  spriteNumber: 
+  idSpriteName: 
   dangerResistance: 0
   aiId: 0
   aiName: 
   aiSurname: 
   aiJob: 
   aiGender: 
+  path: []
   pathUpdated: 0
   pathfinder: {fileID: 0}
   pathfinderChanged: 0
   wrongDestinationCounter: 0
+  radiusBase: 0
   radius: 0
   onClickAi: 0
   aiStartCellPos: {x: 0, y: 0, z: 0}
+  aiCellPos: {x: 0, y: 0, z: 0}
   aiDestCellPos: {x: 0, y: 0, z: 0}
   aiSpeed: 0
   aiObjective: {x: 0, y: 0, z: 0}
@@ -212,8 +222,45 @@ MonoBehaviour:
       threatDanger: 0
       threatAttack: 0
       aiController: {fileID: 0}
+      serializableAiController:
+        offsetDraw: {x: 0, y: 0, z: 0}
+        scaleDraw: {x: 0, y: 0, z: 0}
+        isAttacker: 0
+        destroy: 0
+        idChecked: 0
+        idScanned: 0
+        isTrusted: 0
+        isWaiting: 0
+        isSuspected: 0
+        isAiPathValuesSet: 0
+        spriteToAnimate: 
+        nSpriteName: 
+        hlSpriteName: 
+        prSpriteName: 
+        spriteNumber: 
+        idSpriteName: 
+        dangerResistance: 0
+        aiId: 0
+        aiName: 
+        aiSurname: 
+        aiJob: 
+        aiGender: 
+        path: []
+        pathUpdated: 0
+        pathfinderChanged: 0
+        wrongDestinationCounter: 0
+        radiusBase: 0
+        onClickAi: 0
+        aiStartCellPos: {x: 0, y: 0, z: 0}
+        aiCellPos: {x: 0, y: 0, z: 0}
+        aiDestCellPos: {x: 0, y: 0, z: 0}
+        aiSpeed: 0
+        aiObjective: {x: 0, y: 0, z: 0}
+        timer: 0
       moneyLossPerMinute: 0
     stoppable: 0
+    progressBarParentName: 
+    routine: 
 --- !u!114 &1659188424561117339
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -238,6 +285,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a8a25eb2ece8d34d91e65af848a9138, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 8740880053666009925}
 --- !u!222 &8740880053666009921
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -2,9 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Cinemachine;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 // ReSharper disable IteratorNeverReturns
 
@@ -19,7 +20,7 @@ public class Level2Manager : MonoBehaviour, ILevelManager
     private IEnumerator localIdsRoutine;
     private IEnumerator threatManagementRoutine;
 
-    [SerializeField] GameData gameData = new GameData();
+    public GameData gameData = new GameData();
 
     private void Start()
     {
@@ -29,21 +30,30 @@ public class Level2Manager : MonoBehaviour, ILevelManager
 
     private void Update()
     {
-        if (!GameDataManager.gameDataLoaded) return;
+        if (!GameDataManager.gameDataLoaded || hudManager == null) return;
         //gameData.simulationSpeedMultiplier = StringDb.speedMultiplier;
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            if (gameData.dialogEnabled)
+            {
+                //TODO SHOW MESSAGE TO CLOSE ALL THE DIALOG BOX BEFORE GO TO PAUSE
+                ClassDb.levelMessageManager.StartCloseDialog();
+                return;
+            }
             ClassDb.pauseManager.TogglePauseMenu();
         }
 
         //DEBUG
         //---------------------------------------------------------------------------------------------------------------------
-        if (Input.GetKeyDown(KeyCode.N))
-            StartCoroutine(NewRemoteThreats());
+        if (Input.GetKeyDown(KeyCode.V))
+            StartCoroutine(NewFakeLocalThreats());
 
         if (Input.GetKeyDown(KeyCode.B))
             StartCoroutine(NewLocalThreats());
+
+        if (Input.GetKeyDown(KeyCode.N))
+            StartCoroutine(NewRemoteThreats());
 
         if (Input.GetKeyDown(KeyCode.M))
         {
@@ -51,8 +61,8 @@ public class Level2Manager : MonoBehaviour, ILevelManager
             InstantiateNewThreat(threat);
         }
 
-        if (Input.GetKeyDown(KeyCode.V))
-            StartCoroutine(NewFakeLocalThreats());
+
+
         //---------------------------------------------------------------------------------------------------------------------
 
         if (Input.GetMouseButtonDown(1) && gameData.buttonEnabled)
@@ -72,6 +82,7 @@ public class Level2Manager : MonoBehaviour, ILevelManager
             gameData.threatSpawnRate = 10;
         }
 
+        gameData.longDate = gameData.date.ToFileTimeUtc();
     }
 
     //DEBUG
@@ -109,18 +120,17 @@ public class Level2Manager : MonoBehaviour, ILevelManager
             yield return new WaitForSeconds(1);
         }
     }
+
     //---------------------------------------------------------------------------------------------------------------------
 
     public IEnumerator StarterCoroutine()
     {
-        Debug.Log(gameData.firstLaunch);
+        gameData.indexSlot = StringDb.indexSlot;
 
         //check for data saves and eventually load it
         ClassDb.gameDataManager.StartLoadLevelGameData();
 
         yield return new WaitUntil(() => GameDataManager.gameDataLoaded);
-
-        Debug.Log(gameData.firstLaunch);
 
         SpawnHud();
 
@@ -136,6 +146,7 @@ public class Level2Manager : MonoBehaviour, ILevelManager
         {
             RestorePrefabs(gameData);
         }
+
 
         StartTimeRoutine();
 
@@ -286,7 +297,7 @@ public class Level2Manager : MonoBehaviour, ILevelManager
         if (Random.Range(0, 100) < gameData.reputation)
         {
             //Message to inform boss has given more money
-            ClassDb.levelMessageManager.StartMoneyEarn(UpdateMoney());
+            ClassDb.levelMessageManager.StartMoneyEarnTrue(UpdateMoney());
         }
 
 
@@ -366,7 +377,7 @@ public class Level2Manager : MonoBehaviour, ILevelManager
 
     public void NewThreat()
     {
-        Threat threat = ClassDb.threatManager.NewRandomLevel1Threat();
+        Threat threat = ClassDb.threatManager.NewRandomLevel2Threat();
         InstantiateNewThreat(threat);
     }
 
@@ -400,7 +411,7 @@ public class Level2Manager : MonoBehaviour, ILevelManager
     public void StartLocalThreat(Threat threat)
     {
         //create aiPrefab and attaching to threat
-        //threat.aiController = ClassDb.spawnCharacter.SpawnLocalAi(gameData.lastAiId++);
+        threat.aiController = ClassDb.spawnCharacter.SpawnAi(++gameData.lastAiId, true);
 
         TimeEvent timeEvent = ClassDb.timeEventManager.NewTimeEventFromThreat(threat, threat.aiController.gameObject, true, false);
 
@@ -417,7 +428,8 @@ public class Level2Manager : MonoBehaviour, ILevelManager
 
     public void StartRemoteThreat(Threat threat)
     {
-        //threat.aiController = ClassDb.spawnCharacter.SpawnRemoteAi(gameData.lastAiId++);
+        //create aiPrefab and attaching to threat
+        threat.aiController = ClassDb.spawnCharacter.SpawnAi(++gameData.lastAiId, true);
 
         TimeEvent timeEvent = ClassDb.timeEventManager.NewTimeEventFromThreat(threat, threat.aiController.gameObject, false, false);
 
@@ -435,7 +447,7 @@ public class Level2Manager : MonoBehaviour, ILevelManager
     public void StartFakeLocalThreat(Threat threat)
     {
         //create aiPrefab and attaching to threat
-        //threat.aiController = ClassDb.spawnCharacter.SpawnFakeLocalAi(gameData.lastAiId++);
+        threat.aiController = ClassDb.spawnCharacter.SpawnAi(++gameData.lastAiId, false);
 
         TimeEvent timeEvent = ClassDb.timeEventManager.NewTimeEventFromThreat(threat, threat.aiController.gameObject, true, false);
 
@@ -462,36 +474,38 @@ public class Level2Manager : MonoBehaviour, ILevelManager
             //DEBUG
             //---------------------------------------------------------------------------------------------------------------------
             //THREAT WITH INTERN ATTACKER; CHECK IF CORRUPTION ATTEMPT IS SUCCESSFUL
-            if (threat.threatAttacker == StringDb.ThreatAttacker.intern &&
-                (threat.aiController.isTrusted || (int)threat.threatDanger < (int)threat.aiController.dangerResistance))
+            if (threat.threatType != StringDb.ThreatType.fakeLocal)
             {
-                if (threat.threatType == StringDb.ThreatType.remote)
+                if (threat.threatAttacker == StringDb.ThreatAttacker.intern &&
+                    (threat.aiController.isTrusted || (int)threat.threatDanger < (int)threat.aiController.dangerResistance))
+                {
+                    if (threat.threatType == StringDb.ThreatType.remote)
+                        gameData.remoteThreats.Remove(threat);
+                    else
+                        gameData.localThreats.Remove(threat);
+
+                    gameData.totalThreat += 1;
+                    UpdateReputation(threat, StringDb.ThreatStatus.unarmed);
+
+                    ClassDb.spawnCharacter.RemoveAi(threat.aiController.gameObject);
+                    ClassDb.levelMessageManager.StartFailedCorruption();
+                    yield break;
+                }
+
+                //REMOTE THREAT; CHECK IF FIREWALL INTERCEPT BEFORE DEPLOY
+                if (threat.threatType == StringDb.ThreatType.remote &&
+                    Random.Range(0, 100) < gameData.firewallSuccessRate && gameData.isFirewallActive)
+                {
                     gameData.remoteThreats.Remove(threat);
-                else
-                    gameData.localThreats.Remove(threat);
 
-                gameData.totalThreat += 1;
-                UpdateReputation(threat, StringDb.ThreatStatus.unarmed);
+                    gameData.totalThreat += 1;
+                    UpdateReputation(threat, StringDb.ThreatStatus.unarmed);
 
-                ClassDb.spawnCharacter.RemoveAi(threat.aiController.gameObject);
-                ClassDb.levelMessageManager.StartFailedCorruption();
-                yield break;
+                    ClassDb.spawnCharacter.RemoveAi(threat.aiController.gameObject);
+                    ClassDb.levelMessageManager.StartThreatStopped(threat);
+                    yield break;
+                }
             }
-
-            //REMOTE THREAT; CHECK IF FIREWALL INTERCEPT BEFORE DEPLOY
-            if (threat.threatType == StringDb.ThreatType.remote &&
-                Random.Range(0, 100) < gameData.firewallSuccessRate && gameData.isFirewallActive)
-            {
-                gameData.remoteThreats.Remove(threat);
-
-                gameData.totalThreat += 1;
-                UpdateReputation(threat, StringDb.ThreatStatus.unarmed);
-
-                ClassDb.spawnCharacter.RemoveAi(threat.aiController.gameObject);
-                ClassDb.levelMessageManager.StartThreatStopped(threat);
-                yield break;
-            }
-
             //---------------------------------------------------------------------------------------------------------------------
 
             bool deployed = BeforeDeployThreat(threat);
@@ -1112,7 +1126,39 @@ public class Level2Manager : MonoBehaviour, ILevelManager
             FindObjectOfType<RoomPcListener>().ToggleScadaScreen();
         }
 
-        //AI BASED ON BOTH LOCAL AND REMOTE THREAT
+        //TIMEVENTS, INCLUDED RESTORE THE PROGRESSBAR, REMOTE AI AND LOCAL AI
+        if (data.timeEventList.Count > 0)
+        {
+            Debug.Log("RESTORING TIME EVENTS");
+
+            List<TimeEvent> threatEvents = new List<TimeEvent>();
+            List<TimeEvent> events = new List<TimeEvent>();
+
+            foreach (TimeEvent timeEvent in data.timeEventList)
+            {
+                if (timeEvent.threat.threatType != StringDb.ThreatType.timeEvent)
+                {
+                    threatEvents.Add(timeEvent);
+                }
+                else
+                {
+                    events.Add(timeEvent);
+                }
+            }
+
+            foreach (TimeEvent threatEvent in threatEvents)
+            {
+                ClassDb.timeEventManager.RestoreThreatTimeEvent(threatEvent);
+
+            }
+
+            foreach (TimeEvent te in events)
+            {
+                ClassDb.timeEventManager.RestoreTimeEvent(te);
+
+            }
+
+        }
 
         //SECURITYSCREEN
         if (data.securityScreenEnabled)
@@ -1141,7 +1187,14 @@ public class Level2Manager : MonoBehaviour, ILevelManager
             data.noteBookEnabled = false;
             FindObjectOfType<NotebookManager>().ToggleNoteBook();
         }
+
+        //RESTORE RANDOMIZER WEIGHTS
+        SetRandomizer();
+
+        //RESTORE CAMERA ZOOM VALUE
+        CinemachineVirtualCamera virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
+        Debug.Log(data.cameraZoom);
+        virtualCamera.m_Lens.OrthographicSize = data.cameraZoom;
+
     }
-
-
 }

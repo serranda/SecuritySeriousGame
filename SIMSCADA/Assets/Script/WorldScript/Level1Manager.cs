@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -296,7 +297,7 @@ public class Level1Manager : MonoBehaviour, ILevelManager
         if (Random.Range(0, 100) < gameData.reputation)
         {
             //Message to inform boss has given more money
-            ClassDb.levelMessageManager.StartMoneyEarn(UpdateMoney());
+            ClassDb.levelMessageManager.StartMoneyEarnTrue(UpdateMoney());
         }
 
 
@@ -414,7 +415,7 @@ public class Level1Manager : MonoBehaviour, ILevelManager
     public void StartLocalThreat(Threat threat)
     {
         //create aiPrefab and attaching to threat
-        threat.aiController = ClassDb.spawnCharacter.SpawnLocalAi(gameData.lastAiId++);
+        threat.aiController = ClassDb.spawnCharacter.SpawnAi(++gameData.lastAiId, true);
 
         TimeEvent timeEvent = ClassDb.timeEventManager.NewTimeEventFromThreat(threat, threat.aiController.gameObject, true, false);
 
@@ -431,7 +432,8 @@ public class Level1Manager : MonoBehaviour, ILevelManager
 
     public void StartRemoteThreat(Threat threat)
     {
-        threat.aiController = ClassDb.spawnCharacter.SpawnRemoteAi(gameData.lastAiId++);
+        //create aiPrefab and attaching to threat
+        threat.aiController = ClassDb.spawnCharacter.SpawnAi(++gameData.lastAiId, true);
 
         TimeEvent timeEvent = ClassDb.timeEventManager.NewTimeEventFromThreat(threat, threat.aiController.gameObject, false, false);
 
@@ -449,7 +451,7 @@ public class Level1Manager : MonoBehaviour, ILevelManager
     public void StartFakeLocalThreat(Threat threat)
     {
         //create aiPrefab and attaching to threat
-        threat.aiController = ClassDb.spawnCharacter.SpawnFakeLocalAi(gameData.lastAiId++);
+        threat.aiController = ClassDb.spawnCharacter.SpawnAi(++gameData.lastAiId, false);
 
         TimeEvent timeEvent = ClassDb.timeEventManager.NewTimeEventFromThreat(threat, threat.aiController.gameObject, true, false);
 
@@ -1132,17 +1134,32 @@ public class Level1Manager : MonoBehaviour, ILevelManager
         if (data.timeEventList.Count > 0)
         {
             Debug.Log("RESTORING TIME EVENTS");
+            
+            List<TimeEvent> threatEvents = new List<TimeEvent>();
+            List<TimeEvent> events = new List<TimeEvent>();
+
             foreach (TimeEvent timeEvent in data.timeEventList)
             {
-                //RESTORE NOTHREATS PROGRESS BAR, CHECKING THE PARENT NAME AND INSTANCING A NEW PROGRESSBAR
-                if (timeEvent.threat.threatType == StringDb.ThreatType.timeEvent)
+                if (timeEvent.threat.threatType != StringDb.ThreatType.timeEvent)
                 {
-                    ClassDb.timeEventManager.RestoreTimeEvent(timeEvent);
+                    threatEvents.Add(timeEvent);
                 }
                 else
                 {
-                    ClassDb.timeEventManager.RestoreThreatTimeEvent(timeEvent);
+                    events.Add(timeEvent);
                 }
+            }
+
+            foreach (TimeEvent threatEvent in threatEvents)
+            {
+                ClassDb.timeEventManager.RestoreThreatTimeEvent(threatEvent);
+
+            }
+
+            foreach (TimeEvent te in events)
+            {
+                ClassDb.timeEventManager.RestoreTimeEvent(te);
+
             }
 
         }
@@ -1177,5 +1194,11 @@ public class Level1Manager : MonoBehaviour, ILevelManager
 
         //RESTORE RANDOMIZER WEIGHTS
         SetRandomizer();
+
+        //RESTORE CAMERA ZOOM VALUE
+        CinemachineVirtualCamera virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
+        Debug.Log(data.cameraZoom);
+        virtualCamera.m_Lens.OrthographicSize = data.cameraZoom;
+
     }
 }

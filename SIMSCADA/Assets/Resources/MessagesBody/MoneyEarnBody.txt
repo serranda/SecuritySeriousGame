@@ -1,2 +1,0 @@
-Dato il lavoro ben svolto, il tuo capo ha deciso di premiarti ed aumentare i fondi di {0} €.
-Perché non provi ad utilizzarli per migliorare i tuoi sistemi di difesa?

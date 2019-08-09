@@ -134,17 +134,19 @@ public class TelephoneListener : MonoBehaviour
     {
         yield return new WaitWhile(() => manager.GetGameData().timeEventList.Contains(progressEvent));
 
-        int successRate = Random.Range(0, 100);
+        int successRate = Random.Range(0, 1);
 
         if (!(successRate >= manager.GetGameData().reputation))
         {
             float deltaMoney = Random.Range(0f, 5f) * manager.GetGameData().money / 100;
             manager.GetGameData().money += deltaMoney;
-            ClassDb.levelMessageManager.StartMoneyEarn(deltaMoney);
+            ClassDb.levelMessageManager.StartMoneyEarnTrue(deltaMoney);
         }
         else
         {
-            Debug.Log("NO MONEY");
+            //Debug.Log("NO MONEY");
+            ClassDb.levelMessageManager.StartMoneyEarnFalse();
+
         }
 
         StartCoolDown();

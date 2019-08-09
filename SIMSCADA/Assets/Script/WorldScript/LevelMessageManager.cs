@@ -3,7 +3,6 @@ using System.Collections;
 using System.Globalization;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class LevelMessageManager : MonoBehaviour
 {
@@ -17,7 +16,8 @@ public class LevelMessageManager : MonoBehaviour
     private IEnumerator localRecapRoutine;
     private IEnumerator failedCorruptionRoutine;
     private IEnumerator idsCleanRoutine;
-    private IEnumerator moneyEarnRoutine;
+    private IEnumerator moneyEarnTrueRoutine;
+    private IEnumerator moneyEarnFalseRoutine;
     private IEnumerator remoteRecapRoutine;
     private IEnumerator suspiciousAiRoutine;
     private IEnumerator plantCheckRoutine;
@@ -92,7 +92,7 @@ public class LevelMessageManager : MonoBehaviour
             manager.StopAllCoroutines();
             ClassDb.sceneLoader.StartLoadByIndex(StringDb.tutorialSceneIndex);
 
-        }); ;
+        });
 
         dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.onClick.RemoveAllListeners();
         dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.gameObject.SetActive(true);
@@ -474,13 +474,13 @@ public class LevelMessageManager : MonoBehaviour
 
     }
 
-    public void StartMoneyEarn(float moneyEarn)
+    public void StartMoneyEarnTrue(float moneyEarn)
     {
-        moneyEarnRoutine = MoneyEarn(moneyEarn);
-        StartCoroutine(moneyEarnRoutine);
+        moneyEarnTrueRoutine = MoneyEarnTrue(moneyEarn);
+        StartCoroutine(moneyEarnTrueRoutine);
     }
 
-    private IEnumerator MoneyEarn(float moneyEarn)
+    private IEnumerator MoneyEarnTrue(float moneyEarn)
     {
         yield return new WaitForSeconds(messageDelay);
 
@@ -488,11 +488,49 @@ public class LevelMessageManager : MonoBehaviour
 
         Canvas dialog = ClassDb.dialogBoxManager.OpenDialog();
 
-        DialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.moneyEarn));
+        DialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.moneyEarnTrue));
 
         dialog.GetComponent<DialogBoxManager>().SetDialog(
             message.head,
             string.Format(message.body, Math.Round(moneyEarn, 0).ToString(CultureInfo.CurrentCulture)),
+            message.backBtn,
+            message.nextBtn,
+            dialog
+        );
+
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.RemoveAllListeners();
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.gameObject.SetActive(true);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.AddListener(delegate
+        {
+            ClassDb.dialogBoxManager.CloseDialog(dialog);
+            FindObjectOfType<RoomPcListener>().ToggleStoreScreen();
+        });
+
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.onClick.RemoveAllListeners();
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.gameObject.SetActive(true);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.onClick.AddListener(delegate
+        {
+            ClassDb.dialogBoxManager.CloseDialog(dialog);
+        }); 
+    }
+
+    public void StartMoneyEarnFalse()
+    {
+        moneyEarnFalseRoutine = MoneyEarnFalse();
+        StartCoroutine(moneyEarnFalseRoutine);
+    }
+
+    private IEnumerator MoneyEarnFalse()
+    {
+        yield return new WaitForSeconds(messageDelay);
+
+        Canvas dialog = ClassDb.dialogBoxManager.OpenDialog();
+
+        DialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.moneyEarnFalse));
+
+        dialog.GetComponent<DialogBoxManager>().SetDialog(
+            message.head,
+            message.body,
             message.backBtn,
             message.nextBtn,
             dialog
@@ -800,22 +838,9 @@ public class LevelMessageManager : MonoBehaviour
 
         Canvas dialog = ClassDb.dialogBoxManager.OpenDialog();
 
-        DialogBoxMessage message;
-
-        string dialogString;
-
-
-        if (manager.GetGameData().isGameWon)
-        {
-            message = MessageFromJson(Resources.Load<TextAsset>(StringDb.endGameWin));
-            dialogString = StringDb.endGameWin;
-        }
-        else
-        {
-            message = MessageFromJson(Resources.Load<TextAsset>(StringDb.endGameLoss));
-            dialogString = StringDb.endGameLoss;
-
-        }
+        DialogBoxMessage message = MessageFromJson(manager.GetGameData().isGameWon 
+            ? Resources.Load<TextAsset>(StringDb.endGameWin) 
+            : Resources.Load<TextAsset>(StringDb.endGameLoss));
 
         dialog.GetComponent<DialogBoxManager>().SetDialog(
             message.head,

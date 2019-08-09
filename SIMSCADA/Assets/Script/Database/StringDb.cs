@@ -78,7 +78,8 @@ public class StringDb
     public const string idsCleaned = "Messages/IdsCleaned";
     public const string idsInterception = "Messages/IdsInterception";
     public const string internalMessage = "Messages/InternalEmployee";
-    public const string moneyEarn = "Messages/MoneyEarn";
+    public const string moneyEarnTrue = "Messages/MoneyEarnTrue";
+    public const string moneyEarnFalse = "Messages/MoneyEarnFalse";
     public const string fakeLocalMoneyLoss = "Messages/MoneyLossFakeLocal";
     public const string localMoneyLoss = "Messages/MoneyLossLocal";
     public const string remoteMoneyLoss = "Messages/MoneyLossRemote";

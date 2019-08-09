@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using BayatGames.SaveGameFree;
 using BayatGames.SaveGameFree.Serializers;
+using Cinemachine;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
@@ -45,6 +46,12 @@ public class GameDataManager : MonoBehaviour
 
         //SET LONG DATE VALUE
         gameData.longDate = gameData.date.ToFileTimeUtc();
+
+        //SET CAMERA ZOOM VALUE
+        CinemachineVirtualCamera virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
+        gameData.cameraZoom  = virtualCamera.m_Lens.OrthographicSize;
+        Debug.Log(gameData.cameraZoom);
+
 
         //SET ALL THE serializableAiController
         foreach (TimeEvent timeEvent in gameData.timeEventList)

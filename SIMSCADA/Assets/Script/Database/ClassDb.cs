@@ -17,7 +17,7 @@ public class ClassDb : MonoBehaviour
     public static ThreatManager threatManager;
     public static TimeEventManager timeEventManager;
     public static TimeManager timeManager;
-    public static FollowCursor followCursor;
+    public static CameraManager cameraManager;
     public static NotebookManager notebookManager;
     public static DialogBoxManager dialogBoxManager;
     public static TutorialDialogBoxManager tutorialDialogBoxManager;
@@ -45,7 +45,7 @@ public class ClassDb : MonoBehaviour
         threatManager = GetComponent<ThreatManager>();
         timeEventManager = GetComponent<TimeEventManager>();
         timeManager = GetComponent<TimeManager>();
-        followCursor = GetComponent<FollowCursor>();
+        cameraManager = GetComponent<CameraManager>();
         notebookManager = GetComponent<NotebookManager>();
         dialogBoxManager = GetComponent<DialogBoxManager>();
         tutorialDialogBoxManager = GetComponent<TutorialDialogBoxManager>();

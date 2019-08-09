@@ -55,6 +55,7 @@ public class AiController : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
     public bool pathfinderChanged;
 
     public int wrongDestinationCounter;
+    [SerializeField] private int moveExceptionCounter;
 
     public int radiusBase;
     [SerializeField] private float radius;
@@ -112,6 +113,7 @@ public class AiController : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
         wrongDestinationCounter = 0;
 
         aiId = manager.GetGameData().lastAiId;
+
         radiusBase = 15;
         aiSpeed = 1.5f * manager.GetGameData().simulationSpeedMultiplier;
         onClickAi = false;
@@ -379,7 +381,6 @@ public class AiController : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
         Vector2 position = rb2D.position;
         aiStartCellPos = pathfinder.listTileMap[0].layoutGrid.WorldToCell(new Vector3(position.x, position.y, 0));
 
-
         if (destroy)
         {
             //set destination for destroying ai
@@ -400,7 +401,18 @@ public class AiController : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
         if (!pathfinder.EligibleClick(aiDestCellPos))
         {
             wrongDestinationCounter++;
-            return;
+            if (moveExceptionCounter > 3)
+            {
+                moveExceptionCounter = 0;
+                aiDestCellPos = new Vector3Int(
+                    Random.Range(aiStartCellPos.x - 1, aiStartCellPos.x + 1),
+                    Random.Range(aiStartCellPos.y - 1, aiStartCellPos.y + 1),
+                    0);
+            }
+            else
+            {
+                return;
+            }
         }
         path = new List<Node>();
         try
@@ -414,6 +426,7 @@ public class AiController : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
             Debug.Log(e);
             ClassDb.charactersCommon.StopWalking(animator, out pathUpdated);
             StopCoroutine(moveRoutine);
+            moveExceptionCounter++;
         }
     }
 
