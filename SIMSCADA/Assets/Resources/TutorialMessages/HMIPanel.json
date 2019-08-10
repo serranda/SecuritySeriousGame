@@ -1,5 +1,5 @@
 {
 	"head": "",
-	"bodyPath": "HMIPanelBody",
+	"bodyPath": "TutorialMessagesBody/HMIPanelBody",
 	"nextBtn": "Ok"
 }

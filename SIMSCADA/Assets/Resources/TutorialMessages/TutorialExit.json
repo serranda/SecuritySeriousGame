@@ -1,6 +1,6 @@
 {
 	"head": "ESCI",
-	"bodyPath": "TutorialExitBody",
+	"bodyPath": "TutorialMessagesBody/TutorialExitBody",
 	"backBtn": "Cancella",
 	"nextBtn": "Esci"
 }

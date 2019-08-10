@@ -1,6 +1,6 @@
 {
 	"head": "ATTACCO INTERCETTATO",
-	"bodyPath": "ThreatStoppedRemoteBody",
+	"bodyPath": "MessagesBody/ThreatStoppedRemoteBody",
 	"backBtn": "No",
 	"nextBtn": "Ok"
 }

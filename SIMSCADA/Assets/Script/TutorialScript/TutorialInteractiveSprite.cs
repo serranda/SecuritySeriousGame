@@ -27,13 +27,11 @@ public class TutorialInteractiveSprite : MonoBehaviour, IPointerUpHandler, IPoin
 
     public bool hasMenu;
 
-    private ILevelManager manager;
+    [SerializeField] private TutorialManager tutorialManager;
 
     // Start is called before the first frame update
     private void Start()
     {
-        manager = SetLevelManager();
-
         interactiveSprite = GetComponent<SpriteRenderer>();
         boxCollider2D = GetComponent<BoxCollider2D>();
 
@@ -87,18 +85,7 @@ public class TutorialInteractiveSprite : MonoBehaviour, IPointerUpHandler, IPoin
     public void OnPointerClick(PointerEventData eventData)
     {
         ToggleMenu();
-        manager.GetGameData().pressedSprite = gameObject.name;
-    }
-
-    private ILevelManager SetLevelManager()
-    {
-        ILevelManager iManager;
-        if (SceneManager.GetActiveScene().buildIndex == StringDb.level1SceneIndex)
-            iManager = FindObjectOfType<Level1Manager>();
-        else
-            iManager = FindObjectOfType<Level2Manager>();
-
-        return iManager;
+        tutorialManager.tutorialGameData.pressedSprite = gameObject.name;
     }
 
     private void SetSprite(int index)
@@ -109,12 +96,11 @@ public class TutorialInteractiveSprite : MonoBehaviour, IPointerUpHandler, IPoin
 
     public void ToggleMenu()
     {
-        if (manager.GetGameData().buttonEnabled && gameObject.name == manager.GetGameData().pressedSprite)
+        if (tutorialManager.tutorialGameData.buttonEnabled && gameObject.name == tutorialManager.tutorialGameData.pressedSprite)
         {
             ClassDb.prefabManager.ReturnPrefab(actionMenu.gameObject, PrefabManager.actionIndex);
 
             hasMenu = false;
-
         }
         else
         {
@@ -181,20 +167,23 @@ public class TutorialInteractiveSprite : MonoBehaviour, IPointerUpHandler, IPoin
 
     public void CheckOperativeItem()
     {
+        Debug.Log(tutorialManager + " manager");
+        Debug.Log(tutorialManager.tutorialGameData + " data");
+
         int limit;
         switch (gameObject.tag)
         {
             case StringDb.telephoneTag:
-                limit = manager.GetGameData().telephoneAmount;
+                limit = tutorialManager.tutorialGameData.telephoneAmount;
                 break;
             case StringDb.securityCheckTag:
-                limit = manager.GetGameData().securityCheckAmount;
+                limit = tutorialManager.tutorialGameData.securityCheckAmount;
                 break;
             case StringDb.roomPcTag:
-                limit = manager.GetGameData().pcAmount;
+                limit = tutorialManager.tutorialGameData.pcAmount;
                 break;
             case StringDb.serverPcTag:
-                limit = manager.GetGameData().serverAmount;
+                limit = tutorialManager.tutorialGameData.serverAmount;
                 break;
             default:
                 limit = 1;

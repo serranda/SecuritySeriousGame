@@ -1,6 +1,6 @@
 {
 	"head": "REPORT RICERCA",
-	"bodyPath": "ResearchReportBody",
+	"bodyPath": "MessagesBody/ResearchReportBody",
 	"backBtn": "No",
 	"nextBtn": "Ok"
 }

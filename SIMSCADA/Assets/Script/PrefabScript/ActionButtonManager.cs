@@ -11,6 +11,8 @@ public class ActionButtonManager : MonoBehaviour
 
     private ILevelManager manager;
 
+    private TutorialManager tutorialManager;
+
     private void Awake()
     {
         GetButtons();
@@ -20,7 +22,17 @@ public class ActionButtonManager : MonoBehaviour
     {
         manager = SetLevelManager();
 
-        manager.GetGameData().buttonEnabled = true;
+        tutorialManager = FindObjectOfType<TutorialManager>();
+
+        if (manager != null)
+        {
+            manager.GetGameData().buttonEnabled = true;
+        }
+        else
+        {
+            tutorialManager.tutorialGameData.buttonEnabled = true;
+        }
+
     }
 
     private void OnDisable()
@@ -28,8 +40,14 @@ public class ActionButtonManager : MonoBehaviour
         ResetActiveButton();
         ResetButtonOnClick();
 
-        manager.GetGameData().buttonEnabled = false;
-
+        if (manager != null)
+        {
+            manager.GetGameData().buttonEnabled = false;
+        }
+        else
+        {
+            tutorialManager.tutorialGameData.buttonEnabled = false;
+        }
     }
 
     private ILevelManager SetLevelManager()

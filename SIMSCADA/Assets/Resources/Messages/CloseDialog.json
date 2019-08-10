@@ -1,6 +1,6 @@
 {
 	"head": "CHIUDI TUTTE LE FINESTRE",
-	"bodyPath": "CloseDialogBody",
+	"bodyPath": "MessagesBody/CloseDialogBody",
 	"backBtn": "No",
 	"nextBtn": "Ok"
 }

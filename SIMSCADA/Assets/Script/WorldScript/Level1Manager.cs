@@ -37,7 +37,7 @@ public class Level1Manager : MonoBehaviour, ILevelManager
         {
             if (gameData.dialogEnabled)
             {
-                //TODO SHOW MESSAGE TO CLOSE ALL THE DIALOG BOX BEFORE GO TO PAUSE
+                //SHOW MESSAGE TO CLOSE ALL THE DIALOG BOX BEFORE GO TO PAUSE
                 ClassDb.levelMessageManager.StartCloseDialog();
                 return;
             }

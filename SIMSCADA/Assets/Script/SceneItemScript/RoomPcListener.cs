@@ -76,7 +76,6 @@ public class RoomPcListener : MonoBehaviour
                     buttons[2].onClick.AddListener(delegate
                     {
                         manager.SetFirewallActive(false);
-                        interactiveSprite.ToggleMenu();
                     });
                 }
                 else
@@ -86,7 +85,6 @@ public class RoomPcListener : MonoBehaviour
                     buttons[2].onClick.AddListener(delegate
                     {
                         manager.SetFirewallActive(true);
-                        interactiveSprite.ToggleMenu();
                     });
                 }
 
@@ -98,7 +96,6 @@ public class RoomPcListener : MonoBehaviour
                     buttons[3].onClick.AddListener(delegate
                     {
                         manager.SetRemoteIdsActive(false);
-                        interactiveSprite.ToggleMenu();
                     });
                 }
                 else
@@ -108,7 +105,6 @@ public class RoomPcListener : MonoBehaviour
                     buttons[3].onClick.AddListener(delegate
                     {
                         manager.SetRemoteIdsActive(true);
-                        interactiveSprite.ToggleMenu();
                     });
                 }
 
@@ -119,7 +115,6 @@ public class RoomPcListener : MonoBehaviour
                     buttons[4].onClick.AddListener(delegate
                     {
                         manager.SetLocalIdsActive(false);
-                        interactiveSprite.ToggleMenu();
                     });
                 }
                 else
@@ -129,7 +124,6 @@ public class RoomPcListener : MonoBehaviour
                     buttons[4].onClick.AddListener(delegate
                     {
                         manager.SetLocalIdsActive(true);
-                        interactiveSprite.ToggleMenu();
                     });
                 }
 

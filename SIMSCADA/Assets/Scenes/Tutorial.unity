@@ -10827,6 +10827,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4777a03e96eb2a48a999f37df937e5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tutorialManager: {fileID: 1086048627}
 --- !u!114 &498181328
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10842,6 +10843,7 @@ MonoBehaviour:
   actionMenu: {fileID: 0}
   actionButtonManager: {fileID: 0}
   hasMenu: 0
+  tutorialManager: {fileID: 1086048627}
 --- !u!212 &498181329
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -12127,7 +12129,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactiveSprite: {fileID: 0}
-  threatDetectedList: []
+  tutorialManager: {fileID: 1086048627}
 --- !u!114 &980743386
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12143,6 +12145,7 @@ MonoBehaviour:
   actionMenu: {fileID: 0}
   actionButtonManager: {fileID: 0}
   hasMenu: 0
+  tutorialManager: {fileID: 1086048627}
 --- !u!212 &980743387
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -12412,6 +12415,7 @@ GameObject:
   - component: {fileID: 1086048629}
   - component: {fileID: 1086048628}
   - component: {fileID: 1086048627}
+  - component: {fileID: 1086048612}
   - component: {fileID: 1086048625}
   - component: {fileID: 1086048624}
   - component: {fileID: 1086048623}
@@ -12421,11 +12425,11 @@ GameObject:
   - component: {fileID: 1086048619}
   - component: {fileID: 1086048618}
   - component: {fileID: 1086048617}
+  - component: {fileID: 1086048615}
   - component: {fileID: 1086048616}
   - component: {fileID: 1086048631}
   - component: {fileID: 1086048614}
   - component: {fileID: 1086048613}
-  - component: {fileID: 1086048612}
   m_Layer: 5
   m_Name: TutorialScript
   m_TagString: Untagged
@@ -12442,9 +12446,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1086048611}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b2ba324df0e1ad541b1ffef6ef1aec19, type: 3}
+  m_Script: {fileID: 11500000, guid: 51d1ecb360b842e45bc6e5f12a7a94e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameSettingManager: {fileID: 1439830026}
 --- !u!114 &1086048613
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12470,6 +12475,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67ca09e58934b9b4d899ee9a6ada9bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1086048615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1086048611}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b793fa75d3396344bdfd3dce3ae0d18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogBoxTitle: {fileID: 0}
+  dialogBoxMessage: {fileID: 0}
+  dialogBoxBtnNext: {fileID: 0}
+  dialogBoxBtnBack: {fileID: 0}
+  dialogBoxBtnNextTxt: {fileID: 0}
+  dialogBoxBtnBackTxt: {fileID: 0}
 --- !u!114 &1086048616
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12482,6 +12505,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b144ca9004e6e4245ba0804e47db5259, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tutorialManager: {fileID: 0}
 --- !u!114 &1086048617
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12497,6 +12521,7 @@ MonoBehaviour:
   zoomScale: 0
   minSize: 2
   maxSize: 12
+  tutorialManager: {fileID: 1086048627}
 --- !u!114 &1086048618
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12598,6 +12623,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d90483ad3a4360948bb62ee31f89cf43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tutorialIsFinished: 0
+  roomPcFirstTime: 1
+  firstTimeHMIPanel: 1
+  firstTimeMarket: 1
+  securityCheckFirstTime: 1
+  serverPcFirstTime: 1
+  telephoneFirstTime: 1
+  notebookFirstTime: 1
+  tutorialGameData:
+    pressedSprite: 
+    longDate: 131908032000000000
+    money: 1000
+    successfulThreat: 0
+    totalThreat: 0
+    trustedEmployees: 10
+    totalEmployees: 50
+    reputation: 35
+    minutePercentage: 0
+    serverAmount: 2
+    pcAmount: 3
+    telephoneAmount: 2
+    securityCheckAmount: 1
+    simulationSpeedMultiplier: 1
+    millisecondsPerMinutes: 10000
+    scadaEnabled: 0
+    storeEnabled: 0
+    noteBookEnabled: 0
+    buttonEnabled: 0
+    dialogEnabled: 0
 --- !u!114 &1086048628
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13892,6 +13946,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6a59406c9512084aa46d4d6606443c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tutorialManager: {fileID: 1086048627}
 --- !u!61 &1279951776
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -13933,6 +13988,7 @@ MonoBehaviour:
   actionMenu: {fileID: 0}
   actionButtonManager: {fileID: 0}
   hasMenu: 0
+  tutorialManager: {fileID: 1086048627}
 --- !u!1 &1332848518
 GameObject:
   m_ObjectHideFlags: 0
@@ -14694,7 +14750,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5759f1ba208100f4a8c1ec7cbb26e0f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  telephoneOnCoolDown: 0
+  tutorialManager: {fileID: 1086048627}
 --- !u!114 &1585053672
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14710,6 +14766,7 @@ MonoBehaviour:
   actionMenu: {fileID: 0}
   actionButtonManager: {fileID: 0}
   hasMenu: 0
+  tutorialManager: {fileID: 1086048627}
 --- !u!61 &1585053673
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -15820,7 +15877,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactiveSprite: {fileID: 0}
-  threatDetectedList: []
+  tutorialManager: {fileID: 1086048627}
 --- !u!212 &1653946450
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -15884,6 +15941,7 @@ MonoBehaviour:
   actionMenu: {fileID: 0}
   actionButtonManager: {fileID: 0}
   hasMenu: 0
+  tutorialManager: {fileID: 1086048627}
 --- !u!1 &1728291613
 GameObject:
   m_ObjectHideFlags: 0
@@ -16378,6 +16436,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4777a03e96eb2a48a999f37df937e5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tutorialManager: {fileID: 1086048627}
 --- !u!114 &1912870290
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16393,6 +16452,7 @@ MonoBehaviour:
   actionMenu: {fileID: 0}
   actionButtonManager: {fileID: 0}
   hasMenu: 0
+  tutorialManager: {fileID: 1086048627}
 --- !u!212 &1912870291
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -17002,7 +17062,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5759f1ba208100f4a8c1ec7cbb26e0f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  telephoneOnCoolDown: 0
+  tutorialManager: {fileID: 1086048627}
 --- !u!114 &2050405117
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17018,6 +17078,7 @@ MonoBehaviour:
   actionMenu: {fileID: 0}
   actionButtonManager: {fileID: 0}
   hasMenu: 0
+  tutorialManager: {fileID: 1086048627}
 --- !u!212 &2050405118
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -17661,6 +17722,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4777a03e96eb2a48a999f37df937e5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tutorialManager: {fileID: 1086048627}
 --- !u!114 &2129748172
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17676,6 +17738,7 @@ MonoBehaviour:
   actionMenu: {fileID: 0}
   actionButtonManager: {fileID: 0}
   hasMenu: 0
+  tutorialManager: {fileID: 1086048627}
 --- !u!61 &2129748173
 BoxCollider2D:
   m_ObjectHideFlags: 0

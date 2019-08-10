@@ -13,46 +13,23 @@ public class TutorialTelephoneListener : MonoBehaviour
     private IEnumerator moneyRoutine;
     private IEnumerator checkPlantRoutine;
 
-    public bool telephoneOnCoolDown;
-
     private static bool telephone1;
     private static bool telephone2;
 
     private IEnumerator telephone1Routine;
     private IEnumerator telephone2Routine;
 
-    private ILevelManager manager;
+    [SerializeField] private TutorialManager tutorialManager;
 
-
-    public static Dictionary<Threat, float> replayThreats;
-    public static Dictionary<Threat, float> stuxnetThreats;
 
     private void Start()
     {
-        manager = SetLevelManager();
-
         interactiveSprite = GetComponent<TutorialInteractiveSprite>();
-
-        replayThreats = new Dictionary<Threat, float>();
-        stuxnetThreats = new Dictionary<Threat, float>();
-
-        telephoneOnCoolDown = false;
-    }
-
-    private ILevelManager SetLevelManager()
-    {
-        ILevelManager iManager;
-        if (SceneManager.GetActiveScene().buildIndex == StringDb.level1SceneIndex)
-            iManager = FindObjectOfType<Level1Manager>();
-        else
-            iManager = FindObjectOfType<Level2Manager>();
-
-        return iManager;
     }
 
     public void SetTelephoneListeners()
     {
-        if (TutorialManager.telephoneFirstTime)
+        if (tutorialManager.telephoneFirstTime)
         {
             //show info message for security check
             telephone1Routine = Telephone1Routine();
@@ -60,60 +37,21 @@ public class TutorialTelephoneListener : MonoBehaviour
         }
         List<Button> buttons;
 
-        if (manager.GetGameData().hasDosDeployed ||
-            manager.GetGameData().hasPhishingDeployed ||
-            manager.GetGameData().hasReplayDeployed ||
-            manager.GetGameData().hasMitmDeployed ||
-            manager.GetGameData().hasMalwareDeployed ||
-            manager.GetGameData().hasStuxnetDeployed ||
-            manager.GetGameData().hasDragonflyDeployed)
+        buttons = interactiveSprite.actionButtonManager.GetActiveCanvasGroup(3);
+
+        buttons[0].GetComponentInChildren<TextMeshProUGUI>().text = "Richiedi fondi";
+        buttons[0].onClick.RemoveAllListeners();
+
+        buttons[1].GetComponentInChildren<TextMeshProUGUI>().text = "Vai alle lezioni";
+        buttons[1].onClick.RemoveAllListeners();
+        buttons[1].onClick.AddListener(delegate
         {
-            buttons = interactiveSprite.actionButtonManager.GetActiveCanvasGroup(3);
+            ClassDb.notebookManager.ToggleNoteBook();
+            interactiveSprite.ToggleMenu();
+        });
 
-            buttons[0].GetComponentInChildren<TextMeshProUGUI>().text = "Richiedi fondi";
-            buttons[0].onClick.RemoveAllListeners();
-            buttons[0].onClick.AddListener(delegate
-            {
-                //StartGetMoney();
-                interactiveSprite.ToggleMenu();
-            });
-
-            buttons[1].GetComponentInChildren<TextMeshProUGUI>().text = "Vai alle lezioni";
-            buttons[1].onClick.RemoveAllListeners();
-            buttons[1].onClick.AddListener(delegate
-            {
-                ClassDb.notebookManager.ToggleNoteBook();
-                interactiveSprite.ToggleMenu();
-            });
-
-            buttons[2].GetComponentInChildren<TextMeshProUGUI>().text = "Check dell'impianto";
-            buttons[2].onClick.RemoveAllListeners();
-            buttons[2].onClick.AddListener(delegate
-            {
-                //StartCheckPlant();
-                interactiveSprite.ToggleMenu();
-            });
-        }
-        else
-        {
-            buttons = interactiveSprite.actionButtonManager.GetActiveCanvasGroup(2);
-
-            buttons[0].GetComponentInChildren<TextMeshProUGUI>().text = "Richiedi fondi";
-            buttons[0].onClick.RemoveAllListeners();
-            buttons[0].onClick.AddListener(delegate
-            {
-                //StartGetMoney();
-                interactiveSprite.ToggleMenu();
-            });
-
-            buttons[1].GetComponentInChildren<TextMeshProUGUI>().text = "Vai alle lezioni";
-            buttons[1].onClick.RemoveAllListeners();
-            buttons[1].onClick.AddListener(delegate
-            {
-                ClassDb.notebookManager.ToggleNoteBook();
-                interactiveSprite.ToggleMenu();
-            });
-        }
+        buttons[2].GetComponentInChildren<TextMeshProUGUI>().text = "Check dell'impianto";
+        buttons[2].onClick.RemoveAllListeners();
 
         foreach (Button button in buttons)
         {
@@ -121,7 +59,7 @@ public class TutorialTelephoneListener : MonoBehaviour
         }
 
         //disable interact with button until tutorial is finished
-        if (TutorialManager.tutorialIsFinished) return;
+        if (tutorialManager.tutorialIsFinished) return;
 
         foreach (Button button in buttons)
         {
@@ -169,7 +107,7 @@ public class TutorialTelephoneListener : MonoBehaviour
         //set flag to start next coroutine
         telephone2 = true;
 
-        TutorialManager.telephoneFirstTime = false;
+        tutorialManager.telephoneFirstTime = false;
 
     }
 }

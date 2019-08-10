@@ -389,12 +389,6 @@ public class TutorialMessageManager : MonoBehaviour
 
     }
 
-    //public void StartExit()
-    //{
-    //    exitRoutine = Exit();
-    //    StartCoroutine(exitRoutine);
-    //}
-
     public void Exit()
     {
         //yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);
@@ -406,7 +400,7 @@ public class TutorialMessageManager : MonoBehaviour
         //open dialog box
 
         //set the text on dialog box
-        DialogBoxMessage message = ClassDb.levelMessageManager.MessageFromJson(Resources.Load<TextAsset>(StringDb.tutorialExit));
+        DialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.tutorialExit)).ToDialogBoxMessage();
 
         dialog.GetComponent<DialogBoxManager>().SetDialog(
             message.head,
@@ -423,7 +417,7 @@ public class TutorialMessageManager : MonoBehaviour
         {
             ClassDb.pauseManager.TogglePauseMenu();
             ClassDb.dialogBoxManager.CloseDialog(dialog);
-            ClassDb.sceneLoader.StartLoadByIndex(manager.GetGameData().lastSceneIndex);
+            ClassDb.sceneLoader.StartLoadByIndex(StringDb.menuSceneIndex);
         });
 
         dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.onClick.RemoveAllListeners();

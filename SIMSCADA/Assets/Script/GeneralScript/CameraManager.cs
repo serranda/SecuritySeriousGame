@@ -21,6 +21,8 @@ public class CameraManager : MonoBehaviour
     [SerializeField] private float minSize = 2.0f;
     [SerializeField] private float maxSize = 12.0f;
 
+    [SerializeField] private TutorialManager tutorialManager;
+
     private void Start()
     {
         manager = SetLevelManager();
@@ -36,15 +38,29 @@ public class CameraManager : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-
-        if ( PauseManager.pauseEnabled
-            || manager.GetGameData().dialogEnabled
-            || manager.GetGameData().scadaEnabled
-            || manager.GetGameData().cursorOverAi
-            || manager.GetGameData().storeEnabled
-            || InteractiveSprite.onSprite
-            //|| isCameraMainNull
+        if (manager != null)
+        {
+            if (PauseManager.pauseEnabled
+                || manager.GetGameData().dialogEnabled
+                || manager.GetGameData().scadaEnabled
+                || manager.GetGameData().cursorOverAi
+                || manager.GetGameData().storeEnabled
+                || InteractiveSprite.onSprite
+                //|| isCameraMainNull
             ) return;
+        }
+        else
+        {
+            if (PauseManager.pauseEnabled
+                || tutorialManager.tutorialGameData.dialogEnabled
+                || tutorialManager.tutorialGameData.scadaEnabled
+                || tutorialManager.tutorialGameData.storeEnabled
+                || InteractiveSprite.onSprite
+                //|| isCameraMainNull
+            ) return;
+        }
+
+
 
         if (Input.GetMouseButton(1))
         {
@@ -58,7 +74,7 @@ public class CameraManager : MonoBehaviour
         }
 
         virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
-        virtualCamera.m_Lens.OrthographicSize += Input.mouseScrollDelta.y * zoomScale;
+        virtualCamera.m_Lens.OrthographicSize -= Input.mouseScrollDelta.y * zoomScale;
         //Debug.Log(virtualCamera.m_Lens.OrthographicSize);
 
         if (virtualCamera.m_Lens.OrthographicSize < minSize)

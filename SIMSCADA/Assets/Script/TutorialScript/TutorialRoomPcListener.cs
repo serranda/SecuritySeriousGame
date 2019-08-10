@@ -9,48 +9,30 @@ using UnityEngine.UI;
 public class TutorialRoomPcListener : MonoBehaviour
 {
     private static Canvas scadaScreen;
-    public static bool scadaEnabled;
 
     private static Canvas storeScreen;
-    public static bool storeEnabled;
-
-    private IEnumerator localRecapRoutine;
-    private IEnumerator localShowRoutine;
 
     private TutorialInteractiveSprite interactiveSprite;
 
     private static bool market1;
     private static bool market2;
 
-
     private IEnumerator hmipcRoutine;
     private IEnumerator hmipanelRoutine;
     private IEnumerator market1Routine;
     private IEnumerator market2Routine;
-    private ILevelManager manager;
+
+    [SerializeField] private TutorialManager tutorialManager;
 
 
     private void Start()
     {
-        manager = SetLevelManager();
-        
         interactiveSprite = GetComponent<TutorialInteractiveSprite>();
-    }
-
-    private ILevelManager SetLevelManager()
-    {
-        ILevelManager iManager;
-        if (SceneManager.GetActiveScene().buildIndex == StringDb.level1SceneIndex)
-            iManager = FindObjectOfType<Level1Manager>();
-        else
-            iManager = FindObjectOfType<Level2Manager>();
-
-        return iManager;
     }
 
     public void SetComputerListeners()
     {
-        if (TutorialManager.roomPcFirstTime)
+        if (tutorialManager.roomPcFirstTime)
         {
             //show info message for security check
             hmipcRoutine = HmiPcRoutine();
@@ -59,411 +41,114 @@ public class TutorialRoomPcListener : MonoBehaviour
 
         List<Button> buttons;
 
-        if (manager.GetGameData().pointOutPurchased)
         {
-            if (manager.GetGameData().hasDosDeployed ||
-                manager.GetGameData().hasPhishingDeployed ||
-                manager.GetGameData().hasReplayDeployed ||
-                manager.GetGameData().hasMitmDeployed ||
-                manager.GetGameData().hasMalwareDeployed ||
-                manager.GetGameData().hasStuxnetDeployed ||
-                manager.GetGameData().hasDragonflyDeployed)
+            buttons = interactiveSprite.actionButtonManager.GetActiveCanvasGroup(8);
+
+            buttons[0].GetComponentInChildren<TextMeshProUGUI>().text = "Apri monitor SCADA";
+            buttons[0].onClick.RemoveAllListeners();
+            buttons[0].onClick.AddListener(delegate
             {
-                buttons = interactiveSprite.actionButtonManager.GetActiveCanvasGroup(8);
+                ToggleScadaScreen();
+                interactiveSprite.ToggleMenu();
+                interactiveSprite.ToggleMenu();
+            });
 
-                buttons[0].GetComponentInChildren<TextMeshProUGUI>().text = "Apri monitor SCADA";
-                buttons[0].onClick.RemoveAllListeners();
-                buttons[0].onClick.AddListener(delegate
+            buttons[1].GetComponentInChildren<TextMeshProUGUI>().text = "Vai al Negozio";
+            buttons[1].onClick.RemoveAllListeners();
+            buttons[1].onClick.AddListener(delegate
+            {
+                ToggleStoreScreen();
+                interactiveSprite.ToggleMenu();
+                interactiveSprite.ToggleMenu();
+
+            });
+
+            if (tutorialManager.tutorialGameData.isFirewallActive)
+            {
+                buttons[2].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva Firewall";
+                buttons[2].onClick.RemoveAllListeners();
+                buttons[2].onClick.AddListener(delegate
                 {
-                    ToggleScadaScreen();
+                    tutorialManager.SetFirewallActive(false);
                     interactiveSprite.ToggleMenu();
-                });
-
-                buttons[1].GetComponentInChildren<TextMeshProUGUI>().text = "Vai al Negozio";
-                buttons[1].onClick.RemoveAllListeners();
-                buttons[1].onClick.AddListener(delegate
-                {
-                    ToggleStoreScreen();
                     interactiveSprite.ToggleMenu();
 
-                });
-
-                if (manager.GetGameData().isFirewallActive)
-                {
-                    buttons[2].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva Firewall";
-                    buttons[2].onClick.RemoveAllListeners();
-                    buttons[2].onClick.AddListener(delegate
-                    {
-                        manager.SetFirewallActive(false);
-                        interactiveSprite.ToggleMenu();
-                    });
-                }
-                else
-                {
-                    buttons[2].GetComponentInChildren<TextMeshProUGUI>().text = "Attiva Firewall";
-                    buttons[2].onClick.RemoveAllListeners();
-                    buttons[2].onClick.AddListener(delegate
-                    {
-                        manager.SetFirewallActive(true);
-                        interactiveSprite.ToggleMenu();
-                    });
-                }
-
-
-                if (manager.GetGameData().isRemoteIdsActive)
-                {
-                    buttons[3].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva IDS";
-                    buttons[3].onClick.RemoveAllListeners();
-                    buttons[3].onClick.AddListener(delegate
-                    {
-                        manager.SetRemoteIdsActive(false);
-                        interactiveSprite.ToggleMenu();
-                    });
-                }
-                else
-                {
-                    buttons[3].GetComponentInChildren<TextMeshProUGUI>().text = "Attiva IDS";
-                    buttons[3].onClick.RemoveAllListeners();
-                    buttons[3].onClick.AddListener(delegate
-                    {
-                        manager.SetRemoteIdsActive(true);
-                        interactiveSprite.ToggleMenu();
-                    });
-                }
-
-                if (manager.GetGameData().isLocalIdsActive)
-                {
-                    buttons[4].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva Controlli Locali";
-                    buttons[4].onClick.RemoveAllListeners();
-                    buttons[4].onClick.AddListener(delegate
-                    {
-                        manager.SetLocalIdsActive(false);
-                        interactiveSprite.ToggleMenu();
-                    });
-                }
-                else
-                {
-                    buttons[4].GetComponentInChildren<TextMeshProUGUI>().text = "Attiva Controlli Locali";
-                    buttons[4].onClick.RemoveAllListeners();
-                    buttons[4].onClick.AddListener(delegate
-                    {
-                        manager.SetLocalIdsActive(true);
-                        interactiveSprite.ToggleMenu();
-                    });
-                }
-
-                buttons[5].GetComponentInChildren<TextMeshProUGUI>().text = "Check configurazione di rete";
-                buttons[5].onClick.RemoveAllListeners();
-                buttons[5].onClick.AddListener(delegate
-                {
-                    //StartCheckNetworkCfg();
-                    interactiveSprite.ToggleMenu();
-                });
-
-                buttons[6].GetComponentInChildren<TextMeshProUGUI>().text = "Esegui scansione malware";
-                buttons[6].onClick.RemoveAllListeners();
-                buttons[6].onClick.AddListener(delegate
-                {
-                    //StartAntiMalwareScan();
-                    interactiveSprite.ToggleMenu();
-                });
-
-                buttons[7].GetComponentInChildren<TextMeshProUGUI>().text = "Individua minacce";
-                buttons[7].onClick.RemoveAllListeners();
-                buttons[7].onClick.AddListener(delegate
-                {
-                    //StartPointOutLocalThreat();
-                    interactiveSprite.ToggleMenu();
                 });
             }
             else
             {
-                buttons = interactiveSprite.actionButtonManager.GetActiveCanvasGroup(5);
-
-                buttons[0].GetComponentInChildren<TextMeshProUGUI>().text = "Apri monitor SCADA";
-                buttons[0].onClick.RemoveAllListeners();
-                buttons[0].onClick.AddListener(delegate
+                buttons[2].GetComponentInChildren<TextMeshProUGUI>().text = "Attiva Firewall";
+                buttons[2].onClick.RemoveAllListeners();
+                buttons[2].onClick.AddListener(delegate
                 {
-                    ToggleScadaScreen();
+                    tutorialManager.SetFirewallActive(true);
                     interactiveSprite.ToggleMenu();
-                });
-
-                buttons[1].GetComponentInChildren<TextMeshProUGUI>().text = "Vai al Negozio";
-                buttons[1].onClick.RemoveAllListeners();
-                buttons[1].onClick.AddListener(delegate
-                {
-                    ToggleStoreScreen();
                     interactiveSprite.ToggleMenu();
 
-                });
-
-                if (manager.GetGameData().isFirewallActive)
-                {
-                    buttons[2].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva Firewall";
-                    buttons[2].onClick.RemoveAllListeners();
-                    buttons[2].onClick.AddListener(delegate
-                    {
-                        manager.SetFirewallActive(false);
-                        interactiveSprite.ToggleMenu();
-                    });
-                }
-                else
-                {
-                    buttons[2].GetComponentInChildren<TextMeshProUGUI>().text = "Attiva Firewall";
-                    buttons[2].onClick.RemoveAllListeners();
-                    buttons[2].onClick.AddListener(delegate
-                    {
-                        manager.SetFirewallActive(true);
-                        interactiveSprite.ToggleMenu();
-                    });
-                }
-
-
-                if (manager.GetGameData().isRemoteIdsActive)
-                {
-                    buttons[3].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva IDS";
-                    buttons[3].onClick.RemoveAllListeners();
-                    buttons[3].onClick.AddListener(delegate
-                    {
-                        manager.SetRemoteIdsActive(false);
-                        interactiveSprite.ToggleMenu();
-                    });
-                }
-                else
-                {
-                    buttons[3].GetComponentInChildren<TextMeshProUGUI>().text = "Attiva IDS";
-                    buttons[3].onClick.RemoveAllListeners();
-                    buttons[3].onClick.AddListener(delegate
-                    {
-                        manager.SetRemoteIdsActive(true);
-                        interactiveSprite.ToggleMenu();
-                    });
-                }
-
-                if (manager.GetGameData().isLocalIdsActive)
-                {
-                    buttons[4].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva Controlli Locali";
-                    buttons[4].onClick.RemoveAllListeners();
-                    buttons[4].onClick.AddListener(delegate
-                    {
-                        manager.SetLocalIdsActive(false);
-                        interactiveSprite.ToggleMenu();
-                    });
-                }
-                else
-                {
-                    buttons[4].GetComponentInChildren<TextMeshProUGUI>().text = "Attiva Controlli Locali";
-                    buttons[4].onClick.RemoveAllListeners();
-                    buttons[4].onClick.AddListener(delegate
-                    {
-                        manager.SetLocalIdsActive(true);
-                        interactiveSprite.ToggleMenu();
-                    });
-                }
-
-                buttons[5].GetComponentInChildren<TextMeshProUGUI>().text = "Individua minacce";
-                buttons[5].onClick.RemoveAllListeners();
-                buttons[5].onClick.AddListener(delegate
-                {
-                    //StartPointOutLocalThreat();
-                    interactiveSprite.ToggleMenu();
                 });
             }
-        }
-        else
-        {
-            if (manager.GetGameData().hasDosDeployed ||
-                manager.GetGameData().hasPhishingDeployed ||
-                manager.GetGameData().hasReplayDeployed ||
-                manager.GetGameData().hasMitmDeployed ||
-                manager.GetGameData().hasMalwareDeployed ||
-                manager.GetGameData().hasStuxnetDeployed ||
-                manager.GetGameData().hasDragonflyDeployed)
+
+
+            if (tutorialManager.tutorialGameData.isRemoteIdsActive)
             {
-                buttons = interactiveSprite.actionButtonManager.GetActiveCanvasGroup(7);
-
-                buttons[0].GetComponentInChildren<TextMeshProUGUI>().text = "Apri monitor SCADA";
-                buttons[0].onClick.RemoveAllListeners();
-                buttons[0].onClick.AddListener(delegate
+                buttons[3].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva IDS";
+                buttons[3].onClick.RemoveAllListeners();
+                buttons[3].onClick.AddListener(delegate
                 {
-                    ToggleScadaScreen();
+                    tutorialManager.SetRemoteIdsActive(false);
                     interactiveSprite.ToggleMenu();
-                });
-
-                buttons[1].GetComponentInChildren<TextMeshProUGUI>().text = "Vai al Negozio";
-                buttons[1].onClick.RemoveAllListeners();
-                buttons[1].onClick.AddListener(delegate
-                {
-                    ToggleStoreScreen();
                     interactiveSprite.ToggleMenu();
 
-                });
-
-                if (manager.GetGameData().isFirewallActive)
-                {
-                    buttons[2].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva Firewall";
-                    buttons[2].onClick.RemoveAllListeners();
-                    buttons[2].onClick.AddListener(delegate
-                    {
-                        manager.SetFirewallActive(false);
-                        interactiveSprite.ToggleMenu();
-                    });
-                }
-                else
-                {
-                    buttons[2].GetComponentInChildren<TextMeshProUGUI>().text = "Attiva Firewall";
-                    buttons[2].onClick.RemoveAllListeners();
-                    buttons[2].onClick.AddListener(delegate
-                    {
-                        manager.SetFirewallActive(true);
-                        interactiveSprite.ToggleMenu();
-                    });
-                }
-
-                if (manager.GetGameData().isRemoteIdsActive)
-                {
-                    buttons[3].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva IDS";
-                    buttons[3].onClick.RemoveAllListeners();
-                    buttons[3].onClick.AddListener(delegate
-                    {
-                        manager.SetRemoteIdsActive(false);
-                        interactiveSprite.ToggleMenu();
-                    });
-                }
-                else
-                {
-                    buttons[3].GetComponentInChildren<TextMeshProUGUI>().text = "Attiva IDS";
-                    buttons[3].onClick.RemoveAllListeners();
-                    buttons[3].onClick.AddListener(delegate
-                    {
-                        manager.SetRemoteIdsActive(true);
-                        interactiveSprite.ToggleMenu();
-                    });
-                }
-
-                if (manager.GetGameData().isLocalIdsActive)
-                {
-                    buttons[4].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva Controlli Locali";
-                    buttons[4].onClick.RemoveAllListeners();
-                    buttons[4].onClick.AddListener(delegate
-                    {
-                        manager.SetLocalIdsActive(false);
-                        interactiveSprite.ToggleMenu();
-                    });
-                }
-                else
-                {
-                    buttons[4].GetComponentInChildren<TextMeshProUGUI>().text = "Attiva Controlli Locali";
-                    buttons[4].onClick.RemoveAllListeners();
-                    buttons[4].onClick.AddListener(delegate
-                    {
-                        manager.SetLocalIdsActive(true);
-                        interactiveSprite.ToggleMenu();
-                    });
-                }
-
-                buttons[5].GetComponentInChildren<TextMeshProUGUI>().text = "Check configurazione di rete";
-                buttons[5].onClick.RemoveAllListeners();
-                buttons[5].onClick.AddListener(delegate
-                {
-                    //StartCheckNetworkCfg();
-                    interactiveSprite.ToggleMenu();
-                });
-
-                buttons[6].GetComponentInChildren<TextMeshProUGUI>().text = "Esegui scansione malware";
-                buttons[6].onClick.RemoveAllListeners();
-                buttons[6].onClick.AddListener(delegate
-                {
-                    //StartAntiMalwareScan();
-                    interactiveSprite.ToggleMenu();
                 });
             }
             else
             {
-                buttons = interactiveSprite.actionButtonManager.GetActiveCanvasGroup(5);
-
-                buttons[0].GetComponentInChildren<TextMeshProUGUI>().text = "Apri monitor SCADA";
-                buttons[0].onClick.RemoveAllListeners();
-                buttons[0].onClick.AddListener(delegate
+                buttons[3].GetComponentInChildren<TextMeshProUGUI>().text = "Attiva IDS";
+                buttons[3].onClick.RemoveAllListeners();
+                buttons[3].onClick.AddListener(delegate
                 {
-                    ToggleScadaScreen();
+                    tutorialManager.SetRemoteIdsActive(true);
                     interactiveSprite.ToggleMenu();
-                });
-
-                buttons[1].GetComponentInChildren<TextMeshProUGUI>().text = "Vai al Negozio";
-                buttons[1].onClick.RemoveAllListeners();
-                buttons[1].onClick.AddListener(delegate
-                {
-                    ToggleStoreScreen();
                     interactiveSprite.ToggleMenu();
 
                 });
-
-                if (manager.GetGameData().isFirewallActive)
-                {
-                    buttons[2].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva Firewall";
-                    buttons[2].onClick.RemoveAllListeners();
-                    buttons[2].onClick.AddListener(delegate
-                    {
-                        manager.SetFirewallActive(false);
-                        interactiveSprite.ToggleMenu();
-                    });
-                }
-                else
-                {
-                    buttons[2].GetComponentInChildren<TextMeshProUGUI>().text = "Attiva Firewall";
-                    buttons[2].onClick.RemoveAllListeners();
-                    buttons[2].onClick.AddListener(delegate
-                    {
-                        manager.SetFirewallActive(true);
-                        interactiveSprite.ToggleMenu();
-                    });
-                }
-
-
-                if (manager.GetGameData().isRemoteIdsActive)
-                {
-                    buttons[3].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva IDS";
-                    buttons[3].onClick.RemoveAllListeners();
-                    buttons[3].onClick.AddListener(delegate
-                    {
-                        manager.SetRemoteIdsActive(false);
-                        interactiveSprite.ToggleMenu();
-                    });
-                }
-                else
-                {
-                    buttons[3].GetComponentInChildren<TextMeshProUGUI>().text = "Attiva IDS";
-                    buttons[3].onClick.RemoveAllListeners();
-                    buttons[3].onClick.AddListener(delegate
-                    {
-                        manager.SetRemoteIdsActive(true);
-                        interactiveSprite.ToggleMenu();
-                    });
-                }
-
-                if (manager.GetGameData().isLocalIdsActive)
-                {
-                    buttons[4].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva Controlli Locali";
-                    buttons[4].onClick.RemoveAllListeners();
-                    buttons[4].onClick.AddListener(delegate
-                    {
-                        manager.SetLocalIdsActive(false);
-                        interactiveSprite.ToggleMenu();
-                    });
-                }
-                else
-                {
-                    buttons[4].GetComponentInChildren<TextMeshProUGUI>().text = "Attiva Controlli Locali";
-                    buttons[4].onClick.RemoveAllListeners();
-                    buttons[4].onClick.AddListener(delegate
-                    {
-                        manager.SetLocalIdsActive(true);
-                        interactiveSprite.ToggleMenu();
-                    });
-                }
             }
+
+            if (tutorialManager.tutorialGameData.isLocalIdsActive)
+            {
+                buttons[4].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva Controlli Locali";
+                buttons[4].onClick.RemoveAllListeners();
+                buttons[4].onClick.AddListener(delegate
+                {
+                    tutorialManager.SetLocalIdsActive(false);
+                    interactiveSprite.ToggleMenu();
+                    interactiveSprite.ToggleMenu();
+
+                });
+            }
+            else
+            {
+                buttons[4].GetComponentInChildren<TextMeshProUGUI>().text = "Attiva Controlli Locali";
+                buttons[4].onClick.RemoveAllListeners();
+                buttons[4].onClick.AddListener(delegate
+                {
+                    tutorialManager.SetLocalIdsActive(true);
+                    interactiveSprite.ToggleMenu();
+                    interactiveSprite.ToggleMenu();
+
+                });
+            }
+
+            buttons[5].GetComponentInChildren<TextMeshProUGUI>().text = "Check configurazione di rete";
+            buttons[5].onClick.RemoveAllListeners();
+
+            buttons[6].GetComponentInChildren<TextMeshProUGUI>().text = "Esegui scansione malware";
+            buttons[6].onClick.RemoveAllListeners();
+
+            buttons[7].GetComponentInChildren<TextMeshProUGUI>().text = "Individua minacce";
+            buttons[7].onClick.RemoveAllListeners();
         }
+
 
         foreach (Button button in buttons)
         {
@@ -471,57 +156,57 @@ public class TutorialRoomPcListener : MonoBehaviour
         }
 
         //disable interact with button until tutorial is finished
-        if (TutorialManager.tutorialIsFinished) return;
+        if (tutorialManager.tutorialIsFinished) return;
 
         foreach (Button button in buttons)
         {
             //keep active button for scada screen and store screen
-            if (buttons.IndexOf(button) == 0 || buttons.IndexOf(button) == 1) continue;
+            if (buttons.IndexOf(button) >= 0 && buttons.IndexOf(button) <= 4) continue;
             button.interactable = false;
         }
     }
 
     public void ToggleScadaScreen()
     {
-        if (TutorialManager.firstTimeHMIPanel)
+        if (tutorialManager.firstTimeHMIPanel)
         {
-            TutorialManager.firstTimeHMIPanel = false;
+            tutorialManager.firstTimeHMIPanel = false;
 
             hmipanelRoutine = HmiPanelRoutine();
             StartCoroutine(hmipanelRoutine);
         }
 
-        if (scadaEnabled)
+        if (tutorialManager.tutorialGameData.scadaEnabled)
         {
             ClassDb.prefabManager.ReturnPrefab(scadaScreen.gameObject, PrefabManager.scadaIndex);
-            scadaEnabled = false;
+            tutorialManager.tutorialGameData.scadaEnabled = false;
         }
         else
         {
             scadaScreen = ClassDb.prefabManager.GetPrefab(ClassDb.prefabManager.prefabScadaScreen.gameObject, PrefabManager.scadaIndex).GetComponent<Canvas>();
-            scadaEnabled = true;
+            tutorialManager.tutorialGameData.scadaEnabled = true;
         }
     }
 
     public void ToggleStoreScreen()
     {
-        if (TutorialManager.firstTimeMarket)
+        if (tutorialManager.firstTimeMarket)
         {
-            TutorialManager.firstTimeMarket = false;
+            tutorialManager.firstTimeMarket = false;
 
             market1Routine = Market1Routine();
             StartCoroutine(market1Routine);
         }
 
-        if (storeEnabled)
+        if (tutorialManager.tutorialGameData.storeEnabled)
         {
             ClassDb.prefabManager.ReturnPrefab(storeScreen.gameObject, PrefabManager.storeIndex);
-            storeEnabled = false;
+            tutorialManager.tutorialGameData.storeEnabled = false;
         }
         else
         {
             storeScreen = ClassDb.prefabManager.GetPrefab(ClassDb.prefabManager.prefabStoreScreen.gameObject, PrefabManager.storeIndex).GetComponent<Canvas>();
-            storeEnabled = true;
+            tutorialManager.tutorialGameData.storeEnabled = true;
         }
     }
 
@@ -573,7 +258,7 @@ public class TutorialRoomPcListener : MonoBehaviour
         //wait until dialog has been disabled
         yield return new WaitWhile(() => TutorialDialogBoxManager.dialogEnabled);
 
-        TutorialManager.roomPcFirstTime = false;
+        tutorialManager.roomPcFirstTime = false;
 
     }
 

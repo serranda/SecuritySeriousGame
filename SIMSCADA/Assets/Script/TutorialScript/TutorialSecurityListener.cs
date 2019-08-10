@@ -9,9 +9,10 @@ public class TutorialSecurityListener : MonoBehaviour
     private static Canvas serverRoomScreen;
     private TutorialInteractiveSprite interactiveSprite;
 
-
-
     private IEnumerator securityMessageRoutine;
+
+    [SerializeField] private TutorialManager tutorialManager;
+
 
     private void Start()
     {
@@ -23,7 +24,7 @@ public class TutorialSecurityListener : MonoBehaviour
 
         List<Button> buttons = interactiveSprite.actionButtonManager.GetActiveCanvasGroup(1);
 
-        if (TutorialManager.securityCheckFirstTime)
+        if (tutorialManager.securityCheckFirstTime)
         {
             //show info message for security check
             securityMessageRoutine = SecurityMessage();
@@ -45,7 +46,7 @@ public class TutorialSecurityListener : MonoBehaviour
         }
 
         //disable interact with button until tutorial is finished
-        if (TutorialManager.tutorialIsFinished) return;
+        if (tutorialManager.tutorialIsFinished) return;
 
         foreach (Button button in buttons)
         {
@@ -62,10 +63,6 @@ public class TutorialSecurityListener : MonoBehaviour
         //wait until dialog has been disabled
         yield return new WaitWhile(() => TutorialDialogBoxManager.dialogEnabled);
 
-        TutorialManager.securityCheckFirstTime = false;
-
-        interactiveSprite.ToggleMenu();
-
-
+        tutorialManager.securityCheckFirstTime = false;
     }
 }

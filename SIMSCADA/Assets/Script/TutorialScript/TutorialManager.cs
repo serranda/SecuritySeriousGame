@@ -10,39 +10,41 @@ using Random = UnityEngine.Random;
 
 public class TutorialManager : MonoBehaviour
 {
-    private static bool welcome1;
-    private static bool welcome2;
-    private static bool welcome3;
-    private static bool welcome4;
-    private static bool welcome5;
-    private static bool welcome6;
-    private static bool welcome7;
-    private static bool interactiveObject;
-    private static bool postWelcome;
-    private static bool remoteAttackMessage;
-    private static bool localAttackMessage;
-    private static bool postAttackMessage;
-    private static bool finalMessage;
-    public static bool tutorialIsFinished;
+    private bool welcome1;
+    private bool welcome2;
+    private bool welcome3;
+    private bool welcome4;
+    private bool welcome5;
+    private bool welcome6;
+    private bool welcome7;
+    private bool interactiveObject;
+    private bool postWelcome;
+    private bool remoteAttackMessage;
+    private bool localAttackMessage;
+    private bool postAttackMessage;
+    private bool finalMessage;
+    public bool tutorialIsFinished;
 
     //bool for check if first click on room pc
 
-    public static bool roomPcFirstTime;
-    public static bool firstTimeHMIPanel;
-    public static bool firstTimeMarket;
+    public bool roomPcFirstTime = true;
+    public bool firstTimeHMIPanel = true;
+    public bool firstTimeMarket = true;
+
 
     //bool for check if first click on security check
-    public static bool securityCheckFirstTime;
+    public bool securityCheckFirstTime = true;
 
-    //bool for check if first click on server pc
-    public static bool serverPcFirstTime;
+    //bool for check if first click on servveer pc
+    public bool serverPcFirstTime = true;
 
     //bool for check if first click on telephone and notebook
-    public static bool telephoneFirstTime;
-    public static bool notebookFirstTime;
+    public bool telephoneFirstTime = true;
+    public bool notebookFirstTime = true;
 
     private HudManager hudManager;
 
+    private IEnumerator newMinuteRoutine;
     private IEnumerator welcome1Routine;
     private IEnumerator welcome2Routine;
     private IEnumerator welcome3Routine;
@@ -58,34 +60,23 @@ public class TutorialManager : MonoBehaviour
     private IEnumerator finalMessageRoutine;
     private IEnumerator startGameRoutine;
 
-    private ILevelManager manager;
+    public TutorialGameData tutorialGameData;
+
+    private void Awake()
+    {
+        //instancing data for tutorial
+        tutorialGameData = new TutorialGameData();
+    }
 
     private void Start()
     {
-        manager = SetLevelManager();
 
-        roomPcFirstTime = true;
-        firstTimeHMIPanel = true;
-        firstTimeMarket = true;
-
-        securityCheckFirstTime = true;
-
-        serverPcFirstTime = true;
-
-        telephoneFirstTime = true;
-
-        notebookFirstTime = true;
-
-
-        Debug.Log(notebookFirstTime + " Notebook first time");
 
         //spawn hud prefab
-        manager.SpawnHud();
+        SpawnHud();
 
         //start time in game
-        manager.StartTimeRoutine();
-
-        tutorialIsFinished = false;
+        StartTimeRoutine();
 
         //start coroutine for first message
         welcome1Routine = Welcome1Routine();
@@ -93,17 +84,88 @@ public class TutorialManager : MonoBehaviour
         StartCoroutine(welcome1Routine);
     }
 
-    private ILevelManager SetLevelManager()
+    private void Update()
     {
-        ILevelManager iManager;
-        if (SceneManager.GetActiveScene().buildIndex == StringDb.level1SceneIndex)
-            iManager = FindObjectOfType<Level1Manager>();
-        else
-            iManager = FindObjectOfType<Level2Manager>();
+        if (hudManager == null) return;
+        //gameData.simulationSpeedMultiplier = StringDb.speedMultiplier;
 
-        return iManager;
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (tutorialGameData.dialogEnabled)
+            {
+                //SHOW MESSAGE TO CLOSE ALL THE DIALOG BOX BEFORE GO TO PAUSE
+                ClassDb.levelMessageManager.StartCloseDialog();
+                return;
+            }
+            ClassDb.pauseManager.TogglePauseMenu();
+        }
+
+        if (Input.GetMouseButtonDown(1) && tutorialGameData.buttonEnabled)
+        {
+            Canvas actionMenu = GameObject.Find(StringDb.actionMenuName).GetComponent<Canvas>();
+            ClassDb.prefabManager.ReturnPrefab(actionMenu.gameObject, PrefabManager.actionIndex);
+        }
+
+        hudManager.UpdateHud(tutorialGameData.date, tutorialGameData.money, tutorialGameData.successfulThreat,
+            tutorialGameData.totalThreat, tutorialGameData.trustedEmployees, tutorialGameData.totalEmployees, tutorialGameData.reputation);
+
+        UpdateMinutes();
     }
 
+    public void SpawnHud()
+    {
+        //instancing the hud
+        ClassDb.prefabManager.GetPrefab(ClassDb.prefabManager.prefabHud.gameObject, PrefabManager.hudIndex).GetComponent<Canvas>();
+        hudManager = GameObject.Find(StringDb.hudName).GetComponent<HudManager>();
+    }
+
+    public void StartTimeRoutine()
+    {
+        newMinuteRoutine = OnNewMinute();
+        StartCoroutine(newMinuteRoutine);
+    }
+
+    public void UpdateMinutes()
+    {
+        tutorialGameData.minutePercentage += tutorialGameData.simulationSpeedMultiplier * 10000 * Time.fixedDeltaTime * Time.timeScale / tutorialGameData.millisecondsPerMinutes;
+    }
+
+    public IEnumerator OnNewMinute()
+    {
+        for (; ; )
+        {
+            yield return new WaitUntil(() => tutorialGameData.minutePercentage > 1);
+
+            //Debug.Log("DeltaTime: " + Time.fixedDeltaTime + " MinutePercentage: " + StringDb.minutePercentage);
+
+            tutorialGameData.date = tutorialGameData.date.AddMinutes(1.0);
+
+            tutorialGameData.totalMoneyEarnPerMinute = StringDb.baseEarn * tutorialGameData.totalEmployees;
+
+
+            tutorialGameData.totalCostPerMinute = 0;
+
+
+            if (tutorialGameData.isFirewallActive)
+            {
+                tutorialGameData.totalCostPerMinute += StringDb.firewallCost * tutorialGameData.totalEmployees;
+            }
+
+            if (tutorialGameData.isRemoteIdsActive)
+            {
+                tutorialGameData.totalCostPerMinute += StringDb.idsCost * tutorialGameData.totalEmployees;
+            }
+
+            if (tutorialGameData.isLocalIdsActive)
+            {
+                tutorialGameData.totalCostPerMinute += StringDb.localSecurityCost * tutorialGameData.totalEmployees;
+            }
+
+            tutorialGameData.money += tutorialGameData.totalMoneyEarnPerMinute - tutorialGameData.totalCostPerMinute;
+
+            tutorialGameData.minutePercentage = 0;
+        }
+    }
 
     private IEnumerator Welcome1Routine()
     {
@@ -282,11 +344,11 @@ public class TutorialManager : MonoBehaviour
 
         //wait for click on scada screen
         yield return new WaitUntil(() => !firstTimeHMIPanel);
-        yield return new WaitUntil(() => !TutorialRoomPcListener.scadaEnabled);
+        yield return new WaitUntil(() => !tutorialGameData.scadaEnabled);
 
         //wait for click on store screen
         yield return new WaitUntil(() => !firstTimeMarket);
-        yield return new WaitUntil(() => !TutorialRoomPcListener.storeEnabled);
+        yield return new WaitUntil(() => !tutorialGameData.storeEnabled);
 
         //wait for click on security check
         yield return new WaitUntil(() => !securityCheckFirstTime);
@@ -299,7 +361,7 @@ public class TutorialManager : MonoBehaviour
 
         //wait for click on notebook button
         yield return new WaitUntil(() => !notebookFirstTime);
-        yield return new WaitUntil(() => !manager.GetGameData().noteBookEnabled);
+        yield return new WaitUntil(() => !tutorialGameData.noteBookEnabled);
 
         ////Toggle time
         //ClassDb.timeManager.ToggleTime();
@@ -458,9 +520,9 @@ public class TutorialManager : MonoBehaviour
         //set flag to stop next coroutine
         finalMessage = false;
 
-        //start next corotuine
-        startGameRoutine = StartGame();
-        StartCoroutine(startGameRoutine);
+        ////start next corotuine
+        //startGameRoutine = StartGame();
+        //StartCoroutine(startGameRoutine);
 
         //display message
         ClassDb.tutorialMessageManager.FinalMessage();
@@ -473,66 +535,37 @@ public class TutorialManager : MonoBehaviour
         
     }
 
-    private IEnumerator StartGame()
+    public void SetFirewallActive(bool active)
     {
-        tutorialIsFinished = false;
-
-        //wait unitl previous corutine has finished
-        yield return new WaitUntil(() => finalMessage);
-
-        StopAllCoroutines();
-
-        //Start routine for the game components
-        manager.StartAllCoroutines();
-
-        tutorialIsFinished = true;
-
-        SetInteractiveSprite();
+        tutorialGameData.isFirewallActive = active;
     }
 
-    private void SetInteractiveSprite()
+    public void SetRemoteIdsActive(bool active)
     {
-        List<TutorialInteractiveSprite> interactiveObjects = FindObjectsOfType<TutorialInteractiveSprite>().ToList();
-
-        foreach (TutorialInteractiveSprite sprite in interactiveObjects)
-        {
-            sprite.gameObject.AddComponent<InteractiveSprite>();
-            Destroy(sprite);
-        }
-
-        SetListener();
+        tutorialGameData.isRemoteIdsActive = active;
     }
 
-    private void SetListener()
+    public void SetLocalIdsActive(bool active)
     {
-        List<TutorialTelephoneListener> telephones = FindObjectsOfType<TutorialTelephoneListener>().ToList();
-        List<TutorialSecurityListener> securityChecks = FindObjectsOfType<TutorialSecurityListener>().ToList();
-        List<TutorialServerPcListener> servers = FindObjectsOfType<TutorialServerPcListener>().ToList();
-        List<TutorialRoomPcListener> pcs = FindObjectsOfType<TutorialRoomPcListener>().ToList();
-
-        foreach (TutorialTelephoneListener telephone in telephones)
-        {
-            telephone.gameObject.AddComponent<TelephoneListener>();
-            Destroy(telephone);
-        }
-
-        foreach (TutorialSecurityListener securityCheck in securityChecks)
-        {
-            securityCheck.gameObject.AddComponent<SecurityListener>();
-            Destroy(securityCheck);
-        }
-
-        foreach (TutorialServerPcListener server in servers)
-        {
-            server.gameObject.AddComponent<ServerPcListener>();
-            Destroy(server);
-        }
-
-        foreach (TutorialRoomPcListener pc in pcs)
-        {
-            pc.gameObject.AddComponent<RoomPcListener>();
-            Destroy(pc);
-        }
+        tutorialGameData.isLocalIdsActive = active;
     }
+
+    //private IEnumerator StartGame()
+    //{
+    //    tutorialIsFinished = false;
+
+    //    //wait unitl previous corutine has finished
+    //    yield return new WaitUntil(() => finalMessage);
+
+    //    StopAllCoroutines();
+
+    //    //Start routine for the game components
+    //    StartAllCoroutines();
+
+    //    tutorialIsFinished = true;
+
+    //    SetInteractiveSprite();
+    //}
+
 
 }

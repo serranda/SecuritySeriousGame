@@ -1,5 +1,5 @@
 {
 	"head": "",
-	"bodyPath": "ServerBody",
+	"bodyPath": "TutorialMessagesBody/ServerBody",
 	"nextBtn": "Ok"
 }

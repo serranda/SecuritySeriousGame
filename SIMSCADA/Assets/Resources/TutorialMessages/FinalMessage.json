@@ -1,5 +1,5 @@
 {
 	"head": "",
-	"bodyPath": "FinalMessageBody",
+	"bodyPath": "TutorialMessagesBody/FinalMessageBody",
 	"nextBtn": "Ok"
 }

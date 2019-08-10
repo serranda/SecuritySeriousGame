@@ -1,6 +1,6 @@
 {
 	"head": "ACQUISTO UPGRADE",
-	"bodyPath": "ConfirmPurchaseBody",
+	"bodyPath": "MessagesBody/ConfirmPurchaseBody",
 	"backBtn": "No",
 	"nextBtn": "Sì"
 }

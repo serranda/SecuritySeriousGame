@@ -30,9 +30,12 @@ public class StoreManager : MonoBehaviour
 
     private ILevelManager manager;
 
+    private TutorialManager tutorialManager;
+
     private void OnEnable()
     {
         manager = SetLevelManager();
+        tutorialManager = FindObjectOfType<TutorialManager>();
 
         sprites = Resources.LoadAll<Sprite>("ItemStoreSprite");
 
@@ -45,9 +48,12 @@ public class StoreManager : MonoBehaviour
         itemAsset = Resources.LoadAll<TextAsset>("ItemStore").ToList();
         content = scrollRect.content;
 
-        content.sizeDelta = new Vector2(content.sizeDelta.x, 300f * (itemAsset.Count-1));  
+        content.sizeDelta = new Vector2(content.sizeDelta.x, 300f * (itemAsset.Count-1));
 
-        itemList = manager.GetGameData().itemStoreList;
+        itemList = manager != null 
+            ? manager.GetGameData().itemStoreList 
+            : tutorialManager.tutorialGameData.itemStoreList;
+
 
         itemDescription = GameObject.Find("InfoTxt").GetComponent<TextMeshProUGUI>();
 
@@ -55,16 +61,21 @@ public class StoreManager : MonoBehaviour
         backBtn.onClick.RemoveAllListeners();
         backBtn.onClick.AddListener(delegate
         {
-            if (manager.GetGameData().storeEnabled)
+            if (manager != null)
             {
-                roomPcListener.ToggleStoreScreen();
+                if (manager.GetGameData().storeEnabled)
+                {
+                    roomPcListener.ToggleStoreScreen();
+                }
+            }
+            else
+            {
+                if (tutorialManager.tutorialGameData.storeEnabled)
+                {
+                    tutorialRoomPcListener.ToggleStoreScreen();
+                }
             }
 
-            ////TODO FIX TUTORIAL
-            //if (TutorialRoomPcListener.storeEnabled)
-            //{
-            //    tutorialRoomPcListener.ToggleStoreScreen();
-            //}
         });
 
         //POPULATE ITEMLIST
@@ -107,9 +118,9 @@ public class StoreManager : MonoBehaviour
 
         purchaseButton.onClick.RemoveAllListeners();
         purchaseButton.onClick.AddListener(delegate
-            {
-                ClassDb.levelMessageManager.StartConfirmPurchase(manager.GetGameData().itemStoreSelected);
-            });
+        {
+            ClassDb.levelMessageManager.StartConfirmPurchase(manager.GetGameData().itemStoreSelected);
+        });
 
         //disable interact with button until tutorial is finished
         if (SceneManager.GetActiveScene().buildIndex == StringDb.tutorialSceneIndex)
@@ -140,7 +151,7 @@ public class StoreManager : MonoBehaviour
 
     private void Update()
     {
-        purchaseButton.interactable = manager.GetGameData().itemStoreSelected.itemObject != null;
+        if (manager != null) purchaseButton.interactable = manager.GetGameData().itemStoreSelected.itemObject != null;
     }
 
     private ILevelManager SetLevelManager()

@@ -1,6 +1,6 @@
 {
 	"head": "BENVENUTO",
-	"bodyPath": "WelcomeBody",
+	"bodyPath": "MessagesBody/WelcomeBody",
 	"backBtn": "No",
 	"nextBtn": "Sì"
 }

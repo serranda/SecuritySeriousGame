@@ -1,5 +1,5 @@
 {
 	"head": "",
-	"bodyPath": "LocalAttackBody",
+	"bodyPath": "TutorialMessagesBody/LocalAttackBody",
 	"nextBtn": "Ok"
 }

@@ -1,6 +1,6 @@
 {
 	"head": "HAI PERSO",
-	"bodyPath": "EndGameLossBody",
+	"bodyPath": "MessagesBody/EndGameLossBody",
 	"backBtn": "Mostra Grafico",
 	"nextBtn": "Esci"
 }

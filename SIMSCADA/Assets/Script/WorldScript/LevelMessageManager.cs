@@ -98,7 +98,6 @@ public class LevelMessageManager : MonoBehaviour
         dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.gameObject.SetActive(true);
         dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.onClick.AddListener(delegate
         {
-            TutorialManager.tutorialIsFinished = true;
             ClassDb.dialogBoxManager.CloseDialog(dialog);
         });
 

@@ -13,9 +13,12 @@ public class ScadaManager : MonoBehaviour
 
     private ILevelManager manager;
 
+    private TutorialManager tutorialManager;
+
     private void OnEnable()
     {
         manager = SetLevelManager();
+        tutorialManager = FindObjectOfType<TutorialManager>();
 
         roomPcListener = FindObjectOfType<RoomPcListener>();
         tutorialRoomPcListener = FindObjectOfType<TutorialRoomPcListener>();
@@ -24,17 +27,20 @@ public class ScadaManager : MonoBehaviour
         backBtn.onClick.RemoveAllListeners();
         backBtn.onClick.AddListener(delegate
         {
-            if (manager.GetGameData().scadaEnabled)
+            if (manager != null)
             {
-                roomPcListener.ToggleScadaScreen();
+                if (manager.GetGameData().scadaEnabled)
+                {
+                    roomPcListener.ToggleScadaScreen();
+                }
             }
-
-
-            ////TODO FIX TUTORIAL
-            //if (TutorialRoomPcListener.scadaEnabled)
-            //{
-            //    tutorialRoomPcListener.ToggleScadaScreen();
-            //}
+            else
+            {
+                if (tutorialManager.tutorialGameData.scadaEnabled)
+                {
+                    tutorialRoomPcListener.ToggleScadaScreen();
+                }
+            }
         });
     }
 

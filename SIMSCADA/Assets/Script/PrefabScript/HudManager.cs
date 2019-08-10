@@ -28,6 +28,8 @@ public class HudManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     private ILevelManager manager;
 
+    private TutorialManager tutorialManager;
+
     private void OnEnable()
     {
         manager = SetLevelManager();
@@ -99,23 +101,50 @@ public class HudManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     private void SetTogglePressed()
     {
-        switch (manager.GetGameData().simulationSpeedMultiplier)
+        if (manager != null)
         {
-            case 1:
-                activeToggle = toggleX1;
-                break;
-            case 2:
-                activeToggle = toggleX2;
-                break;
-            case 5:
-                activeToggle = toggleX5;
-                break;
-            case 10:
-                activeToggle = toggleX10;
-                break;
-            default:
-                throw new ArgumentOutOfRangeException();
+            switch (manager.GetGameData().simulationSpeedMultiplier)
+            {
+                case 1:
+                    activeToggle = toggleX1;
+                    break;
+                case 2:
+                    activeToggle = toggleX2;
+                    break;
+                case 5:
+                    activeToggle = toggleX5;
+                    break;
+                case 10:
+                    activeToggle = toggleX10;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
+        else
+        {
+            tutorialManager = FindObjectOfType<TutorialManager>();
+
+            switch (tutorialManager.tutorialGameData.simulationSpeedMultiplier)
+            {
+                case 1:
+                    activeToggle = toggleX1;
+                    break;
+                case 2:
+                    activeToggle = toggleX2;
+                    break;
+                case 5:
+                    activeToggle = toggleX5;
+                    break;
+                case 10:
+                    activeToggle = toggleX10;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+
 
         activeToggle.isOn = true;
     }
@@ -146,22 +175,50 @@ public class HudManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     private void SetTimeSpeedMultiplier()
     {
-        switch (activeToggle.name)
+        if (manager != null)
         {
-            case StringDb.toggleX1:
-                manager.GetGameData().simulationSpeedMultiplier = 1;
-                break;
-            case StringDb.toggleX2:
-                manager.GetGameData().simulationSpeedMultiplier = 2;
-                break;
-            case StringDb.toggleX5:
-                manager.GetGameData().simulationSpeedMultiplier = 5;
-                break;
-            case StringDb.toggleX10:
-                manager.GetGameData().simulationSpeedMultiplier = 10;
-                break;
-            default:
-                throw new ArgumentOutOfRangeException();
+            switch (activeToggle.name)
+            {
+
+                case StringDb.toggleX1:
+                    manager.GetGameData().simulationSpeedMultiplier = 1;
+                    break;
+                case StringDb.toggleX2:
+                    manager.GetGameData().simulationSpeedMultiplier = 2;
+                    break;
+                case StringDb.toggleX5:
+                    manager.GetGameData().simulationSpeedMultiplier = 5;
+                    break;
+                case StringDb.toggleX10:
+                    manager.GetGameData().simulationSpeedMultiplier = 10;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
+        else
+        {
+            tutorialManager = FindObjectOfType<TutorialManager>();
+
+            switch (activeToggle.name)
+            {
+
+                case StringDb.toggleX1:
+                    tutorialManager.tutorialGameData.simulationSpeedMultiplier = 1;
+                    break;
+                case StringDb.toggleX2:
+                    tutorialManager.tutorialGameData.simulationSpeedMultiplier = 2;
+                    break;
+                case StringDb.toggleX5:
+                    tutorialManager.tutorialGameData.simulationSpeedMultiplier = 5;
+                    break;
+                case StringDb.toggleX10:
+                    tutorialManager.tutorialGameData.simulationSpeedMultiplier = 10;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
     }
 }

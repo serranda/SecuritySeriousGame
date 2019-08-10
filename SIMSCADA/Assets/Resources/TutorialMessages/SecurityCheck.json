@@ -1,5 +1,5 @@
 {
 	"head": "",
-	"bodyPath": "SecurityCheckBody",
+	"bodyPath": "TutorialMessagesBody/SecurityCheckBody",
 	"nextBtn": "Ok"
 }

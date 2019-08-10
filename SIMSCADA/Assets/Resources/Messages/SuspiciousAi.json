@@ -1,6 +1,6 @@
 {
 	"head": "PERSONA SOSPETTA",
-	"bodyPath": "SuspiciousAiBody",
+	"bodyPath": "MessagesBody/SuspiciousAiBody",
 	"backBtn": "No",
 	"nextBtn": "Ok"
 }

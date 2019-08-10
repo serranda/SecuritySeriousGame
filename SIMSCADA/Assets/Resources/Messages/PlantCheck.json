@@ -1,6 +1,6 @@
 {
 	"head": "CONTROLLO IMPIANTO RICHIESTO",
-	"bodyPath": "PlantCheckBody",
+	"bodyPath": "MessagesBody/PlantCheckBody",
 	"backBtn": "No",
 	"nextBtn": "Ok"
 }

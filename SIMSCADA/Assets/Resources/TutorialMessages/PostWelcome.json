@@ -1,5 +1,5 @@
 {
 	"head": "",
-	"bodyPath": "PostWelcomeBody",
+	"bodyPath": "TutorialMessagesBody/PostWelcomeBody",
 	"nextBtn": "Ok"
 }

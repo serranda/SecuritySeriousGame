@@ -1,6 +1,6 @@
 {
 	"head": "ATTACCO SUBITO",
-	"bodyPath": "ThreatDeployedLocalBody",
+	"bodyPath": "MessagesBody/ThreatDeployedLocalBody",
 	"backBtn": "No",
 	"nextBtn": "Ok"
 }

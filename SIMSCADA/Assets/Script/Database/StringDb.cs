@@ -14,7 +14,7 @@ public class StringDb
     public static string panelTimeFormat = "dd/MM/yyyy hh:mm:ss";
 
     //string values for php script and server folder
-    public static string serverAddressEditor = "http://192.168.1.107/SIMSCADA";
+    public static string serverAddressEditor = "http://192.168.1.108/SIMSCADA";
     //public static string serverAddress = Application.absoluteURL.TrimEnd('/');
     public static string phpFolder = "PHP";
     public static string mainDataFolder = "Data";
@@ -95,7 +95,6 @@ public class StringDb
     public const string threatManagementResult = "Messages/ThreatManagementResult";
     public const string newTrustedEmployees = "Messages/NewTrustedEmployees";
     public const string newEmployeesHired = "Messages/NewEmployeesHired";
-    public const string tutorialExit = "Messages/TutorialExit";
     public const string showLessonFirstTime = "Messages/ShowLessonFirstTime";
     public const string researchReport = "Messages/ResearchReport";
     public const string endGameWin = "Messages/EndGameWin";
@@ -127,6 +126,8 @@ public class StringDb
     public static string tutorialHMIPanel = "TutorialMessages/HMIPanel";
     public static string tutorialFinalMessage = "TutorialMessages/FinalMessage";
     public static string notebookMessage = "TutorialMessages/Notebook";
+    public const string tutorialExit = "TutorialMessages/TutorialExit";
+
 
     //string value for employees notes on idcard
     public static string attacker = "EmployeesNotes/Attacker";

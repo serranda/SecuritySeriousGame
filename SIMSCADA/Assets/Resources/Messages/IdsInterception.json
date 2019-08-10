@@ -1,6 +1,6 @@
 {
 	"head": "ALLARME IDS",
-	"bodyPath": "IdsInterceptionBody",
+	"bodyPath": "MessagesBody/IdsInterceptionBody",
 	"backBtn": "No",
 	"nextBtn": "Ok"
 }

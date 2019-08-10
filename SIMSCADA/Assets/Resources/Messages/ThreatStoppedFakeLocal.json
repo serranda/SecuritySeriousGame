@@ -1,6 +1,6 @@
 {
 	"head": "TENTATIVO DI NEUTRALIZZAZIONE MINACCIA FALLITO",
-	"bodyPath": "ThreatStoppedFakeLocalBody",
+	"bodyPath": "MessagesBody/ThreatStoppedFakeLocalBody",
 	"backBtn": "No",
 	"nextBtn": "Ok"
 }

@@ -1,6 +1,6 @@
 {
 	"head": "",
-	"bodyPath": "InternalEmployeeBody",
+	"bodyPath": "MessagesBody/InternalEmployeeBody",
 	"backBtn": "",
 	"nextBtn": ""
 }

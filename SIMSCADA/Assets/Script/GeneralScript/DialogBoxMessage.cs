@@ -7,22 +7,11 @@ public class DialogBoxMessage
     public string backBtn;
     public string nextBtn;
 
-    public string body
-    {
-        get
-        {
-            return string.IsNullOrEmpty(bodyPath) 
-                ? string.Empty 
-                : Resources.Load<TextAsset>("MessagesBody/" + bodyPath).text;
-        }
-
-    }
+    public string body =>
+        string.IsNullOrEmpty(bodyPath) 
+            ? string.Empty 
+            : Resources.Load<TextAsset>(bodyPath).text;
 
 
-    public override string ToString()
-    {
-        return string.Format("Head: {0}, BodyPath: {1}, BackBtn: {2}, NextBtn: {3}, Body: {4}",
-            head, bodyPath, backBtn, nextBtn, body);
-    }
-
+    public override string ToString() => $"Head: {head}, BodyPath: {bodyPath}, BackBtn: {backBtn}, NextBtn: {nextBtn}, Body: {body}";
 }

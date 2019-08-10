@@ -1,6 +1,6 @@
 {
 	"head": "TENTATIVO DI CORRUZIONE FALLITO",
-	"bodyPath": "FailedCorruptionBody",
+	"bodyPath": "MessagesBody/FailedCorruptionBody",
 	"backBtn": "No",
 	"nextBtn": "Ok"
 }

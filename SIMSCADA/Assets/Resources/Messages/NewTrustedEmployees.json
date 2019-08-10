@@ -1,6 +1,6 @@
 {
 	"head": "IMPOSSIBILE APPLICARE CORSO AGGIORNAMENTO",
-	"bodyPath": "NewTrustedEmployeesBody",
+	"bodyPath": "MessagesBody/NewTrustedEmployeesBody",
 	"backBtn": "No",
 	"nextBtn": "Ok"
 }

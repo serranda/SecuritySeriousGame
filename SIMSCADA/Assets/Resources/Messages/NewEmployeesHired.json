@@ -1,6 +1,6 @@
 {
 	"head": "CAMPAGNA ASSUNZIONI EFFETTUATA",
-	"bodyPath": "NewEmployeesHiredBody",
+	"bodyPath": "MessagesBody/NewEmployeesHiredBody",
 	"backBtn": "No",
 	"nextBtn": "Ok"
 }

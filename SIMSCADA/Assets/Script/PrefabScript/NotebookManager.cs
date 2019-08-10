@@ -41,7 +41,9 @@ public class NotebookManager : MonoBehaviour
     private IEnumerator notebookMessageRoutine;
 
     private ILevelManager manager;
-    
+
+    [SerializeField] private TutorialManager tutorialManager;
+
     private void Update()
     {
         pageCount = pageR.textInfo.pageCount;
@@ -75,7 +77,7 @@ public class NotebookManager : MonoBehaviour
 
     private void OnEnable()
     {
-        if (SceneManager.GetActiveScene().buildIndex == StringDb.tutorialSceneIndex && TutorialManager.notebookFirstTime)
+        if (tutorialManager != null && tutorialManager.notebookFirstTime)
         {
             //show info message for security check
             notebookMessageRoutine = NotebookMessageRoutine();
@@ -83,11 +85,15 @@ public class NotebookManager : MonoBehaviour
         }
 
         manager = SetLevelManager();
+        tutorialManager = FindObjectOfType<TutorialManager>();
 
         toggleGroup = GameObject.Find(StringDb.noteBookToggleGroup).GetComponent<ToggleGroup>();
 
 
-        if (manager != null) manager.GetGameData().noteBookEnabled = true;
+        if (manager != null)
+            manager.GetGameData().noteBookEnabled = true;
+        else
+            tutorialManager.tutorialGameData.noteBookEnabled = true;
 
         colorIndex = 0;
         pageCount = 0;
@@ -144,7 +150,10 @@ public class NotebookManager : MonoBehaviour
 
     private void OnDisable()
     {
-        if (manager != null) manager.GetGameData().noteBookEnabled = false;
+        if (manager != null)
+            manager.GetGameData().noteBookEnabled = false;
+        else
+            tutorialManager.tutorialGameData.noteBookEnabled = false;
     }
 
     private ILevelManager SetLevelManager()
@@ -158,11 +167,12 @@ public class NotebookManager : MonoBehaviour
         return iManager;
     }
 
-
     public void ToggleNoteBook()
     {
         manager = SetLevelManager();
+        tutorialManager = FindObjectOfType<TutorialManager>();
 
+        //TODO CHECK FOR TUTORIAL
         if (manager.GetGameData().noteBookEnabled)
         {
             ClassDb.prefabManager.ReturnPrefab(noteBook.gameObject, PrefabManager.noteBookIndex);
@@ -183,8 +193,6 @@ public class NotebookManager : MonoBehaviour
 
     public void ToggleNoteBook(bool toggle)
     {
-
-
         if (toggle)
         {
             ClassDb.prefabManager.ReturnPrefab(noteBook.gameObject, PrefabManager.noteBookIndex);
@@ -370,7 +378,7 @@ public class NotebookManager : MonoBehaviour
         //wait until dialog has been disabled
         yield return new WaitWhile(() => TutorialDialogBoxManager.dialogEnabled);
 
-        TutorialManager.notebookFirstTime = false;
+        tutorialManager.notebookFirstTime = false;
 
     }
 }

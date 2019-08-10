@@ -1,6 +1,6 @@
 {
 	"head": "ESCI",
-	"bodyPath": "ExitBody",
+	"bodyPath": "MessagesBody/ExitBody",
 	"backBtn": "Cancella",
 	"nextBtn": "Esci"
 }

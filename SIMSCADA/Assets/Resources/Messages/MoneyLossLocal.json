@@ -1,6 +1,6 @@
 {
 	"head": "PERDITA SOLDI",
-	"bodyPath": "MoneyLossLocalBody",
+	"bodyPath": "MessagesBody/MoneyLossLocalBody",
 	"backBtn": "No",
 	"nextBtn": "Ok"
 }

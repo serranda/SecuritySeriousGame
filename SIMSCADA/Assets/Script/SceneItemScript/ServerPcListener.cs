@@ -48,12 +48,6 @@ public class ServerPcListener : MonoBehaviour
     {
         List<Button> buttons;
 
-        //DEBUG OVERRIDE TO DELETE
-        manager.GetGameData().hasReplayDeployed = true;
-
-        //DEBUG OVERRIDE TO DELETE
-        manager.GetGameData().hasPlantChecked = false;
-
         if (manager.GetGameData().hasDosDeployed ||
             manager.GetGameData().hasPhishingDeployed ||
             manager.GetGameData().hasReplayDeployed ||
@@ -72,7 +66,6 @@ public class ServerPcListener : MonoBehaviour
                 buttons[0].onClick.AddListener(delegate
                 {
                     manager.SetFirewallActive(false);
-                    interactiveSprite.ToggleMenu();
                 });
             }
             else
@@ -82,7 +75,6 @@ public class ServerPcListener : MonoBehaviour
                 buttons[0].onClick.AddListener(delegate
                 {
                     manager.SetFirewallActive(true);
-                    interactiveSprite.ToggleMenu();
                 });
             }
 
@@ -94,7 +86,6 @@ public class ServerPcListener : MonoBehaviour
                 buttons[1].onClick.AddListener(delegate
                 {
                     manager.SetRemoteIdsActive(false);
-                    interactiveSprite.ToggleMenu();
                 });
             }
             else
@@ -104,7 +95,6 @@ public class ServerPcListener : MonoBehaviour
                 buttons[1].onClick.AddListener(delegate
                 {
                     manager.SetRemoteIdsActive(true);
-                    interactiveSprite.ToggleMenu();
                 });
             }
 
@@ -115,7 +105,6 @@ public class ServerPcListener : MonoBehaviour
                 buttons[2].onClick.AddListener(delegate
                 {
                     manager.SetLocalIdsActive(false);
-                    interactiveSprite.ToggleMenu();
                 });
             }
             else
@@ -125,7 +114,6 @@ public class ServerPcListener : MonoBehaviour
                 buttons[2].onClick.AddListener(delegate
                 {
                     manager.SetLocalIdsActive(true);
-                    interactiveSprite.ToggleMenu();
                 });
             }
 

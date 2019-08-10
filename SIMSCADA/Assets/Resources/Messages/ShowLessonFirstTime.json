@@ -1,6 +1,6 @@
 {
 	"head": "PRIMO ATTACCO SUBITO",
-	"bodyPath": "ShowLessonFirstTimeBody",
+	"bodyPath": "MessagesBody/ShowLessonFirstTimeBody",
 	"backBtn": "No",
 	"nextBtn": "Ok"
 }

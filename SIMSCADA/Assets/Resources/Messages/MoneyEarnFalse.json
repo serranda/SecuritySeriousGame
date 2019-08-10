@@ -1,6 +1,6 @@
 {
 	"head": "AUMENTO NON RICEVUTO",
-	"bodyPath": "MoneyEarnFalseBody",
+	"bodyPath": "MessagesBody/MoneyEarnFalseBody",
 	"backBtn": "No",
 	"nextBtn": "Ok"
 }

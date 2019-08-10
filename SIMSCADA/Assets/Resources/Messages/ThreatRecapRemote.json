@@ -1,6 +1,6 @@
 {
 	"head": "RECAP CONTROLLO MINACCE",
-	"bodyPath": "ThreatRecapRemoteBody",
+	"bodyPath": "MessagesBody/ThreatRecapRemoteBody",
 	"backBtn": "No",
 	"nextBtn": "Ok"
 }

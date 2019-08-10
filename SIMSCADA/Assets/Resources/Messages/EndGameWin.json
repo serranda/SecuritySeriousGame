@@ -1,6 +1,6 @@
 {
 	"head": "HAI VINTO",
-	"bodyPath": "EndGameWinBody",
+	"bodyPath": "MessagesBody/EndGameWinBody",
 	"backBtn": "Mostra Grafico",
 	"nextBtn": "Esci"
 }
