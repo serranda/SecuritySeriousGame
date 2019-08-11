@@ -116,11 +116,19 @@ public class StoreManager : MonoBehaviour
             CheckItemLevel(item);
         }
 
-        purchaseButton.onClick.RemoveAllListeners();
-        purchaseButton.onClick.AddListener(delegate
+        if (manager != null)
         {
-            ClassDb.levelMessageManager.StartConfirmPurchase(manager.GetGameData().itemStoreSelected);
-        });
+            purchaseButton.onClick.RemoveAllListeners();
+            purchaseButton.onClick.AddListener(delegate
+            {
+                ClassDb.levelMessageManager.StartConfirmPurchase(manager.GetGameData().itemStoreSelected);
+            });
+        }
+        else
+        {
+            purchaseButton.interactable = false;
+        }
+
 
         //disable interact with button until tutorial is finished
         if (SceneManager.GetActiveScene().buildIndex == StringDb.tutorialSceneIndex)
@@ -146,7 +154,7 @@ public class StoreManager : MonoBehaviour
             ClassDb.prefabManager.ReturnPrefab(buttonToDestroy.gameObject, PrefabManager.storeItemIndex);
         }
 
-        manager.GetGameData().itemStoreList = itemList;
+        if (manager != null) manager.GetGameData().itemStoreList = itemList;
     }
 
     private void Update()

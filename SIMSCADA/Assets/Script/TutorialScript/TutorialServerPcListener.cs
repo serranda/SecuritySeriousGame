@@ -19,7 +19,6 @@ public class TutorialServerPcListener : MonoBehaviour
         interactiveSprite = GetComponent<TutorialInteractiveSprite>();
     }
 
-
     public void SetSeverPcListeners()
     {
         if (tutorialManager.serverPcFirstTime)

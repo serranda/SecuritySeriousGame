@@ -14,7 +14,7 @@ public class StringDb
     public static string panelTimeFormat = "dd/MM/yyyy hh:mm:ss";
 
     //string values for php script and server folder
-    public static string serverAddressEditor = "http://192.168.1.108/SIMSCADA";
+    public static string serverAddressEditor = "http://192.168.1.110/SIMSCADA";
     //public static string serverAddress = Application.absoluteURL.TrimEnd('/');
     public static string phpFolder = "PHP";
     public static string mainDataFolder = "Data";
@@ -111,6 +111,7 @@ public class StringDb
     public static string tutorialWelcome5 = "TutorialMessages/Welcome5";
     public static string tutorialWelcome6 = "TutorialMessages/Welcome6";
     public static string tutorialWelcome7 = "TutorialMessages/Welcome7";
+    public static string tutorialIdsFirewallIps = "TutorialMessages/IdsFirewallIps";
     public static string tutorialTelephone1 = "TutorialMessages/Telephone1";
     public static string tutorialTelephone2 = "TutorialMessages/Telephone2";
     public static string tutorialServer = "TutorialMessages/Server";

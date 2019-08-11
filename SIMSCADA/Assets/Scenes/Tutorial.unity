@@ -12128,7 +12128,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00b50f8f69ca8234f9d9a873267e41df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactiveSprite: {fileID: 0}
   tutorialManager: {fileID: 1086048627}
 --- !u!114 &980743386
 MonoBehaviour:
@@ -12641,12 +12640,18 @@ MonoBehaviour:
     totalEmployees: 50
     reputation: 35
     minutePercentage: 0
+    itemStoreList: []
     serverAmount: 2
     pcAmount: 3
     telephoneAmount: 2
     securityCheckAmount: 1
+    totalMoneyEarnPerMinute: 0
+    totalCostPerMinute: 0
     simulationSpeedMultiplier: 1
     millisecondsPerMinutes: 10000
+    isFirewallActive: 0
+    isRemoteIdsActive: 0
+    isLocalIdsActive: 0
     scadaEnabled: 0
     storeEnabled: 0
     noteBookEnabled: 0
@@ -15876,7 +15881,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00b50f8f69ca8234f9d9a873267e41df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactiveSprite: {fileID: 0}
   tutorialManager: {fileID: 1086048627}
 --- !u!212 &1653946450
 SpriteRenderer:
@@ -15969,7 +15973,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 2cd9ef21f9aa868498df3e6c42caa9ed, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.176
   m_Pitch: 1

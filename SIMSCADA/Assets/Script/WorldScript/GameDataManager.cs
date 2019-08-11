@@ -15,6 +15,8 @@ public class GameDataManager : MonoBehaviour
 
     private ILevelManager manager;
 
+    private int levelIndex;
+
     private IEnumerator saveRoutine;
     private IEnumerator loadRoutine;
 
@@ -46,6 +48,9 @@ public class GameDataManager : MonoBehaviour
 
         //SET LONG DATE VALUE
         gameData.longDate = gameData.date.ToFileTimeUtc();
+
+        //SET LEVEL INDEX
+        gameData.levelIndex = levelIndex;
 
         //SET CAMERA ZOOM VALUE
         CinemachineVirtualCamera virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
@@ -207,9 +212,15 @@ public class GameDataManager : MonoBehaviour
     {
         ILevelManager iManager;
         if (SceneManager.GetActiveScene().buildIndex == StringDb.level1SceneIndex)
+        {
             iManager = FindObjectOfType<Level1Manager>();
+            levelIndex = 1;
+        }
         else
+        {
             iManager = FindObjectOfType<Level2Manager>();
+            levelIndex = 2;
+        }
 
         return iManager;
     }

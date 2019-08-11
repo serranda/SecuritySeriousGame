@@ -1,1 +1,3 @@
-Questa è la fine del tutorial. Se vuoi puoi rimanere in questo livello per fare pratica con le meccaniche del gioco. Quando ti sentirai abbastanza confidente con i comandi, seleziona la voce "Termina Tutorial" dalla schermata di pausa per uscire ed iniziare a giocare. Buon divertimento!
+Sei arrivato alla fine del tutorial. Ora che hai appreso i comandi base, non ti resta che entrare in azione ed evitare di subire il più possibile le minacce. Ricorda, il gioco termina se dovessi subire troppe perdite economiche, portando l'azienda alla bancarotta. Cerca di mantenere floride le finanze aziendali e riuscirai ad avanzare di livello. Buon divertimento!!
+
+(N.B. Una volta chiuso questo messaggio verrà caricato il primo livello.)

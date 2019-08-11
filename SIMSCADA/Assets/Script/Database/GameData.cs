@@ -250,4 +250,7 @@ public class GameData
     //camera zoom value
     public float cameraZoom;
 
+    //value for level index;
+    public int levelIndex;
+
 }

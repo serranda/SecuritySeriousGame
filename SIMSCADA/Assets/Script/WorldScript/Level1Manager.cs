@@ -135,18 +135,17 @@ public class Level1Manager : MonoBehaviour, ILevelManager
         SpawnHud();
 
         //start and set gui setting parameters
-        if (gameData.firstLaunch)
+        if (!gameData.firstLaunch && gameData.levelIndex == 1)
+        {
+            RestorePrefabs(gameData);
+        }
+        else
         {
             ClassDb.levelMessageManager.StartWelcome();
 
             //EVENT TO SET A THREAT TENDENCIES; IF RESEARCH REPORT IS ACTIVE DISPLAY MESSAGE 
             SetMonthlyThreatAttack();
         }
-        else
-        {
-            RestorePrefabs(gameData);
-        }
-
 
         StartTimeRoutine();
 

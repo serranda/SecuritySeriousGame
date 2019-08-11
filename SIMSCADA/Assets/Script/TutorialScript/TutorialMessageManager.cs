@@ -389,6 +389,21 @@ public class TutorialMessageManager : MonoBehaviour
 
     }
 
+    public void IdsFirewallIpsMessage()
+    {
+        ClassDb.tutorialDialogBoxManager.ToggleTutorialDialogBox();
+
+        TutorialDialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.tutorialIdsFirewallIps));
+
+        ClassDb.tutorialDialogBoxManager.SetTutorialDialog(message.body);
+
+        TutorialDialogBoxManager.btnTutorialDialog.onClick.RemoveAllListeners();
+        TutorialDialogBoxManager.btnTutorialDialog.onClick.AddListener(delegate
+        {
+            ClassDb.tutorialDialogBoxManager.ToggleTutorialDialogBox();
+        });
+    }
+
     public void Exit()
     {
         //yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);

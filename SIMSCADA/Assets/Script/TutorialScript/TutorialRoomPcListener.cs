@@ -227,8 +227,6 @@ public class TutorialRoomPcListener : MonoBehaviour
 
         //set flag to start next coroutine
         market1 = true;
-
-
     }
 
     private IEnumerator Market2Routine()
@@ -247,7 +245,6 @@ public class TutorialRoomPcListener : MonoBehaviour
 
         //set flag to start next coroutine
         market2 = true;
-
     }
 
     private IEnumerator HmiPcRoutine()
@@ -259,7 +256,6 @@ public class TutorialRoomPcListener : MonoBehaviour
         yield return new WaitWhile(() => TutorialDialogBoxManager.dialogEnabled);
 
         tutorialManager.roomPcFirstTime = false;
-
     }
 
     private IEnumerator HmiPanelRoutine()
@@ -269,7 +265,5 @@ public class TutorialRoomPcListener : MonoBehaviour
 
         //wait until dialog has been disabled
         yield return new WaitWhile(() => TutorialDialogBoxManager.dialogEnabled);
-
     }
-
 }

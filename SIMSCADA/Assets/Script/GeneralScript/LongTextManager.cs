@@ -6,7 +6,6 @@ public class LongTextManager : MonoBehaviour
 {
     private int pageCount;
     public static TextMeshProUGUI text;
-    
 
     private Button leftButton;
     private CanvasGroup lbGroup;
@@ -15,7 +14,6 @@ public class LongTextManager : MonoBehaviour
     private CanvasGroup rbGroup;
 
     private HorizontalLayoutGroup horizontalLayout;
-
 
     private void OnEnable()
     {
@@ -27,6 +25,7 @@ public class LongTextManager : MonoBehaviour
         SetLeftButton();
         SetRightButton();
     }
+
     private void Update()
     {
         text = GetComponent<TextMeshProUGUI>();
@@ -60,6 +59,7 @@ public class LongTextManager : MonoBehaviour
             rbGroup.alpha = 0;
         }
     }
+
     private void SetLeftButton()
     {
         leftButton = GameObject.Find(StringDb.dialogBoxBtnLeft).GetComponent<Button>();
@@ -73,6 +73,7 @@ public class LongTextManager : MonoBehaviour
 
         lbGroup = leftButton.GetComponent<CanvasGroup>();
     }
+
     private void SetRightButton()
     {
         rightButton = GameObject.Find(StringDb.dialogBoxBtnRight).GetComponent<Button>();

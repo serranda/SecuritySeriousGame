@@ -77,17 +77,18 @@ public class NotebookManager : MonoBehaviour
 
     private void OnEnable()
     {
+
+        manager = SetLevelManager();
+        tutorialManager = FindObjectOfType<TutorialManager>();
+
+        toggleGroup = GameObject.Find(StringDb.noteBookToggleGroup).GetComponent<ToggleGroup>();
+
         if (tutorialManager != null && tutorialManager.notebookFirstTime)
         {
             //show info message for security check
             notebookMessageRoutine = NotebookMessageRoutine();
             StartCoroutine(notebookMessageRoutine);
         }
-
-        manager = SetLevelManager();
-        tutorialManager = FindObjectOfType<TutorialManager>();
-
-        toggleGroup = GameObject.Find(StringDb.noteBookToggleGroup).GetComponent<ToggleGroup>();
 
 
         if (manager != null)
@@ -173,22 +174,39 @@ public class NotebookManager : MonoBehaviour
         tutorialManager = FindObjectOfType<TutorialManager>();
 
         //TODO CHECK FOR TUTORIAL
-        if (manager.GetGameData().noteBookEnabled)
+        if (manager != null)
         {
-            ClassDb.prefabManager.ReturnPrefab(noteBook.gameObject, PrefabManager.noteBookIndex);
-            foreach (Toggle lessonButton in btnList.content.GetComponentsInChildren<Toggle>())
+            if (manager.GetGameData().noteBookEnabled)
             {
-                ClassDb.prefabManager.ReturnPrefab(lessonButton.gameObject, PrefabManager.notebookButtonIndex);
+                ClassDb.prefabManager.ReturnPrefab(noteBook.gameObject, PrefabManager.noteBookIndex);
+                foreach (Toggle lessonButton in btnList.content.GetComponentsInChildren<Toggle>())
+                {
+                    ClassDb.prefabManager.ReturnPrefab(lessonButton.gameObject, PrefabManager.notebookButtonIndex);
+                }
             }
+            else
+            {
+                noteBook = ClassDb.prefabManager.GetPrefab(ClassDb.prefabManager.prefabNoteBook.gameObject, PrefabManager.noteBookIndex).GetComponent<Canvas>();
+            }
+
+            if (ClassDb.timeManager)
+                ClassDb.timeManager.ToggleTime();
         }
         else
         {
-            noteBook = ClassDb.prefabManager.GetPrefab(ClassDb.prefabManager.prefabNoteBook.gameObject, PrefabManager.noteBookIndex).GetComponent<Canvas>();
+            if (tutorialManager.tutorialGameData.noteBookEnabled)
+            {
+                ClassDb.prefabManager.ReturnPrefab(noteBook.gameObject, PrefabManager.noteBookIndex);
+                foreach (Toggle lessonButton in btnList.content.GetComponentsInChildren<Toggle>())
+                {
+                    ClassDb.prefabManager.ReturnPrefab(lessonButton.gameObject, PrefabManager.notebookButtonIndex);
+                }
+            }
+            else
+            {
+                noteBook = ClassDb.prefabManager.GetPrefab(ClassDb.prefabManager.prefabNoteBook.gameObject, PrefabManager.noteBookIndex).GetComponent<Canvas>();
+            }
         }
-
-        if(ClassDb.timeManager)
-            ClassDb.timeManager.ToggleTime();
-
     }
 
     public void ToggleNoteBook(bool toggle)
@@ -205,7 +223,6 @@ public class NotebookManager : MonoBehaviour
         {
             noteBook = ClassDb.prefabManager.GetPrefab(ClassDb.prefabManager.prefabNoteBook.gameObject, PrefabManager.noteBookIndex).GetComponent<Canvas>();
         }
-
     }
 
     private void SetPageTextBody(Lesson lesson)

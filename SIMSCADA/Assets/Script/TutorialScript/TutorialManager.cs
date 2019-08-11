@@ -18,6 +18,7 @@ public class TutorialManager : MonoBehaviour
     private bool welcome6;
     private bool welcome7;
     private bool interactiveObject;
+    private bool idsFirewallIps;
     private bool postWelcome;
     private bool remoteAttackMessage;
     private bool localAttackMessage;
@@ -30,7 +31,6 @@ public class TutorialManager : MonoBehaviour
     public bool roomPcFirstTime = true;
     public bool firstTimeHMIPanel = true;
     public bool firstTimeMarket = true;
-
 
     //bool for check if first click on security check
     public bool securityCheckFirstTime = true;
@@ -53,6 +53,7 @@ public class TutorialManager : MonoBehaviour
     private IEnumerator welcome6Routine;
     private IEnumerator welcome7Routine;
     private IEnumerator interactiveObjectRoutine;
+    private IEnumerator idsFirewallIpsRoutine;
     private IEnumerator postWelcomeRoutine;
     private IEnumerator remoteAttackMessageRoutine;
     private IEnumerator localAttackMessageRoutine;
@@ -321,8 +322,9 @@ public class TutorialManager : MonoBehaviour
         welcome7 = false;
 
         ////start next corotuine
-        interactiveObjectRoutine = InteractiveObjectRoutine();
-        StartCoroutine(interactiveObjectRoutine);
+        idsFirewallIpsRoutine = IdsFirewallIps();
+        StartCoroutine(idsFirewallIpsRoutine);
+
 
         //display message
         ClassDb.tutorialMessageManager.Welcome7Message();
@@ -334,7 +336,7 @@ public class TutorialManager : MonoBehaviour
         welcome7 = true;
     }
 
-    private IEnumerator InteractiveObjectRoutine()
+    private IEnumerator IdsFirewallIps()
     {
         //wait unitl previous corutine has finished
         yield return new WaitUntil(() => welcome7);
@@ -377,6 +379,28 @@ public class TutorialManager : MonoBehaviour
         }
  
         //set flag to stop next coroutine
+        idsFirewallIps = false;
+
+        //start next corotuine
+        interactiveObjectRoutine = InteractiveObjectRoutine();
+        StartCoroutine(interactiveObjectRoutine);
+
+        //display message
+        ClassDb.tutorialMessageManager.IdsFirewallIpsMessage();
+
+        //wait until dialog has been disabled
+        yield return new WaitWhile(() => TutorialDialogBoxManager.dialogEnabled);
+
+        //set flag to start next coroutine
+        idsFirewallIps = true;
+    }
+
+    private IEnumerator InteractiveObjectRoutine()
+    {
+        //wait unitl previous corutine has finished
+        yield return new WaitUntil(() => idsFirewallIps);
+
+        //set flag to stop next coroutine
         interactiveObject = false;
 
         //start next corotuine
@@ -391,7 +415,6 @@ public class TutorialManager : MonoBehaviour
 
         //set flag to start next coroutine
         interactiveObject = true;
-
     }
 
     private IEnumerator PostWelcomeRoutine()
@@ -511,18 +534,8 @@ public class TutorialManager : MonoBehaviour
         //wait unitl previous corutine has finished
         yield return new WaitUntil(() => postAttackMessage);
 
-        ////Move down dialog
-        //ClassDb.tutorialDialogBoxManager.MoveDownDialog();
-
-        ////Toggle time
-        //ClassDb.timeManager.ToggleTime();
-
         //set flag to stop next coroutine
         finalMessage = false;
-
-        ////start next corotuine
-        //startGameRoutine = StartGame();
-        //StartCoroutine(startGameRoutine);
 
         //display message
         ClassDb.tutorialMessageManager.FinalMessage();
@@ -532,7 +545,9 @@ public class TutorialManager : MonoBehaviour
 
         //set flag to start next coroutine
         finalMessage = true;
-        
+
+        //exit from tutorial and load level 1
+        ClassDb.sceneLoader.StartLoadByIndex(StringDb.level1SceneIndex);
     }
 
     public void SetFirewallActive(bool active)
@@ -549,23 +564,4 @@ public class TutorialManager : MonoBehaviour
     {
         tutorialGameData.isLocalIdsActive = active;
     }
-
-    //private IEnumerator StartGame()
-    //{
-    //    tutorialIsFinished = false;
-
-    //    //wait unitl previous corutine has finished
-    //    yield return new WaitUntil(() => finalMessage);
-
-    //    StopAllCoroutines();
-
-    //    //Start routine for the game components
-    //    StartAllCoroutines();
-
-    //    tutorialIsFinished = true;
-
-    //    SetInteractiveSprite();
-    //}
-
-
 }
