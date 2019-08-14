@@ -74,7 +74,6 @@ public class DialogBoxManager : MonoBehaviour
 
     }
 
-
     public Canvas OpenDialog()
     {
         Canvas dialogBox = ClassDb.prefabManager.GetPrefab(ClassDb.prefabManager.prefabDialogBox.gameObject, PrefabManager.dialogIndex).GetComponent<Canvas>();

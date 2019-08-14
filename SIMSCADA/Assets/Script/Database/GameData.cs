@@ -221,6 +221,7 @@ public class GameData
     public bool idCardEnabled;
     public bool buttonEnabled;
     public bool dialogEnabled;
+    public bool chartEnabled;
 
     //value for item store selected
     public ItemStore itemStoreSelected = new ItemStore();

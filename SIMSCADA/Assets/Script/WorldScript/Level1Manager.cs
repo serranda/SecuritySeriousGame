@@ -41,6 +41,11 @@ public class Level1Manager : MonoBehaviour, ILevelManager
                 ClassDb.levelMessageManager.StartCloseDialog();
                 return;
             }
+
+            if (gameData.chartEnabled)
+            {
+                return;
+            }
             ClassDb.pauseManager.TogglePauseMenu();
         }
 
@@ -1078,7 +1083,7 @@ public class Level1Manager : MonoBehaviour, ILevelManager
         float moneyLoss = (float) elapsedGameTime.TotalMinutes * threat.moneyLossPerMinute;
 
         ClassDb.levelMessageManager.StartThreatManagementResult(elapsedGameTime, moneyLoss);
-        ClassDb.dataCollector.GetThreatData(threat, (float) elapsedRealTime.TotalSeconds);
+        ClassDb.threatChartController.GetThreatData(threat, (float) elapsedRealTime.TotalSeconds);
 
         //wait to close dialog to continue
         yield return new WaitUntil(() => gameData.dialogEnabled);
@@ -1196,7 +1201,7 @@ public class Level1Manager : MonoBehaviour, ILevelManager
 
         //RESTORE CAMERA ZOOM VALUE
         CinemachineVirtualCamera virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
-        Debug.Log(data.cameraZoom);
+        //Debug.Log(data.cameraZoom);
         virtualCamera.m_Lens.OrthographicSize = data.cameraZoom;
 
     }

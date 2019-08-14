@@ -12,17 +12,15 @@ public class IdCardManager : MonoBehaviour
 {
     private static Canvas idCard;
 
-    private static Button backBtn;
-    private static TextMeshProUGUI nameTmPro;
-    private static TextMeshProUGUI surnameTmPro;
-    private static TextMeshProUGUI jobTmPro;
-    private static TextMeshProUGUI trustedTmPro;
-    private static Image aiImage;
+    [SerializeField] private Button backBtn;
+    [SerializeField] private TextMeshProUGUI nameTmPro;
+    [SerializeField] private TextMeshProUGUI surnameTmPro;
+    [SerializeField] private TextMeshProUGUI jobTmPro;
+    [SerializeField] private TextMeshProUGUI trustedTmPro;
+    [SerializeField] private Image aiImage;
 
-    private static TextMeshProUGUI attackerNote;
-    private static TextMeshProUGUI attackerLbl;
-
-    //private static Sprite[] sprites;
+    [SerializeField] private TextMeshProUGUI attackerLbl;
+    [SerializeField] private TextMeshProUGUI attackerNote;
 
     private ILevelManager manager;
 
@@ -32,21 +30,8 @@ public class IdCardManager : MonoBehaviour
 
         manager.GetGameData().idCardEnabled = true;
 
-        //sprites = Resources.LoadAll<Sprite>(Path.Combine(StringDb.marksFolder, StringDb.marksPrefix));
-
-        backBtn = GameObject.Find(StringDb.idCardBtnBack).GetComponent<Button>();
-
         backBtn.onClick.RemoveAllListeners();
         backBtn.onClick.AddListener(ToggleIdCard);
-
-        nameTmPro = GameObject.Find(StringDb.idCardName).GetComponent<TextMeshProUGUI>();
-        surnameTmPro = GameObject.Find(StringDb.idCardSurname).GetComponent<TextMeshProUGUI>();
-        jobTmPro = GameObject.Find(StringDb.idCardJob).GetComponent<TextMeshProUGUI>();
-        trustedTmPro = GameObject.Find(StringDb.idCardTrusted).GetComponent<TextMeshProUGUI>();
-        aiImage = GameObject.Find(StringDb.idCardAiImage).GetComponent<Image>();
-
-        attackerNote = GameObject.Find(StringDb.idCardAttackerNote).GetComponent<TextMeshProUGUI>();
-        attackerLbl = GameObject.Find(StringDb.idCardAttackerLbl).GetComponent<TextMeshProUGUI>();
 
         if (!manager.GetGameData().idCardUpgraded) return;
 

@@ -863,9 +863,6 @@ public class LevelMessageManager : MonoBehaviour
         dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.onClick.AddListener(delegate
         {
             ClassDb.dialogBoxManager.CloseDialog(dialog);
-
-            ClassDb.prefabManager.GetPrefab(ClassDb.prefabManager.prefabGraph.gameObject, PrefabManager.graphIndex);
-
         });
     }
 

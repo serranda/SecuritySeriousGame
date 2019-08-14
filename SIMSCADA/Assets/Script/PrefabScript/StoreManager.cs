@@ -362,7 +362,7 @@ public class StoreManager : MonoBehaviour
                 throw new ArgumentOutOfRangeException();
         }
         //TODO GET DATA ABOUT PURCHASE
-        //ClassDb.dataCollector.GetUpgradeData(itemStore, DateTime.Now);
+        //ClassDb.threatChartController.GetUpgradeData(itemStore, DateTime.Now);
 
     }
 

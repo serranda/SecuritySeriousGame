@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class PauseManager : MonoBehaviour
 {
     [SerializeField] private Button resumeBtn;
+    [SerializeField] private Button plotBtn;
     [SerializeField] private Button exitBtn;
 
     public static bool pauseEnabled;
@@ -15,7 +16,7 @@ public class PauseManager : MonoBehaviour
 
     public GraphicRaycaster pauseRaycaster;
 
-    [SerializeField] private Texture2D texture2D;
+    private Texture2D texture2D;
     private byte[] imageFile;
 
     private IEnumerator screenShotRoutine;
@@ -72,7 +73,16 @@ public class PauseManager : MonoBehaviour
 
     public void SetListener()
     {
-        resumeBtn.onClick.AddListener(TogglePauseMenu);
+        resumeBtn.onClick.AddListener(delegate
+        {
+            TogglePauseMenu();
+        });
+
+        plotBtn.onClick.AddListener(delegate
+        {
+            TogglePauseMenu();
+            ClassDb.threatChartController.ToggleThreatPlot();
+        });
 
         //CHECK IF IS NORMAL LEVEL OR TUTORIAL LEVEL AND SET THE LISTENER FOR RIGHT EXIT MESSAGE
         if (SceneManager.GetActiveScene().buildIndex == StringDb.tutorialSceneIndex)

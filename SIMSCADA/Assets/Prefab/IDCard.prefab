@@ -112,6 +112,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67ca09e58934b9b4d899ee9a6ada9bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  backBtn: {fileID: 2778534972123189653}
+  nameTmPro: {fileID: 6849442007397795239}
+  surnameTmPro: {fileID: 5523659333056236759}
+  jobTmPro: {fileID: 991245327790641585}
+  trustedTmPro: {fileID: 6042821328452693033}
+  aiImage: {fileID: 2368373524566724579}
+  attackerNote: {fileID: 2483194671024340349}
+  attackerLbl: {fileID: 801629741699962954}
 --- !u!1 &1147771868836853644
 GameObject:
   m_ObjectHideFlags: 0

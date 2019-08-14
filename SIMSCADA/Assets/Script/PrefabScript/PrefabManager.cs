@@ -20,7 +20,7 @@ public class PrefabManager : MonoBehaviour
     public Button prefabStoreItem;
     public Toggle prefabNotebookButton;
     public Canvas prefabLoadingScreen;
-    public Canvas prefabGraph;
+    public Canvas prefabChart;
 
     private Stack<GameObject> inactiveActionMenu;
     private Stack<GameObject> inactiveDialogBox;
@@ -38,7 +38,7 @@ public class PrefabManager : MonoBehaviour
     private Stack<GameObject> inactiveStoreItem;
     private Stack<GameObject> inactiveNotebookButton;
     private Stack<GameObject> inactiveLoadingScreen;
-    private Stack<GameObject> inactiveGraph;
+    private Stack<GameObject> inactiveChart;
 
     public static int actionIndex;
     public static int dialogIndex;
@@ -56,7 +56,7 @@ public class PrefabManager : MonoBehaviour
     public static int storeItemIndex;
     public static int notebookButtonIndex;
     public static int loadingScreenIndex;
-    public static int graphIndex;
+    public static int chartIndex;
 
     private static List<Stack<GameObject>> stackList;
 
@@ -79,7 +79,7 @@ public class PrefabManager : MonoBehaviour
         inactiveStoreItem = new Stack<GameObject>();
         inactiveNotebookButton = new Stack<GameObject>();
         inactiveLoadingScreen = new Stack<GameObject>();
-        inactiveGraph = new Stack<GameObject>();
+        inactiveChart = new Stack<GameObject>();
 
         stackList = new List<Stack<GameObject>>()
         {
@@ -99,7 +99,7 @@ public class PrefabManager : MonoBehaviour
             inactiveStoreItem,
             inactiveNotebookButton,
             inactiveLoadingScreen,
-            inactiveGraph
+            inactiveChart,
         };
 
         actionIndex = stackList.IndexOf(inactiveActionMenu);
@@ -118,7 +118,7 @@ public class PrefabManager : MonoBehaviour
         storeItemIndex = stackList.IndexOf(inactiveStoreItem);
         notebookButtonIndex = stackList.IndexOf(inactiveNotebookButton);
         loadingScreenIndex = stackList.IndexOf(inactiveLoadingScreen);
-        graphIndex = stackList.IndexOf(inactiveGraph);
+        chartIndex = stackList.IndexOf(inactiveChart);
     }
 
     public GameObject GetPrefab(GameObject prefabRef, int stackIndex)

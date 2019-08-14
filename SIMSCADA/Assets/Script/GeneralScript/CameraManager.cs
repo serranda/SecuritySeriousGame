@@ -45,6 +45,7 @@ public class CameraManager : MonoBehaviour
                 || manager.GetGameData().scadaEnabled
                 || manager.GetGameData().cursorOverAi
                 || manager.GetGameData().storeEnabled
+                || manager.GetGameData().chartEnabled
                 || InteractiveSprite.onSprite
                 //|| isCameraMainNull
             ) return;

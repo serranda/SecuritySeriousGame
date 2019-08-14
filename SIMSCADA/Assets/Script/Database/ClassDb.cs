@@ -23,7 +23,7 @@ public class ClassDb : MonoBehaviour
     public static TutorialDialogBoxManager tutorialDialogBoxManager;
     public static IdCardManager idCardManager;
     public static GameDataManager gameDataManager;
-    public static DataCollector dataCollector;
+    public static ThreatChartController threatChartController;
     public static LogManager logManager;
 
     public static Pathfinding regularPathfinder;
@@ -51,7 +51,7 @@ public class ClassDb : MonoBehaviour
         tutorialDialogBoxManager = GetComponent<TutorialDialogBoxManager>();
         idCardManager = GetComponent<IdCardManager>();
         gameDataManager = GetComponent<GameDataManager>();
-        dataCollector = GetComponent<DataCollector>();
+        threatChartController = GetComponent<ThreatChartController>();
         logManager = GetComponent<LogManager>();
 
         if (SceneManager.GetActiveScene().buildIndex == StringDb.menuSceneIndex ||

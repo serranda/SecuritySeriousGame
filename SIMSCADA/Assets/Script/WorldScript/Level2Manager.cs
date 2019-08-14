@@ -1076,7 +1076,7 @@ public class Level2Manager : MonoBehaviour, ILevelManager
         float moneyLoss = (float)elapsedGameTime.TotalMinutes * threat.moneyLossPerMinute;
 
         ClassDb.levelMessageManager.StartThreatManagementResult(elapsedGameTime, moneyLoss);
-        ClassDb.dataCollector.GetThreatData(threat, (float)elapsedRealTime.TotalSeconds);
+        ClassDb.threatChartController.GetThreatData(threat, (float)elapsedRealTime.TotalSeconds);
 
         //wait to close dialog to continue
         yield return new WaitUntil(() => gameData.dialogEnabled);
