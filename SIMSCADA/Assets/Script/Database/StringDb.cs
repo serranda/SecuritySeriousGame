@@ -36,7 +36,8 @@ public class StringDb
     public enum logEvent
     {
         SystemEvent,
-        GameEvent
+        GameEvent,
+        USerEvent
     }
 
     //string values for setting folder

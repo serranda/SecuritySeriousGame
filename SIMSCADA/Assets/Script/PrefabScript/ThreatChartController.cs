@@ -54,23 +54,23 @@ public class ThreatChartController : MonoBehaviour
 
         SetupChartData();
 
-        //DEBUG
-        //ADDING RANDOM VALUES TO LINECAHRT TO CHECK IF WORKING PROPERLY
-        //---------------------------------------------------------------------------------------------------------------------
-        sets = lineChart.GetChartData().DataSets;
+        ////DEBUG
+        ////ADDING RANDOM VALUES TO LINECAHRT TO CHECK IF WORKING PROPERLY
+        ////---------------------------------------------------------------------------------------------------------------------
+        //sets = lineChart.GetChartData().DataSets;
 
-        foreach (LineDataSet set in sets)
-        {
-            for (int i = 0; i < Random.Range(15, 21); i++)
-            {
-                set.AddEntry(new LineEntry(i, (float)Math.Round(Random.Range(5f,35f), 1)));
-            }
-        }
+        //foreach (LineDataSet set in sets)
+        //{
+        //    for (int i = 0; i < Random.Range(15, 21); i++)
+        //    {
+        //        set.AddEntry(new LineEntry(i, (float)Math.Round(Random.Range(5f,35f), 1)));
+        //    }
+        //}
 
-        lineChart.SetDirty();
-        ConfigChart();
+        //lineChart.SetDirty();
+        //ConfigChart();
 
-        //---------------------------------------------------------------------------------------------------------------------
+        ////---------------------------------------------------------------------------------------------------------------------
     }
 
     private void OnEnable()
