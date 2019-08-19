@@ -19,7 +19,7 @@ public class TimeEventManager : MonoBehaviour
     private ILevelManager SetLevelManager()
     {
         ILevelManager iManager;
-        if (SceneManager.GetActiveScene().buildIndex == StringDb.level1SceneIndex)
+        if (SceneManager.GetActiveScene().buildIndex == StaticDb.level1SceneIndex)
             iManager = FindObjectOfType<Level1Manager>();
         else
             iManager = FindObjectOfType<Level2Manager>();
@@ -90,7 +90,7 @@ public class TimeEventManager : MonoBehaviour
             timeEvent.progressBar.GetComponentInChildren<Slider>().value = timeEvent.currentPercentage += timeEvent.percentagePerMin;
 
             if (!(timeEvent.currentPercentage >= 100)) continue;
-            if (timeEvent.threat != StringDb.timeEventThreat)
+            if (timeEvent.threat != StaticDb.timeEventThreat)
             {
                 //ClassDb.worldManager.DeployThreat(timeEvent.threat);
                 deployRoutine = manager.DeployThreat(timeEvent.threat);
@@ -163,25 +163,25 @@ public class TimeEventManager : MonoBehaviour
         timeEvent.progressBar = progressBar;
 
         //set threat reference
-        timeEvent.threat = StringDb.timeEventThreat;
+        timeEvent.threat = StaticDb.timeEventThreat;
 
             //check which routine need to be started after time event complete
         switch (timeEvent.routine)
         {
-            case StringDb.showAiIdRoutine:
+            case StaticDb.showAiIdRoutine:
                 parent.GetComponent<AiListener>().RestartShowAiId(timeEvent);
                 break;
-            case StringDb.pointOutLocalThreatRoutine:
+            case StaticDb.pointOutLocalThreatRoutine:
                 parent.GetComponent<RoomPcListener>().RestartPointOutLocalThreat(timeEvent);
                 break;
-            case StringDb.rebootServerRoutine:
+            case StaticDb.rebootServerRoutine:
                 parent.GetComponent<ServerPcListener>().RestartRebootServer(timeEvent);
                 break;
-            case StringDb.idsCleanRoutine:
+            case StaticDb.idsCleanRoutine:
                 parent.GetComponent<ServerPcListener>().RestartIdsClean(timeEvent);
                 break;
-            case StringDb.antiMalwareScanRoutine:
-                if (parent.name.Contains(StringDb.roomPcTag))
+            case StaticDb.antiMalwareScanRoutine:
+                if (parent.name.Contains(StaticDb.roomPcTag))
                 {
                     parent.GetComponent<RoomPcListener>().RestartAntiMalwareScan(timeEvent);
                 }
@@ -190,8 +190,8 @@ public class TimeEventManager : MonoBehaviour
                     parent.GetComponent<ServerPcListener>().RestartAntiMalwareScan(timeEvent, parent.GetComponent<InteractiveSprite>());
                 }
                 break;
-            case StringDb.checkNetworkCfgRoutine:
-                if (parent.name.Contains(StringDb.roomPcTag))
+            case StaticDb.checkNetworkCfgRoutine:
+                if (parent.name.Contains(StaticDb.roomPcTag))
                 {
                     parent.GetComponent<RoomPcListener>().RestartCheckNetworkCfg(timeEvent);
                 }
@@ -200,13 +200,13 @@ public class TimeEventManager : MonoBehaviour
                     parent.GetComponent<ServerPcListener>().RestartCheckNetworkCfg(timeEvent, parent.GetComponent<InteractiveSprite>());
                 }
                 break;
-            case StringDb.getMoneyRoutine:
+            case StaticDb.getMoneyRoutine:
                 parent.GetComponent<TelephoneListener>().RestartGetMoney(timeEvent);
                 break;
-            case StringDb.checkPlantRoutine:
+            case StaticDb.checkPlantRoutine:
                 parent.GetComponent<TelephoneListener>().RestartCheckPlant(timeEvent);
                 break;
-            case StringDb.coolDownRoutine:
+            case StaticDb.coolDownRoutine:
                 parent.GetComponent<TelephoneListener>().RestartCoolDown(timeEvent);
                 break;
             case "":

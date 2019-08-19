@@ -52,7 +52,7 @@ public class PlayPanelManager : MonoBehaviour
     private IEnumerator CheckSlotSave(Button playButton, Button deleteButton, Image image, TextMeshProUGUI info, int index)
     {
         string address = Application.absoluteURL == string.Empty
-            ? StringDb.serverAddressEditor
+            ? StaticDb.serverAddressEditor
             : Application.absoluteURL.TrimEnd('/');
 
         //CREATE NEW WWWFORM FOR GETTING DATA
@@ -60,16 +60,16 @@ public class PlayPanelManager : MonoBehaviour
 
         //ADD FIELD TO FORM
         form.AddField("mode", "r");
-        form.AddField("mainDataFolder", StringDb.mainDataFolder);
-        form.AddField("playerFolder", StringDb.player.folderName);
-        form.AddField("saveFolder", StringDb.saveFolder);
-        form.AddField("imageFileName", StringDb.slotName + index + StringDb.imageExt);
+        form.AddField("mainDataFolder", StaticDb.mainDataFolder);
+        form.AddField("playerFolder", StaticDb.player.folderName);
+        form.AddField("saveFolder", StaticDb.saveFolder);
+        form.AddField("imageFileName", StaticDb.slotName + index + StaticDb.imageExt);
 
         //DOWNLOAD JSON DATA FOR GAMEDATA CLASS
         using (UnityWebRequest www =
             UnityWebRequest.Post(
                 Path.Combine(address,
-                    Path.Combine(StringDb.phpFolder, StringDb.imageSaveManagerScript)), form))
+                    Path.Combine(StaticDb.phpFolder, StaticDb.imageSaveManagerScript)), form))
         {
             yield return www.SendWebRequest();
 
@@ -93,8 +93,8 @@ public class PlayPanelManager : MonoBehaviour
                     {
                         //Debug.Log(index);
                         //SET SLOT INDEX; THIS WILL BE USED IN SLOT FILE NAME TO PREVENT OVERWRITE BETWEEN SLOT
-                        StringDb.indexSlot = index;
-                        ClassDb.sceneLoader.StartLoadByIndex(StringDb.level1SceneIndex);
+                        StaticDb.indexSlot = index;
+                        ClassDb.sceneLoader.StartLoadByIndex(StaticDb.level1SceneIndex);
                     });
 
                     //DISABLE DELETE BUTTON
@@ -120,8 +120,8 @@ public class PlayPanelManager : MonoBehaviour
                     {
                         //Debug.Log(index);
                         //SET SLOT INDEX; THIS WILL BE USED IN SLOT FILE NAME TO PREVENT OVERWRITE BETWEEN SLOT
-                        StringDb.indexSlot = index;
-                        ClassDb.sceneLoader.StartLoadByIndex(StringDb.level1SceneIndex);
+                        StaticDb.indexSlot = index;
+                        ClassDb.sceneLoader.StartLoadByIndex(StaticDb.level1SceneIndex);
                     });
 
                     //ENABLE DELETE BUTTON
@@ -174,16 +174,16 @@ public class PlayPanelManager : MonoBehaviour
                     WWWForm statForm = new WWWForm();
 
                     //ADD FIELD TO FORM
-                    statForm.AddField("mainDataFolder", StringDb.mainDataFolder);
-                    statForm.AddField("playerFolder", StringDb.player.folderName);
-                    statForm.AddField("saveFolder", StringDb.saveFolder);
-                    statForm.AddField("imageFileName", StringDb.slotName + index + StringDb.imageExt);
+                    statForm.AddField("mainDataFolder", StaticDb.mainDataFolder);
+                    statForm.AddField("playerFolder", StaticDb.player.folderName);
+                    statForm.AddField("saveFolder", StaticDb.saveFolder);
+                    statForm.AddField("imageFileName", StaticDb.slotName + index + StaticDb.imageExt);
 
                     //DOWNLOAD JSON DATA FOR GAMEDATA CLASS
                     using (UnityWebRequest statWWW =
                         UnityWebRequest.Post(
                             Path.Combine(address,
-                                Path.Combine(StringDb.phpFolder, StringDb.getFileInfoScript)), statForm))
+                                Path.Combine(StaticDb.phpFolder, StaticDb.getFileInfoScript)), statForm))
                     {
                         yield return statWWW.SendWebRequest();
 
@@ -200,7 +200,7 @@ public class PlayPanelManager : MonoBehaviour
                             DateTime date = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
                             date = date.AddSeconds(int.Parse(unixTimeStamp)).ToLocalTime();
                             //SET INFO WITH DATETIME INFORMATION ABOUT SAVE FILE
-                            info.text = date.ToString(StringDb.panelTimeFormat);
+                            info.text = date.ToString(StaticDb.panelTimeFormat);
                         }
                     }
 
@@ -213,23 +213,23 @@ public class PlayPanelManager : MonoBehaviour
     private IEnumerator DeleteSlotSave(Button playButton, Button deleteButton, Image image, TextMeshProUGUI info, int index)
     {
         string address = Application.absoluteURL == string.Empty
-            ? StringDb.serverAddressEditor
+            ? StaticDb.serverAddressEditor
             : Application.absoluteURL.TrimEnd('/');
 
         //CREATE NEW WWWFORM FOR DELETE SAVE FILE
         WWWForm deleteSaveForm = new WWWForm();
         //ADD FIELD TO FORM
         deleteSaveForm.AddField("mode", "d");
-        deleteSaveForm.AddField("mainDataFolder", StringDb.mainDataFolder);
-        deleteSaveForm.AddField("playerFolder", StringDb.player.folderName);
-        deleteSaveForm.AddField("saveFolder", StringDb.saveFolder);
-        deleteSaveForm.AddField("saveFileName", StringDb.slotName + index + StringDb.slotExt);
+        deleteSaveForm.AddField("mainDataFolder", StaticDb.mainDataFolder);
+        deleteSaveForm.AddField("playerFolder", StaticDb.player.folderName);
+        deleteSaveForm.AddField("saveFolder", StaticDb.saveFolder);
+        deleteSaveForm.AddField("saveFileName", StaticDb.slotName + index + StaticDb.slotExt);
 
         //SEND DELETE REQUEST TO SERVER
         using (UnityWebRequest deleteSaveWWW =
             UnityWebRequest.Post(
                 Path.Combine(address,
-                    Path.Combine(StringDb.phpFolder, StringDb.playerSaveManagerScript)),
+                    Path.Combine(StaticDb.phpFolder, StaticDb.playerSaveManagerScript)),
                 deleteSaveForm))
         {
             yield return deleteSaveWWW.SendWebRequest();
@@ -248,16 +248,16 @@ public class PlayPanelManager : MonoBehaviour
         WWWForm deleteImageForm = new WWWForm();
         //ADD FIELD TO FORM
         deleteImageForm.AddField("mode", "d");
-        deleteImageForm.AddField("mainDataFolder", StringDb.mainDataFolder);
-        deleteImageForm.AddField("playerFolder", StringDb.player.folderName);
-        deleteImageForm.AddField("saveFolder", StringDb.saveFolder);
-        deleteImageForm.AddField("imageFileName", StringDb.slotName + index + StringDb.imageExt);
+        deleteImageForm.AddField("mainDataFolder", StaticDb.mainDataFolder);
+        deleteImageForm.AddField("playerFolder", StaticDb.player.folderName);
+        deleteImageForm.AddField("saveFolder", StaticDb.saveFolder);
+        deleteImageForm.AddField("imageFileName", StaticDb.slotName + index + StaticDb.imageExt);
 
         //SEND DELETE REQUEST TO SERVER
         using (UnityWebRequest deleteImageWWW =
             UnityWebRequest.Post(
                 Path.Combine(address,
-                    Path.Combine(StringDb.phpFolder, StringDb.imageSaveManagerScript)),
+                    Path.Combine(StaticDb.phpFolder, StaticDb.imageSaveManagerScript)),
                 deleteImageForm))
         {
             yield return deleteImageWWW.SendWebRequest();

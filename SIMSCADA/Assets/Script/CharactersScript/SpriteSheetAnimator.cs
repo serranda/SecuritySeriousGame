@@ -41,8 +41,8 @@ public class SpriteSheetAnimator : MonoBehaviour
         //{
         //    if (aiController != null)
         //    {
-        //        if (aiController.timeEvent.threat.threatType != StringDb.ThreatType.local &&
-        //            aiController.timeEvent.threat.threatType != StringDb.ThreatType.fakeLocal) return;
+        //        if (aiController.timeEvent.threat.threatType != StaticDb.ThreatType.local &&
+        //            aiController.timeEvent.threat.threatType != StaticDb.ThreatType.fakeLocal) return;
 
         //        if (index < 0 || index >= sprites.Length)
         //            return;
@@ -67,12 +67,12 @@ public class SpriteSheetAnimator : MonoBehaviour
         {
             spriteName = aiController.spriteToAnimate;
 
-            spriteFolder = Path.Combine(StringDb.rscSpriteFolder, StringDb.rscAiSpriteFolder);
+            spriteFolder = Path.Combine(StaticDb.rscSpriteFolder, StaticDb.rscAiSpriteFolder);
 
             sprites = Resources.LoadAll<Sprite>(Path.Combine(spriteFolder, spriteName));
 
-            if (aiController.timeEvent.threat.threatType != StringDb.ThreatType.local &&
-                aiController.timeEvent.threat.threatType != StringDb.ThreatType.fakeLocal) return;
+            if (aiController.timeEvent.threat.threatType != StaticDb.ThreatType.local &&
+                aiController.timeEvent.threat.threatType != StaticDb.ThreatType.fakeLocal) return;
 
             if (index < 0 || index >= sprites.Length)
                 return;

@@ -10,9 +10,9 @@ public class SpawnCharacter : MonoBehaviour
         SpriteRenderer player = ClassDb.prefabManager.GetPrefab(ClassDb.prefabManager.prefabPlayer.gameObject, PrefabManager.playerIndex)
             .GetComponent<SpriteRenderer>();
 
-        player.name = StringDb.playerPrefabName;
+        player.name = StaticDb.playerPrefabName;
 
-        Vector3 position = ClassDb.regularPathfinder.listTileMap[0].layoutGrid.CellToWorld(new Vector3Int(StringDb.playerSpawn.x, StringDb.playerSpawn.y, 0));
+        Vector3 position = ClassDb.regularPathfinder.listTileMap[0].layoutGrid.CellToWorld(new Vector3Int(StaticDb.playerSpawn.x, StaticDb.playerSpawn.y, 0));
         position = new Vector3(position.x, position.y, 0f);
         player.transform.position = position;
     }
@@ -22,10 +22,10 @@ public class SpawnCharacter : MonoBehaviour
         SpriteRenderer ai = ClassDb.prefabManager.GetPrefab(ClassDb.prefabManager.prefabAi.gameObject, PrefabManager.aiIndex)
             .GetComponent<SpriteRenderer>();
 
-        ai.name = StringDb.aiPrefabName + id;
+        ai.name = StaticDb.aiPrefabName + id;
 
         //set spawning position, first time the cell and second the z position, in order to render correctly the character
-        Vector3 position = ClassDb.regularPathfinder.listTileMap[0].layoutGrid.CellToWorld(new Vector3Int(StringDb.aiSpawn.x, StringDb.aiSpawn.y, 0));
+        Vector3 position = ClassDb.regularPathfinder.listTileMap[0].layoutGrid.CellToWorld(new Vector3Int(StaticDb.aiSpawn.x, StaticDb.aiSpawn.y, 0));
         position = new Vector3(position.x, position.y, 0f);
 
         ai.transform.position = position;
@@ -42,7 +42,7 @@ public class SpawnCharacter : MonoBehaviour
         SpriteRenderer ai = ClassDb.prefabManager.GetPrefab(ClassDb.prefabManager.prefabAi.gameObject, PrefabManager.aiIndex)
             .GetComponent<SpriteRenderer>();
 
-        ai.name = StringDb.aiPrefabName + controller.aiId;
+        ai.name = StaticDb.aiPrefabName + controller.aiId;
 
         ai.transform.position = ClassDb.regularPathfinder.listTileMap[0].layoutGrid.CellToWorld(controller.aiCellPos);
 

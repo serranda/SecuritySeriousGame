@@ -26,7 +26,7 @@ public class SerializableAiController
     public string spriteNumber;
     public string idSpriteName;
 
-    public StringDb.AiDangerResistance dangerResistance;
+    public StaticDb.AiDangerResistance dangerResistance;
 
     public int aiId;
 
@@ -149,6 +149,6 @@ public class SerializableAiController
 
     public AiController GetAiController()
     {
-        return GameObject.Find(StringDb.aiPrefabName + this.aiId).GetComponent<AiController>(); ;
+        return GameObject.Find(StaticDb.aiPrefabName + this.aiId).GetComponent<AiController>(); ;
     }
 }

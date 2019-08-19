@@ -4,16 +4,16 @@
 public class Threat
 {
     public int id;
-    public StringDb.ThreatType threatType;
+    public StaticDb.ThreatType threatType;
     public float deployTime; //expressed in hour
-    public StringDb.ThreatAttacker threatAttacker;
-    public StringDb.ThreatDanger threatDanger;
-    public StringDb.ThreatAttack threatAttack;
+    public StaticDb.ThreatAttacker threatAttacker;
+    public StaticDb.ThreatDanger threatDanger;
+    public StaticDb.ThreatAttack threatAttack;
     public AiController aiController;
     public SerializableAiController serializableAiController;
     public float moneyLossPerMinute;
 
-    public Threat(int id, StringDb.ThreatType threatType, float deployTime, StringDb.ThreatAttacker threatAttacker, StringDb.ThreatDanger threatDanger, StringDb.ThreatAttack threatAttack, AiController aiController, float moneyLossPerMinute)
+    public Threat(int id, StaticDb.ThreatType threatType, float deployTime, StaticDb.ThreatAttacker threatAttacker, StaticDb.ThreatDanger threatDanger, StaticDb.ThreatAttack threatAttack, AiController aiController, float moneyLossPerMinute)
     {
         this.id = id;
         this.threatType = threatType;
@@ -25,7 +25,7 @@ public class Threat
         this.moneyLossPerMinute = moneyLossPerMinute;
     }
 
-    public Threat(int id, StringDb.ThreatType threatType, float deployTime, StringDb.ThreatAttacker threatAttacker, StringDb.ThreatDanger threatDanger, StringDb.ThreatAttack threatAttack, float moneyLossPerMinute)
+    public Threat(int id, StaticDb.ThreatType threatType, float deployTime, StaticDb.ThreatAttacker threatAttacker, StaticDb.ThreatDanger threatDanger, StaticDb.ThreatAttack threatAttack, float moneyLossPerMinute)
     {
         this.id = id;
         this.threatType = threatType;

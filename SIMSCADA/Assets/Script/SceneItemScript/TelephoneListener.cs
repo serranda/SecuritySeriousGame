@@ -34,7 +34,7 @@ public class TelephoneListener : MonoBehaviour
     private ILevelManager SetLevelManager()
     {
         ILevelManager iManager;
-        if (SceneManager.GetActiveScene().buildIndex == StringDb.level1SceneIndex)
+        if (SceneManager.GetActiveScene().buildIndex == StaticDb.level1SceneIndex)
             iManager = FindObjectOfType<Level1Manager>();
         else
             iManager = FindObjectOfType<Level2Manager>();
@@ -114,7 +114,7 @@ public class TelephoneListener : MonoBehaviour
         interactiveSprite.SetInteraction(false);
 
         TimeEvent progressEvent = ClassDb.timeEventManager.NewTimeEvent(
-            manager.GetGameData().telephoneMoneyTime, interactiveSprite.gameObject, true, true, StringDb.getMoneyRoutine);
+            manager.GetGameData().telephoneMoneyTime, interactiveSprite.gameObject, true, true, StaticDb.getMoneyRoutine);
 
         manager.GetGameData().timeEventList.Add(progressEvent);
 
@@ -155,7 +155,7 @@ public class TelephoneListener : MonoBehaviour
     private void StartCoolDown()
     {
         TimeEvent progressEvent = ClassDb.timeEventManager.NewTimeEvent(
-            manager.GetGameData().telephoneMoneyCoolDown * 60, interactiveSprite.gameObject, true, false, StringDb.coolDownRoutine);
+            manager.GetGameData().telephoneMoneyCoolDown * 60, interactiveSprite.gameObject, true, false, StaticDb.coolDownRoutine);
 
         manager.GetGameData().timeEventList.Add(progressEvent);
 
@@ -184,7 +184,7 @@ public class TelephoneListener : MonoBehaviour
         interactiveSprite.SetInteraction(false);
 
         TimeEvent progressEvent = ClassDb.timeEventManager.NewTimeEvent(
-            manager.GetGameData().telephoneCheckPlantTime, interactiveSprite.gameObject, true, true, StringDb.checkPlantRoutine);
+            manager.GetGameData().telephoneCheckPlantTime, interactiveSprite.gameObject, true, true, StaticDb.checkPlantRoutine);
 
         manager.GetGameData().timeEventList.Add(progressEvent);
 

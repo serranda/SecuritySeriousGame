@@ -62,7 +62,7 @@ public class LongTextManager : MonoBehaviour
 
     private void SetLeftButton()
     {
-        leftButton = GameObject.Find(StringDb.dialogBoxBtnLeft).GetComponent<Button>();
+        leftButton = GameObject.Find(StaticDb.dialogBoxBtnLeft).GetComponent<Button>();
         leftButton.onClick.RemoveAllListeners();
         leftButton.onClick.AddListener(delegate
         {
@@ -76,7 +76,7 @@ public class LongTextManager : MonoBehaviour
 
     private void SetRightButton()
     {
-        rightButton = GameObject.Find(StringDb.dialogBoxBtnRight).GetComponent<Button>();
+        rightButton = GameObject.Find(StaticDb.dialogBoxBtnRight).GetComponent<Button>();
         rightButton.onClick.RemoveAllListeners();
         rightButton.onClick.AddListener(delegate
         {

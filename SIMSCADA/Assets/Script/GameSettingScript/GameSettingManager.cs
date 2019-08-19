@@ -55,21 +55,21 @@ public class GameSettingManager : MonoBehaviour
     private IEnumerator CheckWebSettingsFileRoutine()
     {
         string address = Application.absoluteURL == string.Empty
-            ? StringDb.serverAddressEditor
+            ? StaticDb.serverAddressEditor
             : Application.absoluteURL.TrimEnd('/');
 
         WWWForm form = new WWWForm();
 
         form.AddField("mode", "r");
-        form.AddField("mainDataFolder", StringDb.mainDataFolder);
-        form.AddField("playerFolder", StringDb.player.folderName);
-        form.AddField("settingsFolder", StringDb.settingsWebFolderPath);
-        form.AddField("settingFileName", StringDb.settingName + StringDb.settingExt);
+        form.AddField("mainDataFolder", StaticDb.mainDataFolder);
+        form.AddField("playerFolder", StaticDb.player.folderName);
+        form.AddField("settingsFolder", StaticDb.settingsWebFolderPath);
+        form.AddField("settingFileName", StaticDb.settingName + StaticDb.settingExt);
 
         using (UnityWebRequest www =
             UnityWebRequest.Post(
                 Path.Combine(address,
-                    Path.Combine(StringDb.phpFolder, StringDb.playerSettingsManagerScript)), form))
+                    Path.Combine(StaticDb.phpFolder, StaticDb.playerSettingsManagerScript)), form))
         {
             yield return www.SendWebRequest();
 
@@ -151,7 +151,7 @@ public class GameSettingManager : MonoBehaviour
     {
         if (isOn)
         {
-            Sprite[] sprites = Resources.LoadAll<Sprite>(Path.Combine(StringDb.fsButtonFolder, StringDb.fsButtonOn));
+            Sprite[] sprites = Resources.LoadAll<Sprite>(Path.Combine(StaticDb.fsButtonFolder, StaticDb.fsButtonOn));
             fullScreenButton.image.sprite = sprites[0];
 
             SpriteState buttonSpriteState = new SpriteState
@@ -165,7 +165,7 @@ public class GameSettingManager : MonoBehaviour
         }
         else
         {
-            Sprite[] sprites = Resources.LoadAll<Sprite>(Path.Combine(StringDb.fsButtonFolder, StringDb.fsButtonOff));
+            Sprite[] sprites = Resources.LoadAll<Sprite>(Path.Combine(StaticDb.fsButtonFolder, StaticDb.fsButtonOff));
             fullScreenButton.image.sprite = sprites[0];
 
             SpriteState buttonSpriteState = new SpriteState
@@ -182,7 +182,7 @@ public class GameSettingManager : MonoBehaviour
     private bool GetBoolFromSprite()
     {
         //CHECK WHICH SPRITE IS CURRENTLY DISPLAYED; SET BOOL
-        return fullScreenButton.image.sprite.name.Contains(StringDb.fsButtonOff);
+        return fullScreenButton.image.sprite.name.Contains(StaticDb.fsButtonOff);
     }
 
     public void OnFullScreenChange()
@@ -210,7 +210,7 @@ public class GameSettingManager : MonoBehaviour
     public IEnumerator SaveSettingsWebFile(GameSettings settings)
     {
         string address = Application.absoluteURL == string.Empty
-            ? StringDb.serverAddressEditor
+            ? StaticDb.serverAddressEditor
             : Application.absoluteURL.TrimEnd('/');
 
         string jsonData = JsonUtility.ToJson(settings, true);
@@ -219,17 +219,17 @@ public class GameSettingManager : MonoBehaviour
 
         form.AddField("mode", "w");
 
-        form.AddField("mainDataFolder", StringDb.mainDataFolder);
-        form.AddField("playerFolder", StringDb.player.folderName);
-        form.AddField("settingsFolder", StringDb.settingsWebFolderPath);
-        form.AddField("settingFileName", StringDb.settingName + StringDb.settingExt);
+        form.AddField("mainDataFolder", StaticDb.mainDataFolder);
+        form.AddField("playerFolder", StaticDb.player.folderName);
+        form.AddField("settingsFolder", StaticDb.settingsWebFolderPath);
+        form.AddField("settingFileName", StaticDb.settingName + StaticDb.settingExt);
         form.AddField("settingsContent", jsonData);
 
 
         using (UnityWebRequest www =
             UnityWebRequest.Post(
                 Path.Combine(address,
-                    Path.Combine(StringDb.phpFolder, StringDb.playerSettingsManagerScript)), form))
+                    Path.Combine(StaticDb.phpFolder, StaticDb.playerSettingsManagerScript)), form))
         {
             yield return www.SendWebRequest();
 

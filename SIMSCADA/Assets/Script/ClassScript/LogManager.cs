@@ -11,24 +11,24 @@ public class LogManager : MonoBehaviour
 
     private IEnumerator writeRoutine;
 
-    public void StartWritePlayerLogRoutine(Player player, StringDb.logEvent logEvent, string content)
+    public void StartWritePlayerLogRoutine(Player player, StaticDb.logEvent logEvent, string content)
     {
         writeRoutine = WritePlayerLogRoutine(player, logEvent, content);
         StartCoroutine(writeRoutine);
     }
 
-    private IEnumerator WritePlayerLogRoutine(Player player, StringDb.logEvent logEvent, string content)
+    private IEnumerator WritePlayerLogRoutine(Player player, StaticDb.logEvent logEvent, string content)
     {
         string address = Application.absoluteURL == string.Empty
-            ? StringDb.serverAddressEditor
+            ? StaticDb.serverAddressEditor
             : Application.absoluteURL.TrimEnd('/');
 
         WWWForm form = new WWWForm();
 
-        string logContent = string.Concat(DateTime.Now.ToString(StringDb.logTimeFormat), " [", logEvent.ToString().ToUpper() , "] ", content,"\n");
+        string logContent = string.Concat(DateTime.Now.ToString(StaticDb.logTimeFormat), " [", logEvent.ToString().ToUpper() , "] ", content,"\n");
 
         //ADD FIELD TO WWWFORM
-        form.AddField("mainDataFolder", StringDb.mainDataFolder);
+        form.AddField("mainDataFolder", StaticDb.mainDataFolder);
         form.AddField("playerFolder", player.folderName);
         form.AddField("logName", logName);
         form.AddField("logContent", logContent);
@@ -36,7 +36,7 @@ public class LogManager : MonoBehaviour
 
         using (UnityWebRequest www =
             UnityWebRequest.Post(
-                Path.Combine(address, Path.Combine(StringDb.phpFolder, StringDb.writePlayerLogScript)),
+                Path.Combine(address, Path.Combine(StaticDb.phpFolder, StaticDb.writePlayerLogScript)),
                 form))
         {
             yield return www.SendWebRequest();

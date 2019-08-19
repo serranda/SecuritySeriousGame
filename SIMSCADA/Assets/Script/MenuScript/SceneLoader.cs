@@ -49,8 +49,8 @@ public class SceneLoader : MonoBehaviour
     public void Quit()
     {
         //UPDATE PLAYER LOG WITH LOGIN DATA
-        ClassDb.logManager.StartWritePlayerLogRoutine(StringDb.player, StringDb.logEvent.SystemEvent, string.Concat(StringDb.player.username, " has disconnected."));
+        ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.SystemEvent, string.Concat(StaticDb.player.username, " has disconnected."));
 
-        StartLoadByIndex(StringDb.loginSceneIndex);
+        StartLoadByIndex(StaticDb.loginSceneIndex);
     }
 }

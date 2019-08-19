@@ -5,4 +5,4 @@ using UnityEngine;
 
 [Serializable]
 
-public class ThreatAttackFloatDictionary : SerializableDictionary<StringDb.ThreatAttack, float>{}
+public class ThreatAttackFloatDictionary : SerializableDictionary<StaticDb.ThreatAttack, float>{}

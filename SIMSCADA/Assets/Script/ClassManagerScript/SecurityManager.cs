@@ -28,9 +28,9 @@ public class SecurityManager : MonoBehaviour
         securityListener = FindObjectOfType<SecurityListener>();
         tutorialSecurityListener = FindObjectOfType<TutorialSecurityListener>();
 
-        strictToggle = GameObject.Find(StringDb.strictToggle).GetComponent<Toggle>();
-        neutralToggle = GameObject.Find(StringDb.mediumToggle).GetComponent<Toggle>();
-        looseToggle = GameObject.Find(StringDb.looseToggle).GetComponent<Toggle>();
+        strictToggle = GameObject.Find(StaticDb.strictToggle).GetComponent<Toggle>();
+        neutralToggle = GameObject.Find(StaticDb.mediumToggle).GetComponent<Toggle>();
+        looseToggle = GameObject.Find(StaticDb.looseToggle).GetComponent<Toggle>();
 
         backBtn = GameObject.Find("BackBtn").GetComponent<Button>();
         backBtn.onClick.RemoveAllListeners();
@@ -53,7 +53,7 @@ public class SecurityManager : MonoBehaviour
     private ILevelManager SetLevelManager()
     {
         ILevelManager iManager;
-        if (SceneManager.GetActiveScene().buildIndex == StringDb.level1SceneIndex)
+        if (SceneManager.GetActiveScene().buildIndex == StaticDb.level1SceneIndex)
             iManager = FindObjectOfType<Level1Manager>();
         else
             iManager = FindObjectOfType<Level2Manager>();
@@ -65,13 +65,13 @@ public class SecurityManager : MonoBehaviour
     {
         switch (manager.GetGameData().serverSecurity)
         {
-            case StringDb.ServerSecurity.strict:
+            case StaticDb.ServerSecurity.strict:
                 activeToggle = strictToggle;
                 break;
-            case StringDb.ServerSecurity.medium:
+            case StaticDb.ServerSecurity.medium:
                 activeToggle = neutralToggle;
                 break;
-            case StringDb.ServerSecurity.loose:
+            case StaticDb.ServerSecurity.loose:
                 activeToggle = looseToggle;
                 break;
             default:
@@ -91,14 +91,14 @@ public class SecurityManager : MonoBehaviour
     {
         switch (activeToggle.name)
         {
-            case StringDb.strictToggle:
-                manager.GetGameData().serverSecurity = StringDb.ServerSecurity.strict;
+            case StaticDb.strictToggle:
+                manager.GetGameData().serverSecurity = StaticDb.ServerSecurity.strict;
                 break;
-            case StringDb.mediumToggle:
-                manager.GetGameData().serverSecurity = StringDb.ServerSecurity.medium;
+            case StaticDb.mediumToggle:
+                manager.GetGameData().serverSecurity = StaticDb.ServerSecurity.medium;
                 break;
-            case StringDb.looseToggle:
-                manager.GetGameData().serverSecurity = StringDb.ServerSecurity.loose;
+            case StaticDb.looseToggle:
+                manager.GetGameData().serverSecurity = StaticDb.ServerSecurity.loose;
                 break;
             default:
                 throw new ArgumentOutOfRangeException();

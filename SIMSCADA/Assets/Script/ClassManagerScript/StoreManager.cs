@@ -131,7 +131,7 @@ public class StoreManager : MonoBehaviour
 
 
         //disable interact with button until tutorial is finished
-        if (SceneManager.GetActiveScene().buildIndex == StringDb.tutorialSceneIndex)
+        if (SceneManager.GetActiveScene().buildIndex == StaticDb.tutorialSceneIndex)
         {
             foreach (ItemStore item in itemList)
             {
@@ -165,7 +165,7 @@ public class StoreManager : MonoBehaviour
     private ILevelManager SetLevelManager()
     {
         ILevelManager iManager;
-        if (SceneManager.GetActiveScene().buildIndex == StringDb.level1SceneIndex)
+        if (SceneManager.GetActiveScene().buildIndex == StaticDb.level1SceneIndex)
             iManager = FindObjectOfType<Level1Manager>();
         else
             iManager = FindObjectOfType<Level2Manager>();
@@ -237,7 +237,7 @@ public class StoreManager : MonoBehaviour
             case 2:
                 //PURCHASED SERVER UPGRADE; NEW SERVER AVAILABLE
                 manager.GetGameData().serverAmount += 1;
-                List<GameObject> servers = GameObject.FindGameObjectsWithTag(StringDb.serverPcTag).ToList();
+                List<GameObject> servers = GameObject.FindGameObjectsWithTag(StaticDb.serverPcTag).ToList();
                 foreach (GameObject server in servers)
                 {
                     server.GetComponent<InteractiveSprite>().CheckOperativeItem();
@@ -246,7 +246,7 @@ public class StoreManager : MonoBehaviour
             case 3:
                 //PURCHASED PC UPGRADE; NEW PC AVAILABLE
                 manager.GetGameData().pcAmount += 1;
-                List<GameObject> pcs = GameObject.FindGameObjectsWithTag(StringDb.roomPcTag).ToList();
+                List<GameObject> pcs = GameObject.FindGameObjectsWithTag(StaticDb.roomPcTag).ToList();
                 foreach (GameObject pc in pcs)
                 {
                     pc.GetComponent<InteractiveSprite>().CheckOperativeItem();
@@ -255,7 +255,7 @@ public class StoreManager : MonoBehaviour
             case 4:
                 //PURCHASED TELEPHONE UPGRADE; NEW TELEPHONE AVAILABLE
                 manager.GetGameData().telephoneAmount += 1;
-                List<GameObject> telephones = GameObject.FindGameObjectsWithTag(StringDb.telephoneTag).ToList();
+                List<GameObject> telephones = GameObject.FindGameObjectsWithTag(StaticDb.telephoneTag).ToList();
                 foreach (GameObject telephone in telephones)
                 {
                     telephone.GetComponent<InteractiveSprite>().CheckOperativeItem();
@@ -362,7 +362,7 @@ public class StoreManager : MonoBehaviour
                 throw new ArgumentOutOfRangeException();
         }
         //TODO GET DATA ABOUT PURCHASE
-        //ClassDb.threatChartController.GetUpgradeData(itemStore, DateTime.Now);
+        //ClassDb.threatChartManager.GetUpgradeData(itemStore, DateTime.Now);
 
     }
 

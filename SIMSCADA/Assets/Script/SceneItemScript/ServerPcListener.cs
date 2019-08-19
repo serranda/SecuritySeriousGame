@@ -36,7 +36,7 @@ public class ServerPcListener : MonoBehaviour
     private ILevelManager SetLevelManager()
     {
         ILevelManager iManager;
-        if (SceneManager.GetActiveScene().buildIndex == StringDb.level1SceneIndex)
+        if (SceneManager.GetActiveScene().buildIndex == StaticDb.level1SceneIndex)
             iManager = FindObjectOfType<Level1Manager>();
         else
             iManager = FindObjectOfType<Level2Manager>();
@@ -228,8 +228,11 @@ public class ServerPcListener : MonoBehaviour
     {
         sprite.SetInteraction(false);
 
+        //REGISTER THE USER ACTION AND CHECK IF THE ACTION IS CORRECT OR WRONG RELATIVELY TO THE THREAT DEPLOYED
+        ClassDb.userActionManager.RegisterThreatSolution(new UserAction(StaticDb.ThreatSolution.malwareScan), manager.GetGameData().lastThreatDeployed);
+
         TimeEvent progressEvent = ClassDb.timeEventManager.NewTimeEvent(
-            manager.GetGameData().serverAntiMalwareTime, sprite.gameObject, true, true, StringDb.antiMalwareScanRoutine);
+            manager.GetGameData().serverAntiMalwareTime, sprite.gameObject, true, true, StaticDb.antiMalwareScanRoutine);
 
         beforeAntiMalwareScanRoutine = BeforeAntiMalwareScan(progressEvent, sprite);
         StartCoroutine(beforeAntiMalwareScanRoutine);
@@ -282,11 +285,11 @@ public class ServerPcListener : MonoBehaviour
         yield return new WaitWhile(() => manager.GetGameData().timeEventList.Contains(progressEvent));
 
         //Reset money loss due to replay attack
-        manager.GetGameData().moneyLossList[StringDb.ThreatAttack.malware] = 0;
-        manager.GetGameData().moneyLossList[StringDb.ThreatAttack.stuxnet] = 0;
+        manager.GetGameData().moneyLossList[StaticDb.ThreatAttack.malware] = 0;
+        manager.GetGameData().moneyLossList[StaticDb.ThreatAttack.stuxnet] = 0;
 
         ////reset base money earn
-        //ClassDb.worldManager.totalMoneyEarnPerMinute = StringDb.baseEarn;
+        //ClassDb.worldManager.totalMoneyEarnPerMinute = StaticDb.baseEarn;
 
         //restart money generation
         manager.GetGameData().isMoneyLoss = true;
@@ -318,7 +321,7 @@ public class ServerPcListener : MonoBehaviour
 
         //start duration: 90 min
         TimeEvent progressEvent = ClassDb.timeEventManager.NewTimeEvent(
-            manager.GetGameData().serverIdsCleanTime, interactiveSprite.gameObject, true, true, StringDb.idsCleanRoutine);
+            manager.GetGameData().serverIdsCleanTime, interactiveSprite.gameObject, true, true, StaticDb.idsCleanRoutine);
 
         manager.GetGameData().timeEventList.Add(progressEvent);
 
@@ -356,8 +359,11 @@ public class ServerPcListener : MonoBehaviour
     {
         interactiveSprite.SetInteraction(false);
 
+        //REGISTER THE USER ACTION AND CHECK IF THE ACTION IS CORRECT OR WRONG RELATIVELY TO THE THREAT DEPLOYED
+        ClassDb.userActionManager.RegisterThreatSolution(new UserAction(StaticDb.ThreatSolution.reboot), manager.GetGameData().lastThreatDeployed);
+
         TimeEvent progressEvent = ClassDb.timeEventManager.NewTimeEvent(
-            manager.GetGameData().serverRebootTime, interactiveSprite.gameObject, true, true, StringDb.rebootServerRoutine);
+            manager.GetGameData().serverRebootTime, interactiveSprite.gameObject, true, true, StaticDb.rebootServerRoutine);
         manager.GetGameData().timeEventList.Add(progressEvent);
 
         rebootServerRoutine = RebootServer(progressEvent);
@@ -377,10 +383,10 @@ public class ServerPcListener : MonoBehaviour
         yield return new WaitWhile(() => manager.GetGameData().timeEventList.Contains(progressEvent));
 
         //Reset money loss due to dos attack
-        manager.GetGameData().moneyLossList[StringDb.ThreatAttack.dos] = 0;
+        manager.GetGameData().moneyLossList[StaticDb.ThreatAttack.dos] = 0;
 
         ////reset base money earn
-        //ClassDb.worldManager.totalMoneyEarnPerMinute = StringDb.baseEarn;
+        //ClassDb.worldManager.totalMoneyEarnPerMinute = StaticDb.baseEarn;
 
         //restart money generation
         manager.GetGameData().isMoneyLoss = true;
@@ -403,8 +409,11 @@ public class ServerPcListener : MonoBehaviour
     {
         sprite.SetInteraction(false);
 
+        //REGISTER THE USER ACTION AND CHECK IF THE ACTION IS CORRECT OR WRONG RELATIVELY TO THE THREAT DEPLOYED
+        ClassDb.userActionManager.RegisterThreatSolution(new UserAction(StaticDb.ThreatSolution.networkCheck), manager.GetGameData().lastThreatDeployed);
+
         TimeEvent progressEvent = ClassDb.timeEventManager.NewTimeEvent(
-            manager.GetGameData().serverCheckCfgTime, sprite.gameObject, true, true, StringDb.checkNetworkCfgRoutine);
+            manager.GetGameData().serverCheckCfgTime, sprite.gameObject, true, true, StaticDb.checkNetworkCfgRoutine);
 
         beforeCheckNetworkRoutine = BeforeCheckNetworkCfg(progressEvent, sprite);
         StartCoroutine(beforeCheckNetworkRoutine);
@@ -445,7 +454,6 @@ public class ServerPcListener : MonoBehaviour
         }
 
     }
-
 
     public IEnumerator BeforeCheckNetworkCfg(TimeEvent progressEvent, InteractiveSprite sprite)
     {
@@ -488,12 +496,12 @@ public class ServerPcListener : MonoBehaviour
         yield return new WaitWhile(() => manager.GetGameData().timeEventList.Contains(progressEvent));
 
         //Reset money loss due to replay attack
-        manager.GetGameData().moneyLossList[StringDb.ThreatAttack.replay] = 0;
-        manager.GetGameData().moneyLossList[StringDb.ThreatAttack.mitm] = 0;
-        manager.GetGameData().moneyLossList[StringDb.ThreatAttack.dragonfly] = 0;
+        manager.GetGameData().moneyLossList[StaticDb.ThreatAttack.replay] = 0;
+        manager.GetGameData().moneyLossList[StaticDb.ThreatAttack.mitm] = 0;
+        manager.GetGameData().moneyLossList[StaticDb.ThreatAttack.dragonfly] = 0;
 
         ////reset base money earn
-        //ClassDb.worldManager.totalMoneyEarnPerMinute = StringDb.baseEarn;
+        //ClassDb.worldManager.totalMoneyEarnPerMinute = StaticDb.baseEarn;
 
         //restart money generation
         manager.GetGameData().isMoneyLoss = true;

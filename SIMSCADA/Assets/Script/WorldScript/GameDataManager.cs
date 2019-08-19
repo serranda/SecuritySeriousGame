@@ -30,7 +30,7 @@ public class GameDataManager : MonoBehaviour
     private IEnumerator SaveLevelGameData(byte[] bytes)
     {
         string address = Application.absoluteURL == string.Empty
-            ? StringDb.serverAddressEditor
+            ? StaticDb.serverAddressEditor
             : Application.absoluteURL.TrimEnd('/');
 
         //GET THE CORRECT LEVELMANAGER
@@ -76,17 +76,17 @@ public class GameDataManager : MonoBehaviour
 
         //ADD FIELD TO FORM
         formData.AddField("mode", "w");
-        formData.AddField("mainDataFolder", StringDb.mainDataFolder);
-        formData.AddField("playerFolder", StringDb.player.folderName);
-        formData.AddField("saveFolder", StringDb.saveFolder);
-        formData.AddField("saveFileName", StringDb.slotName + manager.GetGameData().indexSlot + StringDb.slotExt);
+        formData.AddField("mainDataFolder", StaticDb.mainDataFolder);
+        formData.AddField("playerFolder", StaticDb.player.folderName);
+        formData.AddField("saveFolder", StaticDb.saveFolder);
+        formData.AddField("saveFileName", StaticDb.slotName + manager.GetGameData().indexSlot + StaticDb.slotExt);
         formData.AddField("saveContent", data);
 
         //UPLOAD JSON DATA FROM GAMEDATA CLASS
         using (UnityWebRequest www =
             UnityWebRequest.Post(
                 Path.Combine(address,
-                    Path.Combine(StringDb.phpFolder, StringDb.playerSaveManagerScript)), formData))
+                    Path.Combine(StaticDb.phpFolder, StaticDb.playerSaveManagerScript)), formData))
         {
             yield return www.SendWebRequest();
 
@@ -108,17 +108,17 @@ public class GameDataManager : MonoBehaviour
 
         //ADD FIELD AND BINARY DATA TO FORM
         formImage.AddField("mode", "w");
-        formImage.AddField("mainDataFolder", StringDb.mainDataFolder);
-        formImage.AddField("playerFolder", StringDb.player.folderName);
-        formImage.AddField("saveFolder", StringDb.saveFolder);
-        formImage.AddField("imageFileName", StringDb.slotName + manager.GetGameData().indexSlot + StringDb.imageExt);
+        formImage.AddField("mainDataFolder", StaticDb.mainDataFolder);
+        formImage.AddField("playerFolder", StaticDb.player.folderName);
+        formImage.AddField("saveFolder", StaticDb.saveFolder);
+        formImage.AddField("imageFileName", StaticDb.slotName + manager.GetGameData().indexSlot + StaticDb.imageExt);
         formImage.AddBinaryData("imageFile", imageBytes);
 
         //UPLOAD JSON DATA FROM GAMEDATA CLASS
         using (UnityWebRequest www =
             UnityWebRequest.Post(
                 Path.Combine(address,
-                    Path.Combine(StringDb.phpFolder, StringDb.imageSaveManagerScript)), formImage))
+                    Path.Combine(StaticDb.phpFolder, StaticDb.imageSaveManagerScript)), formImage))
         {
             yield return www.SendWebRequest();
 
@@ -146,7 +146,7 @@ public class GameDataManager : MonoBehaviour
     private IEnumerator LoadLevelGameData()
     {
         string address = Application.absoluteURL == string.Empty
-            ? StringDb.serverAddressEditor
+            ? StaticDb.serverAddressEditor
             : Application.absoluteURL.TrimEnd('/');
 
         //GET THE CORRECT LEVELMANAGER
@@ -159,16 +159,16 @@ public class GameDataManager : MonoBehaviour
 
         //ADD FIELD TO FORM
         form.AddField("mode", "r");
-        form.AddField("mainDataFolder", StringDb.mainDataFolder);
-        form.AddField("playerFolder", StringDb.player.folderName);
-        form.AddField("saveFolder", StringDb.saveFolder);
-        form.AddField("saveFileName", StringDb.slotName + manager.GetGameData().indexSlot + StringDb.slotExt);
+        form.AddField("mainDataFolder", StaticDb.mainDataFolder);
+        form.AddField("playerFolder", StaticDb.player.folderName);
+        form.AddField("saveFolder", StaticDb.saveFolder);
+        form.AddField("saveFileName", StaticDb.slotName + manager.GetGameData().indexSlot + StaticDb.slotExt);
 
         //DOWNLOAD JSON DATA FOR GAMEDATA CLASS
         using (UnityWebRequest www =
             UnityWebRequest.Post(
                 Path.Combine(address,
-                    Path.Combine(StringDb.phpFolder, StringDb.playerSaveManagerScript)), form))
+                    Path.Combine(StaticDb.phpFolder, StaticDb.playerSaveManagerScript)), form))
         {
             yield return www.SendWebRequest();
 
@@ -208,7 +208,7 @@ public class GameDataManager : MonoBehaviour
     private ILevelManager SetLevelManager()
     {
         ILevelManager iManager;
-        if (SceneManager.GetActiveScene().buildIndex == StringDb.level1SceneIndex)
+        if (SceneManager.GetActiveScene().buildIndex == StaticDb.level1SceneIndex)
         {
             iManager = FindObjectOfType<Level1Manager>();
             levelIndex = 1;

@@ -42,7 +42,7 @@ public class LevelMessageManager : MonoBehaviour
     private ILevelManager SetLevelManager()
     {
         ILevelManager iManager;
-        if (SceneManager.GetActiveScene().buildIndex == StringDb.level1SceneIndex)
+        if (SceneManager.GetActiveScene().buildIndex == StaticDb.level1SceneIndex)
             iManager = FindObjectOfType<Level1Manager>();
         else
             iManager = FindObjectOfType<Level2Manager>();
@@ -73,7 +73,7 @@ public class LevelMessageManager : MonoBehaviour
 
         Canvas dialog = ClassDb.dialogBoxManager.OpenDialog();
 
-        DialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.welcomeTxt));
+        DialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.welcomeTxt));
 
         dialog.GetComponent<DialogBoxManager>().SetDialog(
             message.head,
@@ -90,7 +90,7 @@ public class LevelMessageManager : MonoBehaviour
             ClassDb.dialogBoxManager.CloseDialog(dialog);
             //TODO CHECK IF StopAllCoroutines METHOD IS WORKING CORRECTLY
             manager.StopAllCoroutines();
-            ClassDb.sceneLoader.StartLoadByIndex(StringDb.tutorialSceneIndex);
+            ClassDb.sceneLoader.StartLoadByIndex(StaticDb.tutorialSceneIndex);
 
         });
 
@@ -121,16 +121,16 @@ public class LevelMessageManager : MonoBehaviour
 
         switch (threat.threatType)
         {
-            case StringDb.ThreatType.local:
-                message = MessageFromJson(Resources.Load<TextAsset>(StringDb.localDeployed));
+            case StaticDb.ThreatType.local:
+                message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.localDeployed));
                 break;
-            case StringDb.ThreatType.remote:
-                message = MessageFromJson(Resources.Load<TextAsset>(StringDb.remoteDeployed));
+            case StaticDb.ThreatType.remote:
+                message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.remoteDeployed));
                 break;
-            case StringDb.ThreatType.fakeLocal:
+            case StaticDb.ThreatType.fakeLocal:
                 ClassDb.dialogBoxManager.CloseDialog(dialog);
                 yield break;
-            case StringDb.ThreatType.timeEvent:
+            case StaticDb.ThreatType.timeEvent:
                 ClassDb.dialogBoxManager.CloseDialog(dialog);
                 yield break;
 
@@ -139,9 +139,9 @@ public class LevelMessageManager : MonoBehaviour
         }
 
 
-        DialogBoxMessage messageIntern = threat.threatAttacker == StringDb.ThreatAttacker.intern
-            ? MessageFromJson(Resources.Load<TextAsset>(StringDb.internalMessage))
-            : StringDb.emptyMessage;
+        DialogBoxMessage messageIntern = threat.threatAttacker == StaticDb.ThreatAttacker.intern
+            ? MessageFromJson(Resources.Load<TextAsset>(StaticDb.internalMessage))
+            : StaticDb.emptyMessage;
 
         dialog.GetComponent<DialogBoxManager>().SetDialog(
             message.head,
@@ -180,16 +180,16 @@ public class LevelMessageManager : MonoBehaviour
 
         switch (threat.threatType)
         {
-            case StringDb.ThreatType.local:
-                message =  MessageFromJson(Resources.Load<TextAsset>(StringDb.localStopped));
+            case StaticDb.ThreatType.local:
+                message =  MessageFromJson(Resources.Load<TextAsset>(StaticDb.localStopped));
                 break;
-            case StringDb.ThreatType.remote:
-                message = MessageFromJson(Resources.Load<TextAsset>(StringDb.remoteStopped));
+            case StaticDb.ThreatType.remote:
+                message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.remoteStopped));
                 break;
-            case StringDb.ThreatType.fakeLocal:
-                message = MessageFromJson(Resources.Load<TextAsset>(StringDb.fakeLocalStopped));
+            case StaticDb.ThreatType.fakeLocal:
+                message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.fakeLocalStopped));
                 break;
-            case StringDb.ThreatType.timeEvent:
+            case StaticDb.ThreatType.timeEvent:
                 ClassDb.dialogBoxManager.CloseDialog(dialog);
                 yield break;
             default:
@@ -197,15 +197,15 @@ public class LevelMessageManager : MonoBehaviour
         }
 
         DialogBoxMessage messageIntern;
-        if (threat.threatType != StringDb.ThreatType.fakeLocal)
+        if (threat.threatType != StaticDb.ThreatType.fakeLocal)
         {
-            messageIntern = threat.threatAttacker == StringDb.ThreatAttacker.intern
-                ? MessageFromJson(Resources.Load<TextAsset>(StringDb.internalMessage))
-                : StringDb.emptyMessage;
+            messageIntern = threat.threatAttacker == StaticDb.ThreatAttacker.intern
+                ? MessageFromJson(Resources.Load<TextAsset>(StaticDb.internalMessage))
+                : StaticDb.emptyMessage;
         }
         else
         {
-            messageIntern = StringDb.emptyMessage;
+            messageIntern = StaticDb.emptyMessage;
         }
 
         dialog.GetComponent<DialogBoxManager>().SetDialog(
@@ -239,7 +239,7 @@ public class LevelMessageManager : MonoBehaviour
 
         Canvas dialog = ClassDb.dialogBoxManager.OpenDialog();
 
-        DialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.idsInterception));
+        DialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.idsInterception));
 
         dialog.GetComponent<DialogBoxManager>().SetDialog(
             message.head,
@@ -272,7 +272,7 @@ public class LevelMessageManager : MonoBehaviour
 
         Canvas dialog = ClassDb.dialogBoxManager.OpenDialog();
 
-        DialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.idsCleaned));
+        DialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.idsCleaned));
 
         dialog.GetComponent<DialogBoxManager>().SetDialog(
             message.head,
@@ -293,13 +293,13 @@ public class LevelMessageManager : MonoBehaviour
         dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.gameObject.SetActive(false);
     }
 
-    public void StartMoneyLoss(StringDb.ThreatType type, float moneyLoss)
+    public void StartMoneyLoss(StaticDb.ThreatType type, float moneyLoss)
     {
         moneyLossRoutine = MoneyLoss(type, moneyLoss);
         StartCoroutine(moneyLossRoutine);
     }
 
-    private IEnumerator MoneyLoss(StringDb.ThreatType type, float moneyLoss)
+    private IEnumerator MoneyLoss(StaticDb.ThreatType type, float moneyLoss)
     {
         yield return new WaitForSeconds(messageDelay);
 
@@ -313,16 +313,16 @@ public class LevelMessageManager : MonoBehaviour
 
         switch (type)
         {
-            case StringDb.ThreatType.local:
-                message = MessageFromJson(Resources.Load<TextAsset>(StringDb.localMoneyLoss));
+            case StaticDb.ThreatType.local:
+                message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.localMoneyLoss));
                 break;
-            case StringDb.ThreatType.remote:
-                message = MessageFromJson(Resources.Load<TextAsset>(StringDb.remoteMoneyLoss));
+            case StaticDb.ThreatType.remote:
+                message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.remoteMoneyLoss));
                 break;
-            case StringDb.ThreatType.fakeLocal:
-                message = MessageFromJson(Resources.Load<TextAsset>(StringDb.fakeLocalMoneyLoss));
+            case StaticDb.ThreatType.fakeLocal:
+                message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.fakeLocalMoneyLoss));
                 break;
-            case StringDb.ThreatType.timeEvent:
+            case StaticDb.ThreatType.timeEvent:
                 ClassDb.dialogBoxManager.CloseDialog(dialog);
                 yield break;
             default:
@@ -367,7 +367,7 @@ public class LevelMessageManager : MonoBehaviour
         //open dialog box
 
         //set the text on dialog box
-        DialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.exitTxt));
+        DialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.exitTxt));
 
         dialog.GetComponent<DialogBoxManager>().SetDialog(
             message.head,
@@ -385,7 +385,7 @@ public class LevelMessageManager : MonoBehaviour
             ClassDb.pauseManager.TogglePauseMenu();
             ClassDb.dialogBoxManager.CloseDialog(dialog);
             ClassDb.gameDataManager.StartSaveLevelGameData(imageBytes);
-            ClassDb.sceneLoader.StartLoadByIndex(StringDb.menuSceneIndex);
+            ClassDb.sceneLoader.StartLoadByIndex(StaticDb.menuSceneIndex);
         });
 
         dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.onClick.RemoveAllListeners();
@@ -408,9 +408,9 @@ public class LevelMessageManager : MonoBehaviour
         yield return new WaitForSeconds(messageDelay);
         Canvas dialog = ClassDb.dialogBoxManager.OpenDialog();
 
-        StoreManager storeManager = GameObject.Find(StringDb.storeScreenName).GetComponent<StoreManager>();
+        StoreManager storeManager = GameObject.Find(StaticDb.storeScreenName).GetComponent<StoreManager>();
 
-        DialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.purchase));
+        DialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.purchase));
 
         dialog.GetComponent<DialogBoxManager>().SetDialog(
             message.head,
@@ -450,7 +450,7 @@ public class LevelMessageManager : MonoBehaviour
 
         Canvas dialog = ClassDb.dialogBoxManager.OpenDialog();
 
-        DialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.failedCorruption));
+        DialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.failedCorruption));
 
         dialog.GetComponent<DialogBoxManager>().SetDialog(
             message.head,
@@ -487,7 +487,7 @@ public class LevelMessageManager : MonoBehaviour
 
         Canvas dialog = ClassDb.dialogBoxManager.OpenDialog();
 
-        DialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.moneyEarnTrue));
+        DialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.moneyEarnTrue));
 
         dialog.GetComponent<DialogBoxManager>().SetDialog(
             message.head,
@@ -525,7 +525,7 @@ public class LevelMessageManager : MonoBehaviour
 
         Canvas dialog = ClassDb.dialogBoxManager.OpenDialog();
 
-        DialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.moneyEarnFalse));
+        DialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.moneyEarnFalse));
 
         dialog.GetComponent<DialogBoxManager>().SetDialog(
             message.head,
@@ -558,7 +558,7 @@ public class LevelMessageManager : MonoBehaviour
 
         Canvas dialog = ClassDb.dialogBoxManager.OpenDialog();
 
-        DialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.suspiciousAi));
+        DialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.suspiciousAi));
 
         dialog.GetComponent<DialogBoxManager>().SetDialog(
             message.head,
@@ -591,7 +591,7 @@ public class LevelMessageManager : MonoBehaviour
 
         Canvas dialog = ClassDb.dialogBoxManager.OpenDialog();
 
-        DialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.plantCheck));
+        DialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.plantCheck));
 
         dialog.GetComponent<DialogBoxManager>().SetDialog(
             message.head,
@@ -624,7 +624,7 @@ public class LevelMessageManager : MonoBehaviour
 
         Canvas dialog = ClassDb.dialogBoxManager.OpenDialog();
 
-        DialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.malwareCheck));
+        DialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.malwareCheck));
 
         dialog.GetComponent<DialogBoxManager>().SetDialog(
             message.head,
@@ -660,7 +660,7 @@ public class LevelMessageManager : MonoBehaviour
 
         Canvas dialog = ClassDb.dialogBoxManager.OpenDialog();
 
-        DialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.threatManagementResult));
+        DialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.threatManagementResult));
 
         dialog.GetComponent<DialogBoxManager>().SetDialog(
             message.head,
@@ -694,7 +694,7 @@ public class LevelMessageManager : MonoBehaviour
 
         Canvas dialog = ClassDb.dialogBoxManager.OpenDialog();
 
-        DialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.newTrustedEmployees));
+        DialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.newTrustedEmployees));
 
         dialog.GetComponent<DialogBoxManager>().SetDialog(
             message.head,
@@ -729,7 +729,7 @@ public class LevelMessageManager : MonoBehaviour
 
         Canvas dialog = ClassDb.dialogBoxManager.OpenDialog();
 
-        DialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.newEmployeesHired));
+        DialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.newEmployeesHired));
 
         dialog.GetComponent<DialogBoxManager>().SetDialog(
             message.head,
@@ -765,7 +765,7 @@ public class LevelMessageManager : MonoBehaviour
 
         Canvas dialog = ClassDb.dialogBoxManager.OpenDialog();
 
-        DialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.showLessonFirstTime));
+        DialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.showLessonFirstTime));
 
         dialog.GetComponent<DialogBoxManager>().SetDialog(
             message.head,
@@ -804,7 +804,7 @@ public class LevelMessageManager : MonoBehaviour
 
         Canvas dialog = ClassDb.dialogBoxManager.OpenDialog();
 
-        DialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.researchReport));
+        DialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.researchReport));
 
         dialog.GetComponent<DialogBoxManager>().SetDialog(
             message.head,
@@ -838,8 +838,8 @@ public class LevelMessageManager : MonoBehaviour
         Canvas dialog = ClassDb.dialogBoxManager.OpenDialog();
 
         DialogBoxMessage message = MessageFromJson(manager.GetGameData().isGameWon 
-            ? Resources.Load<TextAsset>(StringDb.endGameWin) 
-            : Resources.Load<TextAsset>(StringDb.endGameLoss));
+            ? Resources.Load<TextAsset>(StaticDb.endGameWin) 
+            : Resources.Load<TextAsset>(StaticDb.endGameLoss));
 
         dialog.GetComponent<DialogBoxManager>().SetDialog(
             message.head,
@@ -855,7 +855,7 @@ public class LevelMessageManager : MonoBehaviour
         {
             ClassDb.dialogBoxManager.CloseDialog(dialog);
             //LOAD LEVEL 2
-            ClassDb.sceneLoader.StartLoadByIndex(StringDb.level2SceneIndex);
+            ClassDb.sceneLoader.StartLoadByIndex(StaticDb.level2SceneIndex);
         });
 
         dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.onClick.RemoveAllListeners();
@@ -878,7 +878,7 @@ public class LevelMessageManager : MonoBehaviour
 
         Canvas dialog = ClassDb.dialogBoxManager.OpenDialog();
 
-        DialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.closeDialog));
+        DialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.closeDialog));
 
         dialog.GetComponent<DialogBoxManager>().SetDialog(
             message.head,
@@ -902,13 +902,13 @@ public class LevelMessageManager : MonoBehaviour
 
     //RIMUOVIBILE
     //--------------------------------------------------------------------------------------------------------
-    //public void StartThreatRecap(StringDb.ThreatType type, int threatCount)
+    //public void StartThreatRecap(StaticDb.ThreatType type, int threatCount)
     //{
     //    localRecapRoutine = ThreatRecap(type, threatCount);
     //    StartCoroutine(localRecapRoutine);
     //}
 
-    //private IEnumerator ThreatRecap(StringDb.ThreatType type, int threatCount)
+    //private IEnumerator ThreatRecap(StaticDb.ThreatType type, int threatCount)
     //{
     //    yield return new WaitForSeconds(messageDelay);
     //    yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);
@@ -919,15 +919,15 @@ public class LevelMessageManager : MonoBehaviour
 
     //    switch (type)
     //    {
-    //        case StringDb.ThreatType.local:
-    //            message = MessageFromJson(Resources.Load<TextAsset>(StringDb.localThreatRecap));
+    //        case StaticDb.ThreatType.local:
+    //            message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.localThreatRecap));
     //            break;
-    //        case StringDb.ThreatType.remote:
-    //            message = MessageFromJson(Resources.Load<TextAsset>(StringDb.remoteThreatRecap));
+    //        case StaticDb.ThreatType.remote:
+    //            message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.remoteThreatRecap));
     //            break;
-    //        case StringDb.ThreatType.fakeLocal:
+    //        case StaticDb.ThreatType.fakeLocal:
     //            break;
-    //        case StringDb.ThreatType.timeEvent:
+    //        case StaticDb.ThreatType.timeEvent:
     //            break;
     //        default:
     //            throw new ArgumentOutOfRangeException();

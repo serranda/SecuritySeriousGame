@@ -32,7 +32,7 @@ public class LoginMessageManager : MonoBehaviour
 
         Canvas dialog = ClassDb.dialogBoxManager.OpenDialog();
 
-        LoginBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.completeField));
+        LoginBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.completeField));
 
         dialog.GetComponent<DialogBoxManager>().SetDialog(
             message.head,
@@ -66,7 +66,7 @@ public class LoginMessageManager : MonoBehaviour
 
         Canvas dialog = ClassDb.dialogBoxManager.OpenDialog();
 
-        LoginBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.existingPlayer));
+        LoginBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.existingPlayer));
 
         dialog.GetComponent<DialogBoxManager>().SetDialog(
             message.head,
@@ -100,7 +100,7 @@ public class LoginMessageManager : MonoBehaviour
 
         Canvas dialog = ClassDb.dialogBoxManager.OpenDialog();
 
-        LoginBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.playerNotRegistered));
+        LoginBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.playerNotRegistered));
 
         dialog.GetComponent<DialogBoxManager>().SetDialog(
             message.head,

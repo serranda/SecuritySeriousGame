@@ -17,7 +17,7 @@ public class ThreatManager : MonoBehaviour
     private ILevelManager SetLevelManager()
     {
         ILevelManager iManager;
-        if (SceneManager.GetActiveScene().buildIndex == StringDb.level1SceneIndex)
+        if (SceneManager.GetActiveScene().buildIndex == StaticDb.level1SceneIndex)
             iManager = FindObjectOfType<Level1Manager>();
         else
             iManager = FindObjectOfType<Level2Manager>();
@@ -29,68 +29,68 @@ public class ThreatManager : MonoBehaviour
     {
         int id = ++manager.GetGameData().lastThreatId;
 
-        StringDb.ThreatType threatType = (StringDb.ThreatType)Random.Range(0, 3);
+        StaticDb.ThreatType threatType = (StaticDb.ThreatType)Random.Range(0, 3);
 
         float deployTime = Random.Range(2f, 6f);
 
-        StringDb.ThreatAttacker threatAttacker = threatType == StringDb.ThreatType.fakeLocal
-            ? StringDb.ThreatAttacker.intern
-            : (StringDb.ThreatAttacker)Random.Range(0, 2);
+        StaticDb.ThreatAttacker threatAttacker = threatType == StaticDb.ThreatType.fakeLocal
+            ? StaticDb.ThreatAttacker.intern
+            : (StaticDb.ThreatAttacker)Random.Range(0, 2);
 
-        StringDb.ThreatAttack threatAttack;
+        StaticDb.ThreatAttack threatAttack;
 
         switch (threatType)
         {
-            case StringDb.ThreatType.local:
+            case StaticDb.ThreatType.local:
                 do
                 {
-                    threatAttack = (StringDb.ThreatAttack)manager.GetGameData().threatRandomizer.GetNext();
+                    threatAttack = (StaticDb.ThreatAttack)manager.GetGameData().threatRandomizer.GetNext();
                 } while ((int)threatAttack < 3 ||
-                         threatAttack == StringDb.ThreatAttack.stuxnet ||
-                         threatAttack == StringDb.ThreatAttack.dragonfly ||
-                         threatAttack == StringDb.ThreatAttack.createRemote);
+                         threatAttack == StaticDb.ThreatAttack.stuxnet ||
+                         threatAttack == StaticDb.ThreatAttack.dragonfly ||
+                         threatAttack == StaticDb.ThreatAttack.createRemote);
                 break;
-            case StringDb.ThreatType.remote:
+            case StaticDb.ThreatType.remote:
                 do
                 {
-                    threatAttack = (StringDb.ThreatAttack)manager.GetGameData().threatRandomizer.GetNext();
+                    threatAttack = (StaticDb.ThreatAttack)manager.GetGameData().threatRandomizer.GetNext();
 
                 } while ((int)threatAttack > 5 ||
-                         threatAttack == StringDb.ThreatAttack.replay ||
-                         threatAttack == StringDb.ThreatAttack.stuxnet ||
-                         threatAttack == StringDb.ThreatAttack.dragonfly);
+                         threatAttack == StaticDb.ThreatAttack.replay ||
+                         threatAttack == StaticDb.ThreatAttack.stuxnet ||
+                         threatAttack == StaticDb.ThreatAttack.dragonfly);
                 break;
-            case StringDb.ThreatType.fakeLocal:
-                threatAttack = StringDb.ThreatAttack.fakeLocal;
+            case StaticDb.ThreatType.fakeLocal:
+                threatAttack = StaticDb.ThreatAttack.fakeLocal;
                 break;
-            case StringDb.ThreatType.timeEvent:
-                threatAttack = StringDb.ThreatAttack.timeEvent;
+            case StaticDb.ThreatType.timeEvent:
+                threatAttack = StaticDb.ThreatAttack.timeEvent;
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
 
-        StringDb.ThreatDanger threatDanger = threatType == StringDb.ThreatType.fakeLocal
-            ? StringDb.ThreatDanger.fakeLocal
-            : (StringDb.ThreatDanger)Random.Range(0, 3);
+        StaticDb.ThreatDanger threatDanger = threatType == StaticDb.ThreatType.fakeLocal
+            ? StaticDb.ThreatDanger.fakeLocal
+            : (StaticDb.ThreatDanger)Random.Range(0, 3);
 
         float moneyLossPerMinute;
 
         switch (threatDanger)
         {
-            case StringDb.ThreatDanger.low:
+            case StaticDb.ThreatDanger.low:
                 moneyLossPerMinute = Random.Range(1f, 1.5f);
                 break;
-            case StringDb.ThreatDanger.medium:
+            case StaticDb.ThreatDanger.medium:
                 moneyLossPerMinute = Random.Range(2f, 2.5f);
                 break;
-            case StringDb.ThreatDanger.high:
+            case StaticDb.ThreatDanger.high:
                 moneyLossPerMinute = Random.Range(3f, 3.5f);
                 break;
-            case StringDb.ThreatDanger.fakeLocal:
+            case StaticDb.ThreatDanger.fakeLocal:
                 moneyLossPerMinute = Random.Range(3f, 3.5f);
                 break;
-            case StringDb.ThreatDanger.timeEvent:
+            case StaticDb.ThreatDanger.timeEvent:
                 moneyLossPerMinute = 0;
                 break;
             default:
@@ -100,7 +100,7 @@ public class ThreatManager : MonoBehaviour
 
         WeightedRandomizer<int> rand = new WeightedRandomizer<int>();
 
-        rand.AddOrUpdateWeight((int)StringDb.ThreatAttack.dos, 0.1f);
+        rand.AddOrUpdateWeight((int)StaticDb.ThreatAttack.dos, 0.1f);
 
         Threat threat = new Threat(id, threatType, deployTime, threatAttacker, threatDanger, threatAttack, moneyLossPerMinute);
 
@@ -112,63 +112,63 @@ public class ThreatManager : MonoBehaviour
     {
         int id = ++manager.GetGameData().lastThreatId;
 
-        StringDb.ThreatType threatType = (StringDb.ThreatType)Random.Range(0, 3);
+        StaticDb.ThreatType threatType = (StaticDb.ThreatType)Random.Range(0, 3);
 
         float deployTime = Random.Range(2f, 6f);
 
-        StringDb.ThreatAttacker threatAttacker = threatType == StringDb.ThreatType.fakeLocal
-            ? StringDb.ThreatAttacker.intern
-            : (StringDb.ThreatAttacker)Random.Range(0, 2);
+        StaticDb.ThreatAttacker threatAttacker = threatType == StaticDb.ThreatType.fakeLocal
+            ? StaticDb.ThreatAttacker.intern
+            : (StaticDb.ThreatAttacker)Random.Range(0, 2);
 
-        StringDb.ThreatAttack threatAttack;
+        StaticDb.ThreatAttack threatAttack;
 
         switch (threatType)
         {
-            case StringDb.ThreatType.local:
+            case StaticDb.ThreatType.local:
                 do
                 {
-                    threatAttack = (StringDb.ThreatAttack)manager.GetGameData().threatRandomizer.GetNext();
+                    threatAttack = (StaticDb.ThreatAttack)manager.GetGameData().threatRandomizer.GetNext();
 
                 } while ((int)threatAttack < 3);
                 break;
-            case StringDb.ThreatType.remote:
+            case StaticDb.ThreatType.remote:
                 do
                 {
-                    threatAttack = (StringDb.ThreatAttack)manager.GetGameData().threatRandomizer.GetNext();
+                    threatAttack = (StaticDb.ThreatAttack)manager.GetGameData().threatRandomizer.GetNext();
 
                 } while ((int)threatAttack > 5);
                 break;
-            case StringDb.ThreatType.fakeLocal:
-                threatAttack = StringDb.ThreatAttack.fakeLocal;
+            case StaticDb.ThreatType.fakeLocal:
+                threatAttack = StaticDb.ThreatAttack.fakeLocal;
                 break;
-            case StringDb.ThreatType.timeEvent:
-                threatAttack = StringDb.ThreatAttack.timeEvent;
+            case StaticDb.ThreatType.timeEvent:
+                threatAttack = StaticDb.ThreatAttack.timeEvent;
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
 
-        StringDb.ThreatDanger threatDanger = threatType == StringDb.ThreatType.fakeLocal
-            ? StringDb.ThreatDanger.fakeLocal
-            : (StringDb.ThreatDanger)Random.Range(0, 3);
+        StaticDb.ThreatDanger threatDanger = threatType == StaticDb.ThreatType.fakeLocal
+            ? StaticDb.ThreatDanger.fakeLocal
+            : (StaticDb.ThreatDanger)Random.Range(0, 3);
 
         float moneyLossPerMinute;
 
         switch (threatDanger)
         {
-            case StringDb.ThreatDanger.low:
+            case StaticDb.ThreatDanger.low:
                 moneyLossPerMinute = Random.Range(1f, 1.5f);
                 break;
-            case StringDb.ThreatDanger.medium:
+            case StaticDb.ThreatDanger.medium:
                 moneyLossPerMinute = Random.Range(2f, 2.5f);
                 break;
-            case StringDb.ThreatDanger.high:
+            case StaticDb.ThreatDanger.high:
                 moneyLossPerMinute = Random.Range(3f, 3.5f);
                 break;
-            case StringDb.ThreatDanger.fakeLocal:
+            case StaticDb.ThreatDanger.fakeLocal:
                 moneyLossPerMinute = Random.Range(3f, 3.5f);
                 break;
-            case StringDb.ThreatDanger.timeEvent:
+            case StaticDb.ThreatDanger.timeEvent:
                 moneyLossPerMinute = 0;
                 break;
             default:
@@ -178,7 +178,7 @@ public class ThreatManager : MonoBehaviour
 
         WeightedRandomizer<int> rand = new WeightedRandomizer<int>();
 
-        rand.AddOrUpdateWeight((int) StringDb.ThreatAttack.dos, 0.1f);
+        rand.AddOrUpdateWeight((int) StaticDb.ThreatAttack.dos, 0.1f);
 
         Threat threat = new Threat(id, threatType, deployTime, threatAttacker, threatDanger, threatAttack, moneyLossPerMinute);
 
@@ -204,39 +204,39 @@ public class ThreatManager : MonoBehaviour
     public Threat NewLocalThreat()
     {
         int id = ++manager.GetGameData().lastThreatId;
-        StringDb.ThreatType threatType = StringDb.ThreatType.local;
+        StaticDb.ThreatType threatType = StaticDb.ThreatType.local;
 
         float deployTime = Random.Range(2f, 6f);
 
-        StringDb.ThreatAttacker threatAttacker = (StringDb.ThreatAttacker)Random.Range(0, 2);
+        StaticDb.ThreatAttacker threatAttacker = (StaticDb.ThreatAttacker)Random.Range(0, 2);
 
-        StringDb.ThreatAttack threatAttack;
+        StaticDb.ThreatAttack threatAttack;
 
         do
         {
-            threatAttack = (StringDb.ThreatAttack)manager.GetGameData().threatRandomizer.GetNext();
+            threatAttack = (StaticDb.ThreatAttack)manager.GetGameData().threatRandomizer.GetNext();
 
         } while ((int)threatAttack < 3);
 
-        StringDb.ThreatDanger threatDanger = (StringDb.ThreatDanger)Random.Range(0, 3);
+        StaticDb.ThreatDanger threatDanger = (StaticDb.ThreatDanger)Random.Range(0, 3);
 
         float moneyLossPerMinute;
 
         switch (threatDanger)
         {
-            case StringDb.ThreatDanger.low:
+            case StaticDb.ThreatDanger.low:
                 moneyLossPerMinute = Random.Range(1f, 1.5f);
                 break;
-            case StringDb.ThreatDanger.medium:
+            case StaticDb.ThreatDanger.medium:
                 moneyLossPerMinute = Random.Range(2f, 2.5f);
                 break;
-            case StringDb.ThreatDanger.high:
+            case StaticDb.ThreatDanger.high:
                 moneyLossPerMinute = Random.Range(3f, 3.5f);
                 break;
-            case StringDb.ThreatDanger.fakeLocal:
+            case StaticDb.ThreatDanger.fakeLocal:
                 moneyLossPerMinute = Random.Range(3f, 3.5f);
                 break;
-            case StringDb.ThreatDanger.timeEvent:
+            case StaticDb.ThreatDanger.timeEvent:
                 moneyLossPerMinute = 0;
                 break;
             default:
@@ -254,39 +254,39 @@ public class ThreatManager : MonoBehaviour
     public Threat NewRemoteThreat()
     {
         int id = ++manager.GetGameData().lastThreatId;
-        StringDb.ThreatType threatType = StringDb.ThreatType.remote;
+        StaticDb.ThreatType threatType = StaticDb.ThreatType.remote;
 
         float deployTime = Random.Range(2f, 6f);
 
-        StringDb.ThreatAttacker threatAttacker = (StringDb.ThreatAttacker)Random.Range(0, 2);
+        StaticDb.ThreatAttacker threatAttacker = (StaticDb.ThreatAttacker)Random.Range(0, 2);
 
-        StringDb.ThreatAttack threatAttack;
+        StaticDb.ThreatAttack threatAttack;
 
         do
         {
-            threatAttack = (StringDb.ThreatAttack)manager.GetGameData().threatRandomizer.GetNext();
+            threatAttack = (StaticDb.ThreatAttack)manager.GetGameData().threatRandomizer.GetNext();
 
         } while ((int)threatAttack > 5);
 
-        StringDb.ThreatDanger threatDanger = (StringDb.ThreatDanger)Random.Range(0, 3);
+        StaticDb.ThreatDanger threatDanger = (StaticDb.ThreatDanger)Random.Range(0, 3);
 
         float moneyLossPerMinute;
 
         switch (threatDanger)
         {
-            case StringDb.ThreatDanger.low:
+            case StaticDb.ThreatDanger.low:
                 moneyLossPerMinute = Random.Range(1f, 1.5f);
                 break;
-            case StringDb.ThreatDanger.medium:
+            case StaticDb.ThreatDanger.medium:
                 moneyLossPerMinute = Random.Range(2f, 2.5f);
                 break;
-            case StringDb.ThreatDanger.high:
+            case StaticDb.ThreatDanger.high:
                 moneyLossPerMinute = Random.Range(3f, 3.5f);
                 break;
-            case StringDb.ThreatDanger.fakeLocal:
+            case StaticDb.ThreatDanger.fakeLocal:
                 moneyLossPerMinute = Random.Range(3f, 3.5f);
                 break;
-            case StringDb.ThreatDanger.timeEvent:
+            case StaticDb.ThreatDanger.timeEvent:
                 moneyLossPerMinute = 0;
                 break;
             default:
@@ -304,15 +304,15 @@ public class ThreatManager : MonoBehaviour
     public Threat NewFakeLocalThreat()
     {
         int id = ++manager.GetGameData().lastThreatId;
-        StringDb.ThreatType threatType = StringDb.ThreatType.fakeLocal;
+        StaticDb.ThreatType threatType = StaticDb.ThreatType.fakeLocal;
 
         float deployTime = Random.Range(2f, 6f);
 
-        StringDb.ThreatAttacker threatAttacker = StringDb.ThreatAttacker.intern;
+        StaticDb.ThreatAttacker threatAttacker = StaticDb.ThreatAttacker.intern;
 
-        StringDb.ThreatAttack threatAttack =  StringDb.ThreatAttack.fakeLocal;
+        StaticDb.ThreatAttack threatAttack =  StaticDb.ThreatAttack.fakeLocal;
 
-        StringDb.ThreatDanger threatDanger = StringDb.ThreatDanger.fakeLocal;
+        StaticDb.ThreatDanger threatDanger = StaticDb.ThreatDanger.fakeLocal;
 
         float moneyLossPerMinute = Random.Range(3f, 3.5f);
 

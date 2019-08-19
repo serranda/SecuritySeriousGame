@@ -88,7 +88,7 @@ public class TutorialManager : MonoBehaviour
     private void Update()
     {
         if (hudManager == null) return;
-        //gameData.simulationSpeedMultiplier = StringDb.speedMultiplier;
+        //gameData.simulationSpeedMultiplier = StaticDb.speedMultiplier;
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -103,7 +103,7 @@ public class TutorialManager : MonoBehaviour
 
         if (Input.GetMouseButtonDown(1) && tutorialGameData.buttonEnabled)
         {
-            Canvas actionMenu = GameObject.Find(StringDb.actionMenuName).GetComponent<Canvas>();
+            Canvas actionMenu = GameObject.Find(StaticDb.actionMenuName).GetComponent<Canvas>();
             ClassDb.prefabManager.ReturnPrefab(actionMenu.gameObject, PrefabManager.actionIndex);
         }
 
@@ -117,7 +117,7 @@ public class TutorialManager : MonoBehaviour
     {
         //instancing the hud
         ClassDb.prefabManager.GetPrefab(ClassDb.prefabManager.prefabHud.gameObject, PrefabManager.hudIndex).GetComponent<Canvas>();
-        hudManager = GameObject.Find(StringDb.hudName).GetComponent<HudManager>();
+        hudManager = GameObject.Find(StaticDb.hudName).GetComponent<HudManager>();
     }
 
     public void StartTimeRoutine()
@@ -137,11 +137,11 @@ public class TutorialManager : MonoBehaviour
         {
             yield return new WaitUntil(() => tutorialGameData.minutePercentage > 1);
 
-            //Debug.Log("DeltaTime: " + Time.fixedDeltaTime + " MinutePercentage: " + StringDb.minutePercentage);
+            //Debug.Log("DeltaTime: " + Time.fixedDeltaTime + " MinutePercentage: " + StaticDb.minutePercentage);
 
             tutorialGameData.date = tutorialGameData.date.AddMinutes(1.0);
 
-            tutorialGameData.totalMoneyEarnPerMinute = StringDb.baseEarn * tutorialGameData.totalEmployees;
+            tutorialGameData.totalMoneyEarnPerMinute = StaticDb.baseEarn * tutorialGameData.totalEmployees;
 
 
             tutorialGameData.totalCostPerMinute = 0;
@@ -149,17 +149,17 @@ public class TutorialManager : MonoBehaviour
 
             if (tutorialGameData.isFirewallActive)
             {
-                tutorialGameData.totalCostPerMinute += StringDb.firewallCost * tutorialGameData.totalEmployees;
+                tutorialGameData.totalCostPerMinute += StaticDb.firewallCost * tutorialGameData.totalEmployees;
             }
 
             if (tutorialGameData.isRemoteIdsActive)
             {
-                tutorialGameData.totalCostPerMinute += StringDb.idsCost * tutorialGameData.totalEmployees;
+                tutorialGameData.totalCostPerMinute += StaticDb.idsCost * tutorialGameData.totalEmployees;
             }
 
             if (tutorialGameData.isLocalIdsActive)
             {
-                tutorialGameData.totalCostPerMinute += StringDb.localSecurityCost * tutorialGameData.totalEmployees;
+                tutorialGameData.totalCostPerMinute += StaticDb.localSecurityCost * tutorialGameData.totalEmployees;
             }
 
             tutorialGameData.money += tutorialGameData.totalMoneyEarnPerMinute - tutorialGameData.totalCostPerMinute;
@@ -547,7 +547,7 @@ public class TutorialManager : MonoBehaviour
         finalMessage = true;
 
         //exit from tutorial and load level 1
-        ClassDb.sceneLoader.StartLoadByIndex(StringDb.level1SceneIndex);
+        ClassDb.sceneLoader.StartLoadByIndex(StaticDb.level1SceneIndex);
     }
 
     public void SetFirewallActive(bool active)

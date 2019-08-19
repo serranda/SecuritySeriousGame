@@ -11,7 +11,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
-public class ThreatChartController : MonoBehaviour
+public class ThreatChartManager : MonoBehaviour
 {
     [SerializeField] private LineChart lineChart;
 
@@ -107,7 +107,6 @@ public class ThreatChartController : MonoBehaviour
         {
             legendView.Entries[i].Title = lineChart.GetChartData().DataSets[i].Title;
         }
-
     }
 
     //RETURN MAXPOSITION BETWEEN EVERY LINE DATA SET
@@ -163,7 +162,7 @@ public class ThreatChartController : MonoBehaviour
     private ILevelManager SetLevelManager()
     {
         ILevelManager iManager;
-        if (SceneManager.GetActiveScene().buildIndex == StringDb.level1SceneIndex)
+        if (SceneManager.GetActiveScene().buildIndex == StaticDb.level1SceneIndex)
             iManager = FindObjectOfType<Level1Manager>();
         else
             iManager = FindObjectOfType<Level2Manager>();
@@ -195,31 +194,31 @@ public class ThreatChartController : MonoBehaviour
     {
         switch (threat.threatAttack)
         {
-            case StringDb.ThreatAttack.dos:
+            case StaticDb.ThreatAttack.dos:
                 dosSet.AddEntry(new LineEntry(threat.id, (float)Math.Round(manageTime)));
                 break;
-            case StringDb.ThreatAttack.phishing:
+            case StaticDb.ThreatAttack.phishing:
                 break;
-            case StringDb.ThreatAttack.replay:
+            case StaticDb.ThreatAttack.replay:
                 replaySet.AddEntry(new LineEntry(threat.id, (float)Math.Round(manageTime)));
                 break;
-            case StringDb.ThreatAttack.mitm:
+            case StaticDb.ThreatAttack.mitm:
                 mitmSet.AddEntry(new LineEntry(threat.id, (float)Math.Round(manageTime)));
                 break;
-            case StringDb.ThreatAttack.stuxnet:
+            case StaticDb.ThreatAttack.stuxnet:
                 stuxnetSet.AddEntry(new LineEntry(threat.id, (float)Math.Round(manageTime)));
                 break;
-            case StringDb.ThreatAttack.dragonfly:
+            case StaticDb.ThreatAttack.dragonfly:
                 dragonflySet.AddEntry(new LineEntry(threat.id, (float)Math.Round(manageTime)));
                 break;
-            case StringDb.ThreatAttack.malware:
+            case StaticDb.ThreatAttack.malware:
                 malwareSet.AddEntry(new LineEntry(threat.id, (float)Math.Round(manageTime)));
                 break;
-            case StringDb.ThreatAttack.createRemote:
+            case StaticDb.ThreatAttack.createRemote:
                 break;
-            case StringDb.ThreatAttack.fakeLocal:
+            case StaticDb.ThreatAttack.fakeLocal:
                 break;
-            case StringDb.ThreatAttack.timeEvent:
+            case StaticDb.ThreatAttack.timeEvent:
                 break;
             default:
                 throw new ArgumentOutOfRangeException();

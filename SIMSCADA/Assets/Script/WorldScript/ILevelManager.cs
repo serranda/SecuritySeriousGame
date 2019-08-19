@@ -47,7 +47,7 @@ interface ILevelManager
 
     void StopLocalThreat(Threat threat);
 
-    void UpdateReputation(Threat threat, StringDb.ThreatStatus threatStatus);
+    void UpdateReputation(Threat threat, StaticDb.ThreatStatus threatStatus);
 
     IEnumerator RemoteIdsCheckRoutine();
 

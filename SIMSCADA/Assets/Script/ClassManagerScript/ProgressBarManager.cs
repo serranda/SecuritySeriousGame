@@ -77,7 +77,7 @@ public class ProgressBarManager : MonoBehaviour, IPointerEnterHandler, IPointerE
     private ILevelManager SetLevelManager()
     {
         ILevelManager iManager;
-        if (SceneManager.GetActiveScene().buildIndex == StringDb.level1SceneIndex)
+        if (SceneManager.GetActiveScene().buildIndex == StaticDb.level1SceneIndex)
             iManager = FindObjectOfType<Level1Manager>();
         else
             iManager = FindObjectOfType<Level2Manager>();
@@ -94,16 +94,16 @@ public class ProgressBarManager : MonoBehaviour, IPointerEnterHandler, IPointerE
         {
             switch (gameObject.transform.parent.tag)
             {
-                case StringDb.telephoneTag:
+                case StaticDb.telephoneTag:
                     GetComponentInParent<TelephoneListener>().StopAllCoroutines();
                     break;
-                case StringDb.securityCheckTag:
+                case StaticDb.securityCheckTag:
                     GetComponentInParent<SecurityListener>().StopAllCoroutines();
                     break;
-                case StringDb.roomPcTag:
+                case StaticDb.roomPcTag:
                     GetComponentInParent<RoomPcListener>().StopAllCoroutines();
                     break;
-                case StringDb.serverPcTag:
+                case StaticDb.serverPcTag:
                     GetComponentInParent<ServerPcListener>().StopAllCoroutines();
                     break;
                 default:

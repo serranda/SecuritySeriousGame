@@ -42,7 +42,7 @@ public class InteractiveSprite : MonoBehaviour, IPointerUpHandler, IPointerDownH
         int pos = interactiveSprite.sprite.name.IndexOf("_", StringComparison.Ordinal);
         realName = interactiveSprite.sprite.name.Substring(0, pos);
 
-        spriteMaxIndex = Resources.LoadAll<Sprite>(Path.Combine(StringDb.rscIntSpriteFolder, realName)).Length - 1;
+        spriteMaxIndex = Resources.LoadAll<Sprite>(Path.Combine(StaticDb.rscIntSpriteFolder, realName)).Length - 1;
 
         //SET OPERATIVE
         CheckOperativeItem();
@@ -98,7 +98,7 @@ public class InteractiveSprite : MonoBehaviour, IPointerUpHandler, IPointerDownH
     private ILevelManager SetLevelManager()
     {
         ILevelManager iManager;
-        if (SceneManager.GetActiveScene().buildIndex == StringDb.level1SceneIndex)
+        if (SceneManager.GetActiveScene().buildIndex == StaticDb.level1SceneIndex)
             iManager = FindObjectOfType<Level1Manager>();
         else
             iManager = FindObjectOfType<Level2Manager>();
@@ -110,7 +110,7 @@ public class InteractiveSprite : MonoBehaviour, IPointerUpHandler, IPointerDownH
     private void SetSprite(int index)
     {
         //set the sprite stored in the related folder located within the "Resources" folder
-        interactiveSprite.sprite = Resources.LoadAll<Sprite>(Path.Combine(StringDb.rscIntSpriteFolder, realName))[index];
+        interactiveSprite.sprite = Resources.LoadAll<Sprite>(Path.Combine(StaticDb.rscIntSpriteFolder, realName))[index];
     }
 
     public void ToggleMenu()
@@ -125,9 +125,9 @@ public class InteractiveSprite : MonoBehaviour, IPointerUpHandler, IPointerDownH
         else
         {
             //get the canvas for the displaying the option menu. only one action menu at time will be displayed
-            if (GameObject.Find(StringDb.actionMenuName))
+            if (GameObject.Find(StaticDb.actionMenuName))
             {
-                actionMenu = GameObject.Find(StringDb.actionMenuName).GetComponent<Canvas>();
+                actionMenu = GameObject.Find(StaticDb.actionMenuName).GetComponent<Canvas>();
                 ClassDb.prefabManager.ReturnPrefab(actionMenu.gameObject, PrefabManager.actionIndex);
             }
 
@@ -139,7 +139,7 @@ public class InteractiveSprite : MonoBehaviour, IPointerUpHandler, IPointerDownH
             actionMenuTransform.localPosition = Vector3.zero;
 
             //set the button listener
-            actionButtonManager = GameObject.Find(StringDb.actionMenuName).GetComponent<ActionButtonManager>();
+            actionButtonManager = GameObject.Find(StaticDb.actionMenuName).GetComponent<ActionButtonManager>();
             actionButtonManager.GetButtons();
 
             SetListener();
@@ -155,19 +155,19 @@ public class InteractiveSprite : MonoBehaviour, IPointerUpHandler, IPointerDownH
         //set all the listener for the function related to the button onClick
         switch (gameObject.tag)
         {
-            case StringDb.telephoneTag:
+            case StaticDb.telephoneTag:
                 TelephoneListener telephoneListener = GetComponent<TelephoneListener>();
                 telephoneListener.SetTelephoneListeners();
                 break;
-            case StringDb.securityCheckTag:
+            case StaticDb.securityCheckTag:
                 SecurityListener securityListener = GetComponent<SecurityListener>();
                 securityListener.SetSecurityListeners();
                 break;
-            case StringDb.roomPcTag:
+            case StaticDb.roomPcTag:
                 RoomPcListener roomPcListener = GetComponent<RoomPcListener>();
                 roomPcListener.SetComputerListeners();
                 break;
-            case StringDb.serverPcTag:
+            case StaticDb.serverPcTag:
                 ServerPcListener serverPcListener = GetComponent<ServerPcListener>();
                 serverPcListener.SetSeverPcListeners();
                 break;
@@ -188,16 +188,16 @@ public class InteractiveSprite : MonoBehaviour, IPointerUpHandler, IPointerDownH
         int limit;
         switch (gameObject.tag)
         {
-            case StringDb.telephoneTag:
+            case StaticDb.telephoneTag:
                 limit = manager.GetGameData().telephoneAmount;
                 break;
-            case StringDb.securityCheckTag:
+            case StaticDb.securityCheckTag:
                 limit = manager.GetGameData().securityCheckAmount;
                 break;
-            case StringDb.roomPcTag:
+            case StaticDb.roomPcTag:
                 limit = manager.GetGameData().pcAmount;
                 break;
-            case StringDb.serverPcTag:
+            case StaticDb.serverPcTag:
                 limit = manager.GetGameData().serverAmount;
                 break;
             default:

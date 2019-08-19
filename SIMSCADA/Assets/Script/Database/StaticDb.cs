@@ -4,7 +4,7 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-public class StringDb
+public class StaticDb
 {
     //int value for store slot index
     public static int indexSlot;
@@ -374,5 +374,14 @@ public class StringDb
     //starter date time values
     public static DateTime starterDate = new DateTime(2019, 01, 01, 08, 00, 00);
 
-
+    //enum values to identify solution needed to stop deployed threat
+    public enum ThreatSolution
+    {
+        reboot,
+        networkCheck,
+        malwareScan,
+        plantCheck,
+        employeeCourse,
+        timeEvent
+    }
 }

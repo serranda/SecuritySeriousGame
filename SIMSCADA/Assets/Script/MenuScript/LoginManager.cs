@@ -27,7 +27,7 @@ public class LoginManager : MonoBehaviour
     private void Start()
     {
         string address = Application.absoluteURL == string.Empty
-            ? StringDb.serverAddressEditor
+            ? StaticDb.serverAddressEditor
             : Application.absoluteURL.TrimEnd('/');
 
         Debug.Log("Address: " + address);
@@ -80,7 +80,7 @@ public class LoginManager : MonoBehaviour
     private IEnumerator CreatePlayerDataFolder()
     {
         string address = Application.absoluteURL == string.Empty
-            ? StringDb.serverAddressEditor
+            ? StaticDb.serverAddressEditor
             : Application.absoluteURL.TrimEnd('/');
 
         //NEW WWWFORM FOR WEB REQUEST
@@ -92,7 +92,7 @@ public class LoginManager : MonoBehaviour
         //SEND REQUEST
         using (UnityWebRequest www =
             UnityWebRequest.Post(
-                Path.Combine(address, Path.Combine(StringDb.phpFolder, StringDb.createMainDataFolderScript)),
+                Path.Combine(address, Path.Combine(StaticDb.phpFolder, StaticDb.createMainDataFolderScript)),
                 form))
         {
             yield return www.SendWebRequest();
@@ -119,7 +119,7 @@ public class LoginManager : MonoBehaviour
     private IEnumerator CheckRegisteringPlayerListRoutine()
     {
         string address = Application.absoluteURL == string.Empty
-            ? StringDb.serverAddressEditor
+            ? StaticDb.serverAddressEditor
             : Application.absoluteURL.TrimEnd('/');
         
         //create player instance with registration credential
@@ -132,12 +132,12 @@ public class LoginManager : MonoBehaviour
 
         //add field to form
         form.AddField("mode", "r");
-        form.AddField("mainDataFolder", StringDb.mainDataFolder);
-        form.AddField("playerListName", StringDb.playerListName);
+        form.AddField("mainDataFolder", StaticDb.mainDataFolder);
+        form.AddField("playerListName", StaticDb.playerListName);
 
         using (UnityWebRequest www =
             UnityWebRequest.Post(
-                Path.Combine(address, Path.Combine(StringDb.phpFolder, StringDb.playersListManager)),
+                Path.Combine(address, Path.Combine(StaticDb.phpFolder, StaticDb.playersListManager)),
                 form))
         {
             yield return www.SendWebRequest();
@@ -193,7 +193,7 @@ public class LoginManager : MonoBehaviour
     private IEnumerator CheckLoggingPlayerListRoutine()
     {
         string address = Application.absoluteURL == string.Empty
-            ? StringDb.serverAddressEditor
+            ? StaticDb.serverAddressEditor
             : Application.absoluteURL.TrimEnd('/');
 
         //create player instance with credential
@@ -206,12 +206,12 @@ public class LoginManager : MonoBehaviour
 
         //add field to form
         form.AddField("mode", "r");
-        form.AddField("mainDataFolder", StringDb.mainDataFolder);
-        form.AddField("playerListName", StringDb.playerListName);
+        form.AddField("mainDataFolder", StaticDb.mainDataFolder);
+        form.AddField("playerListName", StaticDb.playerListName);
 
         using (UnityWebRequest www =
             UnityWebRequest.Post(
-                Path.Combine(address, Path.Combine(StringDb.phpFolder, StringDb.playersListManager)),
+                Path.Combine(address, Path.Combine(StaticDb.phpFolder, StaticDb.playersListManager)),
                 form))
         {
             yield return www.SendWebRequest();
@@ -268,7 +268,7 @@ public class LoginManager : MonoBehaviour
     private IEnumerator UpdatePlayerList(Player player, PlayerList players)
     {
         string address = Application.absoluteURL == string.Empty
-            ? StringDb.serverAddressEditor
+            ? StaticDb.serverAddressEditor
             : Application.absoluteURL.TrimEnd('/');
 
         //instanciate new wwwform
@@ -286,13 +286,13 @@ public class LoginManager : MonoBehaviour
 
         //add filed and json data to form
         form.AddField("mode", "w");
-        form.AddField("mainDataFolder", StringDb.mainDataFolder);
-        form.AddField("playerListName", StringDb.playerListName);
+        form.AddField("mainDataFolder", StaticDb.mainDataFolder);
+        form.AddField("playerListName", StaticDb.playerListName);
         form.AddField("playerListData", playerListData);
 
         using (UnityWebRequest www =
             UnityWebRequest.Post(
-                Path.Combine(address, Path.Combine(StringDb.phpFolder, StringDb.playersListManager)),
+                Path.Combine(address, Path.Combine(StaticDb.phpFolder, StaticDb.playersListManager)),
                 form))
         {
             yield return www.SendWebRequest();
@@ -323,20 +323,20 @@ public class LoginManager : MonoBehaviour
     private IEnumerator CreatePlayerFolderRoutine(Player player)
     {
         string address = Application.absoluteURL == string.Empty
-            ? StringDb.serverAddressEditor
+            ? StaticDb.serverAddressEditor
             : Application.absoluteURL.TrimEnd('/');
 
         //instanciate new wwwform
         WWWForm form = new WWWForm();
 
         //ADD VALUES TO FORM FIELD
-        form.AddField("mainDataFolder", StringDb.mainDataFolder);
+        form.AddField("mainDataFolder", StaticDb.mainDataFolder);
         form.AddField("playerFolder", player.folderName);
 
         using (UnityWebRequest www =
             UnityWebRequest.Post(
                 Path.Combine(address,
-                    Path.Combine(StringDb.phpFolder, StringDb.createPlayerFolderScript)), form))
+                    Path.Combine(StaticDb.phpFolder, StaticDb.createPlayerFolderScript)), form))
         {
             yield return www.SendWebRequest();
 
@@ -366,13 +366,13 @@ public class LoginManager : MonoBehaviour
     private void LoginToMenu(Player player)
     {
         //SET PLAYER REFERENCE WITH LOGGED PLAYER VALUES
-        StringDb.player = player;
+        StaticDb.player = player;
 
         //UPDATE PLAYER LOG WITH LOGIN DATA
-        ClassDb.logManager.StartWritePlayerLogRoutine(player, StringDb.logEvent.SystemEvent, string.Concat(player.username, " has connected."));
+        ClassDb.logManager.StartWritePlayerLogRoutine(player, StaticDb.logEvent.SystemEvent, string.Concat(player.username, " has connected."));
 
         //LOAD START MENU SCENE
-        ClassDb.sceneLoader.StartLoadByIndex(StringDb.menuSceneIndex);
+        ClassDb.sceneLoader.StartLoadByIndex(StaticDb.menuSceneIndex);
     }
 
 }

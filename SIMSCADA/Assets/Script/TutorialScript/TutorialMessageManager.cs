@@ -19,7 +19,7 @@ public class TutorialMessageManager : MonoBehaviour
     private ILevelManager SetLevelManager()
     {
         ILevelManager iManager;
-        if (SceneManager.GetActiveScene().buildIndex == StringDb.level1SceneIndex)
+        if (SceneManager.GetActiveScene().buildIndex == StaticDb.level1SceneIndex)
             iManager = FindObjectOfType<Level1Manager>();
         else
             iManager = FindObjectOfType<Level2Manager>();
@@ -41,7 +41,7 @@ public class TutorialMessageManager : MonoBehaviour
     {
         ClassDb.tutorialDialogBoxManager.ToggleTutorialDialogBox();
 
-        TutorialDialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.tutorialWelcome1));
+        TutorialDialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.tutorialWelcome1));
 
         ClassDb.tutorialDialogBoxManager.SetTutorialDialog(message.body);
 
@@ -57,7 +57,7 @@ public class TutorialMessageManager : MonoBehaviour
     {
         ClassDb.tutorialDialogBoxManager.ToggleTutorialDialogBox();
 
-        TutorialDialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.tutorialWelcome2));
+        TutorialDialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.tutorialWelcome2));
 
         ClassDb.tutorialDialogBoxManager.SetTutorialDialog(message.body);
 
@@ -73,7 +73,7 @@ public class TutorialMessageManager : MonoBehaviour
     {
         ClassDb.tutorialDialogBoxManager.ToggleTutorialDialogBox();
 
-        TutorialDialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.tutorialWelcome3));
+        TutorialDialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.tutorialWelcome3));
 
         ClassDb.tutorialDialogBoxManager.SetTutorialDialog(message.body);
 
@@ -89,7 +89,7 @@ public class TutorialMessageManager : MonoBehaviour
     {
         ClassDb.tutorialDialogBoxManager.ToggleTutorialDialogBox();
 
-        TutorialDialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.tutorialWelcome4));
+        TutorialDialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.tutorialWelcome4));
 
         ClassDb.tutorialDialogBoxManager.SetTutorialDialog(message.body);
 
@@ -105,7 +105,7 @@ public class TutorialMessageManager : MonoBehaviour
     {
         ClassDb.tutorialDialogBoxManager.ToggleTutorialDialogBox();
 
-        TutorialDialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.tutorialWelcome5));
+        TutorialDialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.tutorialWelcome5));
 
         ClassDb.tutorialDialogBoxManager.SetTutorialDialog(message.body);
 
@@ -121,7 +121,7 @@ public class TutorialMessageManager : MonoBehaviour
     {
         ClassDb.tutorialDialogBoxManager.ToggleTutorialDialogBox();
 
-        TutorialDialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.tutorialWelcome6));
+        TutorialDialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.tutorialWelcome6));
 
         ClassDb.tutorialDialogBoxManager.SetTutorialDialog(message.body);
 
@@ -137,7 +137,7 @@ public class TutorialMessageManager : MonoBehaviour
     {
         ClassDb.tutorialDialogBoxManager.ToggleTutorialDialogBox();
 
-        TutorialDialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.tutorialWelcome7));
+        TutorialDialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.tutorialWelcome7));
 
         ClassDb.tutorialDialogBoxManager.SetTutorialDialog(message.body);
 
@@ -153,7 +153,7 @@ public class TutorialMessageManager : MonoBehaviour
     {
         ClassDb.tutorialDialogBoxManager.ToggleTutorialDialogBox();
 
-        TutorialDialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.tutorialSecurityCheck));
+        TutorialDialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.tutorialSecurityCheck));
 
         ClassDb.tutorialDialogBoxManager.SetTutorialDialog(message.body);
 
@@ -169,7 +169,7 @@ public class TutorialMessageManager : MonoBehaviour
     {
         ClassDb.tutorialDialogBoxManager.ToggleTutorialDialogBox();
 
-        TutorialDialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.tutorialServer));
+        TutorialDialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.tutorialServer));
 
         ClassDb.tutorialDialogBoxManager.SetTutorialDialog(message.body);
 
@@ -185,7 +185,7 @@ public class TutorialMessageManager : MonoBehaviour
     {
         ClassDb.tutorialDialogBoxManager.ToggleTutorialDialogBox();
 
-        TutorialDialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.tutorialTelephone1));
+        TutorialDialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.tutorialTelephone1));
 
         ClassDb.tutorialDialogBoxManager.SetTutorialDialog(message.body);
 
@@ -201,7 +201,7 @@ public class TutorialMessageManager : MonoBehaviour
     {
         ClassDb.tutorialDialogBoxManager.ToggleTutorialDialogBox();
 
-        TutorialDialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.tutorialTelephone2));
+        TutorialDialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.tutorialTelephone2));
 
         ClassDb.tutorialDialogBoxManager.SetTutorialDialog(message.body);
 
@@ -217,7 +217,7 @@ public class TutorialMessageManager : MonoBehaviour
     {
         ClassDb.tutorialDialogBoxManager.ToggleTutorialDialogBox();
 
-        TutorialDialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.tutorialRemoteAttack));
+        TutorialDialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.tutorialRemoteAttack));
 
         ClassDb.tutorialDialogBoxManager.SetTutorialDialog(message.body);
 
@@ -233,7 +233,7 @@ public class TutorialMessageManager : MonoBehaviour
     {
         ClassDb.tutorialDialogBoxManager.ToggleTutorialDialogBox();
 
-        TutorialDialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.tutorialPostWelcome));
+        TutorialDialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.tutorialPostWelcome));
 
         ClassDb.tutorialDialogBoxManager.SetTutorialDialog(message.body);
 
@@ -249,7 +249,7 @@ public class TutorialMessageManager : MonoBehaviour
     {
         ClassDb.tutorialDialogBoxManager.ToggleTutorialDialogBox();
 
-        TutorialDialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.tutorialPostAttack));
+        TutorialDialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.tutorialPostAttack));
 
         ClassDb.tutorialDialogBoxManager.SetTutorialDialog(message.body);
 
@@ -265,7 +265,7 @@ public class TutorialMessageManager : MonoBehaviour
     {
         ClassDb.tutorialDialogBoxManager.ToggleTutorialDialogBox();
 
-        TutorialDialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.tutorialMarketPanel1));
+        TutorialDialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.tutorialMarketPanel1));
 
         ClassDb.tutorialDialogBoxManager.SetTutorialDialog(message.body);
 
@@ -281,7 +281,7 @@ public class TutorialMessageManager : MonoBehaviour
     {
         ClassDb.tutorialDialogBoxManager.ToggleTutorialDialogBox();
 
-        TutorialDialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.tutorialMarketPanel2));
+        TutorialDialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.tutorialMarketPanel2));
 
         ClassDb.tutorialDialogBoxManager.SetTutorialDialog(message.body);
 
@@ -297,7 +297,7 @@ public class TutorialMessageManager : MonoBehaviour
     {
         ClassDb.tutorialDialogBoxManager.ToggleTutorialDialogBox();
 
-        TutorialDialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.tutorialLocalAttack));
+        TutorialDialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.tutorialLocalAttack));
 
         ClassDb.tutorialDialogBoxManager.SetTutorialDialog(message.body);
 
@@ -313,7 +313,7 @@ public class TutorialMessageManager : MonoBehaviour
     {
         ClassDb.tutorialDialogBoxManager.ToggleTutorialDialogBox();
 
-        TutorialDialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.tutorialInteractiveObject));
+        TutorialDialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.tutorialInteractiveObject));
 
         ClassDb.tutorialDialogBoxManager.SetTutorialDialog(message.body);
 
@@ -329,7 +329,7 @@ public class TutorialMessageManager : MonoBehaviour
     {
         ClassDb.tutorialDialogBoxManager.ToggleTutorialDialogBox();
 
-        TutorialDialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.tutorialHMIPC));
+        TutorialDialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.tutorialHMIPC));
 
         ClassDb.tutorialDialogBoxManager.SetTutorialDialog(message.body);
 
@@ -345,7 +345,7 @@ public class TutorialMessageManager : MonoBehaviour
     {
         ClassDb.tutorialDialogBoxManager.ToggleTutorialDialogBox();
 
-        TutorialDialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.tutorialHMIPanel));
+        TutorialDialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.tutorialHMIPanel));
 
         ClassDb.tutorialDialogBoxManager.SetTutorialDialog(message.body);
 
@@ -361,7 +361,7 @@ public class TutorialMessageManager : MonoBehaviour
     {
         ClassDb.tutorialDialogBoxManager.ToggleTutorialDialogBox();
 
-        TutorialDialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.tutorialFinalMessage));
+        TutorialDialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.tutorialFinalMessage));
 
         ClassDb.tutorialDialogBoxManager.SetTutorialDialog(message.body);
 
@@ -377,7 +377,7 @@ public class TutorialMessageManager : MonoBehaviour
     {
         ClassDb.tutorialDialogBoxManager.ToggleTutorialDialogBox();
 
-        TutorialDialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.notebookMessage));
+        TutorialDialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.notebookMessage));
 
         ClassDb.tutorialDialogBoxManager.SetTutorialDialog(message.body);
 
@@ -393,7 +393,7 @@ public class TutorialMessageManager : MonoBehaviour
     {
         ClassDb.tutorialDialogBoxManager.ToggleTutorialDialogBox();
 
-        TutorialDialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.tutorialIdsFirewallIps));
+        TutorialDialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.tutorialIdsFirewallIps));
 
         ClassDb.tutorialDialogBoxManager.SetTutorialDialog(message.body);
 
@@ -415,7 +415,7 @@ public class TutorialMessageManager : MonoBehaviour
         //open dialog box
 
         //set the text on dialog box
-        DialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StringDb.tutorialExit)).ToDialogBoxMessage();
+        DialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.tutorialExit)).ToDialogBoxMessage();
 
         dialog.GetComponent<DialogBoxManager>().SetDialog(
             message.head,
@@ -432,7 +432,7 @@ public class TutorialMessageManager : MonoBehaviour
         {
             ClassDb.pauseManager.TogglePauseMenu();
             ClassDb.dialogBoxManager.CloseDialog(dialog);
-            ClassDb.sceneLoader.StartLoadByIndex(StringDb.menuSceneIndex);
+            ClassDb.sceneLoader.StartLoadByIndex(StaticDb.menuSceneIndex);
         });
 
         dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.onClick.RemoveAllListeners();

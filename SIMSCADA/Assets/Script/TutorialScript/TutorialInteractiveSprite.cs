@@ -39,7 +39,7 @@ public class TutorialInteractiveSprite : MonoBehaviour, IPointerUpHandler, IPoin
         int pos = interactiveSprite.sprite.name.IndexOf("_", StringComparison.Ordinal);
         realName = interactiveSprite.sprite.name.Substring(0, pos);
 
-        spriteMaxIndex = Resources.LoadAll<Sprite>(Path.Combine(StringDb.rscIntSpriteFolder, realName)).Length - 1;
+        spriteMaxIndex = Resources.LoadAll<Sprite>(Path.Combine(StaticDb.rscIntSpriteFolder, realName)).Length - 1;
 
         //SET OPERATIVE
         CheckOperativeItem();
@@ -91,7 +91,7 @@ public class TutorialInteractiveSprite : MonoBehaviour, IPointerUpHandler, IPoin
     private void SetSprite(int index)
     {
         //set the sprite stored in the related folder located within the "Resources" folder
-        interactiveSprite.sprite = Resources.LoadAll<Sprite>(Path.Combine(StringDb.rscIntSpriteFolder, realName))[index];
+        interactiveSprite.sprite = Resources.LoadAll<Sprite>(Path.Combine(StaticDb.rscIntSpriteFolder, realName))[index];
     }
 
     public void ToggleMenu()
@@ -105,9 +105,9 @@ public class TutorialInteractiveSprite : MonoBehaviour, IPointerUpHandler, IPoin
         else
         {
             //get the canvas for the displaying the option menu. only one action menu at time will be displayed
-            if (GameObject.Find(StringDb.actionMenuName))
+            if (GameObject.Find(StaticDb.actionMenuName))
             {
-                actionMenu = GameObject.Find(StringDb.actionMenuName).GetComponent<Canvas>();
+                actionMenu = GameObject.Find(StaticDb.actionMenuName).GetComponent<Canvas>();
                 ClassDb.prefabManager.ReturnPrefab(actionMenu.gameObject, PrefabManager.actionIndex);
             }
 
@@ -119,7 +119,7 @@ public class TutorialInteractiveSprite : MonoBehaviour, IPointerUpHandler, IPoin
             actionMenuTransform.localPosition = Vector3.zero;
 
             //set the button listener
-            actionButtonManager = GameObject.Find(StringDb.actionMenuName).GetComponent<ActionButtonManager>();
+            actionButtonManager = GameObject.Find(StaticDb.actionMenuName).GetComponent<ActionButtonManager>();
             actionButtonManager.GetButtons();
 
             SetListener();
@@ -137,19 +137,19 @@ public class TutorialInteractiveSprite : MonoBehaviour, IPointerUpHandler, IPoin
         //set all the listener for the function related to the button onClick
         switch (gameObject.tag)
         {
-            case StringDb.telephoneTag:
+            case StaticDb.telephoneTag:
                 TutorialTelephoneListener telephoneListener = GetComponent<TutorialTelephoneListener>();
                 telephoneListener.SetTelephoneListeners();
                 break;
-            case StringDb.securityCheckTag:
+            case StaticDb.securityCheckTag:
                 TutorialSecurityListener securityListener = GetComponent<TutorialSecurityListener>();
                 securityListener.SetSecurityListeners();
                 break;
-            case StringDb.roomPcTag:
+            case StaticDb.roomPcTag:
                 TutorialRoomPcListener roomPcListener = GetComponent<TutorialRoomPcListener>();
                 roomPcListener.SetComputerListeners();
                 break;
-            case StringDb.serverPcTag:
+            case StaticDb.serverPcTag:
                 TutorialServerPcListener serverPcListener = GetComponent<TutorialServerPcListener>();
                 serverPcListener.SetSeverPcListeners();
                 break;
@@ -173,16 +173,16 @@ public class TutorialInteractiveSprite : MonoBehaviour, IPointerUpHandler, IPoin
         int limit;
         switch (gameObject.tag)
         {
-            case StringDb.telephoneTag:
+            case StaticDb.telephoneTag:
                 limit = tutorialManager.tutorialGameData.telephoneAmount;
                 break;
-            case StringDb.securityCheckTag:
+            case StaticDb.securityCheckTag:
                 limit = tutorialManager.tutorialGameData.securityCheckAmount;
                 break;
-            case StringDb.roomPcTag:
+            case StaticDb.roomPcTag:
                 limit = tutorialManager.tutorialGameData.pcAmount;
                 break;
-            case StringDb.serverPcTag:
+            case StaticDb.serverPcTag:
                 limit = tutorialManager.tutorialGameData.serverAmount;
                 break;
             default:

@@ -4,8 +4,6 @@ using UnityEngine.SceneManagement;
 public class ClassDb : MonoBehaviour
 {
     public static PrefabManager prefabManager;
-    //public static Level1Manager level1Manager;
-    //public static TutorialManager tutorialManager;
     public static MenuManager menuManager;
     public static SceneLoader sceneLoader;
     public static CharactersCommon charactersCommon;
@@ -23,8 +21,9 @@ public class ClassDb : MonoBehaviour
     public static TutorialDialogBoxManager tutorialDialogBoxManager;
     public static IdCardManager idCardManager;
     public static GameDataManager gameDataManager;
-    public static ThreatChartController threatChartController;
+    public static ThreatChartManager threatChartManager;
     public static LogManager logManager;
+    public static UserActionManager userActionManager;
 
     public static Pathfinding regularPathfinder;
     public static Pathfinding strictedPathfinder;
@@ -32,8 +31,6 @@ public class ClassDb : MonoBehaviour
     private void Awake()
     {
         prefabManager = GetComponent<PrefabManager>();
-        //level1Manager = GetComponent<Level1Manager>();
-        //tutorialManager = GetComponent<TutorialManager>();
         menuManager = GetComponent<MenuManager>();
         sceneLoader = GetComponent<SceneLoader>();
         charactersCommon = GetComponent<CharactersCommon>();
@@ -51,11 +48,12 @@ public class ClassDb : MonoBehaviour
         tutorialDialogBoxManager = GetComponent<TutorialDialogBoxManager>();
         idCardManager = GetComponent<IdCardManager>();
         gameDataManager = GetComponent<GameDataManager>();
-        threatChartController = GetComponent<ThreatChartController>();
+        threatChartManager = GetComponent<ThreatChartManager>();
         logManager = GetComponent<LogManager>();
+        userActionManager = GetComponent<UserActionManager>();
 
-        if (SceneManager.GetActiveScene().buildIndex == StringDb.menuSceneIndex ||
-            SceneManager.GetActiveScene().buildIndex == StringDb.loginSceneIndex) return;
+        if (SceneManager.GetActiveScene().buildIndex == StaticDb.menuSceneIndex ||
+            SceneManager.GetActiveScene().buildIndex == StaticDb.loginSceneIndex) return;
         regularPathfinder = GameObject.Find("PathFinderRegular").GetComponent<Pathfinding>();
         strictedPathfinder = GameObject.Find("PathFinderRestricted").GetComponent<Pathfinding>();
     }

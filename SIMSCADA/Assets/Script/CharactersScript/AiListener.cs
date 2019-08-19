@@ -20,7 +20,7 @@ public class AiListener : MonoBehaviour
     private ILevelManager SetLevelManager()
     {
         ILevelManager iManager;
-        if (SceneManager.GetActiveScene().buildIndex == StringDb.level1SceneIndex)
+        if (SceneManager.GetActiveScene().buildIndex == StaticDb.level1SceneIndex)
             iManager = FindObjectOfType<Level1Manager>();
         else
             iManager = FindObjectOfType<Level2Manager>();
@@ -48,7 +48,7 @@ public class AiListener : MonoBehaviour
         }
 
         TimeEvent progressEvent = ClassDb.timeEventManager.NewTimeEvent(
-            progressDuration, aiController.gameObject, true, true, StringDb.showAiIdRoutine);
+            progressDuration, aiController.gameObject, true, true, StaticDb.showAiIdRoutine);
 
         manager.GetGameData().timeEventList.Add(progressEvent);
 
@@ -83,7 +83,7 @@ public class AiListener : MonoBehaviour
             if (aiController.isAttacker)
             {
                 string spriteNumber = Random.Range(1, 6).ToString("D2");
-                string spriteName = StringDb.rscAiSpritePrefix + "_" + CNG.instance.gen.GenerateNameObject(Gender.Other).GetGenderString() + "_" + spriteNumber;
+                string spriteName = StaticDb.rscAiSpritePrefix + "_" + CNG.instance.gen.GenerateNameObject(Gender.Other).GetGenderString() + "_" + spriteNumber;
 
                 aiController.idSpriteName = spriteName;
             }

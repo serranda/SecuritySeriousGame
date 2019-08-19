@@ -81,7 +81,7 @@ public class NotebookManager : MonoBehaviour
         manager = SetLevelManager();
         tutorialManager = FindObjectOfType<TutorialManager>();
 
-        toggleGroup = GameObject.Find(StringDb.noteBookToggleGroup).GetComponent<ToggleGroup>();
+        toggleGroup = GameObject.Find(StaticDb.noteBookToggleGroup).GetComponent<ToggleGroup>();
 
         if (tutorialManager != null && tutorialManager.notebookFirstTime)
         {
@@ -99,13 +99,13 @@ public class NotebookManager : MonoBehaviour
         colorIndex = 0;
         pageCount = 0;
 
-        nextBtn = GameObject.Find(StringDb.noteBookBtnNext).GetComponent<Button>();
+        nextBtn = GameObject.Find(StaticDb.noteBookBtnNext).GetComponent<Button>();
         nbGroup = nextBtn.GetComponent<CanvasGroup>();
 
-        previousBtn = GameObject.Find(StringDb.noteBookBtnPrevious).GetComponent<Button>();
+        previousBtn = GameObject.Find(StaticDb.noteBookBtnPrevious).GetComponent<Button>();
         pbGroup = previousBtn.GetComponent<CanvasGroup>();
 
-        backBtn = GameObject.Find(StringDb.noteBookBtnBack).GetComponent<Button>();
+        backBtn = GameObject.Find(StaticDb.noteBookBtnBack).GetComponent<Button>();
 
         nextBtn.onClick.RemoveAllListeners();
         nextBtn.onClick.AddListener(delegate
@@ -134,11 +134,11 @@ public class NotebookManager : MonoBehaviour
             }
         });
 
-        pageL = GameObject.Find(StringDb.noteBookPageL).GetComponent<TextMeshProUGUI>();
-        pageR = GameObject.Find(StringDb.noteBookPageR).GetComponent<TextMeshProUGUI>();
+        pageL = GameObject.Find(StaticDb.noteBookPageL).GetComponent<TextMeshProUGUI>();
+        pageR = GameObject.Find(StaticDb.noteBookPageR).GetComponent<TextMeshProUGUI>();
 
-        titleL = GameObject.Find(StringDb.noteBookTitleL).GetComponent<TextMeshProUGUI>();
-        titleR = GameObject.Find(StringDb.noteBookTitleR).GetComponent<TextMeshProUGUI>();
+        titleL = GameObject.Find(StaticDb.noteBookTitleL).GetComponent<TextMeshProUGUI>();
+        titleR = GameObject.Find(StaticDb.noteBookTitleR).GetComponent<TextMeshProUGUI>();
 
         LoadLesson();
         toggleGroup.SetAllTogglesOff();
@@ -160,7 +160,7 @@ public class NotebookManager : MonoBehaviour
     private ILevelManager SetLevelManager()
     {
         ILevelManager iManager;
-        if (SceneManager.GetActiveScene().buildIndex == StringDb.level1SceneIndex)
+        if (SceneManager.GetActiveScene().buildIndex == StaticDb.level1SceneIndex)
             iManager = FindObjectOfType<Level1Manager>();
         else
             iManager = FindObjectOfType<Level2Manager>();
@@ -299,7 +299,7 @@ public class NotebookManager : MonoBehaviour
 
     private void LoadLesson()
     {
-        btnList = GameObject.Find(StringDb.noteBookBtnList).GetComponent<ScrollRect>();
+        btnList = GameObject.Find(StaticDb.noteBookBtnList).GetComponent<ScrollRect>();
 
         lessonTextAssetList = new List<TextAsset>();
         lessonObjList = new List<Lesson>();
@@ -350,32 +350,32 @@ public class NotebookManager : MonoBehaviour
 
         switch (threat.threatAttack)
         {
-            case StringDb.ThreatAttack.dos:
-                find = lessonObjList.Find(lesson => lesson.id.ToLowerInvariant() == StringDb.ThreatAttack.dos.ToString());
+            case StaticDb.ThreatAttack.dos:
+                find = lessonObjList.Find(lesson => lesson.id.ToLowerInvariant() == StaticDb.ThreatAttack.dos.ToString());
                 break;
-            case StringDb.ThreatAttack.phishing:
-                find = lessonObjList.Find(lesson => lesson.id.ToLowerInvariant() == StringDb.ThreatAttack.phishing.ToString());
+            case StaticDb.ThreatAttack.phishing:
+                find = lessonObjList.Find(lesson => lesson.id.ToLowerInvariant() == StaticDb.ThreatAttack.phishing.ToString());
                 break;
-            case StringDb.ThreatAttack.replay:
-                find = lessonObjList.Find(lesson => lesson.id.ToLowerInvariant() == StringDb.ThreatAttack.replay.ToString());
+            case StaticDb.ThreatAttack.replay:
+                find = lessonObjList.Find(lesson => lesson.id.ToLowerInvariant() == StaticDb.ThreatAttack.replay.ToString());
                 break;
-            case StringDb.ThreatAttack.mitm:
-                find = lessonObjList.Find(lesson => lesson.id.ToLowerInvariant() == StringDb.ThreatAttack.mitm.ToString());
+            case StaticDb.ThreatAttack.mitm:
+                find = lessonObjList.Find(lesson => lesson.id.ToLowerInvariant() == StaticDb.ThreatAttack.mitm.ToString());
                 break;
-            case StringDb.ThreatAttack.stuxnet:
-                find = lessonObjList.Find(lesson => lesson.id.ToLowerInvariant() == StringDb.ThreatAttack.stuxnet.ToString());
+            case StaticDb.ThreatAttack.stuxnet:
+                find = lessonObjList.Find(lesson => lesson.id.ToLowerInvariant() == StaticDb.ThreatAttack.stuxnet.ToString());
                 break;
-            case StringDb.ThreatAttack.dragonfly:
-                find = lessonObjList.Find(lesson => lesson.id.ToLowerInvariant() == StringDb.ThreatAttack.dragonfly.ToString());
+            case StaticDb.ThreatAttack.dragonfly:
+                find = lessonObjList.Find(lesson => lesson.id.ToLowerInvariant() == StaticDb.ThreatAttack.dragonfly.ToString());
                 break;
-            case StringDb.ThreatAttack.malware:
-                find = lessonObjList.Find(lesson => lesson.id.ToLowerInvariant() == StringDb.ThreatAttack.malware.ToString());
+            case StaticDb.ThreatAttack.malware:
+                find = lessonObjList.Find(lesson => lesson.id.ToLowerInvariant() == StaticDb.ThreatAttack.malware.ToString());
                 break;
-            case StringDb.ThreatAttack.createRemote:
+            case StaticDb.ThreatAttack.createRemote:
                 break;
-            case StringDb.ThreatAttack.fakeLocal:
+            case StaticDb.ThreatAttack.fakeLocal:
                 break;
-            case StringDb.ThreatAttack.timeEvent:
+            case StaticDb.ThreatAttack.timeEvent:
                 break;
             default:
                 throw new ArgumentOutOfRangeException();

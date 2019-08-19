@@ -47,7 +47,7 @@ public class IdCardManager : MonoBehaviour
     private ILevelManager SetLevelManager()
     {
         ILevelManager iManager;
-        if (SceneManager.GetActiveScene().buildIndex == StringDb.level1SceneIndex)
+        if (SceneManager.GetActiveScene().buildIndex == StaticDb.level1SceneIndex)
             iManager = FindObjectOfType<Level1Manager>();
         else
             iManager = FindObjectOfType<Level2Manager>();
@@ -74,7 +74,7 @@ public class IdCardManager : MonoBehaviour
     {
         manager = SetLevelManager();
 
-        string spriteFolder = Path.Combine(StringDb.rscSpriteFolder, StringDb.rscAiSpriteFolder);
+        string spriteFolder = Path.Combine(StaticDb.rscSpriteFolder, StaticDb.rscAiSpriteFolder);
         
         aiImage.sprite = Resources.LoadAll<Sprite>(Path.Combine(spriteFolder, spriteName))[0] ;
 
@@ -89,8 +89,8 @@ public class IdCardManager : MonoBehaviour
         if (manager.GetGameData().idCardUpgraded)
         {
             attackerNote.text = string.Format(aiAttacker ?
-                Resources.Load<TextAsset>(StringDb.attacker + Random.Range(1, 4)).text :
-                Resources.Load<TextAsset>(StringDb.employee + Random.Range(1, 4)).text, Random.Range(3, 6));
+                Resources.Load<TextAsset>(StaticDb.attacker + Random.Range(1, 4)).text :
+                Resources.Load<TextAsset>(StaticDb.employee + Random.Range(1, 4)).text, Random.Range(3, 6));
         }
     }
 }

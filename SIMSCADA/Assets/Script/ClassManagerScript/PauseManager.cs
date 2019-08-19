@@ -81,11 +81,11 @@ public class PauseManager : MonoBehaviour
         plotBtn.onClick.AddListener(delegate
         {
             TogglePauseMenu();
-            ClassDb.threatChartController.ToggleThreatPlot();
+            ClassDb.threatChartManager.ToggleThreatPlot();
         });
 
         //CHECK IF IS NORMAL LEVEL OR TUTORIAL LEVEL AND SET THE LISTENER FOR RIGHT EXIT MESSAGE
-        if (SceneManager.GetActiveScene().buildIndex == StringDb.tutorialSceneIndex)
+        if (SceneManager.GetActiveScene().buildIndex == StaticDb.tutorialSceneIndex)
         {
             exitBtn.onClick.AddListener(delegate
             {

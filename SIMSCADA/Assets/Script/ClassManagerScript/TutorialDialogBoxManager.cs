@@ -22,10 +22,10 @@ public class TutorialDialogBoxManager : MonoBehaviour
 
     private void OnEnable()
     {
-        bodyTutorialDialog = GameObject.Find(StringDb.tutorialDialogBoxMessage).GetComponent<TextMeshProUGUI>();
-        btnTutorialDialog = GameObject.Find(StringDb.tutorialDialogBoxBtn).GetComponent<Button>();
+        bodyTutorialDialog = GameObject.Find(StaticDb.tutorialDialogBoxMessage).GetComponent<TextMeshProUGUI>();
+        btnTutorialDialog = GameObject.Find(StaticDb.tutorialDialogBoxBtn).GetComponent<Button>();
 
-        dialogTransform = GameObject.Find(StringDb.tutorialPanel).GetComponent<RectTransform>();
+        dialogTransform = GameObject.Find(StaticDb.tutorialPanel).GetComponent<RectTransform>();
 
         dialogEnabled = true;
     }

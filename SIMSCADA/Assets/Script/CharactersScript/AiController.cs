@@ -36,7 +36,7 @@ public class AiController : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
     public string spriteNumber;
     public string idSpriteName;
 
-    public StringDb.AiDangerResistance dangerResistance;
+    public StaticDb.AiDangerResistance dangerResistance;
 
     //public PlayerController playerController;
 
@@ -118,7 +118,7 @@ public class AiController : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
         aiSpeed = 1.5f * manager.GetGameData().simulationSpeedMultiplier;
         onClickAi = false;
 
-        //playerController = GameObject.Find(StringDb.playerPrefabName).GetComponent<PlayerController>();
+        //playerController = GameObject.Find(StaticDb.playerPrefabName).GetComponent<PlayerController>();
 
         GetAiPathVariables();
 
@@ -166,7 +166,7 @@ public class AiController : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
     private ILevelManager SetLevelManager()
     {
         ILevelManager iManager;
-        if (SceneManager.GetActiveScene().buildIndex == StringDb.level1SceneIndex)
+        if (SceneManager.GetActiveScene().buildIndex == StaticDb.level1SceneIndex)
             iManager = FindObjectOfType<Level1Manager>();
         else
             iManager = FindObjectOfType<Level2Manager>();
@@ -178,18 +178,18 @@ public class AiController : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
     {
         SetAiThreat();
 
-        if (timeEvent.threat.threatAttacker == StringDb.ThreatAttacker.intern)
+        if (timeEvent.threat.threatAttacker == StaticDb.ThreatAttacker.intern)
         {
             SetCorruptionResistance();
             SetTrustedAi();
         }
         else
         {
-            dangerResistance = StringDb.AiDangerResistance.external;
+            dangerResistance = StaticDb.AiDangerResistance.external;
             isTrusted = false;
         }
 
-        if (timeEvent.threat.threatType == StringDb.ThreatType.remote)
+        if (timeEvent.threat.threatType == StaticDb.ThreatType.remote)
         {
             StopAllCoroutines();
         }
@@ -210,7 +210,7 @@ public class AiController : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
 
     private void SetCorruptionResistance()
     {
-        dangerResistance = (StringDb.AiDangerResistance) Random.Range(0, 3);
+        dangerResistance = (StaticDb.AiDangerResistance) Random.Range(0, 3);
     }
 
     private void SetTrustedAi()
@@ -218,7 +218,7 @@ public class AiController : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
         isTrusted = Random.Range(0, 100) <= manager.GetGameData().trustedEmployees * 100 / manager.GetGameData().totalEmployees ;
         if (isTrusted)
         {
-            dangerResistance = StringDb.AiDangerResistance.veryHigh;
+            dangerResistance = StaticDb.AiDangerResistance.veryHigh;
         }
     }
 
@@ -244,13 +244,13 @@ public class AiController : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
         {
             switch (manager.GetGameData().serverSecurity)
             {
-                case StringDb.ServerSecurity.strict:
+                case StaticDb.ServerSecurity.strict:
                     pathfinder = ClassDb.strictedPathfinder;
                     break;
-                case StringDb.ServerSecurity.medium:
-                    pathfinder = timeEvent.threat.threatAttacker == StringDb.ThreatAttacker.intern ? ClassDb.regularPathfinder : ClassDb.strictedPathfinder;
+                case StaticDb.ServerSecurity.medium:
+                    pathfinder = timeEvent.threat.threatAttacker == StaticDb.ThreatAttacker.intern ? ClassDb.regularPathfinder : ClassDb.strictedPathfinder;
                     break;
-                case StringDb.ServerSecurity.loose:
+                case StaticDb.ServerSecurity.loose:
                     pathfinder = ClassDb.regularPathfinder;
                     break;
                 default:
@@ -263,42 +263,42 @@ public class AiController : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
 
     }
 
-    private Vector3Int CreateObjective(StringDb.ThreatAttack threatAttack)
+    private Vector3Int CreateObjective(StaticDb.ThreatAttack threatAttack)
     {
         
         Vector3Int destination;
 
         switch (threatAttack)
         {
-            case StringDb.ThreatAttack.dos:
-                destination = StringDb.serverInDest;
+            case StaticDb.ThreatAttack.dos:
+                destination = StaticDb.serverInDest;
                 break;
-            case StringDb.ThreatAttack.phishing:
-                destination = StringDb.pcDest;
+            case StaticDb.ThreatAttack.phishing:
+                destination = StaticDb.pcDest;
                 break;
-            case StringDb.ThreatAttack.replay:
-                destination = StringDb.pcDest;
+            case StaticDb.ThreatAttack.replay:
+                destination = StaticDb.pcDest;
                 break;
-            case StringDb.ThreatAttack.mitm:
-                destination = StringDb.pcDest;
+            case StaticDb.ThreatAttack.mitm:
+                destination = StaticDb.pcDest;
                 break;
-            case StringDb.ThreatAttack.stuxnet:
-                destination = StringDb.serverInDest;
+            case StaticDb.ThreatAttack.stuxnet:
+                destination = StaticDb.serverInDest;
                 break;
-            case StringDb.ThreatAttack.dragonfly:
-                destination = StringDb.serverInDest;
+            case StaticDb.ThreatAttack.dragonfly:
+                destination = StaticDb.serverInDest;
                 break;
-            case StringDb.ThreatAttack.malware:
-                destination = Random.Range(0, 2) == 0 ? StringDb.serverInDest : StringDb.pcDest;
+            case StaticDb.ThreatAttack.malware:
+                destination = Random.Range(0, 2) == 0 ? StaticDb.serverInDest : StaticDb.pcDest;
                 break;
-            case StringDb.ThreatAttack.createRemote:
-                destination = Random.Range(0, 2) == 0 ? StringDb.serverInDest : StringDb.pcDest;
+            case StaticDb.ThreatAttack.createRemote:
+                destination = Random.Range(0, 2) == 0 ? StaticDb.serverInDest : StaticDb.pcDest;
                 break;
-            case StringDb.ThreatAttack.timeEvent:
-                destination = Random.Range(0, 2) == 0 ? StringDb.serverInDest : StringDb.pcDest;
+            case StaticDb.ThreatAttack.timeEvent:
+                destination = Random.Range(0, 2) == 0 ? StaticDb.serverInDest : StaticDb.pcDest;
                 break;
-            case StringDb.ThreatAttack.fakeLocal:
-                destination = Random.Range(0, 2) == 0 ? StringDb.serverInDest : StringDb.pcDest;
+            case StaticDb.ThreatAttack.fakeLocal:
+                destination = Random.Range(0, 2) == 0 ? StaticDb.serverInDest : StaticDb.pcDest;
                 break;
             default:
                 throw new ArgumentOutOfRangeException("threatAttack", threatAttack, null);
@@ -339,8 +339,8 @@ public class AiController : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
     private string CreateJob()
     {
         string job = isTrusted ? 
-            StringDb.trustedJobs[Random.Range(0, StringDb.trustedJobs.Length - 1)] : 
-            StringDb.normalJobs[Random.Range(0, StringDb.trustedJobs.Length - 1)];
+            StaticDb.trustedJobs[Random.Range(0, StaticDb.trustedJobs.Length - 1)] : 
+            StaticDb.normalJobs[Random.Range(0, StaticDb.trustedJobs.Length - 1)];
         return job;
     }
 
@@ -357,9 +357,9 @@ public class AiController : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
 
     private void SetAiSpriteNames()
     {
-        nSpriteName = StringDb.rscAiSpritePrefix + "_" + aiGender + "_" + spriteNumber;
-        hlSpriteName = StringDb.rscAiSpritePrefix + "_" + aiGender + "_" + spriteNumber + StringDb.rscHlSpriteSuffix;
-        prSpriteName = StringDb.rscAiSpritePrefix + "_" + aiGender + "_" + spriteNumber + StringDb.rscPrSpriteSuffix;
+        nSpriteName = StaticDb.rscAiSpritePrefix + "_" + aiGender + "_" + spriteNumber;
+        hlSpriteName = StaticDb.rscAiSpritePrefix + "_" + aiGender + "_" + spriteNumber + StaticDb.rscHlSpriteSuffix;
+        prSpriteName = StaticDb.rscAiSpritePrefix + "_" + aiGender + "_" + spriteNumber + StaticDb.rscPrSpriteSuffix;
         idSpriteName = null;
     }
 
@@ -384,12 +384,12 @@ public class AiController : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
         if (destroy)
         {
             //set destination for destroying ai
-            aiDestCellPos = StringDb.aiSpawn;
+            aiDestCellPos = StaticDb.aiSpawn;
         }
         else if (pathfinderChanged)
         {
             //set destination outside server room
-            aiDestCellPos = StringDb.serverOutDest;
+            aiDestCellPos = StaticDb.serverOutDest;
         }
         else
         {
@@ -627,7 +627,7 @@ public class AiController : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
 
     public void DestroyAi()
     {
-        if (timeEvent.threat.threatType == StringDb.ThreatType.remote)
+        if (timeEvent.threat.threatType == StaticDb.ThreatType.remote)
         {
             ClassDb.prefabManager.ReturnPrefab(gameObject, PrefabManager.aiIndex);
         }
@@ -648,9 +648,9 @@ public class AiController : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
         else
         {
             //get the canvas to display the option menu. only one action menu at time will be displayed
-            if (GameObject.Find(StringDb.actionMenuName))
+            if (GameObject.Find(StaticDb.actionMenuName))
             {
-               actionMenu = GameObject.Find(StringDb.actionMenuName).GetComponent<Canvas>();
+               actionMenu = GameObject.Find(StaticDb.actionMenuName).GetComponent<Canvas>();
 
                ClassDb.prefabManager.ReturnPrefab(actionMenu.gameObject, PrefabManager.actionIndex);
             }
@@ -662,7 +662,7 @@ public class AiController : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
             (actionMenuTransform = actionMenu.transform).SetParent(gameObject.transform);
             actionMenuTransform.localPosition = new Vector3(0, 0.7f, 0);
 
-            actionButtonManager = GameObject.Find(StringDb.actionMenuName).GetComponent<ActionButtonManager>();
+            actionButtonManager = GameObject.Find(StaticDb.actionMenuName).GetComponent<ActionButtonManager>();
             actionButtonManager.GetButtons();
             SetListener();
         }
@@ -744,7 +744,7 @@ public class AiController : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
 
     public bool ThreatDeployEligibility()
     {
-        if (timeEvent.threat.threatType == StringDb.ThreatType.remote) return true;
+        if (timeEvent.threat.threatType == StaticDb.ThreatType.remote) return true;
 
         Vector2 position = rb2D.position;
         Vector3Int aiPosCell = pathfinder.listTileMap[0].layoutGrid.WorldToCell(new Vector3(position.x, position.y, 0));

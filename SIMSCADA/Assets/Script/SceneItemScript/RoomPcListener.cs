@@ -28,7 +28,7 @@ public class RoomPcListener : MonoBehaviour
     private ILevelManager SetLevelManager()
     {
         ILevelManager iManager;
-        if (SceneManager.GetActiveScene().buildIndex == StringDb.level1SceneIndex)
+        if (SceneManager.GetActiveScene().buildIndex == StaticDb.level1SceneIndex)
             iManager = FindObjectOfType<Level1Manager>();
         else
             iManager = FindObjectOfType<Level2Manager>();
@@ -483,7 +483,7 @@ public class RoomPcListener : MonoBehaviour
         interactiveSprite.SetInteraction(false);
 
         TimeEvent progressEvent = ClassDb.timeEventManager.NewTimeEvent(
-            manager.GetGameData().pcPointOutTime, interactiveSprite.gameObject, true, true, StringDb.pointOutLocalThreatRoutine);
+            manager.GetGameData().pcPointOutTime, interactiveSprite.gameObject, true, true, StaticDb.pointOutLocalThreatRoutine);
 
         manager.GetGameData().timeEventList.Add(progressEvent);
 
@@ -503,7 +503,7 @@ public class RoomPcListener : MonoBehaviour
     {
         yield return new WaitWhile(() => manager.GetGameData().timeEventList.Contains(progressEvent));
 
-        foreach (Threat threat in manager.GetGameData().localThreats.Where(x => x.threatType == StringDb.ThreatType.local))
+        foreach (Threat threat in manager.GetGameData().localThreats.Where(x => x.threatType == StaticDb.ThreatType.local))
         {
 
 

@@ -52,8 +52,8 @@ public class TutorialGameData
     //public bool researchUpgrade;
 
     //hud values
-    public DateTime date = StringDb.starterDate;
-    public long longDate = StringDb.starterDate.ToFileTimeUtc();
+    public DateTime date = StaticDb.starterDate;
+    public long longDate = StaticDb.starterDate.ToFileTimeUtc();
     public float money = 1000;
     public int successfulThreat;
     public int totalThreat;
@@ -114,25 +114,25 @@ public class TutorialGameData
     //public float telephoneMoneyCoolDown = 2.0f;
 
     ////value for security level
-    //public StringDb.ServerSecurity serverSecurity = StringDb.ServerSecurity.medium;
+    //public StaticDb.ServerSecurity serverSecurity = StaticDb.ServerSecurity.medium;
 
     ////value for last ai sprite generated
     //public string lastMaleSpriteNumber;
     //public string lastFemaleSpriteNumber;
 
     ////value for monthly threat tendencies 
-    //public StringDb.ThreatAttack monthlyThreat;
+    //public StaticDb.ThreatAttack monthlyThreat;
 
     //public ThreatAttackFloatDictionary weights = new ThreatAttackFloatDictionary
     //{
-    //    {StringDb.ThreatAttack.dos, 0f},
-    //    {StringDb.ThreatAttack.phishing, 0f},
-    //    {StringDb.ThreatAttack.replay, 0f},
-    //    {StringDb.ThreatAttack.mitm, 0f},
-    //    {StringDb.ThreatAttack.stuxnet, 0f},
-    //    {StringDb.ThreatAttack.dragonfly, 0f},
-    //    {StringDb.ThreatAttack.malware, 0f},
-    //    {StringDb.ThreatAttack.createRemote, 0f}
+    //    {StaticDb.ThreatAttack.dos, 0f},
+    //    {StaticDb.ThreatAttack.phishing, 0f},
+    //    {StaticDb.ThreatAttack.replay, 0f},
+    //    {StaticDb.ThreatAttack.mitm, 0f},
+    //    {StaticDb.ThreatAttack.stuxnet, 0f},
+    //    {StaticDb.ThreatAttack.dragonfly, 0f},
+    //    {StaticDb.ThreatAttack.malware, 0f},
+    //    {StaticDb.ThreatAttack.createRemote, 0f}
     //};
 
     ////values for weighted randomizer for local and remote threats
@@ -165,13 +165,13 @@ public class TutorialGameData
     ////dictionary in which are stored alle the money loss factor relative to all types of threat
     //public ThreatAttackFloatDictionary moneyLossList = new ThreatAttackFloatDictionary
     //{
-    //    {StringDb.ThreatAttack.dos, 0f},
-    //    {StringDb.ThreatAttack.phishing, 0f},
-    //    {StringDb.ThreatAttack.replay, 0f},
-    //    {StringDb.ThreatAttack.mitm, 0f},
-    //    {StringDb.ThreatAttack.stuxnet, 0f},
-    //    {StringDb.ThreatAttack.dragonfly, 0f},
-    //    {StringDb.ThreatAttack.malware, 0f}
+    //    {StaticDb.ThreatAttack.dos, 0f},
+    //    {StaticDb.ThreatAttack.phishing, 0f},
+    //    {StaticDb.ThreatAttack.replay, 0f},
+    //    {StaticDb.ThreatAttack.mitm, 0f},
+    //    {StaticDb.ThreatAttack.stuxnet, 0f},
+    //    {StaticDb.ThreatAttack.dragonfly, 0f},
+    //    {StaticDb.ThreatAttack.malware, 0f}
     //};
 
     ////sums of all the money loss per minutes factor
@@ -233,7 +233,7 @@ public class TutorialGameData
 
     ////values for money amount and threat type which caused last money loss
     //public float lastAmountLoss;
-    //public StringDb.ThreatType lastTypeLoss;
+    //public StaticDb.ThreatType lastTypeLoss;
 
     ////value for last money earn amount
     //public float lastAmountEarn;

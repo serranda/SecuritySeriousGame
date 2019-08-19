@@ -64,7 +64,7 @@ public class PlayerController : MonoBehaviour
 
         speed = 2f;
 
-        floorManager = GameObject.Find(StringDb.floorTileMap).GetComponent<FloorManager>();
+        floorManager = GameObject.Find(StaticDb.floorTileMap).GetComponent<FloorManager>();
 
         //check the layout and set the respective parameter for offset and scale
         GetPlayerPathVariables();
@@ -108,9 +108,9 @@ public class PlayerController : MonoBehaviour
 
     private void SetPlayerSpriteNames()
     {
-        nSpriteName = StringDb.rscPlSpritePrefix + "_" + plGender + "_" + spriteNumber;
-        hlSpriteName = StringDb.rscPlSpritePrefix + "_" + plGender + "_" + spriteNumber + StringDb.rscHlSpriteSuffix;
-        prSpriteName = StringDb.rscPlSpritePrefix + "_" + plGender + "_" + spriteNumber + StringDb.rscPrSpriteSuffix;
+        nSpriteName = StaticDb.rscPlSpritePrefix + "_" + plGender + "_" + spriteNumber;
+        hlSpriteName = StaticDb.rscPlSpritePrefix + "_" + plGender + "_" + spriteNumber + StaticDb.rscHlSpriteSuffix;
+        prSpriteName = StaticDb.rscPlSpritePrefix + "_" + plGender + "_" + spriteNumber + StaticDb.rscPrSpriteSuffix;
     }
 
     public void SetPlayerDestination(Vector3 playerDestWorldPos)

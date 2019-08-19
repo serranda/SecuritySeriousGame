@@ -43,10 +43,10 @@ public class HudManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         reputation = GameObject.Find("Reputation").GetComponent<TextMeshProUGUI>();
         lastThreatAttack = GameObject.Find("LastThreatType").GetComponent<TextMeshProUGUI>();
 
-        toggleX1 = GameObject.Find(StringDb.toggleX1).GetComponent<Toggle>();
-        toggleX2 = GameObject.Find(StringDb.toggleX2).GetComponent<Toggle>();
-        toggleX5 = GameObject.Find(StringDb.toggleX5).GetComponent<Toggle>();
-        toggleX10 = GameObject.Find(StringDb.toggleX10).GetComponent<Toggle>();
+        toggleX1 = GameObject.Find(StaticDb.toggleX1).GetComponent<Toggle>();
+        toggleX2 = GameObject.Find(StaticDb.toggleX2).GetComponent<Toggle>();
+        toggleX5 = GameObject.Find(StaticDb.toggleX5).GetComponent<Toggle>();
+        toggleX10 = GameObject.Find(StaticDb.toggleX10).GetComponent<Toggle>();
 
         SetTogglePressed();
     }
@@ -54,7 +54,7 @@ public class HudManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     private ILevelManager SetLevelManager()
     {
         ILevelManager iManager;
-        if (SceneManager.GetActiveScene().buildIndex == StringDb.level1SceneIndex)
+        if (SceneManager.GetActiveScene().buildIndex == StaticDb.level1SceneIndex)
             iManager = FindObjectOfType<Level1Manager>();
         else
             iManager = FindObjectOfType<Level2Manager>();
@@ -180,16 +180,16 @@ public class HudManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             switch (activeToggle.name)
             {
 
-                case StringDb.toggleX1:
+                case StaticDb.toggleX1:
                     manager.GetGameData().simulationSpeedMultiplier = 1;
                     break;
-                case StringDb.toggleX2:
+                case StaticDb.toggleX2:
                     manager.GetGameData().simulationSpeedMultiplier = 2;
                     break;
-                case StringDb.toggleX5:
+                case StaticDb.toggleX5:
                     manager.GetGameData().simulationSpeedMultiplier = 5;
                     break;
-                case StringDb.toggleX10:
+                case StaticDb.toggleX10:
                     manager.GetGameData().simulationSpeedMultiplier = 10;
                     break;
                 default:
@@ -203,16 +203,16 @@ public class HudManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             switch (activeToggle.name)
             {
 
-                case StringDb.toggleX1:
+                case StaticDb.toggleX1:
                     tutorialManager.tutorialGameData.simulationSpeedMultiplier = 1;
                     break;
-                case StringDb.toggleX2:
+                case StaticDb.toggleX2:
                     tutorialManager.tutorialGameData.simulationSpeedMultiplier = 2;
                     break;
-                case StringDb.toggleX5:
+                case StaticDb.toggleX5:
                     tutorialManager.tutorialGameData.simulationSpeedMultiplier = 5;
                     break;
-                case StringDb.toggleX10:
+                case StaticDb.toggleX10:
                     tutorialManager.tutorialGameData.simulationSpeedMultiplier = 10;
                     break;
                 default:

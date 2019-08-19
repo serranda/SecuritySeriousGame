@@ -40,7 +40,7 @@ public class TimeEvent
         this.currentPercentage = currentPercentage;
         this.progressBar = progressBar;
         this.visible = visible;
-        this.threat = StringDb.timeEventThreat;
+        this.threat = StaticDb.timeEventThreat;
         this.stoppable = stoppable;
         this.progressBarParentName = progressBar.transform.parent.name;
         this.routine = routine;
