@@ -42,13 +42,7 @@ public class RoomPcListener : MonoBehaviour
 
         if (manager.GetGameData().pointOutPurchased)
         {
-            if (manager.GetGameData().hasDosDeployed ||
-                manager.GetGameData().hasPhishingDeployed ||
-                manager.GetGameData().hasReplayDeployed ||
-                manager.GetGameData().hasMitmDeployed ||
-                manager.GetGameData().hasMalwareDeployed ||
-                manager.GetGameData().hasStuxnetDeployed ||
-                manager.GetGameData().hasDragonflyDeployed)
+            if(manager.GetGameData().hasThreatDeployed)
             {
                 buttons = interactiveSprite.actionButtonManager.GetActiveCanvasGroup(8);
 
@@ -247,13 +241,7 @@ public class RoomPcListener : MonoBehaviour
         }
         else
         {
-            if (manager.GetGameData().hasDosDeployed ||
-                manager.GetGameData().hasPhishingDeployed ||
-                manager.GetGameData().hasReplayDeployed ||
-                manager.GetGameData().hasMitmDeployed ||
-                manager.GetGameData().hasMalwareDeployed ||
-                manager.GetGameData().hasStuxnetDeployed ||
-                manager.GetGameData().hasDragonflyDeployed)
+            if(manager.GetGameData().hasThreatDeployed)
             {
                 buttons = interactiveSprite.actionButtonManager.GetActiveCanvasGroup(7);
 

@@ -40,6 +40,6 @@ public class Threat
     {
         return
             $"Id: {id}, ThreatType: {threatType}, DeployTime: {deployTime}, ThreatAttacker: {threatAttacker}, ThreatDanger: {threatDanger}, " +
-            $"ThreatAttack: {threatAttack}, SerializableAiController: {aiController}, MoneyLossPerHour: {moneyLossPerMinute}";
+            $"ThreatAttack: {threatAttack}, SerializableAiController: {aiController}, MoneyLossPerMinute: {moneyLossPerMinute}";
     }
 }

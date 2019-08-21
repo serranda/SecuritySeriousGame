@@ -9,8 +9,10 @@ namespace AwesomeCharts {
         [SerializeField]
         private List<LineDataSet> dataSets;
 
-        public List<LineDataSet> DataSets {
+        public List<LineDataSet> DataSets
+        {
             get { return dataSets; }
+            set { dataSets = value; }
         }
 
         public LineData () {

@@ -218,11 +218,14 @@ public class Level2Manager : MonoBehaviour, ILevelManager
 
             gameData.totalMoneyEarnPerMinute = StaticDb.baseEarn * gameData.totalEmployees;
 
-            if (gameData.isMoneyLoss)
-            {
-                gameData.totalMoneyLossPerMinute = gameData.moneyLossList.Values.Sum();
-                gameData.isMoneyLoss = false;
-            }
+            //if (gameData.isMoneyLoss)
+            //{
+            //    gameData.totalMoneyLossPerMinute = gameData.moneyLossList.Values.Sum();
+            //    gameData.isMoneyLoss = false;
+            //}
+
+            gameData.totalMoneyLossPerMinute = gameData.moneyLossList.Values.Sum();
+
 
             gameData.totalCostPerMinute = 0;
 
@@ -368,7 +371,8 @@ public class Level2Manager : MonoBehaviour, ILevelManager
 
             yield return new WaitUntil(() => gameData.threatSpawnTime > gameData.threatSpawnRate);
 
-            yield return new WaitWhile(() => gameData.hasDosDeployed || gameData.hasPhishingDeployed || gameData.hasReplayDeployed || gameData.hasMitmDeployed || gameData.hasMalwareDeployed || gameData.hasStuxnetDeployed || gameData.hasDragonflyDeployed);
+            //yield return new WaitWhile(() => gameData.hasDosDeployed || gameData.hasPhishingDeployed || gameData.hasReplayDeployed || gameData.hasMitmDeployed || gameData.hasMalwareDeployed || gameData.hasStuxnetDeployed || gameData.hasDragonflyDeployed);
+            yield return new WaitUntil(() =>gameData.hasThreatDeployed);
 
             //Debug.Log(StaticDb.threatSpawnRate);
 
@@ -465,18 +469,20 @@ public class Level2Manager : MonoBehaviour, ILevelManager
 
     public IEnumerator DeployThreat(Threat threat)
     {
-        threat.aiController.BeforeDeploy();
+        if (threat.threatType != StaticDb.ThreatType.remote)
+            threat.aiController.BeforeDeploy();
 
         yield return new WaitWhile(() => threat.aiController.pathUpdated);
 
         //CHECK IF PLAYER IS NEAR OBJECTIVE; IF NOT THREAT NOT ELIGIBLE TO DEPLOY
-        if (threat.aiController.ThreatDeployEligibility())
+        //BYPASS THIS CHECK IF THREAT IS REMOTE
+        if (threat.aiController.ThreatDeployEligibility() || threat.threatType == StaticDb.ThreatType.remote)
         {
             //DEBUG
             //---------------------------------------------------------------------------------------------------------------------
-            //THREAT WITH INTERN ATTACKER; CHECK IF CORRUPTION ATTEMPT IS SUCCESSFUL
             if (threat.threatType != StaticDb.ThreatType.fakeLocal)
             {
+                //THREAT WITH INTERN ATTACKER; CHECK IF CORRUPTION ATTEMPT IS SUCCESSFUL
                 if (threat.threatAttacker == StaticDb.ThreatAttacker.intern &&
                     (threat.aiController.isTrusted || (int)threat.threatDanger < (int)threat.aiController.dangerResistance))
                 {
@@ -495,7 +501,8 @@ public class Level2Manager : MonoBehaviour, ILevelManager
 
                 //REMOTE THREAT; CHECK IF FIREWALL INTERCEPT BEFORE DEPLOY
                 if (threat.threatType == StaticDb.ThreatType.remote &&
-                    Random.Range(0, 100) < gameData.firewallSuccessRate && gameData.isFirewallActive)
+                    Random.Range(0, 100) < gameData.firewallSuccessRate &&
+                    gameData.isFirewallActive)
                 {
                     gameData.remoteThreats.Remove(threat);
 
@@ -516,13 +523,21 @@ public class Level2Manager : MonoBehaviour, ILevelManager
 
             if (!deployed) yield break;
 
+            //SET FLAGS TO INFORM ABOUT DEPLOYED THREAT
+            gameData.hasThreatDeployed = true;
+            gameData.lastThreatDeployed = threat;
+
+            //Set flag to start evaluate threat management result
+            gameData.hasThreatManaged = false;
+            StartThreatManagementResultData(threat);
+
             float moneyLoss;
 
             switch (threat.threatAttack)
             {
                 case StaticDb.ThreatAttack.dos:
-                    //flag to inform about dos attack
-                    if (!gameData.hasDosDeployed) gameData.hasDosDeployed = true;
+                    ////flag to inform about dos attack
+                    //if (!gameData.hasDosDeployed) gameData.hasDosDeployed = true;
 
                     //Stop all time events before setting money loss
                     ClassDb.timeEventManager.StopTimeEventList(gameData.timeEventList);
@@ -532,23 +547,26 @@ public class Level2Manager : MonoBehaviour, ILevelManager
 
                     //Set money loss for rebooting and check flag to start money loss
                     gameData.moneyLossList[StaticDb.ThreatAttack.dos] += threat.moneyLossPerMinute * gameData.totalMoneyEarnPerMinute;
-                    gameData.isMoneyLoss = true;
+                    //gameData.isMoneyLoss = true;
 
-                    //Set flag to start evaluate threat management result
-                    gameData.hasThreatManaged = false;
-                    StartThreatManagementResultData(threat);
+                    ////Set flag to start evaluate threat management result
+                    //gameData.hasThreatManaged = false;
+                    //StartThreatManagementResultData(threat);
 
                     if (gameData.isFirstDos)
                     {
                         gameData.isFirstDos = false;
                         //SHOW THE CORRISPONDENT LESSON
+                        ClassDb.levelMessageManager.StartShowLessonFirstTime(threat);
+                        //wait for closing dialog box
+                        yield return new WaitWhile(() => gameData.dialogEnabled);
                     }
 
                     break;
 
                 case StaticDb.ThreatAttack.phishing:
-                    //flag to inform about dos attack
-                    if (!gameData.hasPhishingDeployed) gameData.hasPhishingDeployed = true;
+                    ////flag to inform about dos attack
+                    //if (!gameData.hasPhishingDeployed) gameData.hasPhishingDeployed = true;
 
                     //Calculate money loss according to the formula moneyLossPerMinute * 60 * threat number of hour  
                     moneyLoss = threat.moneyLossPerMinute * 60 * threat.deployTime;
@@ -559,7 +577,7 @@ public class Level2Manager : MonoBehaviour, ILevelManager
                     //Decreasing money by moneyloss amount
                     gameData.money -= moneyLoss;
 
-                    gameData.hasPhishingDeployed = false;
+                    //gameData.hasPhishingDeployed = false;
 
                     if (gameData.isFirstPhishing)
                     {
@@ -572,8 +590,8 @@ public class Level2Manager : MonoBehaviour, ILevelManager
                     break;
 
                 case StaticDb.ThreatAttack.replay:
-                    //flag to inform about replay attack
-                    if (!gameData.hasReplayDeployed) gameData.hasReplayDeployed = true;
+                    ////flag to inform about replay attack
+                    //if (!gameData.hasReplayDeployed) gameData.hasReplayDeployed = true;
 
                     //Stop all time events before setting money loss
                     ClassDb.timeEventManager.StopTimeEventList(gameData.timeEventList);
@@ -586,17 +604,17 @@ public class Level2Manager : MonoBehaviour, ILevelManager
 
                     //set money loss until check network cfg has been executed and check flag to start money loss
                     gameData.moneyLossList[StaticDb.ThreatAttack.replay] += threat.moneyLossPerMinute * gameData.totalMoneyEarnPerMinute;
-                    gameData.isMoneyLoss = true;
+                    //gameData.isMoneyLoss = true;
 
                     //Calculate money loss according to the formula moneyLossPerMinute * 60 * threat number of hour  
                     moneyLoss = threat.moneyLossPerMinute * 60 * threat.deployTime;
 
-                    //Add threat to replyThreat dictionary in order to show information about money loss when check plant
-                    TelephoneListener.replayThreats.Add(threat, moneyLoss);
+                    ////Add threat to replyThreat dictionary in order to show information about money loss when check plant
+                    //TelephoneListener.replayThreats.Add(threat, moneyLoss);
 
-                    //Set flag to start evaluate threat management result
-                    gameData.hasThreatManaged = false;
-                    StartThreatManagementResultData(threat);
+                    ////TODO Set flag to start evaluate threat management result
+                    //gameData.hasThreatManaged = false;
+                    //StartThreatManagementResultData(threat);
 
                     if (gameData.isFirstReplay)
                     {
@@ -609,8 +627,8 @@ public class Level2Manager : MonoBehaviour, ILevelManager
                     break;
 
                 case StaticDb.ThreatAttack.mitm:
-                    //flag to inform about mitm attack
-                    if (!gameData.hasMitmDeployed) gameData.hasMitmDeployed = true;
+                    ////flag to inform about mitm attack
+                    //if (!gameData.hasMitmDeployed) gameData.hasMitmDeployed = true;
 
                     //Stop all time events before setting money loss
                     ClassDb.timeEventManager.StopTimeEventList(gameData.timeEventList);
@@ -620,11 +638,11 @@ public class Level2Manager : MonoBehaviour, ILevelManager
 
                     //set money loss until check network cfg has been executed and check flag to start money loss
                     gameData.moneyLossList[StaticDb.ThreatAttack.mitm] += threat.moneyLossPerMinute * gameData.totalMoneyEarnPerMinute;
-                    gameData.isMoneyLoss = true;
+                    //gameData.isMoneyLoss = true;
 
-                    //Set flag to start evaluate threat management result
-                    gameData.hasThreatManaged = false;
-                    StartThreatManagementResultData(threat);
+                    ////TODO Set flag to start evaluate threat management result
+                    //gameData.hasThreatManaged = false;
+                    //StartThreatManagementResultData(threat);
 
                     if (gameData.isFirstMitm)
                     {
@@ -637,8 +655,8 @@ public class Level2Manager : MonoBehaviour, ILevelManager
                     break;
 
                 case StaticDb.ThreatAttack.stuxnet:
-                    //flag to inform about stuxnet attack
-                    if (!gameData.hasStuxnetDeployed) gameData.hasStuxnetDeployed = true;
+                    ////flag to inform about stuxnet attack
+                    //if (!gameData.hasStuxnetDeployed) gameData.hasStuxnetDeployed = true;
 
                     //Stop all time events before setting money loss
                     ClassDb.timeEventManager.StopTimeEventList(gameData.timeEventList);
@@ -651,17 +669,17 @@ public class Level2Manager : MonoBehaviour, ILevelManager
 
                     //set money loss until scan has been executed and check flag to start money loss
                     gameData.moneyLossList[StaticDb.ThreatAttack.stuxnet] += threat.moneyLossPerMinute * gameData.totalMoneyEarnPerMinute;
-                    gameData.isMoneyLoss = true;
+                    //gameData.isMoneyLoss = true;
 
                     //Calculate money loss according to the formula moneyLossPerMinute * 60 * threat number of hour  
                     moneyLoss = threat.moneyLossPerMinute * 60 * threat.deployTime;
 
-                    //Add threat to replyThreat dictionary in order to show information about money loss when check plant
-                    TelephoneListener.stuxnetThreats.Add(threat, moneyLoss);
+                    ////Add threat to replyThreat dictionary in order to show information about money loss when check plant
+                    //TelephoneListener.stuxnetThreats.Add(threat, moneyLoss);
 
-                    //Set flag to start evaluate threat management result
-                    gameData.hasThreatManaged = false;
-                    StartThreatManagementResultData(threat);
+                    ////TODO Set flag to start evaluate threat management result
+                    //gameData.hasThreatManaged = false;
+                    //StartThreatManagementResultData(threat);
 
                     if (gameData.isFirstStuxnet)
                     {
@@ -674,8 +692,8 @@ public class Level2Manager : MonoBehaviour, ILevelManager
                     break;
 
                 case StaticDb.ThreatAttack.dragonfly:
-                    //flag to inform about dragonfly attack
-                    if (!gameData.hasDragonflyDeployed) gameData.hasDragonflyDeployed = true;
+                    ////flag to inform about dragonfly attack
+                    //if (!gameData.hasDragonflyDeployed) gameData.hasDragonflyDeployed = true;
 
                     //Stop all time events before setting money loss
                     ClassDb.timeEventManager.StopTimeEventList(gameData.timeEventList);
@@ -688,7 +706,7 @@ public class Level2Manager : MonoBehaviour, ILevelManager
 
                     //set money loss until scan has been executed and check flag to start money loss
                     gameData.moneyLossList[StaticDb.ThreatAttack.dragonfly] += threat.moneyLossPerMinute * gameData.totalMoneyEarnPerMinute;
-                    gameData.isMoneyLoss = true;
+                    //gameData.isMoneyLoss = true;
 
                     //Calculate money loss according to the formula moneyLossPerMinute * 60 * threat number of hour  
                     moneyLoss = threat.moneyLossPerMinute * 60 * threat.deployTime;
@@ -702,9 +720,9 @@ public class Level2Manager : MonoBehaviour, ILevelManager
                     //Decreasing money by moneyloss amount
                     gameData.money -= moneyLoss;
 
-                    //Set flag to start evaluate threat management result
-                    gameData.hasThreatManaged = false;
-                    StartThreatManagementResultData(threat);
+                    ////TODO Set flag to start evaluate threat management result
+                    //gameData.hasThreatManaged = false;
+                    //StartThreatManagementResultData(threat);
 
                     if (gameData.isFirstDragonfly)
                     {
@@ -717,8 +735,8 @@ public class Level2Manager : MonoBehaviour, ILevelManager
                     break;
 
                 case StaticDb.ThreatAttack.malware:
-                    //flag to inform about malware attack
-                    if (!gameData.hasMalwareDeployed) gameData.hasMalwareDeployed = true;
+                    ////flag to inform about malware attack
+                    //if (!gameData.hasMalwareDeployed) gameData.hasMalwareDeployed = true;
 
                     //Stop all time events before setting money loss
                     ClassDb.timeEventManager.StopTimeEventList(gameData.timeEventList);
@@ -728,7 +746,7 @@ public class Level2Manager : MonoBehaviour, ILevelManager
 
                     //set money loss until scan has been executed and check flag to start money loss
                     gameData.moneyLossList[StaticDb.ThreatAttack.malware] += threat.moneyLossPerMinute * gameData.totalMoneyEarnPerMinute;
-                    gameData.isMoneyLoss = true;
+                    //gameData.isMoneyLoss = true;
 
                     //Calculate money loss according to the formula moneyLossPerMinute * 60 * threat number of hour 
                     moneyLoss = threat.moneyLossPerMinute * 60 * threat.deployTime;
@@ -742,9 +760,9 @@ public class Level2Manager : MonoBehaviour, ILevelManager
                     //Decreasing money by moneyloss amount
                     gameData.money -= moneyLoss;
 
-                    //Set flag to start evaluate threat management result
-                    gameData.hasThreatManaged = false;
-                    StartThreatManagementResultData(threat);
+                    ////TODO Set flag to start evaluate threat management result
+                    //gameData.hasThreatManaged = false;
+                    //StartThreatManagementResultData(threat);
 
                     if (gameData.isFirstMalware)
                     {
@@ -832,7 +850,6 @@ public class Level2Manager : MonoBehaviour, ILevelManager
             }
         }
     }
-
     //REMOVE AI AND POP UP A DIALOG BOX
     public bool BeforeDeployThreat(Threat threat)
     {

@@ -14,21 +14,13 @@ public class TelephoneListener : MonoBehaviour
     private IEnumerator checkPlantRoutine;
     private IEnumerator coolDownRoutine;
 
-    public static Dictionary<Threat, float> replayThreats;
-    public static Dictionary<Threat, float> stuxnetThreats;
-
     private ILevelManager manager;
-
 
     private void Start()
     {
         manager = SetLevelManager();
 
         interactiveSprite = GetComponent<InteractiveSprite>();
-
-        replayThreats = new Dictionary<Threat, float>();
-        stuxnetThreats = new Dictionary<Threat, float>();
-
     }
 
     private ILevelManager SetLevelManager()
@@ -46,13 +38,7 @@ public class TelephoneListener : MonoBehaviour
     {
         List<Button> buttons;
 
-        if (manager.GetGameData().hasDosDeployed ||
-            manager.GetGameData().hasPhishingDeployed ||
-            manager.GetGameData().hasReplayDeployed ||
-            manager.GetGameData().hasMitmDeployed ||
-            manager.GetGameData().hasMalwareDeployed ||
-            manager.GetGameData().hasStuxnetDeployed ||
-            manager.GetGameData().hasDragonflyDeployed)
+        if (manager.GetGameData().hasThreatDeployed)
         {
             buttons = interactiveSprite.actionButtonManager.GetActiveCanvasGroup(3);
 
@@ -102,7 +88,6 @@ public class TelephoneListener : MonoBehaviour
         }
 
 
-
         foreach (Button button in buttons)
         {
             button.interactable = true;
@@ -114,7 +99,8 @@ public class TelephoneListener : MonoBehaviour
         interactiveSprite.SetInteraction(false);
 
         TimeEvent progressEvent = ClassDb.timeEventManager.NewTimeEvent(
-            manager.GetGameData().telephoneMoneyTime, interactiveSprite.gameObject, true, true, StaticDb.getMoneyRoutine);
+            manager.GetGameData().telephoneMoneyTime, interactiveSprite.gameObject, true, true,
+            StaticDb.getMoneyRoutine);
 
         manager.GetGameData().timeEventList.Add(progressEvent);
 
@@ -146,7 +132,6 @@ public class TelephoneListener : MonoBehaviour
         {
             //Debug.Log("NO MONEY");
             ClassDb.levelMessageManager.StartMoneyEarnFalse();
-
         }
 
         StartCoolDown();
@@ -155,13 +140,13 @@ public class TelephoneListener : MonoBehaviour
     private void StartCoolDown()
     {
         TimeEvent progressEvent = ClassDb.timeEventManager.NewTimeEvent(
-            manager.GetGameData().telephoneMoneyCoolDown * 60, interactiveSprite.gameObject, true, false, StaticDb.coolDownRoutine);
+            manager.GetGameData().telephoneMoneyCoolDown * 60, interactiveSprite.gameObject, true, false,
+            StaticDb.coolDownRoutine);
 
         manager.GetGameData().timeEventList.Add(progressEvent);
 
         coolDownRoutine = CoolDown(progressEvent);
         StartCoroutine(coolDownRoutine);
-
     }
 
     public void RestartCoolDown(TimeEvent progressEvent)
@@ -183,8 +168,12 @@ public class TelephoneListener : MonoBehaviour
     {
         interactiveSprite.SetInteraction(false);
 
+        //REGISTER THE USER ACTION AND CHECK IF THE ACTION IS CORRECT OR WRONG RELATIVELY TO THE THREAT DEPLOYED
+        ClassDb.userActionManager.RegisterThreatSolution(new UserAction(StaticDb.ThreatSolution.plantCheck), manager.GetGameData().lastThreatDeployed, false);
+
         TimeEvent progressEvent = ClassDb.timeEventManager.NewTimeEvent(
-            manager.GetGameData().telephoneCheckPlantTime, interactiveSprite.gameObject, true, true, StaticDb.checkPlantRoutine);
+            manager.GetGameData().telephoneCheckPlantTime, interactiveSprite.gameObject, true, true,
+            StaticDb.checkPlantRoutine);
 
         manager.GetGameData().timeEventList.Add(progressEvent);
 
@@ -206,57 +195,40 @@ public class TelephoneListener : MonoBehaviour
     {
         yield return new WaitWhile(() => manager.GetGameData().timeEventList.Contains(progressEvent));
 
-        if (manager.GetGameData().hasReplayDeployed)
-        {
-            foreach (KeyValuePair<Threat, float> pair in replayThreats)
-            {
-                float success = Random.Range(0, 100);
-
-                if (!(success > manager.GetGameData().defensePlantResistance)) continue;
-                //Inform how much money has been lost
-                ClassDb.levelMessageManager.StartMoneyLoss(pair.Key.threatType, pair.Value);
-
-                //wait for closing dialog box
-                yield return new WaitWhile(() => manager.GetGameData().dialogEnabled);
-
-                manager.GetGameData().money -= pair.Value;
-
-            }
-
-            replayThreats.Clear();
-
-        }
-
-
-        if (manager.GetGameData().hasStuxnetDeployed)
-        {
-            foreach (KeyValuePair<Threat, float> pair in stuxnetThreats)
-            {
-                float success = Random.Range(0, 100);
-
-                if (!(success > manager.GetGameData().defensePlantResistance))
-                {
-                    ClassDb.levelMessageManager.StartThreatStopped(pair.Key);
-
-                    Debug.Log(success);
-
-                    continue;
-                }
-                //Inform how much money has been lost
-                ClassDb.levelMessageManager.StartMoneyLoss(pair.Key.threatType, pair.Value);
-
-                //wait for closing dialog box
-                yield return new WaitWhile(() => manager.GetGameData().dialogEnabled);
-
-                manager.GetGameData().money -= pair.Value;
-
-            }
-
-            stuxnetThreats.Clear();
-
-        }
-
         interactiveSprite.SetInteraction(true);
+
+        float success = Random.Range(0, 100);
+
+        float moneyLoss;
+
+        if (!manager.GetGameData().hasThreatDeployed) yield break;
+
+        if (manager.GetGameData().lastThreatDeployed.threatAttack != StaticDb.ThreatAttack.replay &&
+            manager.GetGameData().lastThreatDeployed.threatAttack != StaticDb.ThreatAttack.stuxnet)
+        {
+            moneyLoss = 0;
+            ClassDb.levelMessageManager.StartPlantReport(true, moneyLoss);
+            yield break;
+        }
+
+        if (!(success > manager.GetGameData().defensePlantResistance))
+        {
+            moneyLoss = 0;
+            ClassDb.levelMessageManager.StartPlantReport(true, moneyLoss);
+        }
+        else
+        {
+            //Inform how much money has been lost
+            moneyLoss = manager.GetGameData().lastThreatDeployed.moneyLossPerMinute * 60 *
+                        manager.GetGameData().lastThreatDeployed.deployTime;
+
+            ClassDb.levelMessageManager.StartPlantReport(false, moneyLoss);
+        }
+
+        //wait for closing dialog box
+        yield return new WaitWhile(() => manager.GetGameData().dialogEnabled);
+
+        manager.GetGameData().money -= moneyLoss;
 
         manager.GetGameData().hasPlantChecked = true;
     }

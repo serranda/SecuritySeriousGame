@@ -159,8 +159,8 @@ public class GameData
     //int for previous month check (in order to increase month)
     public int previousMonth;
 
-    //flag to check if there is a money loss
-    public bool isMoneyLoss;
+    ////flag to check if there is a money loss
+    //public bool isMoneyLoss;
 
     //dictionary in which are stored alle the money loss factor relative to all types of threat
     public ThreatAttackFloatDictionary moneyLossList = new ThreatAttackFloatDictionary
@@ -193,13 +193,7 @@ public class GameData
     public int threatSpawnBaseTime = 2000;
 
     //flags to check which type of threat has been deployed
-    public bool hasReplayDeployed;
-    public bool hasDosDeployed;
-    public bool hasPhishingDeployed;
-    public bool hasMitmDeployed;
-    public bool hasMalwareDeployed;
-    public bool hasStuxnetDeployed;
-    public bool hasDragonflyDeployed;
+    public bool hasThreatDeployed;
 
     //flags to check if, before going on with the defensive action, the plant has been checked or has been done a malware scan
     public bool hasPlantChecked = true;

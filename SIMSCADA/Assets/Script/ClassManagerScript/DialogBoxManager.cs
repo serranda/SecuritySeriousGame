@@ -16,6 +16,8 @@ public class DialogBoxManager : MonoBehaviour
 
     public static int dialogIndex = 1;
 
+    public static int dialogSortingOrder = 2;
+
     private void OnEnable()
     {
         SetGameDataDialogBool();
@@ -50,7 +52,7 @@ public class DialogBoxManager : MonoBehaviour
                 dialogBox.sortingOrder = 3;
                 break;
             default:
-                dialogBox.sortingOrder = 2;
+                dialogBox.sortingOrder = dialogSortingOrder;
                 break;
         }
     }
@@ -60,7 +62,17 @@ public class DialogBoxManager : MonoBehaviour
         if (SetLevelManager() == null) return;
         manager = SetLevelManager();
 
-        manager.GetGameData().dialogEnabled = FindObjectsOfType<DialogBoxManager>().Length > 1;
+        if(FindObjectsOfType<DialogBoxManager>().Length > 1)
+        {
+            manager.GetGameData().dialogEnabled = true;
+            dialogSortingOrder--;
+
+        }
+        else
+        {
+            manager.GetGameData().dialogEnabled = false;
+            dialogSortingOrder = 2;
+        }
     }
 
     public void SetDialog(string title, string message, string buttonBack, string buttonNext, Canvas dialogBox)

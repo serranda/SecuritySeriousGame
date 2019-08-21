@@ -84,6 +84,8 @@ public class StaticDb
     public const string fakeLocalMoneyLoss = "Messages/MoneyLossFakeLocal";
     public const string localMoneyLoss = "Messages/MoneyLossLocal";
     public const string remoteMoneyLoss = "Messages/MoneyLossRemote";
+    public const string plantReportBad = "Messages/PlantReportBad";
+    public const string plantReportGood = "Messages/PlantReportGood";
     public const string suspiciousAi = "Messages/SuspiciousAi";
     public const string localDeployed = "Messages/ThreatDeployedLocal";
     public const string remoteDeployed = "Messages/ThreatDeployedRemote";
@@ -382,6 +384,7 @@ public class StaticDb
         malwareScan,
         plantCheck,
         employeeCourse,
+        idsClean,
         timeEvent
     }
 }

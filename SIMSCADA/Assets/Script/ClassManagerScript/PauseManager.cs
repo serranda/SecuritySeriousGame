@@ -36,6 +36,7 @@ public class PauseManager : MonoBehaviour
 
             //SET FLAG TO RESUME TIME
             pauseEnabled = false;
+            
         }
         else
         {
@@ -70,6 +71,7 @@ public class PauseManager : MonoBehaviour
         CanvasOn();
 
     }
+
 
     public void SetListener()
     {

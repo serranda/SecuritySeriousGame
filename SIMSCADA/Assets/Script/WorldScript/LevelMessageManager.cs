@@ -21,6 +21,7 @@ public class LevelMessageManager : MonoBehaviour
     private IEnumerator remoteRecapRoutine;
     private IEnumerator suspiciousAiRoutine;
     private IEnumerator plantCheckRoutine;
+    private IEnumerator plantReportRoutine;
     private IEnumerator malwareCheckRoutine;
     private IEnumerator threatManagementRoutine;
     private IEnumerator newTrustedEmployeesRoutine;
@@ -112,8 +113,6 @@ public class LevelMessageManager : MonoBehaviour
     private IEnumerator ThreatDeployed(Threat threat)
     {
         yield return new WaitForSeconds(messageDelay);
-
-        manager.GetGameData().lastThreatDeployed = threat;
 
         Canvas dialog = ClassDb.dialogBoxManager.OpenDialog();
 
@@ -329,6 +328,41 @@ public class LevelMessageManager : MonoBehaviour
                 throw new ArgumentOutOfRangeException();
         }
 
+        dialog.GetComponent<DialogBoxManager>().SetDialog(
+            message.head,
+            string.Format(message.body, Math.Round(moneyLoss, 0).ToString(CultureInfo.CurrentCulture)),
+            message.backBtn,
+            message.nextBtn,
+            dialog
+        );
+
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.RemoveAllListeners();
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.gameObject.SetActive(true);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.AddListener(delegate
+        {
+            ClassDb.dialogBoxManager.CloseDialog(dialog);
+        });
+
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.onClick.RemoveAllListeners();
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.gameObject.SetActive(false);
+
+    }
+
+    public void StartPlantReport(bool isOk, float moneyLoss)
+    {
+        plantReportRoutine = PlantReport(isOk, moneyLoss);
+        StartCoroutine(plantReportRoutine);
+    }
+
+    private IEnumerator PlantReport(bool isOk, float moneyLoss)
+    {
+        yield return new WaitForSeconds(messageDelay);
+
+        Canvas dialog = ClassDb.dialogBoxManager.OpenDialog();
+
+        DialogBoxMessage message = isOk
+            ? MessageFromJson(Resources.Load<TextAsset>(StaticDb.plantReportGood))
+            : MessageFromJson(Resources.Load<TextAsset>(StaticDb.plantReportBad));
 
         dialog.GetComponent<DialogBoxManager>().SetDialog(
             message.head,

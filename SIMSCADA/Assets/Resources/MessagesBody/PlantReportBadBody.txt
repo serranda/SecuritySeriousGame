@@ -1,0 +1,1 @@
+A causa degli ultimi attacchi subiti, l'impianto di produzione ha subito alcuni danni. L'azienda dovrà pagare {0} € per effettuare le riparazioni necessarie.

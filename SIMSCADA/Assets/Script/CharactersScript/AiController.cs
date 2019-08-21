@@ -192,6 +192,7 @@ public class AiController : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
         if (timeEvent.threat.threatType == StaticDb.ThreatType.remote)
         {
             StopAllCoroutines();
+            boxCollider2D.enabled = false;
         }
 
         aiJob = CreateJob();

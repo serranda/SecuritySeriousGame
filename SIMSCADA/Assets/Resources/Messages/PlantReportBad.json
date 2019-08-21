@@ -1,0 +1,6 @@
+{
+	"head": "REPORT DANNI IMPIANTO",
+	"bodyPath": "MessagesBody/PlantReportBadBody",
+	"backBtn": "No",
+	"nextBtn": "Ok"
+}

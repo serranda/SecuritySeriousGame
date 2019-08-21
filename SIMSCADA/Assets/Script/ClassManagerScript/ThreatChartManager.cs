@@ -17,14 +17,14 @@ public class ThreatChartManager : MonoBehaviour
 
     [SerializeField] private Button backBtn;
 
-    [SerializeField] private LineDataSet dosSet;
-    [SerializeField] private LineDataSet replaySet;
-    [SerializeField] private LineDataSet mitmSet;
-    [SerializeField] private LineDataSet stuxnetSet;
-    [SerializeField] private LineDataSet dragonflySet;
-    [SerializeField] private LineDataSet malwareSet;
+    private static LineDataSet dosSet;
+    private static LineDataSet replaySet;
+    private static LineDataSet mitmSet;
+    private static LineDataSet stuxnetSet;
+    private static LineDataSet dragonflySet;
+    private static LineDataSet malwareSet;
 
-    private List<LineDataSet> sets = new List<LineDataSet>();
+    private static List<LineDataSet> sets = new List<LineDataSet>();
 
     private List<Color> colors = new List<Color>()
     {
@@ -44,21 +44,16 @@ public class ThreatChartManager : MonoBehaviour
 
     private void Start()
     {
-
         backBtn.onClick.RemoveAllListeners();
         backBtn.onClick.AddListener(delegate
         {
             ToggleThreatPlot();
         });
 
-
-        SetupChartData();
-
         ////DEBUG
         ////ADDING RANDOM VALUES TO LINECAHRT TO CHECK IF WORKING PROPERLY
         ////---------------------------------------------------------------------------------------------------------------------
         //sets = lineChart.GetChartData().DataSets;
-
         //foreach (LineDataSet set in sets)
         //{
         //    for (int i = 0; i < Random.Range(15, 21); i++)
@@ -66,10 +61,6 @@ public class ThreatChartManager : MonoBehaviour
         //        set.AddEntry(new LineEntry(i, (float)Math.Round(Random.Range(5f,35f), 1)));
         //    }
         //}
-
-        //lineChart.SetDirty();
-        //ConfigChart();
-
         ////---------------------------------------------------------------------------------------------------------------------
     }
 
@@ -79,7 +70,13 @@ public class ThreatChartManager : MonoBehaviour
 
         manager.GetGameData().chartEnabled = true;
 
+        if (sets.Count == 0) SetupChartDataSets();
+
+        if(lineChart.GetChartData().DataSets.Count == 0) AddSets();
+
         ConfigChart();
+
+        lineChart.SetDirty();
     }
 
     private void OnDisable()
@@ -92,6 +89,7 @@ public class ThreatChartManager : MonoBehaviour
     //CONFIG LINE CHART UI SETTINGS 
     private void ConfigChart()
     {
+
         //SET DIMENSION FOR VALUE INDICATOR
         lineChart.Config.ValueIndicatorSize = 20;
 
@@ -142,7 +140,7 @@ public class ThreatChartManager : MonoBehaviour
     }
 
     //CREATE NEW LINE DATA SET FOR EACH THREAT TYPE, SET COLOR AND LINE THICKNESS AND ADD TO LINE CHART DATA SETS
-    private void SetupChartData()
+    private void SetupChartDataSets()
     {
         dosSet = new LineDataSet { Title = "DOS", LineColor = colors[0], LineThickness = setLineThickness };
         replaySet = new LineDataSet { Title = "REPLAY", LineColor = colors[1], LineThickness = setLineThickness };
@@ -151,12 +149,17 @@ public class ThreatChartManager : MonoBehaviour
         dragonflySet = new LineDataSet { Title = "DRAGONFLY", LineColor = colors[4], LineThickness = setLineThickness };
         malwareSet = new LineDataSet { Title = "MALWARE", LineColor = colors[5], LineThickness = setLineThickness };
 
-        lineChart.GetChartData().DataSets.Add(dosSet);
-        lineChart.GetChartData().DataSets.Add(replaySet);
-        lineChart.GetChartData().DataSets.Add(mitmSet);
-        lineChart.GetChartData().DataSets.Add(stuxnetSet);
-        lineChart.GetChartData().DataSets.Add(dragonflySet);
-        lineChart.GetChartData().DataSets.Add(malwareSet);
+        sets.Add(dosSet);
+        sets.Add(replaySet);
+        sets.Add(mitmSet);
+        sets.Add(stuxnetSet);
+        sets.Add(dragonflySet);
+        sets.Add(malwareSet);
+    }
+
+    private void AddSets()
+    {
+        lineChart.GetChartData().DataSets = sets;
     }
 
     private ILevelManager SetLevelManager()
@@ -192,27 +195,31 @@ public class ThreatChartManager : MonoBehaviour
     //UPDATE THE APPROPRIATE SET ACCORDING WITH THREAT TYPE AND UPDATING LINE CHART
     public void GetThreatData(Threat threat, float manageTime)
     {
+        Debug.Log(lineChart);
+
+        if (sets.Count == 0 ) SetupChartDataSets();
+
         switch (threat.threatAttack)
         {
             case StaticDb.ThreatAttack.dos:
-                dosSet.AddEntry(new LineEntry(threat.id, (float)Math.Round(manageTime)));
+                dosSet.AddEntry(new LineEntry(threat.id, (float)Math.Round(manageTime, 1)));
                 break;
             case StaticDb.ThreatAttack.phishing:
                 break;
             case StaticDb.ThreatAttack.replay:
-                replaySet.AddEntry(new LineEntry(threat.id, (float)Math.Round(manageTime)));
+                replaySet.AddEntry(new LineEntry(threat.id, (float)Math.Round(manageTime, 1)));
                 break;
             case StaticDb.ThreatAttack.mitm:
-                mitmSet.AddEntry(new LineEntry(threat.id, (float)Math.Round(manageTime)));
+                mitmSet.AddEntry(new LineEntry(threat.id, (float)Math.Round(manageTime, 1)));
                 break;
             case StaticDb.ThreatAttack.stuxnet:
-                stuxnetSet.AddEntry(new LineEntry(threat.id, (float)Math.Round(manageTime)));
+                stuxnetSet.AddEntry(new LineEntry(threat.id, (float)Math.Round(manageTime, 1)));
                 break;
             case StaticDb.ThreatAttack.dragonfly:
-                dragonflySet.AddEntry(new LineEntry(threat.id, (float)Math.Round(manageTime)));
+                dragonflySet.AddEntry(new LineEntry(threat.id, (float)Math.Round(manageTime, 1)));
                 break;
             case StaticDb.ThreatAttack.malware:
-                malwareSet.AddEntry(new LineEntry(threat.id, (float)Math.Round(manageTime)));
+                malwareSet.AddEntry(new LineEntry(threat.id, (float)Math.Round(manageTime, 1)));
                 break;
             case StaticDb.ThreatAttack.createRemote:
                 break;
@@ -223,9 +230,6 @@ public class ThreatChartManager : MonoBehaviour
             default:
                 throw new ArgumentOutOfRangeException();
         }
-
-        lineChart.SetDirty();
-        ConfigChart();
-
+        Debug.Log("THREAT DATA GET");
     }
 }

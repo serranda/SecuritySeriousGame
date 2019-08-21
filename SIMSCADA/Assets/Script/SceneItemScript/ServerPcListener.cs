@@ -48,14 +48,8 @@ public class ServerPcListener : MonoBehaviour
     {
         List<Button> buttons;
 
-        if (manager.GetGameData().hasDosDeployed ||
-            manager.GetGameData().hasPhishingDeployed ||
-            manager.GetGameData().hasReplayDeployed ||
-            manager.GetGameData().hasMitmDeployed ||
-            manager.GetGameData().hasMalwareDeployed ||
-            manager.GetGameData().hasStuxnetDeployed ||
-            manager.GetGameData().hasDragonflyDeployed ||
-            isThreatDetected)
+        if(manager.GetGameData().hasThreatDeployed ||
+           isThreatDetected)
         {
             buttons = interactiveSprite.actionButtonManager.GetActiveCanvasGroup(7);
 
@@ -229,7 +223,7 @@ public class ServerPcListener : MonoBehaviour
         sprite.SetInteraction(false);
 
         //REGISTER THE USER ACTION AND CHECK IF THE ACTION IS CORRECT OR WRONG RELATIVELY TO THE THREAT DEPLOYED
-        ClassDb.userActionManager.RegisterThreatSolution(new UserAction(StaticDb.ThreatSolution.malwareScan), manager.GetGameData().lastThreatDeployed);
+        ClassDb.userActionManager.RegisterThreatSolution(new UserAction(StaticDb.ThreatSolution.malwareScan), manager.GetGameData().lastThreatDeployed, false);
 
         TimeEvent progressEvent = ClassDb.timeEventManager.NewTimeEvent(
             manager.GetGameData().serverAntiMalwareTime, sprite.gameObject, true, true, StaticDb.antiMalwareScanRoutine);
@@ -259,7 +253,8 @@ public class ServerPcListener : MonoBehaviour
     private IEnumerator BeforeAntiMalwareScan(TimeEvent progressEvent, InteractiveSprite sprite)
     {
 
-        if (manager.GetGameData().hasStuxnetDeployed)
+        if (manager.GetGameData().hasThreatDeployed &&
+            manager.GetGameData().lastThreatDeployed.threatAttack == StaticDb.ThreatAttack.stuxnet)
         {
             if (!manager.GetGameData().hasPlantChecked)
             {
@@ -284,40 +279,40 @@ public class ServerPcListener : MonoBehaviour
     {
         yield return new WaitWhile(() => manager.GetGameData().timeEventList.Contains(progressEvent));
 
-        //Reset money loss due to replay attack
-        manager.GetGameData().moneyLossList[StaticDb.ThreatAttack.malware] = 0;
-        manager.GetGameData().moneyLossList[StaticDb.ThreatAttack.stuxnet] = 0;
-
-        ////reset base money earn
-        //ClassDb.worldManager.totalMoneyEarnPerMinute = StaticDb.baseEarn;
-
-        //restart money generation
-        manager.GetGameData().isMoneyLoss = true;
-        //ClassDb.worldManager.isMoneyEarn = true;
-        
-        //restart all time event
-        ClassDb.timeEventManager.StartTimeEventList(manager.GetGameData().timeEventList);
-
         sprite.SetInteraction(true);
 
-        //reset flag to restart threat generation
-        manager.GetGameData().hasMalwareDeployed = false;
-        manager.GetGameData().hasStuxnetDeployed = false;
+        if (!manager.GetGameData().hasThreatDeployed) yield break;
 
-        if (manager.GetGameData().hasDragonflyDeployed)
+        if (manager.GetGameData().lastThreatDeployed.threatAttack == StaticDb.ThreatAttack.dragonfly)
         {
             manager.GetGameData().hasMalwareChecked = true;
             yield break;
         }
 
-        //MESSAGE FOR RECAP
+        //TODO CHECK CORRECT IF
+        if (manager.GetGameData().lastThreatDeployed.threatAttack != StaticDb.ThreatAttack.malware &&
+             manager.GetGameData().lastThreatDeployed.threatAttack != StaticDb.ThreatAttack.stuxnet) yield break;
+
+        manager.GetGameData().moneyLossList[StaticDb.ThreatAttack.malware] = 0;
+        manager.GetGameData().moneyLossList[StaticDb.ThreatAttack.stuxnet] = 0;
+
+        //restart all time event
+        ClassDb.timeEventManager.StartTimeEventList(manager.GetGameData().timeEventList);
+
+        //reset flag to restart threat generation
         manager.GetGameData().hasThreatManaged = true;
+        manager.GetGameData().hasThreatDeployed = false;
+
+        //Reset money loss due to replay attack
 
     }
 
     private void StartIdsClean()
     {
         interactiveSprite.SetInteraction(false);
+
+        //REGISTER THE USER ACTION AND CHECK IF THE ACTION IS CORRECT OR WRONG RELATIVELY TO THE THREAT DEPLOYED
+        ClassDb.userActionManager.RegisterThreatSolution(new UserAction(StaticDb.ThreatSolution.idsClean), manager.GetGameData().lastThreatDeployed, true);
 
         //start duration: 90 min
         TimeEvent progressEvent = ClassDb.timeEventManager.NewTimeEvent(
@@ -343,6 +338,10 @@ public class ServerPcListener : MonoBehaviour
 
         yield return new WaitWhile(() => manager.GetGameData().timeEventList.Contains(progressEvent));
 
+        interactiveSprite.SetInteraction(true);
+
+        if (threatDetectedList.Count <= 0) yield break;
+
         foreach (Threat threat in threatDetectedList)
         {
             manager.GetGameData().timeEventList.Remove(ClassDb.timeEventManager.GetThreatTimeEvent(threat));
@@ -351,8 +350,6 @@ public class ServerPcListener : MonoBehaviour
 
         isThreatDetected = false;
         ClassDb.levelMessageManager.StartIdsClean();
-        interactiveSprite.SetInteraction(true);
-
     }
 
     private void StartRebootServer()
@@ -360,7 +357,7 @@ public class ServerPcListener : MonoBehaviour
         interactiveSprite.SetInteraction(false);
 
         //REGISTER THE USER ACTION AND CHECK IF THE ACTION IS CORRECT OR WRONG RELATIVELY TO THE THREAT DEPLOYED
-        ClassDb.userActionManager.RegisterThreatSolution(new UserAction(StaticDb.ThreatSolution.reboot), manager.GetGameData().lastThreatDeployed);
+        ClassDb.userActionManager.RegisterThreatSolution(new UserAction(StaticDb.ThreatSolution.reboot), manager.GetGameData().lastThreatDeployed, false);
 
         TimeEvent progressEvent = ClassDb.timeEventManager.NewTimeEvent(
             manager.GetGameData().serverRebootTime, interactiveSprite.gameObject, true, true, StaticDb.rebootServerRoutine);
@@ -382,27 +379,21 @@ public class ServerPcListener : MonoBehaviour
     {
         yield return new WaitWhile(() => manager.GetGameData().timeEventList.Contains(progressEvent));
 
+        interactiveSprite.SetInteraction(true);
+
+        if (!manager.GetGameData().hasThreatDeployed) yield break;
+
+        if (manager.GetGameData().lastThreatDeployed.threatAttack != StaticDb.ThreatAttack.dos) yield break;
+
         //Reset money loss due to dos attack
         manager.GetGameData().moneyLossList[StaticDb.ThreatAttack.dos] = 0;
-
-        ////reset base money earn
-        //ClassDb.worldManager.totalMoneyEarnPerMinute = StaticDb.baseEarn;
-
-        //restart money generation
-        manager.GetGameData().isMoneyLoss = true;
-        //ClassDb.worldManager.isMoneyEarn = true;
 
         //restart all time event
         ClassDb.timeEventManager.StartTimeEventList(manager.GetGameData().timeEventList);
 
-        interactiveSprite.SetInteraction(true);
-
         //reset flag to restart threat generation
-        manager.GetGameData().hasDosDeployed = false;
-
-        //MESSAGE FOR RECAP
         manager.GetGameData().hasThreatManaged = true;
-
+        manager.GetGameData().hasThreatDeployed = false;
     }
 
     public void StartCheckNetworkCfg(InteractiveSprite sprite)
@@ -410,7 +401,7 @@ public class ServerPcListener : MonoBehaviour
         sprite.SetInteraction(false);
 
         //REGISTER THE USER ACTION AND CHECK IF THE ACTION IS CORRECT OR WRONG RELATIVELY TO THE THREAT DEPLOYED
-        ClassDb.userActionManager.RegisterThreatSolution(new UserAction(StaticDb.ThreatSolution.networkCheck), manager.GetGameData().lastThreatDeployed);
+        ClassDb.userActionManager.RegisterThreatSolution(new UserAction(StaticDb.ThreatSolution.networkCheck), manager.GetGameData().lastThreatDeployed, false);
 
         TimeEvent progressEvent = ClassDb.timeEventManager.NewTimeEvent(
             manager.GetGameData().serverCheckCfgTime, sprite.gameObject, true, true, StaticDb.checkNetworkCfgRoutine);
@@ -423,7 +414,8 @@ public class ServerPcListener : MonoBehaviour
     {
         sprite.SetInteraction(false);
 
-        if (manager.GetGameData().hasReplayDeployed)
+        if (!manager.GetGameData().hasThreatDeployed &&
+            manager.GetGameData().lastThreatDeployed.threatAttack == StaticDb.ThreatAttack.replay)
         {
             if (!manager.GetGameData().hasPlantChecked)
             {
@@ -438,7 +430,8 @@ public class ServerPcListener : MonoBehaviour
             }
         }
 
-        if (manager.GetGameData().hasDragonflyDeployed)
+        if (manager.GetGameData().hasThreatDeployed &&
+            manager.GetGameData().lastThreatDeployed.threatAttack == StaticDb.ThreatAttack.dragonfly)
         {
             if (!manager.GetGameData().hasMalwareChecked)
             {
@@ -457,7 +450,8 @@ public class ServerPcListener : MonoBehaviour
 
     public IEnumerator BeforeCheckNetworkCfg(TimeEvent progressEvent, InteractiveSprite sprite)
     {
-        if (manager.GetGameData().hasReplayDeployed)
+        if (manager.GetGameData().hasThreatDeployed &&
+            manager.GetGameData().lastThreatDeployed.threatAttack == StaticDb.ThreatAttack.replay)
         {
             if (!manager.GetGameData().hasPlantChecked)
             {
@@ -471,7 +465,8 @@ public class ServerPcListener : MonoBehaviour
             yield return new WaitUntil(() => manager.GetGameData().hasPlantChecked);
         }
 
-        if (manager.GetGameData().hasDragonflyDeployed)
+        if (manager.GetGameData().hasThreatDeployed &&
+            manager.GetGameData().lastThreatDeployed.threatAttack == StaticDb.ThreatAttack.dragonfly)
         {
             if(!manager.GetGameData().hasMalwareChecked)
             {
@@ -495,30 +490,26 @@ public class ServerPcListener : MonoBehaviour
     {
         yield return new WaitWhile(() => manager.GetGameData().timeEventList.Contains(progressEvent));
 
+        sprite.SetInteraction(true);
+
+        if (!manager.GetGameData().hasThreatDeployed) yield break;
+
+        if (manager.GetGameData().lastThreatDeployed.threatAttack != StaticDb.ThreatAttack.mitm &&
+            manager.GetGameData().lastThreatDeployed.threatAttack != StaticDb.ThreatAttack.replay &&
+            manager.GetGameData().lastThreatDeployed.threatAttack != StaticDb.ThreatAttack.dragonfly) yield break;
+
         //Reset money loss due to replay attack
         manager.GetGameData().moneyLossList[StaticDb.ThreatAttack.replay] = 0;
         manager.GetGameData().moneyLossList[StaticDb.ThreatAttack.mitm] = 0;
         manager.GetGameData().moneyLossList[StaticDb.ThreatAttack.dragonfly] = 0;
 
-        ////reset base money earn
-        //ClassDb.worldManager.totalMoneyEarnPerMinute = StaticDb.baseEarn;
-
-        //restart money generation
-        manager.GetGameData().isMoneyLoss = true;
-        //ClassDb.worldManager.isMoneyEarn = true;
-
         //restart all time event
         ClassDb.timeEventManager.StartTimeEventList(manager.GetGameData().timeEventList);
 
-        sprite.SetInteraction(true);
-
         //reset flag to restart threat generation
-        manager.GetGameData().hasReplayDeployed = false;
-        manager.GetGameData().hasMitmDeployed = false;
-        manager.GetGameData().hasDragonflyDeployed = false;
-
-        //MESSAGE FOR RECAP
         manager.GetGameData().hasThreatManaged = true;
+        manager.GetGameData().hasThreatDeployed = false;
+
 
 
     }

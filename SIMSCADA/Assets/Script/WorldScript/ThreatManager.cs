@@ -79,16 +79,16 @@ public class ThreatManager : MonoBehaviour
         switch (threatDanger)
         {
             case StaticDb.ThreatDanger.low:
-                moneyLossPerMinute = Random.Range(1f, 1.5f);
-                break;
-            case StaticDb.ThreatDanger.medium:
                 moneyLossPerMinute = Random.Range(2f, 2.5f);
                 break;
-            case StaticDb.ThreatDanger.high:
+            case StaticDb.ThreatDanger.medium:
                 moneyLossPerMinute = Random.Range(3f, 3.5f);
                 break;
+            case StaticDb.ThreatDanger.high:
+                moneyLossPerMinute = Random.Range(4f, 4.5f);
+                break;
             case StaticDb.ThreatDanger.fakeLocal:
-                moneyLossPerMinute = Random.Range(3f, 3.5f);
+                moneyLossPerMinute = Random.Range(4f, 4.5f);
                 break;
             case StaticDb.ThreatDanger.timeEvent:
                 moneyLossPerMinute = 0;
@@ -108,6 +108,7 @@ public class ThreatManager : MonoBehaviour
 
         return threat;
     }
+
     public Threat NewRandomLevel2Threat()
     {
         int id = ++manager.GetGameData().lastThreatId;
@@ -157,16 +158,16 @@ public class ThreatManager : MonoBehaviour
         switch (threatDanger)
         {
             case StaticDb.ThreatDanger.low:
-                moneyLossPerMinute = Random.Range(1f, 1.5f);
-                break;
-            case StaticDb.ThreatDanger.medium:
                 moneyLossPerMinute = Random.Range(2f, 2.5f);
                 break;
-            case StaticDb.ThreatDanger.high:
+            case StaticDb.ThreatDanger.medium:
                 moneyLossPerMinute = Random.Range(3f, 3.5f);
                 break;
+            case StaticDb.ThreatDanger.high:
+                moneyLossPerMinute = Random.Range(4f, 4.5f);
+                break;
             case StaticDb.ThreatDanger.fakeLocal:
-                moneyLossPerMinute = Random.Range(3f, 3.5f);
+                moneyLossPerMinute = Random.Range(4f, 4.5f);
                 break;
             case StaticDb.ThreatDanger.timeEvent:
                 moneyLossPerMinute = 0;
