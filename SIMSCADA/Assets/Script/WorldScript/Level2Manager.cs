@@ -1017,15 +1017,15 @@ public class Level2Manager : MonoBehaviour, ILevelManager
 
     public void RemoteIdsCheck()
     {
-        gameData.threatDetectedList.Clear();
+        gameData.idsList.Clear();
 
         foreach (Threat threat in gameData.remoteThreats)
         {
             if (Random.Range(1, 100) < gameData.remoteIdsSuccessRate)
-                gameData.threatDetectedList.Add(threat);
+                gameData.idsList.Add(threat);
         }
 
-        if (gameData.threatDetectedList.Count <= 0) return;
+        if (gameData.idsList.Count <= 0) return;
 
         ClassDb.levelMessageManager.StartIdsInterception();
 

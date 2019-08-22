@@ -19,7 +19,6 @@ public class ServerPcListener : MonoBehaviour
     private IEnumerator checkNetworkCfgRoutine;
 
     public static bool isThreatDetected;
-    public List<Threat> threatDetectedList;
 
     private ILevelManager manager;
 
@@ -334,19 +333,13 @@ public class ServerPcListener : MonoBehaviour
 
     private IEnumerator IdsClean(TimeEvent progressEvent)
     {
-        threatDetectedList = manager.GetGameData().threatDetectedList;
-
         yield return new WaitWhile(() => manager.GetGameData().timeEventList.Contains(progressEvent));
 
         interactiveSprite.SetInteraction(true);
 
-        if (threatDetectedList.Count <= 0) yield break;
+        if (manager.GetGameData().idsList.Count <= 0) yield break;
 
-        foreach (Threat threat in threatDetectedList)
-        {
-            manager.GetGameData().timeEventList.Remove(ClassDb.timeEventManager.GetThreatTimeEvent(threat));
-            manager.GetGameData().remoteThreats.Remove(threat);
-        }
+        manager.GetGameData().idsList.Clear();
 
         isThreatDetected = false;
         ClassDb.levelMessageManager.StartIdsClean();

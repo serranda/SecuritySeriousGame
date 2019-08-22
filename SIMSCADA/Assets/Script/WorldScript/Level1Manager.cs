@@ -67,9 +67,14 @@ public class Level1Manager : MonoBehaviour, ILevelManager
 
         if (Input.GetKeyDown(KeyCode.A))
         {
-            //DEBUG; CREATE NEW DRAGONFLY THREAT
-            Threat threat = new Threat(++gameData.lastThreatId, StaticDb.ThreatType.remote, 0.5f, StaticDb.ThreatAttacker.external, StaticDb.ThreatDanger.high, StaticDb.ThreatAttack.phishing, 2);
-            InstantiateNewThreat(threat);
+            ////DEBUG; CREATE NEW PHISHING THREAT
+            //Threat threat = new Threat(++gameData.lastThreatId, StaticDb.ThreatType.remote, 3f, StaticDb.ThreatAttacker.external, StaticDb.ThreatDanger.high, StaticDb.ThreatAttack.phishing, 2);
+            //InstantiateNewThreat(threat);
+
+            //DEBUG CREATE MULTIPLE DIALOG BOX
+            ClassDb.levelMessageManager.StartMoneyEarnFalse();
+            ClassDb.levelMessageManager.StartMoneyEarnTrue(5f);
+            ClassDb.levelMessageManager.StartMalwareCheck();
         }
 
         //---------------------------------------------------------------------------------------------------------------------
@@ -929,18 +934,25 @@ public class Level1Manager : MonoBehaviour, ILevelManager
 
     public void RemoteIdsCheck()
     {
-        gameData.threatDetectedList.Clear();
 
-        //TODO FIX IDS DETECTION PATTERN 
-
-        foreach (Threat threat in gameData.remoteThreats)
+        foreach (Threat threat in gameData.remoteThreats.ToArray())
         {
-            //if(Random.Range(1, 100) < gameData.remoteIdsSuccessRate) //TODO UNCOMMENT
-            if(Random.Range(1, 2) < gameData.remoteIdsSuccessRate)
-                gameData.threatDetectedList.Add(threat);
+            if (Random.Range(1, 100) >= gameData.remoteIdsSuccessRate) continue;
+
+            //REMOVE AI AND PROGRESS BAR PREFAB FROM SCENE
+            ClassDb.spawnCharacter.RemoveAi(threat.aiController.gameObject);
+            ClassDb.timeEventManager.GetThreatTimeEvent(threat).progressBar.GetComponentInChildren<Slider>().value = 0f;
+            ClassDb.prefabManager.ReturnPrefab(ClassDb.timeEventManager.GetThreatTimeEvent(threat).progressBar.gameObject, PrefabManager.pbIndex);
+
+            //REMOVE THREAT TIME EVENT RELATED FROM LISTS
+            gameData.timeEventList.Remove(ClassDb.timeEventManager.GetThreatTimeEvent(threat));
+            gameData.remoteThreats.Remove(threat);
+
+            //POPULATE IDSLIST
+            gameData.idsList.Add(threat);
         }
 
-        if (gameData.threatDetectedList.Count <= 0) return;
+        if (gameData.idsList.Count <= 0) return;
 
         ClassDb.levelMessageManager.StartIdsInterception();
         

@@ -732,10 +732,6 @@ public class AiController : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
 
             });
         }
-
-
-
-
     }
 
     public void BeforeDeploy()

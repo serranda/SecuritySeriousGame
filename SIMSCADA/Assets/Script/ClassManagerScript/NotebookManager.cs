@@ -93,7 +93,7 @@ public class NotebookManager : MonoBehaviour
 
         if (manager != null)
             manager.GetGameData().noteBookEnabled = true;
-        else
+        else if(tutorialManager != null)
             tutorialManager.tutorialGameData.noteBookEnabled = true;
 
         colorIndex = 0;
@@ -153,7 +153,7 @@ public class NotebookManager : MonoBehaviour
     {
         if (manager != null)
             manager.GetGameData().noteBookEnabled = false;
-        else
+        else if(tutorialManager != null)
             tutorialManager.tutorialGameData.noteBookEnabled = false;
     }
 

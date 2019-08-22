@@ -8,28 +8,24 @@ public class ItemStore
 {
     public string name;
     public string descriptionPath;
-    public string descriptionBody
-    {
-        get
-        {
-            return string.IsNullOrEmpty(descriptionPath)
-                ? string.Empty
-                : Resources.Load<TextAsset>("ItemStoreBody/"+descriptionPath + "_IT").text;
-        }
 
-    }
+    public string descriptionBody =>
+        string.IsNullOrEmpty(descriptionPath)
+            ? string.Empty
+            : Resources.Load<TextAsset>("ItemStoreBody/"+descriptionPath + "_IT").text;
+
     public string imageName;
     public int price;
     public int finalLevel;
     public int effect;
     public int currentLevel;
     public GameObject itemObject;
-    private static readonly IComparer<ItemStore> NameComparerInstance = new nameRelationalComparer();
+    public string threatAffinity;
 
     public override string ToString()
     {
-        return string.Format("Name: {0}, Description: {1}, ImageName: {2}, Price: {3}, FinalLevel: {4}, Effect: {5}, CurrentLevel: {6}, ItemObject: {7}", 
-            name, descriptionPath, imageName, price, finalLevel, effect, currentLevel, itemObject);
+        return
+            $"Name: {name}, Description: {descriptionPath}, ImageName: {imageName}, Price: {price}, FinalLevel: {finalLevel}, Effect: {effect}, CurrentLevel: {currentLevel}, ItemObject: {itemObject}, ThreatAffinity: {threatAffinity}";
     }
 
     private sealed class nameRelationalComparer : IComparer<ItemStore>
@@ -43,8 +39,5 @@ public class ItemStore
         }
     }
 
-    public static IComparer<ItemStore> NameComparer
-    {
-        get { return NameComparerInstance; }
-    }
+    public static IComparer<ItemStore> NameComparer { get; } = new nameRelationalComparer();
 }

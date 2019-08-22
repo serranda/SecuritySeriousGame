@@ -154,7 +154,7 @@ public class TutorialGameData
     ////list for remote threat, local threat and detected threat still deploying
     //public List<Threat> remoteThreats = new List<Threat>();
     //public List<Threat> localThreats = new List<Threat>();
-    //public List<Threat> threatDetectedList = new List<Threat>();
+    //public List<Threat> idsList = new List<Threat>();
 
     ////int for previous month check (in order to increase month)
     //public int previousMonth;

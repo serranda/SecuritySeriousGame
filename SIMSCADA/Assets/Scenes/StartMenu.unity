@@ -898,8 +898,7 @@ MonoBehaviour:
     type: 3}
   prefabLoadingScreen: {fileID: 3133021899575046502, guid: 522567dc7490a824195c20dd430464ff,
     type: 3}
-  prefabGraph: {fileID: 7366591691847372462, guid: ca8ae5089a510e44fb25110c6818a54c,
-    type: 3}
+  prefabChart: {fileID: 0}
 --- !u!114 &198637140
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -912,6 +911,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b144ca9004e6e4245ba0804e47db5259, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tutorialManager: {fileID: 0}
 --- !u!114 &198637141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2025,7 +2025,7 @@ GameObject:
   - component: {fileID: 606661705}
   - component: {fileID: 606661704}
   m_Layer: 5
-  m_Name: DB_ButtonLeft
+  m_Name: ButtonLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2061,7 +2061,7 @@ CanvasGroup:
   m_Enabled: 1
   m_Alpha: 0
   m_Interactable: 0
-  m_BlocksRaycasts: 1
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!114 &606661705
 MonoBehaviour:
@@ -5836,7 +5836,7 @@ GameObject:
   - component: {fileID: 1541071177}
   - component: {fileID: 1541071176}
   m_Layer: 5
-  m_Name: DB_ButtonRight
+  m_Name: ButtonRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5872,7 +5872,7 @@ CanvasGroup:
   m_Enabled: 1
   m_Alpha: 0
   m_Interactable: 0
-  m_BlocksRaycasts: 1
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!114 &1541071177
 MonoBehaviour:
@@ -7423,6 +7423,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2de516df7d0195544bba6214507d125c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  text: {fileID: 1923438264}
+  leftButton: {fileID: 606661705}
+  lbGroup: {fileID: 606661704}
+  rightButton: {fileID: 1541071177}
+  rbGroup: {fileID: 1541071176}
 --- !u!1 &1931010191
 GameObject:
   m_ObjectHideFlags: 0

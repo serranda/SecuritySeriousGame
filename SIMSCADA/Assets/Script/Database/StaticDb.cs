@@ -46,26 +46,10 @@ public class StaticDb
     public static string settingName = "gamesettings";
     public static string settingsWebFolderPath = settingFolder;
 
-    //string values for element of dialog box prefab
-    public static string dialogBoxTitle = "DB_Title";
-    public static string dialogBoxMessage = "DB_MessageText";
-    public static string dialogBoxBtnNext = "DB_ButtonNext";
-    public static string dialogBoxBtnBack = "DB_ButtonBack";
-    public static string dialogBoxBtnLeft = "DB_ButtonLeft";
-    public static string dialogBoxBtnRight = "DB_ButtonRight";
-
     //string values for element of tutorial dialog box prefab
     public static string tutorialDialogBoxMessage = "TDB_MessageText";
     public static string tutorialDialogBoxBtn = "TDB_Button";
     public static string tutorialPanel = "TDB_Template";
-
-    //string values for element of pause menu prefab
-    public static string pauseToggle = "FullScreenToggle";
-    public static string pauseSlider = "VolumeSlider";
-    public static string pauseDropdown = "ResolutionDropdown";
-    public static string pauseBtnResume = "Resume";
-    //public static string pauseBtnLesson = "Lessons";
-    public static string pauseBtnExit = "Exit";
 
     //string values for login message files in resources folder
     public static string completeField = "LoginMessages/CompleteField";
@@ -157,20 +141,6 @@ public class StaticDb
 
     //string values for store screen prefab
     public static string storeScreenName = "StoreScreen(Clone)";
-
-    //string values for element of id card prefab
-    public static string idCardName = "NameTMPro";
-    public static string idCardSurname = "SurnameTMPro";
-    public static string idCardJob = "JobTMPro";
-    public static string idCardAttackerNote = "AttackerTMPro";
-    public static string idCardTrusted = "TrustedTMPro";
-    public static string idCardBtnBack = "BackBtn";
-    public static string idCardAttackerLbl = "AttackerLBL";
-    public static string idCardAiImage = "AiImage";
-
-    ////values for marks image on id card
-    //public static string marksPrefix = "Marks";
-    //public static string marksFolder = "Marks";
 
     //string values for save files and folder
     public static string slotName = "slot";
@@ -386,5 +356,16 @@ public class StaticDb
         employeeCourse,
         idsClean,
         timeEvent
+    }
+
+    public enum ThreatAffinity
+    {
+        dos,            //remote simple
+        phishing,       //remote simple
+        replay,         //remote complex
+        mitm,           //hybrid simple
+        stuxnet,        //hybrid complex
+        dragonfly,      //hybrid complex
+        malware        //local simple
     }
 }

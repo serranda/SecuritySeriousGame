@@ -67,4 +67,12 @@ public class UserActionManager : MonoBehaviour
 
         }
     }
+
+    public void RegisterItemPurchase(ItemStore itemStore, StaticDb.ThreatAttack monthlyThreat)
+    {
+        if(itemStore.threatAffinity != monthlyThreat.ToString())
+            Debug.Log("IDIOT");
+        else
+            Debug.Log("GOOD");
+    }
 }
