@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 [System.Serializable]
 public class Threat
@@ -41,5 +42,37 @@ public class Threat
         return
             $"Id: {id}, ThreatType: {threatType}, DeployTime: {deployTime}, ThreatAttacker: {threatAttacker}, ThreatDanger: {threatDanger}, " +
             $"ThreatAttack: {threatAttack}, SerializableAiController: {aiController}, MoneyLossPerMinute: {moneyLossPerMinute}";
+    }
+
+    public static Threat GetThreatFromThreatAttack(StaticDb.ThreatAttack attack)
+    {
+        StaticDb.ThreatType type;
+        switch (attack)
+        {
+            case StaticDb.ThreatAttack.dos:
+            case StaticDb.ThreatAttack.phishing:
+            case StaticDb.ThreatAttack.replay:
+                type = StaticDb.ThreatType.remote;
+                break;
+            case StaticDb.ThreatAttack.malware:
+            case StaticDb.ThreatAttack.createRemote:
+                type = StaticDb.ThreatType.local;
+                break;
+            case StaticDb.ThreatAttack.mitm:
+            case StaticDb.ThreatAttack.stuxnet:
+            case StaticDb.ThreatAttack.dragonfly:
+                type = StaticDb.ThreatType.hybrid;
+                break;
+            case StaticDb.ThreatAttack.fakeLocal:
+                type = StaticDb.ThreatType.fakeLocal;
+                break;
+            case StaticDb.ThreatAttack.timeEvent:
+                type = StaticDb.ThreatType.timeEvent;
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(attack), attack, null);
+        }
+
+        return new Threat(-1, type, -1, StaticDb.ThreatAttacker.timeEvent, StaticDb.ThreatDanger.timeEvent, attack, null, 0);
     }
 }

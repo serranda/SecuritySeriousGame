@@ -230,6 +230,6 @@ public class ThreatChartManager : MonoBehaviour
             default:
                 throw new ArgumentOutOfRangeException();
         }
-        Debug.Log("THREAT DATA GET");
+        ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.GameEvent, "THREAT " + threat.threatAttack.ToString().ToUpper() + " MANAGED AFTER " + manageTime + " SECONDS");
     }
 }

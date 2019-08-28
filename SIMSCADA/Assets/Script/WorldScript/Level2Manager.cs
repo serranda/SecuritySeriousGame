@@ -315,9 +315,11 @@ public class Level2Manager : MonoBehaviour, ILevelManager
         do
         {
             attack = (StaticDb.ThreatAttack)Random.Range(0, 8);
-        } while (gameData.monthlyThreat == attack);
+        } while (gameData.monthlyThreat.threatAttack == attack);
 
-        gameData.monthlyThreat = attack;
+        Threat generalMonthlyThreat = Threat.GetThreatFromThreatAttack(attack);
+
+        gameData.monthlyThreat = generalMonthlyThreat;
 
         if (gameData.researchUpgrade)
             ClassDb.levelMessageManager.StartShowReport(attack.ToString().ToUpper());
@@ -333,7 +335,7 @@ public class Level2Manager : MonoBehaviour, ILevelManager
         List<StaticDb.ThreatAttack> keys = gameData.weights.Keys.ToList();
         foreach (StaticDb.ThreatAttack key in keys)
         {
-            if (key == gameData.monthlyThreat)
+            if (key == gameData.monthlyThreat.threatAttack)
             {
                 gameData.weights[key] = 0.65f;
             }

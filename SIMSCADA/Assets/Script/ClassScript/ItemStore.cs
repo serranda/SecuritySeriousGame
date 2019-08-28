@@ -20,7 +20,7 @@ public class ItemStore
     public int effect;
     public int currentLevel;
     public GameObject itemObject;
-    public string threatAffinity;
+    public List<string> threatAffinity;
 
     public override string ToString()
     {

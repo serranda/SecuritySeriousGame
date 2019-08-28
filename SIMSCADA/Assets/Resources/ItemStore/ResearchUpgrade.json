@@ -6,5 +6,6 @@
 	"finalLevel": 1,
 	"effect" : 23,
 	"currentLevel" :  0,
-	"itemObject" :  {}
+	"itemObject" :  {},
+	"threatAffinity" : ["all"]
 }

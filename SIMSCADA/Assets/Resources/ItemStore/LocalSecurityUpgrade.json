@@ -1,10 +1,11 @@
 {
 	"name": "LOCAL SECURITY UPGRADE",
-	"descriptionPath": "LoclSecurityUpgradeBody",
+	"descriptionPath": "LocalSecurityUpgradeBody",
 	"imageName": "",
 	"price": 550,
 	"finalLevel": 4,
 	"effect" : 18,
 	"currentLevel" :  0,
-	"itemObject" :  {}
+	"itemObject" :  {},
+	"threatAffinity" : ["local", "createRemote"]
 }

@@ -14,7 +14,7 @@ public class StaticDb
     public static string panelTimeFormat = "dd/MM/yyyy hh:mm:ss";
 
     //string values for php script and server folder
-    public static string serverAddressEditor = "http://192.168.1.110/SIMSCADA";
+    public static string serverAddressEditor = "http://192.168.1.111/SIMSCADA";
     //public static string serverAddress = Application.absoluteURL.TrimEnd('/');
     public static string phpFolder = "PHP";
     public static string mainDataFolder = "Data";
@@ -224,6 +224,7 @@ public class StaticDb
     {
         local,
         remote,
+        hybrid,
         fakeLocal,
         timeEvent
     }
@@ -366,6 +367,9 @@ public class StaticDb
         mitm,           //hybrid simple
         stuxnet,        //hybrid complex
         dragonfly,      //hybrid complex
-        malware        //local simple
+        malware,        //local simple
+        remote,
+        local,
+        all
     }
 }

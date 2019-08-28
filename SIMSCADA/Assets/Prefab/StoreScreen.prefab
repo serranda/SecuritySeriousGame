@@ -125,7 +125,7 @@ GameObject:
   - component: {fileID: 4705983048905545422}
   - component: {fileID: 8537157616539134614}
   m_Layer: 5
-  m_Name: DB_ButtonLeft
+  m_Name: ButtonLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -446,7 +446,7 @@ GameObject:
   - component: {fileID: 7997993842462990846}
   - component: {fileID: 7937743124694625428}
   m_Layer: 5
-  m_Name: DB_ButtonRight
+  m_Name: ButtonRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -757,15 +757,6 @@ MonoBehaviour:
   itemButtonPrefab: {fileID: 8961472927175004416, guid: 5907734ffb617fe4f9a1247c3e22c80f,
     type: 3}
   purchaseButton: {fileID: 5684233921370717966}
-  itemStoreSelected:
-    name: 
-    descriptionPath: 
-    imageName: 
-    price: 0
-    finalLevel: 0
-    effect: 0
-    currentLevel: 0
-    itemObject: {fileID: 0}
 --- !u!1 &3906839603495049287
 GameObject:
   m_ObjectHideFlags: 0
@@ -1312,6 +1303,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2de516df7d0195544bba6214507d125c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  text: {fileID: 8388634892564305654}
+  leftButton: {fileID: 4705983048905545422}
+  lbGroup: {fileID: 8537157616539134614}
+  rightButton: {fileID: 7997993842462990846}
+  rbGroup: {fileID: 7937743124694625428}
 --- !u!1 &4624544903118672181
 GameObject:
   m_ObjectHideFlags: 0
@@ -1538,7 +1534,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 3695976762272943364}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.99999994
+  m_Size: 0.99949515
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1771,7 +1767,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000061035156}
+  m_AnchoredPosition: {x: 0, y: 0.43927002}
   m_SizeDelta: {x: 892, y: 870.14}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &9079910778973004989

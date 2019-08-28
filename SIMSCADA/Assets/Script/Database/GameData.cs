@@ -121,7 +121,7 @@ public class GameData
     public string lastFemaleSpriteNumber;
 
     //value for monthly threat tendencies 
-    public StaticDb.ThreatAttack monthlyThreat;
+    public Threat monthlyThreat;
 
     public ThreatAttackFloatDictionary weights = new ThreatAttackFloatDictionary
     {

@@ -305,16 +305,19 @@ public class Level1Manager : MonoBehaviour, ILevelManager
     public void SetMonthlyThreatAttack()
     {
         StaticDb.ThreatAttack attack;
+
         do
         {
             attack = (StaticDb.ThreatAttack) Random.Range(0, 8);
-        } while (gameData.monthlyThreat == attack ||
+        } while (gameData.monthlyThreat.threatAttack == attack ||
                  attack == StaticDb.ThreatAttack.replay ||
                  attack == StaticDb.ThreatAttack.stuxnet ||
                  attack == StaticDb.ThreatAttack.dragonfly ||
                  attack == StaticDb.ThreatAttack.createRemote);
 
-        gameData.monthlyThreat = attack;
+        Threat generalMonthlyThreat = Threat.GetThreatFromThreatAttack(attack);
+
+        gameData.monthlyThreat = generalMonthlyThreat;
 
         if(gameData.researchUpgrade)
             ClassDb.levelMessageManager.StartShowReport(attack.ToString().ToUpper());
@@ -330,7 +333,7 @@ public class Level1Manager : MonoBehaviour, ILevelManager
         List<StaticDb.ThreatAttack> keys = gameData.weights.Keys.ToList();
         foreach (StaticDb.ThreatAttack key in keys)
         {
-            if (key == gameData.monthlyThreat)
+            if (key == gameData.monthlyThreat.threatAttack)
             {
                 gameData.weights[key] = 0.65f;
             }
@@ -516,6 +519,10 @@ public class Level1Manager : MonoBehaviour, ILevelManager
             //SET FLAGS TO INFORM ABOUT DEPLOYED THREAT
             gameData.hasThreatDeployed = true;
             gameData.lastThreatDeployed = threat;
+
+            //WRITE LOG
+            ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.GameEvent, threat.threatAttack.ToString().ToUpper() + " DEPLOYED");
+
 
             //Set flag to start evaluate threat management result
             gameData.hasThreatManaged = false;

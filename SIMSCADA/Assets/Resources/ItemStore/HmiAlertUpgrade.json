@@ -6,5 +6,6 @@
 	"finalLevel": 4,
 	"effect" : 13,
 	"currentLevel" :  0,
-	"itemObject" :  {}
+	"itemObject" :  {},
+	"threatAffinity" : ["replay"]
 }

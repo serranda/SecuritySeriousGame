@@ -307,7 +307,7 @@ public class StoreManager : MonoBehaviour
                 manager.GetGameData().defenseDos += 15;
                 break;
             case 12:
-                //PURCHASED BLACKLIST SERVER; INCREASING SUCCESS AGAINST PHISHING MAIL DAN DRAGONFLY
+                //PURCHASED BLACKLIST SERVER; INCREASING SUCCESS AGAINST PHISHING MAIL AND DRAGONFLY
                 manager.GetGameData().defensePhishing += 20;
                 manager.GetGameData().defenseDragonfly += 2;
                 break;
@@ -362,7 +362,7 @@ public class StoreManager : MonoBehaviour
                 throw new ArgumentOutOfRangeException();
         }
         //TODO GET DATA ABOUT PURCHASE
-        //ClassDb.threatChartManager.GetUpgradeData(itemStore, DateTime.Now);
+        ClassDb.userActionManager.RegisterItemPurchase(itemStore, manager.GetGameData().monthlyThreat);
 
     }
 

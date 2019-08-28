@@ -57,22 +57,65 @@ public class UserActionManager : MonoBehaviour
         {
             if (action.solution == threatSolution)
             {
-                Debug.Log("CORRECT ACTION");
+                ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.GameEvent, "CORRECT ACTION");
             }
             else
             {
-                Debug.Log("WRONG ACTION");
+                ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.GameEvent, "WRONG ACTION");
             }
-
-
         }
     }
 
-    public void RegisterItemPurchase(ItemStore itemStore, StaticDb.ThreatAttack monthlyThreat)
+    public void RegisterItemPurchase(ItemStore itemStore, Threat monthlyThreat)
     {
-        if(itemStore.threatAffinity != monthlyThreat.ToString())
-            Debug.Log("IDIOT");
+        int affinityPoint = 0;
+
+        foreach (string affinity in itemStore.threatAffinity)
+        {
+            if (affinity == StaticDb.ThreatAffinity.all.ToString())
+            {
+                affinityPoint++;
+                continue;
+            }
+
+            if (monthlyThreat.threatType == StaticDb.ThreatType.remote ||
+                 monthlyThreat.threatType == StaticDb.ThreatType.hybrid)
+            {
+                if (affinity == StaticDb.ThreatAffinity.remote.ToString())
+                {
+                    affinityPoint++;
+                    continue;
+                }
+            }
+
+            if (monthlyThreat.threatType == StaticDb.ThreatType.local ||
+                 monthlyThreat.threatType == StaticDb.ThreatType.hybrid)
+            {
+                if (affinity == StaticDb.ThreatAffinity.local.ToString())
+                {
+                    affinityPoint++;
+                    continue;
+                }
+            }
+
+            if (affinity == monthlyThreat.threatAttack.ToString())
+                affinityPoint++;
+        }
+
+        Debug.Log(affinityPoint);
+
+        if (affinityPoint == itemStore.threatAffinity.Count)
+        {
+            ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.GameEvent, itemStore.name.ToUpper() + " PURCHASED; PERFECT PURCHASE");
+        }
+        else if (affinityPoint == 0)
+        {
+            ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.GameEvent, itemStore.name.ToUpper() + " PURCHASED; USELESS PURCHASE");
+        }
         else
-            Debug.Log("GOOD");
+        {
+            ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.GameEvent, itemStore.name.ToUpper() + " PURCHASED; GOOD PURCHASE");
+        }
+
     }
 }
