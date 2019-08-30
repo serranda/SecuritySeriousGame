@@ -8,16 +8,16 @@ using UnityEngine.UI;
 
 public class SecurityManager : MonoBehaviour
 {
-    private Toggle strictToggle;
-    private Toggle neutralToggle;
-    private Toggle looseToggle;
+    [SerializeField] private Toggle strictToggle;
+    [SerializeField] private Toggle neutralToggle;
+    [SerializeField] private Toggle looseToggle;
     
     public Toggle activeToggle;
 
-    private Button backBtn;
+    [SerializeField] private Button backBtn;
 
-    private SecurityListener securityListener;
-    private TutorialSecurityListener tutorialSecurityListener;
+    [SerializeField] private SecurityListener securityListener;
+    [SerializeField] private TutorialSecurityListener tutorialSecurityListener;
 
     private ILevelManager manager;
 
@@ -25,14 +25,6 @@ public class SecurityManager : MonoBehaviour
     {
         manager = SetLevelManager();
 
-        securityListener = FindObjectOfType<SecurityListener>();
-        tutorialSecurityListener = FindObjectOfType<TutorialSecurityListener>();
-
-        strictToggle = GameObject.Find(StaticDb.strictToggle).GetComponent<Toggle>();
-        neutralToggle = GameObject.Find(StaticDb.mediumToggle).GetComponent<Toggle>();
-        looseToggle = GameObject.Find(StaticDb.looseToggle).GetComponent<Toggle>();
-
-        backBtn = GameObject.Find("BackBtn").GetComponent<Button>();
         backBtn.onClick.RemoveAllListeners();
         backBtn.onClick.AddListener(delegate
         {
@@ -77,6 +69,9 @@ public class SecurityManager : MonoBehaviour
             default:
                 throw new ArgumentOutOfRangeException();
         }
+
+        //WRITE LOG
+        ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.UserEvent, "SET SECURITY LEVEL " + manager.GetGameData().serverSecurity.ToString().ToUpper());
 
         activeToggle.isOn = true;
     }

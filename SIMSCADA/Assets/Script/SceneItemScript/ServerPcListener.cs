@@ -276,6 +276,9 @@ public class ServerPcListener : MonoBehaviour
 
     private IEnumerator AntiMalwareScan(TimeEvent progressEvent, InteractiveSprite sprite)
     {
+        //WRITE LOG
+        ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.UserEvent, "STARTED MALWARE SCAN");
+
         yield return new WaitWhile(() => manager.GetGameData().timeEventList.Contains(progressEvent));
 
         sprite.SetInteraction(true);
@@ -333,6 +336,9 @@ public class ServerPcListener : MonoBehaviour
 
     private IEnumerator IdsClean(TimeEvent progressEvent)
     {
+        //WRITE LOG
+        ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.UserEvent, "STARTED IDS CLEAN");
+
         yield return new WaitWhile(() => manager.GetGameData().timeEventList.Contains(progressEvent));
 
         interactiveSprite.SetInteraction(true);
@@ -370,6 +376,9 @@ public class ServerPcListener : MonoBehaviour
 
     private IEnumerator RebootServer(TimeEvent progressEvent)
     {
+        //WRITE LOG
+        ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.UserEvent, "STARTED SERVER REBOOT");
+
         yield return new WaitWhile(() => manager.GetGameData().timeEventList.Contains(progressEvent));
 
         interactiveSprite.SetInteraction(true);
@@ -481,6 +490,9 @@ public class ServerPcListener : MonoBehaviour
 
     private IEnumerator CheckNetworkCfg(TimeEvent progressEvent, InteractiveSprite sprite)
     {
+        //WRITE LOG
+        ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.UserEvent, "STARTED CHECK NETWORK CONFIGURATION");
+
         yield return new WaitWhile(() => manager.GetGameData().timeEventList.Contains(progressEvent));
 
         sprite.SetInteraction(true);

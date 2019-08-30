@@ -118,6 +118,9 @@ public class TelephoneListener : MonoBehaviour
 
     private IEnumerator GetMoney(TimeEvent progressEvent)
     {
+        //WRITE LOG
+        ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.UserEvent, "STARTED MONEY REQUEST");
+
         yield return new WaitWhile(() => manager.GetGameData().timeEventList.Contains(progressEvent));
 
         int successRate = Random.Range(0, 1);
@@ -127,11 +130,17 @@ public class TelephoneListener : MonoBehaviour
             float deltaMoney = Random.Range(0f, 5f) * manager.GetGameData().money / 100;
             manager.GetGameData().money += deltaMoney;
             ClassDb.levelMessageManager.StartMoneyEarnTrue(deltaMoney);
+
+            //WRITE LOG
+            ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.GameEvent, "MONEY REQUEST FINE");
         }
         else
         {
             //Debug.Log("NO MONEY");
             ClassDb.levelMessageManager.StartMoneyEarnFalse();
+
+            //WRITE LOG
+            ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.GameEvent, "MONEY REQUEST NOT FINE");
         }
 
         StartCoolDown();
@@ -159,6 +168,9 @@ public class TelephoneListener : MonoBehaviour
 
     private IEnumerator CoolDown(TimeEvent progressEvent)
     {
+        //WRITE LOG
+        ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.GameEvent, "STARTED MONEY REQUEST COOL DOWN");
+
         yield return new WaitWhile(() => manager.GetGameData().timeEventList.Contains(progressEvent));
 
         interactiveSprite.SetInteraction(true);
@@ -193,6 +205,9 @@ public class TelephoneListener : MonoBehaviour
 
     private IEnumerator CheckPlant(TimeEvent progressEvent)
     {
+        //WRITE LOG
+        ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.UserEvent, "STARTED CHECK PLANT");
+
         yield return new WaitWhile(() => manager.GetGameData().timeEventList.Contains(progressEvent));
 
         interactiveSprite.SetInteraction(true);

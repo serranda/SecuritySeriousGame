@@ -442,11 +442,15 @@ public class RoomPcListener : MonoBehaviour
         {
             ClassDb.prefabManager.ReturnPrefab(scadaScreen.gameObject, PrefabManager.scadaIndex);
             manager.GetGameData().scadaEnabled = false;
+            //WRITE LOG
+            ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.UserEvent, "SCADA SCREEN CLOSED");
         }
         else
         {
             scadaScreen = ClassDb.prefabManager.GetPrefab(ClassDb.prefabManager.prefabScadaScreen.gameObject, PrefabManager.scadaIndex).GetComponent<Canvas>();
             manager.GetGameData().scadaEnabled = true;
+            //WRITE LOG
+            ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.UserEvent, "SCADA SCREEN OPENED");
         }
     }
 
@@ -458,11 +462,15 @@ public class RoomPcListener : MonoBehaviour
         {
             ClassDb.prefabManager.ReturnPrefab(storeScreen.gameObject, PrefabManager.storeIndex);
             manager.GetGameData().storeEnabled = false;
+            //WRITE LOG
+            ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.UserEvent, "STORE SCREEN CLOSED");
         }
         else
         {
             storeScreen = ClassDb.prefabManager.GetPrefab(ClassDb.prefabManager.prefabStoreScreen.gameObject, PrefabManager.storeIndex).GetComponent<Canvas>();
             manager.GetGameData().storeEnabled = true;
+            //WRITE LOG
+            ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.UserEvent, "STORE SCREEN OPENED");
         }
     }
 
@@ -489,12 +497,13 @@ public class RoomPcListener : MonoBehaviour
 
     private IEnumerator PointOutLocalThreat(TimeEvent progressEvent)
     {
+        //WRITE LOG
+        ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.UserEvent, "STARTED POINT OUT LOCAL THREAT");
+
         yield return new WaitWhile(() => manager.GetGameData().timeEventList.Contains(progressEvent));
 
         foreach (Threat threat in manager.GetGameData().localThreats.Where(x => x.threatType == StaticDb.ThreatType.local))
         {
-
-
             threat.aiController.PointOutThreat();
         }
 

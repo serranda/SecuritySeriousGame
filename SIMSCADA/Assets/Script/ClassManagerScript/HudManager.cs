@@ -8,21 +8,19 @@ using UnityEngine.UI;
 
 public class HudManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    private TextMeshProUGUI date;
-    private TextMeshProUGUI money;
-    private TextMeshProUGUI successfulThreat;
-    private TextMeshProUGUI totalThreat;
-    private TextMeshProUGUI trustedEmployees;
-    private TextMeshProUGUI totalEmployees;
-    private TextMeshProUGUI reputation;
-    private TextMeshProUGUI lastThreatAttack;
+    [SerializeField] private TextMeshProUGUI date;
+    [SerializeField] private TextMeshProUGUI money;
+    [SerializeField] private TextMeshProUGUI successfulThreat;
+    [SerializeField] private TextMeshProUGUI totalThreat;
+    [SerializeField] private TextMeshProUGUI trustedEmployees;
+    [SerializeField] private TextMeshProUGUI totalEmployees;
+    [SerializeField] private TextMeshProUGUI reputation;
+    [SerializeField] private TextMeshProUGUI lastThreatAttack;
 
-    public static bool cursorOverHud;
-
-    private Toggle toggleX1;
-    private Toggle toggleX2;
-    private Toggle toggleX5;
-    private Toggle toggleX10;
+    [SerializeField] private Toggle toggleX1;
+    [SerializeField] private Toggle toggleX2;
+    [SerializeField] private Toggle toggleX5;
+    [SerializeField] private Toggle toggleX10;
 
     public Toggle activeToggle;
 
@@ -34,19 +32,19 @@ public class HudManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         manager = SetLevelManager();
 
-        date = GameObject.Find("Date").GetComponent<TextMeshProUGUI>();
-        money = GameObject.Find("MoneyInt").GetComponent<TextMeshProUGUI>();
-        successfulThreat = GameObject.Find("SuccessfulThreat").GetComponent<TextMeshProUGUI>();
-        totalThreat = GameObject.Find("TotalThreat").GetComponent<TextMeshProUGUI>();
-        trustedEmployees = GameObject.Find("TrustedEmployees").GetComponent<TextMeshProUGUI>();
-        totalEmployees = GameObject.Find("TotalEmployees").GetComponent<TextMeshProUGUI>();
-        reputation = GameObject.Find("Reputation").GetComponent<TextMeshProUGUI>();
-        lastThreatAttack = GameObject.Find("LastThreatType").GetComponent<TextMeshProUGUI>();
+        //date = GameObject.Find("Date").GetComponent<TextMeshProUGUI>();
+        //money = GameObject.Find("MoneyInt").GetComponent<TextMeshProUGUI>();
+        //successfulThreat = GameObject.Find("SuccessfulThreat").GetComponent<TextMeshProUGUI>();
+        //totalThreat = GameObject.Find("TotalThreat").GetComponent<TextMeshProUGUI>();
+        //trustedEmployees = GameObject.Find("TrustedEmployees").GetComponent<TextMeshProUGUI>();
+        //totalEmployees = GameObject.Find("TotalEmployees").GetComponent<TextMeshProUGUI>();
+        //reputation = GameObject.Find("Reputation").GetComponent<TextMeshProUGUI>();
+        //lastThreatAttack = GameObject.Find("LastThreatType").GetComponent<TextMeshProUGUI>();
 
-        toggleX1 = GameObject.Find(StaticDb.toggleX1).GetComponent<Toggle>();
-        toggleX2 = GameObject.Find(StaticDb.toggleX2).GetComponent<Toggle>();
-        toggleX5 = GameObject.Find(StaticDb.toggleX5).GetComponent<Toggle>();
-        toggleX10 = GameObject.Find(StaticDb.toggleX10).GetComponent<Toggle>();
+        //toggleX1 = GameObject.Find(StaticDb.toggleX1).GetComponent<Toggle>();
+        //toggleX2 = GameObject.Find(StaticDb.toggleX2).GetComponent<Toggle>();
+        //toggleX5 = GameObject.Find(StaticDb.toggleX5).GetComponent<Toggle>();
+        //toggleX10 = GameObject.Find(StaticDb.toggleX10).GetComponent<Toggle>();
 
         SetTogglePressed();
     }
@@ -195,6 +193,9 @@ public class HudManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+
+            //WRITE LOG
+            ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.UserEvent, "TIME SPEED: " + manager.GetGameData().simulationSpeedMultiplier);
         }
         else
         {
@@ -219,6 +220,8 @@ public class HudManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                     throw new ArgumentOutOfRangeException();
             }
         }
+
+
 
     }
 }

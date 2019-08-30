@@ -137,6 +137,9 @@ public class AiController : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
         spriteToAnimate = prSpriteName;
         ToggleMenu();
         manager.GetGameData().pressedSprite = gameObject.name;
+
+        //WRITE LOG
+        ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.UserEvent, gameObject.name.ToUpper() + " CLICKED");
     }
 
     public void OnPointerEnter(PointerEventData eventData)

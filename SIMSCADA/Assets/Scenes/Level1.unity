@@ -8565,6 +8565,7 @@ GameObject:
   - component: {fileID: 921579344}
   - component: {fileID: 921579332}
   - component: {fileID: 921579333}
+  - component: {fileID: 921579351}
   m_Layer: 5
   m_Name: Level1Script
   m_TagString: Untagged
@@ -8692,7 +8693,50 @@ MonoBehaviour:
     serverSecurity: 1
     lastMaleSpriteNumber: 
     lastFemaleSpriteNumber: 
-    monthlyThreat: 0
+    monthlyThreat:
+      id: 0
+      threatType: 0
+      deployTime: 0
+      threatAttacker: 0
+      threatDanger: 0
+      threatAttack: 0
+      aiController: {fileID: 0}
+      serializableAiController:
+        offsetDraw: {x: 0, y: 0, z: 0}
+        scaleDraw: {x: 0, y: 0, z: 0}
+        isAttacker: 0
+        destroy: 0
+        idChecked: 0
+        idScanned: 0
+        isTrusted: 0
+        isWaiting: 0
+        isSuspected: 0
+        isAiPathValuesSet: 0
+        spriteToAnimate: 
+        nSpriteName: 
+        hlSpriteName: 
+        prSpriteName: 
+        spriteNumber: 
+        idSpriteName: 
+        dangerResistance: 0
+        aiId: 0
+        aiName: 
+        aiSurname: 
+        aiJob: 
+        aiGender: 
+        path: []
+        pathUpdated: 0
+        pathfinderChanged: 0
+        wrongDestinationCounter: 0
+        radiusBase: 0
+        onClickAi: 0
+        aiStartCellPos: {x: 0, y: 0, z: 0}
+        aiCellPos: {x: 0, y: 0, z: 0}
+        aiDestCellPos: {x: 0, y: 0, z: 0}
+        aiSpeed: 0
+        aiObjective: {x: 0, y: 0, z: 0}
+        timer: 0
+      moneyLossPerMinute: 0
     weights:
       keys: 0000000001000000020000000300000004000000050000000600000007000000
       values:
@@ -8711,7 +8755,7 @@ MonoBehaviour:
     deployedThreatList: []
     remoteThreats: []
     localThreats: []
-    threatDetectedList: []
+    idsList: []
     previousMonth: 0
     moneyLossList:
       keys: 00000000010000000200000003000000040000000500000006000000
@@ -8753,6 +8797,7 @@ MonoBehaviour:
       effect: 0
       currentLevel: 0
       itemObject: {fileID: 0}
+      threatAffinity: []
     lastThreatDeployed:
       id: 0
       threatType: 0
@@ -9152,6 +9197,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2ba324df0e1ad541b1ffef6ef1aec19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &921579351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 921579329}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5ae57dcdab081d4b8e9bf23f112b170, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &980743382
 GameObject:
   m_ObjectHideFlags: 0
@@ -9225,7 +9282,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactiveSprite: {fileID: 0}
-  threatDetectedList: []
 --- !u!114 &980743386
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14342,7 +14398,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactiveSprite: {fileID: 0}
-  threatDetectedList: []
 --- !u!1 &1676645054
 GameObject:
   m_ObjectHideFlags: 0

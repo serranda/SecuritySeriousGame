@@ -1194,12 +1194,12 @@ public class Level2Manager : MonoBehaviour, ILevelManager
             GameObject.Find(data.pressedSprite).GetComponent<InteractiveSprite>().ToggleMenu();
         }
 
-        //IDCARD
-        if (data.idCardEnabled)
-        {
-            data.idCardEnabled = false;
-            FindObjectOfType<IdCardManager>().ToggleIdCard();
-        }
+        ////IDCARD
+        //if (data.idCardEnabled)
+        //{
+        //    data.idCardEnabled = false;
+        //    FindObjectOfType<IdCardManager>().ToggleIdCard();
+        //}
 
         //NOTEBOOK
         if (data.noteBookEnabled)

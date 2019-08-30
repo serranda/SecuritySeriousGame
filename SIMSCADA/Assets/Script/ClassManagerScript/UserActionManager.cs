@@ -55,14 +55,8 @@ public class UserActionManager : MonoBehaviour
 
         foreach (StaticDb.ThreatSolution threatSolution in threatSolutions)
         {
-            if (action.solution == threatSolution)
-            {
-                ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.GameEvent, "CORRECT ACTION");
-            }
-            else
-            {
-                ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.GameEvent, "WRONG ACTION");
-            }
+            ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.UserEvent,
+                action.solution == threatSolution ? "CORRECT ACTION" : "WRONG ACTION");
         }
     }
 
@@ -106,16 +100,50 @@ public class UserActionManager : MonoBehaviour
 
         if (affinityPoint == itemStore.threatAffinity.Count)
         {
-            ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.GameEvent, itemStore.name.ToUpper() + " PURCHASED; PERFECT PURCHASE");
+            ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.UserEvent, itemStore.name.ToUpper() + " PURCHASED; PERFECT PURCHASE");
         }
         else if (affinityPoint == 0)
         {
-            ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.GameEvent, itemStore.name.ToUpper() + " PURCHASED; USELESS PURCHASE");
+            ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.UserEvent, itemStore.name.ToUpper() + " PURCHASED; USELESS PURCHASE");
         }
         else
         {
-            ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.GameEvent, itemStore.name.ToUpper() + " PURCHASED; GOOD PURCHASE");
+            ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.UserEvent, itemStore.name.ToUpper() + " PURCHASED; GOOD PURCHASE");
         }
 
+    }
+
+    public void RegisterDefenseActivation(string defense, bool active, Threat monthlyThreat)
+    {
+         switch (defense)
+         {
+            case "firewall":
+            case "ids":
+                if (monthlyThreat.threatType == StaticDb.ThreatType.remote)
+                {
+                    ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.UserEvent,
+                        active ? "PERFECT ACTION" : "WRONG ACTION");
+                }
+                else
+                {
+                    ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.UserEvent,
+                        "GOOD ACTION");
+                }
+                break;
+            case "local":
+                if (monthlyThreat.threatType == StaticDb.ThreatType.local)
+                {
+                    ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.UserEvent,
+                        active ? "PERFECT ACTION" : "WRONG ACTION");
+                }
+                else
+                {
+                    ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.UserEvent,
+                        "GOOD ACTION");
+                }
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+         }
     }
 }

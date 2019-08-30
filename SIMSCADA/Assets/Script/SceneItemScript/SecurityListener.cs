@@ -33,7 +33,6 @@ public class SecurityListener : MonoBehaviour
 
     public void SetSecurityListeners()
     {
-
         List<Button> buttons = interactiveSprite.actionButtonManager.GetActiveCanvasGroup(1);
 
         buttons[0].GetComponentInChildren<TextMeshProUGUI>().text = "Imposta accesso";
@@ -56,11 +55,17 @@ public class SecurityListener : MonoBehaviour
         {
             ClassDb.prefabManager.ReturnPrefab(securityScreen.gameObject, PrefabManager.securityIndex);
             manager.GetGameData().securityScreenEnabled = false;
+
+            //WRITE LOG
+            ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.UserEvent, "SECURITY SCREEN CLOSED");
         }
         else
         {
             securityScreen = ClassDb.prefabManager.GetPrefab(ClassDb.prefabManager.prefabSecurityScreen.gameObject, PrefabManager.securityIndex).GetComponent<Canvas>();
             manager.GetGameData().securityScreenEnabled = true;
+
+            //WRITE LOG
+            ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.UserEvent, "SECURITY SCREEN OPENED");
         }
     }
 }

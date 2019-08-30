@@ -118,8 +118,8 @@ MonoBehaviour:
   jobTmPro: {fileID: 991245327790641585}
   trustedTmPro: {fileID: 6042821328452693033}
   aiImage: {fileID: 2368373524566724579}
-  attackerNote: {fileID: 2483194671024340349}
   attackerLbl: {fileID: 801629741699962954}
+  attackerNote: {fileID: 2483194671024340349}
 --- !u!1 &1147771868836853644
 GameObject:
   m_ObjectHideFlags: 0

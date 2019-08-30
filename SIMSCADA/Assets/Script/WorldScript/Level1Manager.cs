@@ -151,10 +151,16 @@ public class Level1Manager : MonoBehaviour, ILevelManager
         //start and set gui setting parameters
         if (!gameData.firstLaunch && gameData.levelIndex == 1)
         {
+            //WRITE LOG
+            ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.SystemEvent, "LOADING DATA");
+
             RestorePrefabs(gameData);
         }
         else
         {
+            //WRITE LOG
+            ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.SystemEvent, "NEW GAME STARTED");
+
             ClassDb.levelMessageManager.StartWelcome();
 
             //EVENT TO SET A THREAT TENDENCIES; IF RESEARCH REPORT IS ACTIVE DISPLAY MESSAGE 
@@ -278,6 +284,9 @@ public class Level1Manager : MonoBehaviour, ILevelManager
             gameData.isGameWon = true;
             ClassDb.levelMessageManager.StartEndGame();
             StopAllCoroutines();
+
+            //WRITE LOG
+            ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.GameEvent, "GAME WON; LOADING NEXT LEVEL");
         }
 
         if (gameData.lossCounter >= 150)
@@ -285,7 +294,12 @@ public class Level1Manager : MonoBehaviour, ILevelManager
             gameData.isGameWon = false;
             ClassDb.levelMessageManager.StartEndGame();
             StopAllCoroutines();
+
+            //WRITE LOG
+            ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.GameEvent, "GAME LOST; RETURNING TO MAIN MENU");
         }
+
+
     }
 
     public void OnNewMonth()
@@ -322,7 +336,8 @@ public class Level1Manager : MonoBehaviour, ILevelManager
         if(gameData.researchUpgrade)
             ClassDb.levelMessageManager.StartShowReport(attack.ToString().ToUpper());
 
-        Debug.Log(attack);
+        //WRITE LOG
+        ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.GameEvent, "NEW MONTHLY THREAT: " + attack.ToString().ToUpper());
 
         SetRandomizer();
 
@@ -404,6 +419,9 @@ public class Level1Manager : MonoBehaviour, ILevelManager
             default:
                 throw new ArgumentOutOfRangeException();
         }
+
+        //WRITE LOG
+        ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.GameEvent, threat.threatAttack.ToString().ToUpper() + " STARTED");
 
         hudManager.UpdateHud(gameData.money, gameData.successfulThreat,
             gameData.totalThreat, gameData.totalEmployees, gameData.reputation);
@@ -514,7 +532,12 @@ public class Level1Manager : MonoBehaviour, ILevelManager
             //wait for closing dialog box
             yield return new WaitWhile(() => gameData.dialogEnabled);
 
-            if (!deployed) yield break;
+            if (!deployed)
+            {
+                //WRITE LOG
+                ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.GameEvent, threat.threatAttack.ToString().ToUpper() + " STOPPED");
+                yield break;
+            }
 
             //SET FLAGS TO INFORM ABOUT DEPLOYED THREAT
             gameData.hasThreatDeployed = true;
@@ -1037,16 +1060,31 @@ public class Level1Manager : MonoBehaviour, ILevelManager
     public void SetFirewallActive(bool active)
     {
         gameData.isFirewallActive = active;
+        //TODO REGISTER ACTION RELATIVE TO MONTHLY THREAT
+        ClassDb.userActionManager.RegisterDefenseActivation("firewall", active, gameData.monthlyThreat);
+
+        //WRITE LOG
+        ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.UserEvent, "FIREWALL ACTIVE: " + active.ToString().ToUpper());
     }
 
     public void SetRemoteIdsActive(bool active)
     {
         gameData.isRemoteIdsActive = active;
+        //TODO REGISTER ACTION RELATIVE TO MONTHLY THREAT
+        ClassDb.userActionManager.RegisterDefenseActivation("ids", active, gameData.monthlyThreat);
+
+        //WRITE LOG
+        ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.UserEvent, "IDS ACTIVE: " + active.ToString().ToUpper());
     }
 
     public void SetLocalIdsActive(bool active)
     {
         gameData.isLocalIdsActive = active;
+        //TODO REGISTER ACTION RELATIVE TO MONTHLY THREAT
+        ClassDb.userActionManager.RegisterDefenseActivation("local", active, gameData.monthlyThreat);
+
+        //WRITE LOG
+        ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.UserEvent, "LOCAL SECURITY ACTIVE: " + active.ToString().ToUpper());
     }
 
     public GameData GetGameData()
@@ -1126,12 +1164,12 @@ public class Level1Manager : MonoBehaviour, ILevelManager
             GameObject.Find(data.pressedSprite).GetComponent<InteractiveSprite>().ToggleMenu();
         }
 
-        //IDCARD
-        if (data.idCardEnabled)
-        {
-            data.idCardEnabled = false;
-            FindObjectOfType<IdCardManager>().ToggleIdCard();
-        }
+        ////IDCARD
+        //if (data.idCardEnabled)
+        //{
+        //    data.idCardEnabled = false;
+        //    FindObjectOfType<IdCardManager>().ToggleIdCard();
+        //}
 
         //NOTEBOOK
         if (data.noteBookEnabled)
@@ -1147,6 +1185,9 @@ public class Level1Manager : MonoBehaviour, ILevelManager
         CinemachineVirtualCamera virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
         //Debug.Log(data.cameraZoom);
         virtualCamera.m_Lens.OrthographicSize = data.cameraZoom;
+
+        //WRITE LOG
+        ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.GameEvent, "DATA LOADED");
 
     }
 }

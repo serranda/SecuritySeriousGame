@@ -71,10 +71,13 @@ public class AiListener : MonoBehaviour
 
     private IEnumerator ShowAiId(TimeEvent progressEvent)
     {
+        //WRITE LOG
+        ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.UserEvent, "CHECK " + aiController.gameObject.name.ToUpper() + " ID");
+
         yield return new WaitWhile(() => manager.GetGameData().timeEventList.Contains(progressEvent));
         yield return new WaitWhile(() => manager.GetGameData().idCardEnabled);
 
-        ClassDb.idCardManager.ToggleIdCard();
+        Canvas idCard = ClassDb.idCardManager.OpenIdCard();
 
         aiController.idChecked = true;
 
@@ -94,7 +97,7 @@ public class AiListener : MonoBehaviour
         }
 
 
-        ClassDb.idCardManager.SetLabels(aiController.aiName, aiController.aiSurname, aiController.aiJob, aiController.isTrusted,
+        idCard.GetComponent<IdCardManager>().SetLabels(aiController.aiName, aiController.aiSurname, aiController.aiJob, aiController.isTrusted,
             aiController.isAttacker, aiController.idSpriteName);
 
         aiController.SetInteraction(true);
@@ -104,6 +107,9 @@ public class AiListener : MonoBehaviour
     {
         aiController.onClickAi = false;
         ClassDb.spawnCharacter.RemoveAi(aiGameObject);
+
+        //WRITE LOG
+        ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.UserEvent, aiController.gameObject.name.ToUpper() + " FIRED");
 
         manager.StopLocalThreat(aiController.timeEvent.threat);
         ClassDb.levelMessageManager.StartThreatStopped(aiController.timeEvent.threat);

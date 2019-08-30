@@ -2003,7 +2003,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35768cc4760df974fa89fa6adb32a463, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeToggle: {fileID: 1306524269937491391}
+  date: {fileID: 8449548451094374837}
+  money: {fileID: 1426183434930928524}
+  successfulThreat: {fileID: 584822670475674873}
+  totalThreat: {fileID: 1747507101127018950}
+  trustedEmployees: {fileID: 9192535201126076555}
+  totalEmployees: {fileID: 2342287613985251566}
+  reputation: {fileID: 2435739351069197481}
+  lastThreatAttack: {fileID: 7861069304605650562}
+  toggleX1: {fileID: 341733361941614980}
+  toggleX2: {fileID: 1306524269937491391}
+  toggleX5: {fileID: 5426870212475860503}
+  toggleX10: {fileID: 915496987447322689}
+  activeToggle: {fileID: 341733361941614980}
 --- !u!1 &5164318593779106454
 GameObject:
   m_ObjectHideFlags: 0
@@ -4713,7 +4725,7 @@ GameObject:
   - component: {fileID: 1338545856936668440}
   - component: {fileID: 7861069304605650562}
   m_Layer: 5
-  m_Name: LastThreatType
+  m_Name: LastThreatAttack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

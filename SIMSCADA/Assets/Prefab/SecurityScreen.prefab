@@ -995,8 +995,9 @@ GameObject:
   - component: {fileID: 3855610171553746911}
   - component: {fileID: 3855610171553746908}
   - component: {fileID: 8457044765190839574}
+  - component: {fileID: 8458360002844530917}
   m_Layer: 5
-  m_Name: ServerRoomScreen
+  m_Name: SecurityScreen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1094,7 +1095,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a986dcb3e14fff40bfd39528d94f47f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  strictToggle: {fileID: 3142096555161903431}
+  neutralToggle: {fileID: 4428836253939337664}
+  looseToggle: {fileID: 1551965817304845153}
   activeToggle: {fileID: 0}
+  backBtn: {fileID: 8790060910456097839}
+  securityListener: {fileID: 8458360002844530917}
+  tutorialSecurityListener: {fileID: 0}
+--- !u!114 &8458360002844530917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3855610171553746909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbed24899be282a4c834fe9268f5c1a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4346457739208387719
 GameObject:
   m_ObjectHideFlags: 0
@@ -1107,7 +1126,6 @@ GameObject:
   - component: {fileID: 8540588331454611157}
   - component: {fileID: 6568190875734703442}
   - component: {fileID: 8790060910456097839}
-  - component: {fileID: 1754700447272309708}
   m_Layer: 5
   m_Name: BackBtn
   m_TagString: Untagged
@@ -1226,18 +1244,6 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &1754700447272309708
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4346457739208387719}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fbed24899be282a4c834fe9268f5c1a9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &5152934721118751128
 GameObject:
   m_ObjectHideFlags: 0

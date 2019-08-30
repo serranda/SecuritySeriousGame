@@ -37,7 +37,7 @@ public class StaticDb
     {
         SystemEvent,
         GameEvent,
-        USerEvent
+        UserEvent
     }
 
     //string values for setting folder

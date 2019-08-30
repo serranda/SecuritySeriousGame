@@ -173,7 +173,7 @@ public class NotebookManager : MonoBehaviour
         manager = SetLevelManager();
         tutorialManager = FindObjectOfType<TutorialManager>();
 
-        //TODO CHECK FOR TUTORIAL
+        //CHECK FOR TUTORIAL
         if (manager != null)
         {
             if (manager.GetGameData().noteBookEnabled)
@@ -183,10 +183,16 @@ public class NotebookManager : MonoBehaviour
                 {
                     ClassDb.prefabManager.ReturnPrefab(lessonButton.gameObject, PrefabManager.notebookButtonIndex);
                 }
+
+                //WRITE LOG
+                ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.UserEvent, "NOTEBOOK CLOSED");
             }
             else
             {
                 noteBook = ClassDb.prefabManager.GetPrefab(ClassDb.prefabManager.prefabNoteBook.gameObject, PrefabManager.noteBookIndex).GetComponent<Canvas>();
+
+                //WRITE LOG
+                ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.UserEvent, "NOTEBOOK OPENED");
             }
 
             if (ClassDb.timeManager)

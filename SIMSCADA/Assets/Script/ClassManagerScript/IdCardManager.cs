@@ -10,7 +10,7 @@ using Random = UnityEngine.Random;
 
 public class IdCardManager : MonoBehaviour
 {
-    private static Canvas idCard;
+    //private static Canvas idCard;
 
     [SerializeField] private Button backBtn;
     [SerializeField] private TextMeshProUGUI nameTmPro;
@@ -31,7 +31,10 @@ public class IdCardManager : MonoBehaviour
         manager.GetGameData().idCardEnabled = true;
 
         backBtn.onClick.RemoveAllListeners();
-        backBtn.onClick.AddListener(ToggleIdCard);
+        backBtn.onClick.AddListener(delegate
+        {
+            CloseIdCard(gameObject.GetComponent<Canvas>());
+        });
 
         if (!manager.GetGameData().idCardUpgraded) return;
 
@@ -55,19 +58,39 @@ public class IdCardManager : MonoBehaviour
         return iManager;
     }
 
-    public void ToggleIdCard()
+    //public void ToggleIdCard()
+    //{
+    //    manager = SetLevelManager();
+
+    //    if (manager.GetGameData().idCardEnabled)
+    //    {
+    //        ClassDb.prefabManager.ReturnPrefab(idCard.gameObject, PrefabManager.icIndex);
+    //        //WRITE LOG
+    //        ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.UserEvent, "ID CLOSED");
+    //    }
+    //    else
+    //    {
+    //        idCard = ClassDb.prefabManager.GetPrefab(ClassDb.prefabManager.prefabIdCard.gameObject, PrefabManager.icIndex).GetComponent<Canvas>();
+    //        //WRITE LOG
+    //        ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.UserEvent, "ID OPENED");
+    //    }
+
+    //}
+
+    public Canvas OpenIdCard()
     {
-        manager = SetLevelManager();
+        Canvas idCard = ClassDb.prefabManager.GetPrefab(ClassDb.prefabManager.prefabIdCard.gameObject, PrefabManager.icIndex).GetComponent<Canvas>();
+        //WRITE LOG
+        ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.UserEvent, "ID OPENED");
 
-        if (manager.GetGameData().idCardEnabled)
-        {
-            ClassDb.prefabManager.ReturnPrefab(idCard.gameObject, PrefabManager.icIndex);
-        }
-        else
-        {
-            idCard = ClassDb.prefabManager.GetPrefab(ClassDb.prefabManager.prefabIdCard.gameObject, PrefabManager.icIndex).GetComponent<Canvas>();
-        }
+        return idCard;
+    }
 
+    public void CloseIdCard(Canvas idCard)
+    {
+        ClassDb.prefabManager.ReturnPrefab(idCard.gameObject, PrefabManager.icIndex);
+        //WRITE LOG
+        ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.UserEvent, "ID CLOSED");
     }
 
     public void SetLabels(string aiName, string aiSurname, string aiJob, bool aiTrusted ,bool aiAttacker, string spriteName)
@@ -76,7 +99,7 @@ public class IdCardManager : MonoBehaviour
 
         string spriteFolder = Path.Combine(StaticDb.rscSpriteFolder, StaticDb.rscAiSpriteFolder);
         
-        aiImage.sprite = Resources.LoadAll<Sprite>(Path.Combine(spriteFolder, spriteName))[0] ;
+        aiImage.sprite = Resources.LoadAll<Sprite>(Path.Combine(spriteFolder, spriteName))[0];
 
         nameTmPro.text = aiName;
 
