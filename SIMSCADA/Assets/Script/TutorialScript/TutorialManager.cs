@@ -95,7 +95,7 @@ public class TutorialManager : MonoBehaviour
             if (tutorialGameData.dialogEnabled)
             {
                 //SHOW MESSAGE TO CLOSE ALL THE DIALOG BOX BEFORE GO TO PAUSE
-                ClassDb.levelMessageManager.StartCloseDialog();
+                ClassDb.levelMessageManager.StartNeedToCloseDialog();
                 return;
             }
             ClassDb.pauseManager.TogglePauseMenu();

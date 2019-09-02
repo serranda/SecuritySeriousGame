@@ -22,6 +22,8 @@ public class Level1Manager : MonoBehaviour, ILevelManager
 
     public GameData gameData = new GameData();
 
+    [SerializeField] private GameSettingManager gameSettingManager;
+
     private void Start()
     {
         starterRoutine = StarterCoroutine();
@@ -37,7 +39,7 @@ public class Level1Manager : MonoBehaviour, ILevelManager
             if (gameData.dialogEnabled)
             {
                 //SHOW MESSAGE TO CLOSE ALL THE DIALOG BOX BEFORE GO TO PAUSE
-                ClassDb.levelMessageManager.StartCloseDialog();
+                ClassDb.levelMessageManager.StartNeedToCloseDialog();
                 return;
             }
 
@@ -46,6 +48,8 @@ public class Level1Manager : MonoBehaviour, ILevelManager
                 return;
             }
             ClassDb.pauseManager.TogglePauseMenu();
+
+            gameSettingManager.StartSaveSettingsWebFile(gameSettingManager.gameSettings);
         }
 
         //DEBUG
@@ -729,7 +733,7 @@ public class Level1Manager : MonoBehaviour, ILevelManager
 
                     gameData.localThreats.Remove(threat);
 
-                    Threat newThreat = ClassDb.threatManager.NewRemoteThreat();
+                    Threat newThreat = ClassDb.threatManager.NewFromCreateRemoteThreat();
 
                     InstantiateNewThreat(newThreat);
                     yield break;
@@ -752,6 +756,13 @@ public class Level1Manager : MonoBehaviour, ILevelManager
 
                 default:
                     throw new ArgumentOutOfRangeException();
+            }
+
+            //check if threat was originated from create remote
+            if (threat.fromCreateRemote)
+            {
+                //show dialog to display lesson about mixed attack
+                ClassDb.levelMessageManager.StartShowLessonFromRemote();
             }
 
             AfterDeployThreat(threat);
@@ -1060,7 +1071,7 @@ public class Level1Manager : MonoBehaviour, ILevelManager
     public void SetFirewallActive(bool active)
     {
         gameData.isFirewallActive = active;
-        //TODO REGISTER ACTION RELATIVE TO MONTHLY THREAT
+        //REGISTER ACTION RELATIVE TO MONTHLY THREAT
         ClassDb.userActionManager.RegisterDefenseActivation("firewall", active, gameData.monthlyThreat);
 
         //WRITE LOG
@@ -1070,7 +1081,7 @@ public class Level1Manager : MonoBehaviour, ILevelManager
     public void SetRemoteIdsActive(bool active)
     {
         gameData.isRemoteIdsActive = active;
-        //TODO REGISTER ACTION RELATIVE TO MONTHLY THREAT
+        //REGISTER ACTION RELATIVE TO MONTHLY THREAT
         ClassDb.userActionManager.RegisterDefenseActivation("ids", active, gameData.monthlyThreat);
 
         //WRITE LOG
@@ -1080,7 +1091,7 @@ public class Level1Manager : MonoBehaviour, ILevelManager
     public void SetLocalIdsActive(bool active)
     {
         gameData.isLocalIdsActive = active;
-        //TODO REGISTER ACTION RELATIVE TO MONTHLY THREAT
+        //REGISTER ACTION RELATIVE TO MONTHLY THREAT
         ClassDb.userActionManager.RegisterDefenseActivation("local", active, gameData.monthlyThreat);
 
         //WRITE LOG
@@ -1163,13 +1174,6 @@ public class Level1Manager : MonoBehaviour, ILevelManager
             data.buttonEnabled = false;
             GameObject.Find(data.pressedSprite).GetComponent<InteractiveSprite>().ToggleMenu();
         }
-
-        ////IDCARD
-        //if (data.idCardEnabled)
-        //{
-        //    data.idCardEnabled = false;
-        //    FindObjectOfType<IdCardManager>().ToggleIdCard();
-        //}
 
         //NOTEBOOK
         if (data.noteBookEnabled)

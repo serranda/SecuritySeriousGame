@@ -14,7 +14,7 @@ public class StaticDb
     public static string panelTimeFormat = "dd/MM/yyyy hh:mm:ss";
 
     //string values for php script and server folder
-    public static string serverAddressEditor = "http://192.168.1.111/SIMSCADA";
+    public static string serverAddressEditor = "http://192.168.1.112/SIMSCADA";
     //public static string serverAddress = Application.absoluteURL.TrimEnd('/');
     public static string phpFolder = "PHP";
     public static string mainDataFolder = "Data";
@@ -83,6 +83,7 @@ public class StaticDb
     public const string newTrustedEmployees = "Messages/NewTrustedEmployees";
     public const string newEmployeesHired = "Messages/NewEmployeesHired";
     public const string showLessonFirstTime = "Messages/ShowLessonFirstTime";
+    public const string threatFromRemote = "Messages/ThreatFromRemote";
     public const string researchReport = "Messages/ResearchReport";
     public const string endGameWin = "Messages/EndGameWin";
     public const string endGameLoss = "Messages/EndGameLoss";
@@ -127,17 +128,6 @@ public class StaticDb
 
     //string values for element of action menu prefab
     public static string actionMenuName = "ActionButton(Clone)";
-
-    //string values for element of notebook prefab
-    public static string noteBookBtnNext = "NextBtn";
-    public static string noteBookBtnPrevious = "PreviousBtn";
-    public static string noteBookBtnBack = "BackBtn";
-    public static string noteBookBtnList = "BtnList";
-    public static string noteBookPageL = "PageL";
-    public static string noteBookPageR = "PageR";
-    public static string noteBookTitleL = "TitleL";
-    public static string noteBookTitleR = "TitleR";
-    public static string noteBookToggleGroup = "BtnListToggleGroup";
 
     //string values for store screen prefab
     public static string storeScreenName = "StoreScreen(Clone)";
@@ -286,7 +276,7 @@ public class StaticDb
 
     //value for timeEvent standard threat
     public static Threat timeEventThreat = new Threat(-1, ThreatType.timeEvent, -1,
-        ThreatAttacker.timeEvent, ThreatDanger.timeEvent, ThreatAttack.timeEvent, -1);
+        ThreatAttacker.timeEvent, ThreatDanger.timeEvent, ThreatAttack.timeEvent, -1, false);
 
     //empty DialogBoxMessage
     public static DialogBoxMessage emptyMessage = new DialogBoxMessage

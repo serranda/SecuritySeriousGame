@@ -97,9 +97,9 @@ MonoBehaviour:
   m_fontSize: 45
   m_fontSizeBase: 45
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 30
-  m_fontSizeMax: 72
+  m_fontSizeMax: 45
   m_fontStyle: 0
   m_textAlignment: 514
   m_characterSpacing: 0
@@ -255,9 +255,9 @@ MonoBehaviour:
   m_fontSize: 45
   m_fontSizeBase: 45
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 30
-  m_fontSizeMax: 72
+  m_fontSizeMax: 45
   m_fontStyle: 0
   m_textAlignment: 514
   m_characterSpacing: 0
@@ -813,6 +813,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b144ca9004e6e4245ba0804e47db5259, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  nextBtn: {fileID: 5110861456009252982}
+  nbGroup: {fileID: 5110861456009253003}
+  previousBtn: {fileID: 5110861454805195121}
+  pbGroup: {fileID: 5110861454805195122}
+  backBtn: {fileID: 5110861455188472415}
+  btnList: {fileID: 776697867054612689}
+  pageL: {fileID: 5110861454482903266}
+  pageR: {fileID: 5110861455079153581}
+  titleL: {fileID: 3885255184368254074}
+  titleR: {fileID: 902635804169086690}
+  toggleGroup: {fileID: 7364995274930035262}
 --- !u!1 &5110861454805195135
 GameObject:
   m_ObjectHideFlags: 0

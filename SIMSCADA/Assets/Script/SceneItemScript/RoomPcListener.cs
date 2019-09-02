@@ -44,19 +44,19 @@ public class RoomPcListener : MonoBehaviour
         {
             if(manager.GetGameData().hasThreatDeployed)
             {
-                buttons = interactiveSprite.actionButtonManager.GetActiveCanvasGroup(8);
+                buttons = interactiveSprite.actionButtonManager.GetActiveCanvasGroup(7);
 
-                buttons[0].GetComponentInChildren<TextMeshProUGUI>().text = "Apri monitor SCADA";
+                //buttons[0].GetComponentInChildren<TextMeshProUGUI>().text = "Apri monitor SCADA";
+                //buttons[0].onClick.RemoveAllListeners();
+                //buttons[0].onClick.AddListener(delegate
+                //{
+                //    ToggleScadaScreen();
+                //    interactiveSprite.ToggleMenu();
+                //});
+
+                buttons[0].GetComponentInChildren<TextMeshProUGUI>().text = "Vai al Negozio";
                 buttons[0].onClick.RemoveAllListeners();
                 buttons[0].onClick.AddListener(delegate
-                {
-                    ToggleScadaScreen();
-                    interactiveSprite.ToggleMenu();
-                });
-
-                buttons[1].GetComponentInChildren<TextMeshProUGUI>().text = "Vai al Negozio";
-                buttons[1].onClick.RemoveAllListeners();
-                buttons[1].onClick.AddListener(delegate
                 {
                     ToggleStoreScreen();
                     interactiveSprite.ToggleMenu();
@@ -65,18 +65,18 @@ public class RoomPcListener : MonoBehaviour
 
                 if (manager.GetGameData().isFirewallActive)
                 {
-                    buttons[2].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva Firewall";
-                    buttons[2].onClick.RemoveAllListeners();
-                    buttons[2].onClick.AddListener(delegate
+                    buttons[1].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva Firewall";
+                    buttons[1].onClick.RemoveAllListeners();
+                    buttons[1].onClick.AddListener(delegate
                     {
                         manager.SetFirewallActive(false);
                     });
                 }
                 else
                 {
-                    buttons[2].GetComponentInChildren<TextMeshProUGUI>().text = "Attiva Firewall";
-                    buttons[2].onClick.RemoveAllListeners();
-                    buttons[2].onClick.AddListener(delegate
+                    buttons[1].GetComponentInChildren<TextMeshProUGUI>().text = "Attiva Firewall";
+                    buttons[1].onClick.RemoveAllListeners();
+                    buttons[1].onClick.AddListener(delegate
                     {
                         manager.SetFirewallActive(true);
                     });
@@ -85,18 +85,18 @@ public class RoomPcListener : MonoBehaviour
 
                 if (manager.GetGameData().isRemoteIdsActive)
                 {
-                    buttons[3].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva IDS";
-                    buttons[3].onClick.RemoveAllListeners();
-                    buttons[3].onClick.AddListener(delegate
+                    buttons[2].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva IDS";
+                    buttons[2].onClick.RemoveAllListeners();
+                    buttons[2].onClick.AddListener(delegate
                     {
                         manager.SetRemoteIdsActive(false);
                     });
                 }
                 else
                 {
-                    buttons[3].GetComponentInChildren<TextMeshProUGUI>().text = "Attiva IDS";
-                    buttons[3].onClick.RemoveAllListeners();
-                    buttons[3].onClick.AddListener(delegate
+                    buttons[2].GetComponentInChildren<TextMeshProUGUI>().text = "Attiva IDS";
+                    buttons[2].onClick.RemoveAllListeners();
+                    buttons[2].onClick.AddListener(delegate
                     {
                         manager.SetRemoteIdsActive(true);
                     });
@@ -104,42 +104,42 @@ public class RoomPcListener : MonoBehaviour
 
                 if (manager.GetGameData().isLocalIdsActive)
                 {
-                    buttons[4].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva Controlli Locali";
-                    buttons[4].onClick.RemoveAllListeners();
-                    buttons[4].onClick.AddListener(delegate
+                    buttons[3].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva Controlli Locali";
+                    buttons[3].onClick.RemoveAllListeners();
+                    buttons[3].onClick.AddListener(delegate
                     {
                         manager.SetLocalIdsActive(false);
                     });
                 }
                 else
                 {
-                    buttons[4].GetComponentInChildren<TextMeshProUGUI>().text = "Attiva Controlli Locali";
-                    buttons[4].onClick.RemoveAllListeners();
-                    buttons[4].onClick.AddListener(delegate
+                    buttons[3].GetComponentInChildren<TextMeshProUGUI>().text = "Attiva Controlli Locali";
+                    buttons[3].onClick.RemoveAllListeners();
+                    buttons[3].onClick.AddListener(delegate
                     {
                         manager.SetLocalIdsActive(true);
                     });
                 }
 
-                buttons[5].GetComponentInChildren<TextMeshProUGUI>().text = "Check configurazione di rete";
-                buttons[5].onClick.RemoveAllListeners();
-                buttons[5].onClick.AddListener(delegate
+                buttons[4].GetComponentInChildren<TextMeshProUGUI>().text = "Check configurazione di rete";
+                buttons[4].onClick.RemoveAllListeners();
+                buttons[4].onClick.AddListener(delegate
                 {
                     StartCheckNetworkCfg();
                     interactiveSprite.ToggleMenu();
                 });
 
-                buttons[6].GetComponentInChildren<TextMeshProUGUI>().text = "Esegui scansione malware";
-                buttons[6].onClick.RemoveAllListeners();
-                buttons[6].onClick.AddListener(delegate
+                buttons[5].GetComponentInChildren<TextMeshProUGUI>().text = "Esegui scansione malware";
+                buttons[5].onClick.RemoveAllListeners();
+                buttons[5].onClick.AddListener(delegate
                 {
                     StartAntiMalwareScan();
                     interactiveSprite.ToggleMenu();
                 });
 
-                buttons[7].GetComponentInChildren<TextMeshProUGUI>().text = "Individua minacce";
-                buttons[7].onClick.RemoveAllListeners();
-                buttons[7].onClick.AddListener(delegate
+                buttons[6].GetComponentInChildren<TextMeshProUGUI>().text = "Individua minacce";
+                buttons[6].onClick.RemoveAllListeners();
+                buttons[6].onClick.AddListener(delegate
                 {
                     StartPointOutLocalThreat();
                     interactiveSprite.ToggleMenu();
@@ -147,19 +147,19 @@ public class RoomPcListener : MonoBehaviour
             }
             else
             {
-                buttons = interactiveSprite.actionButtonManager.GetActiveCanvasGroup(5);
+                buttons = interactiveSprite.actionButtonManager.GetActiveCanvasGroup(4);
 
-                buttons[0].GetComponentInChildren<TextMeshProUGUI>().text = "Apri monitor SCADA";
+                //buttons[0].GetComponentInChildren<TextMeshProUGUI>().text = "Apri monitor SCADA";
+                //buttons[0].onClick.RemoveAllListeners();
+                //buttons[0].onClick.AddListener(delegate
+                //{
+                //    ToggleScadaScreen();
+                //    interactiveSprite.ToggleMenu();
+                //});
+
+                buttons[0].GetComponentInChildren<TextMeshProUGUI>().text = "Vai al Negozio";
                 buttons[0].onClick.RemoveAllListeners();
                 buttons[0].onClick.AddListener(delegate
-                {
-                    ToggleScadaScreen();
-                    interactiveSprite.ToggleMenu();
-                });
-
-                buttons[1].GetComponentInChildren<TextMeshProUGUI>().text = "Vai al Negozio";
-                buttons[1].onClick.RemoveAllListeners();
-                buttons[1].onClick.AddListener(delegate
                 {
                     ToggleStoreScreen();
                     interactiveSprite.ToggleMenu();
@@ -168,9 +168,9 @@ public class RoomPcListener : MonoBehaviour
 
                 if (manager.GetGameData().isFirewallActive)
                 {
-                    buttons[2].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva Firewall";
-                    buttons[2].onClick.RemoveAllListeners();
-                    buttons[2].onClick.AddListener(delegate
+                    buttons[1].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva Firewall";
+                    buttons[1].onClick.RemoveAllListeners();
+                    buttons[1].onClick.AddListener(delegate
                     {
                         manager.SetFirewallActive(false);
                         interactiveSprite.ToggleMenu();
@@ -178,9 +178,9 @@ public class RoomPcListener : MonoBehaviour
                 }
                 else
                 {
-                    buttons[2].GetComponentInChildren<TextMeshProUGUI>().text = "Attiva Firewall";
-                    buttons[2].onClick.RemoveAllListeners();
-                    buttons[2].onClick.AddListener(delegate
+                    buttons[1].GetComponentInChildren<TextMeshProUGUI>().text = "Attiva Firewall";
+                    buttons[1].onClick.RemoveAllListeners();
+                    buttons[1].onClick.AddListener(delegate
                     {
                         manager.SetFirewallActive(true);
                         interactiveSprite.ToggleMenu();
@@ -190,9 +190,9 @@ public class RoomPcListener : MonoBehaviour
 
                 if (manager.GetGameData().isRemoteIdsActive)
                 {
-                    buttons[3].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva IDS";
-                    buttons[3].onClick.RemoveAllListeners();
-                    buttons[3].onClick.AddListener(delegate
+                    buttons[2].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva IDS";
+                    buttons[2].onClick.RemoveAllListeners();
+                    buttons[2].onClick.AddListener(delegate
                     {
                         manager.SetRemoteIdsActive(false);
                         interactiveSprite.ToggleMenu();
@@ -200,9 +200,9 @@ public class RoomPcListener : MonoBehaviour
                 }
                 else
                 {
-                    buttons[3].GetComponentInChildren<TextMeshProUGUI>().text = "Attiva IDS";
-                    buttons[3].onClick.RemoveAllListeners();
-                    buttons[3].onClick.AddListener(delegate
+                    buttons[2].GetComponentInChildren<TextMeshProUGUI>().text = "Attiva IDS";
+                    buttons[2].onClick.RemoveAllListeners();
+                    buttons[2].onClick.AddListener(delegate
                     {
                         manager.SetRemoteIdsActive(true);
                         interactiveSprite.ToggleMenu();
@@ -211,9 +211,9 @@ public class RoomPcListener : MonoBehaviour
 
                 if (manager.GetGameData().isLocalIdsActive)
                 {
-                    buttons[4].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva Controlli Locali";
-                    buttons[4].onClick.RemoveAllListeners();
-                    buttons[4].onClick.AddListener(delegate
+                    buttons[3].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva Controlli Locali";
+                    buttons[3].onClick.RemoveAllListeners();
+                    buttons[3].onClick.AddListener(delegate
                     {
                         manager.SetLocalIdsActive(false);
                         interactiveSprite.ToggleMenu();
@@ -221,18 +221,18 @@ public class RoomPcListener : MonoBehaviour
                 }
                 else
                 {
-                    buttons[4].GetComponentInChildren<TextMeshProUGUI>().text = "Attiva Controlli Locali";
-                    buttons[4].onClick.RemoveAllListeners();
-                    buttons[4].onClick.AddListener(delegate
+                    buttons[3].GetComponentInChildren<TextMeshProUGUI>().text = "Attiva Controlli Locali";
+                    buttons[3].onClick.RemoveAllListeners();
+                    buttons[3].onClick.AddListener(delegate
                     {
                         manager.SetLocalIdsActive(true);
                         interactiveSprite.ToggleMenu();
                     });
                 }
 
-                buttons[5].GetComponentInChildren<TextMeshProUGUI>().text = "Individua minacce";
-                buttons[5].onClick.RemoveAllListeners();
-                buttons[5].onClick.AddListener(delegate
+                buttons[4].GetComponentInChildren<TextMeshProUGUI>().text = "Individua minacce";
+                buttons[4].onClick.RemoveAllListeners();
+                buttons[4].onClick.AddListener(delegate
                 {
                     StartPointOutLocalThreat();
                     interactiveSprite.ToggleMenu();
@@ -243,19 +243,19 @@ public class RoomPcListener : MonoBehaviour
         {
             if(manager.GetGameData().hasThreatDeployed)
             {
-                buttons = interactiveSprite.actionButtonManager.GetActiveCanvasGroup(7);
+                buttons = interactiveSprite.actionButtonManager.GetActiveCanvasGroup(6);
 
-                buttons[0].GetComponentInChildren<TextMeshProUGUI>().text = "Apri monitor SCADA";
+                //buttons[0].GetComponentInChildren<TextMeshProUGUI>().text = "Apri monitor SCADA";
+                //buttons[0].onClick.RemoveAllListeners();
+                //buttons[0].onClick.AddListener(delegate
+                //{
+                //    ToggleScadaScreen();
+                //    interactiveSprite.ToggleMenu();
+                //});
+
+                buttons[0].GetComponentInChildren<TextMeshProUGUI>().text = "Vai al Negozio";
                 buttons[0].onClick.RemoveAllListeners();
                 buttons[0].onClick.AddListener(delegate
-                {
-                    ToggleScadaScreen();
-                    interactiveSprite.ToggleMenu();
-                });
-
-                buttons[1].GetComponentInChildren<TextMeshProUGUI>().text = "Vai al Negozio";
-                buttons[1].onClick.RemoveAllListeners();
-                buttons[1].onClick.AddListener(delegate
                 {
                     ToggleStoreScreen();
                     interactiveSprite.ToggleMenu();
@@ -264,9 +264,9 @@ public class RoomPcListener : MonoBehaviour
 
                 if (manager.GetGameData().isFirewallActive)
                 {
-                    buttons[2].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva Firewall";
-                    buttons[2].onClick.RemoveAllListeners();
-                    buttons[2].onClick.AddListener(delegate
+                    buttons[1].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva Firewall";
+                    buttons[1].onClick.RemoveAllListeners();
+                    buttons[1].onClick.AddListener(delegate
                     {
                         manager.SetFirewallActive(false);
                         interactiveSprite.ToggleMenu();
@@ -274,9 +274,9 @@ public class RoomPcListener : MonoBehaviour
                 }
                 else
                 {
-                    buttons[2].GetComponentInChildren<TextMeshProUGUI>().text = "Attiva Firewall";
-                    buttons[2].onClick.RemoveAllListeners();
-                    buttons[2].onClick.AddListener(delegate
+                    buttons[1].GetComponentInChildren<TextMeshProUGUI>().text = "Attiva Firewall";
+                    buttons[1].onClick.RemoveAllListeners();
+                    buttons[1].onClick.AddListener(delegate
                     {
                         manager.SetFirewallActive(true);
                         interactiveSprite.ToggleMenu();
@@ -285,9 +285,9 @@ public class RoomPcListener : MonoBehaviour
 
                 if (manager.GetGameData().isRemoteIdsActive)
                 {
-                    buttons[3].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva IDS";
-                    buttons[3].onClick.RemoveAllListeners();
-                    buttons[3].onClick.AddListener(delegate
+                    buttons[2].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva IDS";
+                    buttons[2].onClick.RemoveAllListeners();
+                    buttons[2].onClick.AddListener(delegate
                     {
                         manager.SetRemoteIdsActive(false);
                         interactiveSprite.ToggleMenu();
@@ -295,9 +295,9 @@ public class RoomPcListener : MonoBehaviour
                 }
                 else
                 {
-                    buttons[3].GetComponentInChildren<TextMeshProUGUI>().text = "Attiva IDS";
-                    buttons[3].onClick.RemoveAllListeners();
-                    buttons[3].onClick.AddListener(delegate
+                    buttons[2].GetComponentInChildren<TextMeshProUGUI>().text = "Attiva IDS";
+                    buttons[2].onClick.RemoveAllListeners();
+                    buttons[2].onClick.AddListener(delegate
                     {
                         manager.SetRemoteIdsActive(true);
                         interactiveSprite.ToggleMenu();
@@ -306,9 +306,9 @@ public class RoomPcListener : MonoBehaviour
 
                 if (manager.GetGameData().isLocalIdsActive)
                 {
-                    buttons[4].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva Controlli Locali";
-                    buttons[4].onClick.RemoveAllListeners();
-                    buttons[4].onClick.AddListener(delegate
+                    buttons[3].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva Controlli Locali";
+                    buttons[3].onClick.RemoveAllListeners();
+                    buttons[3].onClick.AddListener(delegate
                     {
                         manager.SetLocalIdsActive(false);
                         interactiveSprite.ToggleMenu();
@@ -316,26 +316,26 @@ public class RoomPcListener : MonoBehaviour
                 }
                 else
                 {
-                    buttons[4].GetComponentInChildren<TextMeshProUGUI>().text = "Attiva Controlli Locali";
-                    buttons[4].onClick.RemoveAllListeners();
-                    buttons[4].onClick.AddListener(delegate
+                    buttons[3].GetComponentInChildren<TextMeshProUGUI>().text = "Attiva Controlli Locali";
+                    buttons[3].onClick.RemoveAllListeners();
+                    buttons[3].onClick.AddListener(delegate
                     {
                         manager.SetLocalIdsActive(true);
                         interactiveSprite.ToggleMenu();
                     });
                 }
 
-                buttons[5].GetComponentInChildren<TextMeshProUGUI>().text = "Check configurazione di rete";
-                buttons[5].onClick.RemoveAllListeners();
-                buttons[5].onClick.AddListener(delegate
+                buttons[4].GetComponentInChildren<TextMeshProUGUI>().text = "Check configurazione di rete";
+                buttons[4].onClick.RemoveAllListeners();
+                buttons[4].onClick.AddListener(delegate
                 {
                     StartCheckNetworkCfg();
                     interactiveSprite.ToggleMenu();
                 });
 
-                buttons[6].GetComponentInChildren<TextMeshProUGUI>().text = "Esegui scansione malware";
-                buttons[6].onClick.RemoveAllListeners();
-                buttons[6].onClick.AddListener(delegate
+                buttons[5].GetComponentInChildren<TextMeshProUGUI>().text = "Esegui scansione malware";
+                buttons[5].onClick.RemoveAllListeners();
+                buttons[5].onClick.AddListener(delegate
                 {
                     StartAntiMalwareScan();
                     interactiveSprite.ToggleMenu();
@@ -343,19 +343,19 @@ public class RoomPcListener : MonoBehaviour
             }
             else
             {
-                buttons = interactiveSprite.actionButtonManager.GetActiveCanvasGroup(5);
+                buttons = interactiveSprite.actionButtonManager.GetActiveCanvasGroup(4);
 
-                buttons[0].GetComponentInChildren<TextMeshProUGUI>().text = "Apri monitor SCADA";
+                //buttons[0].GetComponentInChildren<TextMeshProUGUI>().text = "Apri monitor SCADA";
+                //buttons[0].onClick.RemoveAllListeners();
+                //buttons[0].onClick.AddListener(delegate
+                //{
+                //    ToggleScadaScreen();
+                //    interactiveSprite.ToggleMenu();
+                //});
+
+                buttons[0].GetComponentInChildren<TextMeshProUGUI>().text = "Vai al Negozio";
                 buttons[0].onClick.RemoveAllListeners();
                 buttons[0].onClick.AddListener(delegate
-                {
-                    ToggleScadaScreen();
-                    interactiveSprite.ToggleMenu();
-                });
-
-                buttons[1].GetComponentInChildren<TextMeshProUGUI>().text = "Vai al Negozio";
-                buttons[1].onClick.RemoveAllListeners();
-                buttons[1].onClick.AddListener(delegate
                 {
                     ToggleStoreScreen();
                     interactiveSprite.ToggleMenu();
@@ -364,9 +364,9 @@ public class RoomPcListener : MonoBehaviour
 
                 if (manager.GetGameData().isFirewallActive)
                 {
-                    buttons[2].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva Firewall";
-                    buttons[2].onClick.RemoveAllListeners();
-                    buttons[2].onClick.AddListener(delegate
+                    buttons[1].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva Firewall";
+                    buttons[1].onClick.RemoveAllListeners();
+                    buttons[1].onClick.AddListener(delegate
                     {
                         manager.SetFirewallActive(false);
                         interactiveSprite.ToggleMenu();
@@ -374,9 +374,9 @@ public class RoomPcListener : MonoBehaviour
                 }
                 else
                 {
-                    buttons[2].GetComponentInChildren<TextMeshProUGUI>().text = "Attiva Firewall";
-                    buttons[2].onClick.RemoveAllListeners();
-                    buttons[2].onClick.AddListener(delegate
+                    buttons[1].GetComponentInChildren<TextMeshProUGUI>().text = "Attiva Firewall";
+                    buttons[1].onClick.RemoveAllListeners();
+                    buttons[1].onClick.AddListener(delegate
                     {
                         manager.SetFirewallActive(true);
                         interactiveSprite.ToggleMenu();
@@ -386,9 +386,9 @@ public class RoomPcListener : MonoBehaviour
 
                 if (manager.GetGameData().isRemoteIdsActive)
                 {
-                    buttons[3].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva IDS";
-                    buttons[3].onClick.RemoveAllListeners();
-                    buttons[3].onClick.AddListener(delegate
+                    buttons[2].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva IDS";
+                    buttons[2].onClick.RemoveAllListeners();
+                    buttons[2].onClick.AddListener(delegate
                     {
                         manager.SetRemoteIdsActive(false);
                         interactiveSprite.ToggleMenu();
@@ -396,9 +396,9 @@ public class RoomPcListener : MonoBehaviour
                 }
                 else
                 {
-                    buttons[3].GetComponentInChildren<TextMeshProUGUI>().text = "Attiva IDS";
-                    buttons[3].onClick.RemoveAllListeners();
-                    buttons[3].onClick.AddListener(delegate
+                    buttons[2].GetComponentInChildren<TextMeshProUGUI>().text = "Attiva IDS";
+                    buttons[2].onClick.RemoveAllListeners();
+                    buttons[2].onClick.AddListener(delegate
                     {
                         manager.SetRemoteIdsActive(true);
                         interactiveSprite.ToggleMenu();
@@ -407,9 +407,9 @@ public class RoomPcListener : MonoBehaviour
 
                 if (manager.GetGameData().isLocalIdsActive)
                 {
-                    buttons[4].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva Controlli Locali";
-                    buttons[4].onClick.RemoveAllListeners();
-                    buttons[4].onClick.AddListener(delegate
+                    buttons[3].GetComponentInChildren<TextMeshProUGUI>().text = "Disattiva Controlli Locali";
+                    buttons[3].onClick.RemoveAllListeners();
+                    buttons[3].onClick.AddListener(delegate
                     {
                         manager.SetLocalIdsActive(false);
                         interactiveSprite.ToggleMenu();
@@ -417,9 +417,9 @@ public class RoomPcListener : MonoBehaviour
                 }
                 else
                 {
-                    buttons[4].GetComponentInChildren<TextMeshProUGUI>().text = "Attiva Controlli Locali";
-                    buttons[4].onClick.RemoveAllListeners();
-                    buttons[4].onClick.AddListener(delegate
+                    buttons[3].GetComponentInChildren<TextMeshProUGUI>().text = "Attiva Controlli Locali";
+                    buttons[3].onClick.RemoveAllListeners();
+                    buttons[3].onClick.AddListener(delegate
                     {
                         manager.SetLocalIdsActive(true);
                         interactiveSprite.ToggleMenu();

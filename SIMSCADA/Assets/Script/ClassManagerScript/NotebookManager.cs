@@ -9,22 +9,22 @@ using UnityEngine.SceneManagement;
 
 public class NotebookManager : MonoBehaviour
 {
-    private Button nextBtn;
-    private CanvasGroup nbGroup;
-    private Button previousBtn;
-    private CanvasGroup pbGroup;
-    private Button backBtn;
+    [SerializeField] private Button nextBtn;
+    [SerializeField] private CanvasGroup nbGroup;
+    [SerializeField] private Button previousBtn;
+    [SerializeField] private CanvasGroup pbGroup;
+    [SerializeField] private Button backBtn;
 
     private static Canvas noteBook;
 
-    private ScrollRect btnList;
+    [SerializeField] private ScrollRect btnList;
     private GameObject spawnedBtn;
 
-    private TextMeshProUGUI pageL;
-    private TextMeshProUGUI pageR;
+    [SerializeField] private TextMeshProUGUI pageL;
+    [SerializeField] private TextMeshProUGUI pageR;
 
-    private TextMeshProUGUI titleL;
-    private TextMeshProUGUI titleR;
+    [SerializeField] private TextMeshProUGUI titleL;
+    [SerializeField] private TextMeshProUGUI titleR;
 
     private int pageToDisplay;
     private int pageCount;
@@ -33,7 +33,7 @@ public class NotebookManager : MonoBehaviour
     private List<TextAsset> lessonTextAssetList;
     private List<Lesson> lessonObjList;
 
-    private ToggleGroup toggleGroup;
+    [SerializeField] private ToggleGroup toggleGroup;
 
     public static bool isFirstLesson;
     public static Threat firstLessonThreat;
@@ -42,7 +42,7 @@ public class NotebookManager : MonoBehaviour
 
     private ILevelManager manager;
 
-    [SerializeField] private TutorialManager tutorialManager;
+    private TutorialManager tutorialManager;
 
     private void Update()
     {
@@ -81,7 +81,7 @@ public class NotebookManager : MonoBehaviour
         manager = SetLevelManager();
         tutorialManager = FindObjectOfType<TutorialManager>();
 
-        toggleGroup = GameObject.Find(StaticDb.noteBookToggleGroup).GetComponent<ToggleGroup>();
+        //toggleGroup = GameObject.Find(StaticDb.noteBookToggleGroup).GetComponent<ToggleGroup>();
 
         if (tutorialManager != null && tutorialManager.notebookFirstTime)
         {
@@ -98,14 +98,6 @@ public class NotebookManager : MonoBehaviour
 
         colorIndex = 0;
         pageCount = 0;
-
-        nextBtn = GameObject.Find(StaticDb.noteBookBtnNext).GetComponent<Button>();
-        nbGroup = nextBtn.GetComponent<CanvasGroup>();
-
-        previousBtn = GameObject.Find(StaticDb.noteBookBtnPrevious).GetComponent<Button>();
-        pbGroup = previousBtn.GetComponent<CanvasGroup>();
-
-        backBtn = GameObject.Find(StaticDb.noteBookBtnBack).GetComponent<Button>();
 
         nextBtn.onClick.RemoveAllListeners();
         nextBtn.onClick.AddListener(delegate
@@ -133,12 +125,6 @@ public class NotebookManager : MonoBehaviour
                 ToggleNoteBook(true);
             }
         });
-
-        pageL = GameObject.Find(StaticDb.noteBookPageL).GetComponent<TextMeshProUGUI>();
-        pageR = GameObject.Find(StaticDb.noteBookPageR).GetComponent<TextMeshProUGUI>();
-
-        titleL = GameObject.Find(StaticDb.noteBookTitleL).GetComponent<TextMeshProUGUI>();
-        titleR = GameObject.Find(StaticDb.noteBookTitleR).GetComponent<TextMeshProUGUI>();
 
         LoadLesson();
         toggleGroup.SetAllTogglesOff();
@@ -233,7 +219,6 @@ public class NotebookManager : MonoBehaviour
 
     private void SetPageTextBody(Lesson lesson)
     {
-
         titleL.text = lesson.id.ToUpperInvariant();
         titleR.text = lesson.id.ToUpperInvariant();
 
@@ -292,9 +277,6 @@ public class NotebookManager : MonoBehaviour
             case 5:
                 color = Color.gray;
                 break;
-            case 6:
-                color = Color.yellow;
-                break;
             default:
                 color = Color.white;
                 break;
@@ -305,7 +287,7 @@ public class NotebookManager : MonoBehaviour
 
     private void LoadLesson()
     {
-        btnList = GameObject.Find(StaticDb.noteBookBtnList).GetComponent<ScrollRect>();
+        //btnList = GameObject.Find(StaticDb.noteBookBtnList).GetComponent<ScrollRect>();
 
         lessonTextAssetList = new List<TextAsset>();
         lessonObjList = new List<Lesson>();
@@ -340,7 +322,7 @@ public class NotebookManager : MonoBehaviour
             });
 
             colorIndex++;
-            if (colorIndex == 7)
+            if (colorIndex == 6)
             {
                 colorIndex = 0;
             }

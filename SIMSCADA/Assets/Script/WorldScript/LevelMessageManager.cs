@@ -27,6 +27,7 @@ public class LevelMessageManager : MonoBehaviour
     private IEnumerator newTrustedEmployeesRoutine;
     private IEnumerator newEmployeesHiredRoutine;
     private IEnumerator showLessonFirstTimeRoutine;
+    private IEnumerator showLessonFromRemoteRoutine;
     private IEnumerator showReportRoutine;
     private IEnumerator endGameRoutine;
     private IEnumerator closeDialogRoutine;
@@ -826,6 +827,39 @@ public class LevelMessageManager : MonoBehaviour
         dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.gameObject.SetActive(false);
     }
 
+    public void StartShowLessonFromRemote()
+    {
+        showLessonFromRemoteRoutine = ShowLessonFromRemote();
+        StartCoroutine(showLessonFromRemoteRoutine);
+    }
+
+    private IEnumerator ShowLessonFromRemote()
+    {
+        yield return new WaitForSeconds(messageDelay);
+
+        Canvas dialog = ClassDb.dialogBoxManager.OpenDialog();
+
+        DialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.threatFromRemote));
+
+        dialog.GetComponent<DialogBoxManager>().SetDialog(
+            message.head,
+            message.body,
+            message.backBtn,
+            message.nextBtn,
+            dialog
+        );
+
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.RemoveAllListeners();
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.gameObject.SetActive(true);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.AddListener(delegate
+        {
+            ClassDb.dialogBoxManager.CloseDialog(dialog);
+        });
+
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.onClick.RemoveAllListeners();
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.gameObject.SetActive(false);
+    }
+
     public void StartShowReport(string threatAttack)
     {
         showReportRoutine = ShowReport(threatAttack);
@@ -900,13 +934,13 @@ public class LevelMessageManager : MonoBehaviour
         });
     }
 
-    public void StartCloseDialog()
+    public void StartNeedToCloseDialog()
     {
-        closeDialogRoutine = CloseDialog();
+        closeDialogRoutine = NeedToCloseDialog();
         StartCoroutine(closeDialogRoutine);
     }
 
-    private IEnumerator CloseDialog()
+    private IEnumerator NeedToCloseDialog()
     {
         yield return new WaitForSeconds(messageDelay);
 

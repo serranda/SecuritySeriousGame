@@ -38,7 +38,7 @@ public class Level2Manager : MonoBehaviour, ILevelManager
             if (gameData.dialogEnabled)
             {
                 //SHOW MESSAGE TO CLOSE ALL THE DIALOG BOX BEFORE GO TO PAUSE
-                ClassDb.levelMessageManager.StartCloseDialog();
+                ClassDb.levelMessageManager.StartNeedToCloseDialog();
                 return;
             }
             ClassDb.pauseManager.TogglePauseMenu();
@@ -785,7 +785,7 @@ public class Level2Manager : MonoBehaviour, ILevelManager
 
                     gameData.localThreats.Remove(threat);
 
-                    Threat newThreat = ClassDb.threatManager.NewRemoteThreat();
+                    Threat newThreat = ClassDb.threatManager.NewFromCreateRemoteThreat();
 
                     InstantiateNewThreat(newThreat);
                     yield break;

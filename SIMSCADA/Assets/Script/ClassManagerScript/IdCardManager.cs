@@ -58,25 +58,6 @@ public class IdCardManager : MonoBehaviour
         return iManager;
     }
 
-    //public void ToggleIdCard()
-    //{
-    //    manager = SetLevelManager();
-
-    //    if (manager.GetGameData().idCardEnabled)
-    //    {
-    //        ClassDb.prefabManager.ReturnPrefab(idCard.gameObject, PrefabManager.icIndex);
-    //        //WRITE LOG
-    //        ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.UserEvent, "ID CLOSED");
-    //    }
-    //    else
-    //    {
-    //        idCard = ClassDb.prefabManager.GetPrefab(ClassDb.prefabManager.prefabIdCard.gameObject, PrefabManager.icIndex).GetComponent<Canvas>();
-    //        //WRITE LOG
-    //        ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.UserEvent, "ID OPENED");
-    //    }
-
-    //}
-
     public Canvas OpenIdCard()
     {
         Canvas idCard = ClassDb.prefabManager.GetPrefab(ClassDb.prefabManager.prefabIdCard.gameObject, PrefabManager.icIndex).GetComponent<Canvas>();
