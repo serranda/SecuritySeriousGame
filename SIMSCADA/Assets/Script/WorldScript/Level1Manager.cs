@@ -52,36 +52,32 @@ public class Level1Manager : MonoBehaviour, ILevelManager
             gameSettingManager.StartSaveSettingsWebFile(gameSettingManager.gameSettings);
         }
 
-        //DEBUG
-        //---------------------------------------------------------------------------------------------------------------------
-        if (Input.GetKeyDown(KeyCode.V))
-            StartCoroutine(NewFakeLocalThreats());
-
-        if (Input.GetKeyDown(KeyCode.B))
-            StartCoroutine(NewLocalThreats());
-
-        if (Input.GetKeyDown(KeyCode.N))
-            StartCoroutine(NewRemoteThreats());
-
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            Threat threat = ClassDb.threatManager.NewRandomLevel1Threat();
-            InstantiateNewThreat(threat);
-        }
-
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            ////DEBUG; CREATE NEW PHISHING THREAT
-            //Threat threat = new Threat(++gameData.lastThreatId, StaticDb.ThreatType.remote, 3f, StaticDb.ThreatAttacker.external, StaticDb.ThreatDanger.high, StaticDb.ThreatAttack.phishing, 2);
-            //InstantiateNewThreat(threat);
-
-            //DEBUG CREATE MULTIPLE DIALOG BOX
-            ClassDb.levelMessageManager.StartMoneyEarnFalse();
-            ClassDb.levelMessageManager.StartMoneyEarnTrue(5f);
-            ClassDb.levelMessageManager.StartMalwareCheck();
-        }
-
-        //---------------------------------------------------------------------------------------------------------------------
+        ////DEBUG
+        ////---------------------------------------------------------------------------------------------------------------------
+        //if (Input.GetKeyDown(KeyCode.V))
+        //    StartCoroutine(NewFakeLocalThreats());
+        //
+        //if (Input.GetKeyDown(KeyCode.B))
+        //    StartCoroutine(NewLocalThreats());
+        //
+        //if (Input.GetKeyDown(KeyCode.N))
+        //    StartCoroutine(NewRemoteThreats());
+        //
+        //if (Input.GetKeyDown(KeyCode.M))
+        //{
+        //    Threat threat = ClassDb.threatManager.NewRandomLevel1Threat();
+        //    InstantiateNewThreat(threat);
+        //}
+        //
+        //if (Input.GetKeyDown(KeyCode.A))
+        //{
+        //    //DEBUG; CREATE NEW PHISHING THREAT
+        //    Threat threat = new Threat(++gameData.lastThreatId, StaticDb.ThreatType.local, 3f, StaticDb.ThreatAttacker.external, StaticDb.ThreatDanger.high, StaticDb.ThreatAttack.createRemote, 2, false);
+        //    InstantiateNewThreat(threat);
+        //
+        //}
+        //
+        ////---------------------------------------------------------------------------------------------------------------------
 
         if (Input.GetMouseButtonDown(1) && gameData.buttonEnabled)
         {
@@ -103,43 +99,43 @@ public class Level1Manager : MonoBehaviour, ILevelManager
         gameData.longDate = gameData.date.ToFileTimeUtc();
     }
 
-    //DEBUG
-    //---------------------------------------------------------------------------------------------------------------------
-    private IEnumerator NewRemoteThreats()
-    {
-        for (int i = 0; i < 1; i++)
-        {
-            Threat threat = ClassDb.threatManager.NewRemoteThreat();
-
-            InstantiateNewThreat(threat);
-
-            yield return new WaitForSeconds(3);
-        }
-    }
-
-    private IEnumerator NewLocalThreats()
-    {
-        for (int i = 0; i < 1; i++)
-        {
-            Threat threat = ClassDb.threatManager.NewLocalThreat();
-            InstantiateNewThreat(threat);
-
-            yield return new WaitForSeconds(1);
-        }
-    }
-
-    private IEnumerator NewFakeLocalThreats()
-    {
-        for (int i = 0; i < 1; i++)
-        {
-            Threat threat = ClassDb.threatManager.NewFakeLocalThreat();
-            InstantiateNewThreat(threat);
-
-            yield return new WaitForSeconds(1);
-        }
-    }
-
-    //---------------------------------------------------------------------------------------------------------------------
+    ////DEBUG
+    ////---------------------------------------------------------------------------------------------------------------------
+    //private IEnumerator NewRemoteThreats()
+    //{
+    //    for (int i = 0; i < 1; i++)
+    //    {
+    //        Threat threat = ClassDb.threatManager.NewRemoteThreat();
+    //
+    //        InstantiateNewThreat(threat);
+    //
+    //        yield return new WaitForSeconds(3);
+    //    }
+    //}
+    //
+    //private IEnumerator NewLocalThreats()
+    //{
+    //    for (int i = 0; i < 1; i++)
+    //    {
+    //        Threat threat = ClassDb.threatManager.NewLocalThreat();
+    //        InstantiateNewThreat(threat);
+    //
+    //        yield return new WaitForSeconds(1);
+    //    }
+    //}
+    //
+    //private IEnumerator NewFakeLocalThreats()
+    //{
+    //    for (int i = 0; i < 1; i++)
+    //    {
+    //        Threat threat = ClassDb.threatManager.NewFakeLocalThreat();
+    //        InstantiateNewThreat(threat);
+    //
+    //        yield return new WaitForSeconds(1);
+    //    }
+    //}
+    //
+    ////---------------------------------------------------------------------------------------------------------------------
 
     public IEnumerator StarterCoroutine()
     {
@@ -165,7 +161,11 @@ public class Level1Manager : MonoBehaviour, ILevelManager
             //WRITE LOG
             ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.SystemEvent, "NEW GAME STARTED");
 
+            //SHOW WELCOME MESSAGE
             ClassDb.levelMessageManager.StartWelcome();
+
+            //SHOW MESSAGE FOR SCADA LESSON
+            ClassDb.levelMessageManager.StartShowScadaLesson();
 
             //EVENT TO SET A THREAT TENDENCIES; IF RESEARCH REPORT IS ACTIVE DISPLAY MESSAGE 
             SetMonthlyThreatAttack();
@@ -198,11 +198,10 @@ public class Level1Manager : MonoBehaviour, ILevelManager
         localIdsRoutine = LocalIdsCheckRoutine();
         StartCoroutine(localIdsRoutine);
 
-        //TODO UNCOMMENT
-        //newThreatRoutine = CreateNewThreat();
-        //StartCoroutine(newThreatRoutine);
+        newThreatRoutine = CreateNewThreat();
+        StartCoroutine(newThreatRoutine);
 
-        Debug.Log("COROUTINES STARTED");
+        ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.GameEvent,"COROUTINES STARTED");
     }
 
     public void UpdateMinutes()

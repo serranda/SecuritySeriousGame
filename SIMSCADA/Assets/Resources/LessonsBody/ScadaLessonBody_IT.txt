@@ -1,0 +1,170 @@
+Cosa è un sistema SCADA
+
+La definizione di sistema SCADA è contenuta all'interno dello stesso acronimo che viene utilizzato per identificare un tipo particolare di sistemi di controllo industriale, o ICS (Industrial Control System).  SCADA è l'abbreviazione di ``Supervisory Control and Data Acquisition'', ovverosia un sistema il cui scopo è di supervisione, controllo e acquisizione dei dati (funzionale ai fini dello svolgimento delle altre due operazioni). Gli scenari di utilizzo sono i più vari: dai classici sistemi di distribuzione e/o produzione energetica (impianti nucleari), ai sistemi di controllo fluidi (impianti di gestione della rete idrica/fognaria), ai sistemi di controllo del traffico, ferroviario e/o automobilistico, fino a sistemi geograficamente più contenuti, ma che necessitano comunque di controlli costanti (impianti di produzione industriale, stazioni di servizio, ecc.). 
+
+Dalla definizione data, però, non si riesce ad estrapolare cosa differenzi un sistema SCADA da un generico impianto di controllo distribuito (Distributed Control System, da qui in avanti DCS). Esistono infatti numero sistemi di controllo la cui classificazione è basata su diversi parametri, quali complessità dei processi controllati, distribuzione geografica più o meno ampia, distribuzione dell'intelligenza di controllo, tempo di reazione disponibile al verificarsi di un evento prodotto dal sistema stesso, modalità di interazione tra umani e macchinari e molti altri fattori ancora. Per capire veramente queste differenze occorre innanzitutto analizzare nel dettaglio come vengono svolti i tre compiti fondamentali (acquisizione dati, supervisione e controllo) e quali elementi, in generale, sono presenti nell'architettura di un sistema SCADA.
+
+Supervisione (Supervisory)
+
+La supervisione è la funzione principale a cui ogni sistema SCADA deve asserire (è possibile affermare che, senza supervisione, un impianto di controllo non può essere classificato come sistema SCADA). Tramite questa funzione è possibile monitorare lo stato in cui si trova il processo controllato e quale sarà la sua evoluzione. Per tale scopo, sono implementate tutte quelle funzionalità che permettono di visualizzare le informazioni che descrivono lo stato attuale del processo, così come sono utilizzate delle strutture dati al cui interno sono raccolte le cosiddette informazioni storiche, che descrivono tutti i possibili stati assumibili dal processo durante la sua evoluzione. Tutto ciò è particolarmente utile nel momento in cui occorre identificare un eventuale stato anomalo del processo.
+
+Controllo (Control)
+
+Il controllo è la funzione che permette al sistema SCADA di prendere delle decisioni, in relazione allo stato attuale del processo controllato e alle sue future evoluzioni. Ovviamente questo compito può essere svolto in modalità differenti, ma la cui definizione dipende principalmente dal tipo di processo controllato, a seconda del quale è necessario creare un'architettura sia hardware che software specifica per il compito. Una concetto molto importante è che in un sistema SCADA il controllo del processo è concentrato per la maggior parte all'interno dell'unità di elaborazione (controllo centralizzato). In questo senso, l'elaboratore si serve del sistema di acquisizione dati per ottenere le informazioni ottenute dalla funzione di supervisione. Una volta elaborati queste dati grezzi (che non sono nient'altro che una rappresentazione dello stato del processo) se è necessario, cambia il valore dei parametri di stato che definiscono il processo di controllato, sfruttando sempre il sistema di acquisizione, ma nel senso opposto.
+
+Acquisizione Dati (Data Acquisition)
+
+L'acquisizione dei dati, sebbene sia di supporto alle precedenti funzioni, è quella che ricopre all'interno di un sistema SCADA una posizione fondamentale. È importante sottolineare che acquisizione dati, in questo contesto, sta ad identificare uno scambio bidirezionale tra l'unità di controllo e quella di supervisione. Vi sono casi in cui l'acquisizione dati è il compito principale di un sistema SCADA, poiché il controllo e la supervisione possono essere realizzate in maniera più superficiale o anche a posteriori. Esempi di questi tipo sono forniti sono i sistemi di telerilevamento, in cui si raccolgono dati che verranno, eventualmente, con modalità non sempre costanti.
+
+In generale, però, l'acquisizione ha un ruolo funzionale allo svolgimento degli altri due compiti di un sistema SCADA. Senza scambio dei dati, infatti, l'unità di elaborazione non può avere le informazioni sullo stato attuale del processo, così come il sistema di supervisione non riceverà i valori dei parametri di controllo con cui gestire l'evoluzione dello stato del processo. 
+
+Lo scambio deve avvenire nella modalità più semplice possibile, senza alcuna manipolazione e/o elaborazione di sorta durante il percorso. Il processo di controllo avrà luogo all'interno del sistema di elaborazione. Ovviamente esistono situazioni in cui, le elevate dimensioni geografiche del processo controllato non permettono l'utilizzo di una sistema di controllo centralizzato, ma richiedono l'utilizzo di un sistema ad ``intelligenza distribuita''. In questo caso, però, non siamo più di fronte ad un sistema SCADA.
+
+Architettura di un sistema SCADA
+
+In generale, l'architettura di un sistema SCADA è composta da tre sottosistemi adibiti allo svolgimento dei rispettivi compiti di controllo, supervisione e acquisizione dati. Questi sono denominati come:
+
+- sistema di elaborazione dati, adibito al controllo del processo;
+- sistema di trasmissione dati, destinato allo svolgimento delle funzionalità di acquisizione dati;
+- sistema di acquisizione, a cui è assegnato il compito di supervisione.
+
+Nella zona più periferica è presente il sistema di acquisizione, mentre quella centrale è destinata al sistema di elaborazione. La comunicazione tra questi due sottosistemi è garantita grazie al sistema di trasmissione dati.
+
+Come per il caso del sistema SCADA in generale, l'implementazione di questi tre sottosistemi è specifica per il tipo di processo a cui sono destinati ( e può risultare a volte molto complessa), ma se ne può dare comunque una definizione generica, individuando gli elementi che caratterizzano ognuno di essi.
+
+Sistema di elaborazione
+
+I vari componenti di un elaboratore possono essere raggruppati in tre macro-blocchi: quello preposto alla gestione dei dati, quello il cui compito è di garantire la disponibilità delle informazione e il blocco elaborativo vero e proprio. Di seguito verranno analizzati in maniera più dettagliata le funzionalità che caratterizzano ognuno dei blocchi.
+
+Gestore dati
+
+Il compito delle componenti per la gestione dei dati è quello di comunicare con le apparecchiature periferiche (sia per raccogliere i dati necessari all'elaborazione che per inviare i dati elaborati necessari per le azioni di controllo), trattare i dati per renderli interpretabili dal sistema e archiviare le informazioni, sia grezze che già elaborate. Tutte queste operazioni costituiscono il cuore di tutte le alte funzionalità del sistema SCADA.
+
+I dati riguardanti lo stati del processo da controllare sono ricevuti dalle apparecchiature di controllo e sono subito tradotti nel formato di riferimento del sistema interno (ovviamente, nel momento in cui occorre comunicare con l'esterno avviene il procedimento inverso, in cui le informazioni sono tradotte nel formato adeguato affinché siano utilizzabili per effettuare le varie azioni di controllo). Il flusso di queste informazioni, sia in entrata che in uscita, ha come punto di raccolta il ``database runtime'', che viene chiamato in questo modo proprio per il fatto che opera in tempo reale con la dinamica evolutiva del processo controllato. È implementabile in vari modi (ad esempio, può essere costituito da aree di memoria condivisa tra i vari processi di controllo), ma l'importante è che soddisfi tutte le richieste ricevute da parte del sistema di elaborazione in tempi ridotti. Tramite ciò vengono, quindi, garantite le funzionalità di controllo e supervisione del sistema SCADA. Ovviamente, per motivi di sicurezza e per permettere lo svolgimento di azioni di supporto al controllo del processo, è consigliabile mantenere questi dati e salvarli per un eventuale utilizzo successivo. A tale scopo viene utilizzato, parallelamente al ``database runtime'', un ``database relazionale'', che rappresenta il componente principale del blocco adibito a garantire la disponibilità dei dati.
+
+Disponibilità dati
+
+Come detto in precedenza, al fine di permettere lo svolgimento di azioni di supporto a quelle di controllo, spesso si rivela utile utilizzare un ``database relazionale'' in cui salvare tutti i dati, si quelli ricevuti dall'esterno che quelli elaborati dal sistema stesso. Le azioni di supporto possono essere le più svariate, dalle analisi legate ai dati descrittivi degli stati del processo, in modo da poter svolgere funzioni di correzione preventiva, alle gestione e consultazione di dati dal carattere economico. Ovviamente, in questo caso non è richiesto che il database lavori in tempo reale. Ha molta più importanza che le informazioni abbiano un'elevata intelligibilità, vi siano gli strumenti di accesso necessari per garantire la disponibilità dei dati e infine che il database riesca a gestire facilmente le grandi quantità di informazioni salvate al suo interno. Tutto ciò permette agli operatori ed ai sistemi esterni di fare accesso ai dati senza coinvolgere direttamente il sistema di controllo e supervisione.
+
+Elaboratore
+Il blocco dell'elaboratore è quello preposto alla manipolazione ed interpretazione dei dati descrittori dello stato evolutivo del processo. Questo blocco, una volta ricevute le informazioni dall'esterno (fornite dal ``database runtime''), effettua un'analisi su di essi ed invia come risposta una serie di comandi per il controllo del processo. Ovviamente questa analisi può essere fatta dagli operatori umani, ma spesso la grande quantità di dati da analizzare, corrispondente di solito a processi da controllare dall'elevata complessità, rendono necessario l'utilizzo di procedure di supporto. Queste producono, sostanzialmente, una serie di informazioni aggregate insieme ad una sintesi dei vari comandi da poter inviare al processo controllato. Ovviamente vi sono anche altre esigenze che questi processi elaborativi di supporto devono poter soddisfare, tra queste le più importanti sono:
+
+- generare segnalazioni di eventuali anomale presenti nell'evoluzione del sistema;
+- generare rappresentazioni sintetiche dello stato attuale e dell'evoluzione del processo;
+- interpretare i comandi forniti dall'operatore;
+- realizzare procedure di controllo automatiche.
+
+Quest'ultimo punto si rende necessario nei sistemi SCADA adibiti al controllo di processi che non sono direttamente controllabili dagli operatori umani. In questo caso, il sistema compie delle azioni predefinite di controllo automatico con una cadenza periodica.
+
+Sistema di acquisizione
+
+Il sistema di acquisizione dati in un impianto SCADA rappresenta lo strumento tramite cui dialogare con l'esterno. Il suo compito principale è fare da traduttore tra il sistema centrale (l'elaboratore) e quello periferico, convertendo le informazioni analogiche, quali temperatura, pressione e tutte le altre grandezze che descrivono lo stato del processo, in informazioni binarie. Al fine di permettere una comunicazione corretta, è necessario, oltre a stabilire un linguaggio di comunicazione unico per tutto il sistema SCADA, anche definire le modalità di comunicazione e la codifica da applicare alle informazioni scambiate. Ovviamente, le tipologie di sistemi di acquisizione possono essere delle più disparate, a seconda delle caratteristiche considerate per definire l'architettura del sistema SCADA. 
+
+Al fine di individuare l'apparato di acquisizione dati più indicato per le proprie esigenze, è utile capire ed individuare la tipologia di informazioni che l'impianto dovrà gestire. Questa analisi può essere svolta in base ai seguenti criteri:
+
+Direzione delle informazioni
+
+Sulla base di questo criterio è possibile effettuare una duplice distinzione. Abbiamo infatti le ``informazioni in ingresso'', ossia i dati che riceve, sia dal sistema centrale che da quello periferico, che le ``informazioni in uscita'', di nuovo, informazioni che possono essere dirette o al sistema centrale o agli apparati esterni. Ovviamente, è chiaro che vi è una relazione di equivalenza tra i vari dati gestiti. Le informazioni in ingresso dal sistema centrale, infatti, sono le stesse che, opportunamente tradotte, sono dirette in uscita verso l'impianto periferico (vale, chiaramente, anche l'equivalenza opposta, ossia informazioni in ingresso dal sistema periferico diventano quelle in uscita verso l'elaboratore centrale);
+
+Caratteristiche elettriche delle informazioni
+
+Questo criterio viene applicato quando sono prese in analisi le informazioni relative agli apparati periferici, che siano in entrata o in uscita. Affinché il sistema riesca ad interpretare le informazioni, è necessario tradurre le grandezze fisiche in un segnale elettrico adeguato. Ciò è reso possibile grazie al lavoro svolto dai trasduttori, mentre per l'operazione inversa è richiesto l'utilizzo degli attuatori. Ovviamente è necessario che tutti gli apparati di acquisizione utilizzino lo stesso tipo di rappresentazione elettrica dei dati.
+
+Qualità delle informazioni
+
+In questo caso, il termine ``qualità'' sta ad indicare quale è la tipologia dell'informazione gestita ed è necessario definirla al fine di garantire il loro corretto trattamento. È possibile eseguire questa distinzione in base a quattro macro-aree:
+
+- informazioni digitali;
+- informazioni analogiche;
+- informazioni impulsive;
+- informazioni complesse.
+
+A livello pratico, questa analisi si traduce nei parametri di programmazioni da applicare ai PLC, ``Programmable Logic Controller''. Questi sono dei veri e propri computer componibili, la cui struttura hardware è adattata al processo da controllare. Il loro compito è gestire i segnali digitali ed analogici che transitano nella rete costituita dai sensori, gli attuatori e il sistema di elaborazione centrale. Negli ultimi anni, grazie anche alle progressive migliorie tecnologiche che ne hanno permesso una riduzione delle componenti fisiche e, conseguentemente, dei costi, si è cominciato ad utilizzare i PLC anche in ambiti domestici. Un esempio è la loro applicazione nei quadri elettrici delle abitazioni per gestire automaticamente i vari impianti presenti nelle case: riscaldamento, irrigazione, rete internet, ecc.
+
+Sistema di trasmissione dati
+
+I componenti sopra elencati necessitano di interfacce adeguatamente implementate per comunicare correttamente tra di loro. In un sistema SCADA occorre garantire la comunicazione tra:
+
+- sistema di elaborazione e sistema di acquisizione dati;
+- sistema di elaborazione e sistema di gestione dati;
+- processo controllato e dispositivi di interazione (attuatori);
+- dispositivi di interazione e sistema di acquisizione dati.
+
+Può, inoltre, rivelarsi utile implementare delle interfacce per comunicare con altri elementi esterni, quali sistemi gestionali dell'azienda o sistemi informativi in generale. Ognuna di queste interfacce dovrà essere implementata secondo le caratteristiche più adeguate per lo scopo a cui è destinata. Il rischio è quello di compromettere le normali funzionalità del sistema SCADA o, addirittura, la sua realizzabilità. Inoltre, in fase di progettazione, è consigliabile tenere conto anche dei possibili sviluppi futuri a cui potrebbe essere soggetto il sistema SCADA. Di seguito sono riportate le caratteristiche su cui basare l'analisi dei protocolli da applicare alle interfacce comunicative che si vogliono implementare.
+
+Velocità
+
+Uno degli aspetti più cruciali dei canali di comunicazione è quello di garantire una velocità sufficientemente elevata, tale da rendere possibile che l'azione di controllo del processo avvenga in tempi ridotti ed adeguati. I vincoli imposti, in questo senso, sono spesso molto restringenti e ciò può costringere all'impiego di sistemi periferici ad intelligenza distribuita per compiere le azioni di controllo. Alcuni dei casi in cui questi problemi si verificano con costanza sono i sistemi SCADA con notevoli dimensioni geografiche. In questo caso occorre utilizzare le infrastrutture di comunicazione dei gestori telefonici, che normalmente sono destinate ad un impiego ``general purpose''. Ciò può rendere il servizio non sufficientemente adeguato per lo scopo finale e occorre, quindi, ricorrere a sistemi periferici con intelligenza di controllo distribuita, in modo da svolgere le azioni nei tempi richiesti.
+
+Nel caso della comunicazione tra il sistema e le HMI, invece, la comunicazione deve avvenire sempre in ``real-time'', in modo da rendere più efficace il lavoro degli operatorio. Questo deve avvenire sia per la visualizzazione dei parametri descrittivi dello stato del processo, che per la risposta alle azioni di controllo attuate dagli operatori.
+
+Infine, la comunicazione con i sistemi esterni è vincolata dal tipo di sistema con cui occorre interfacciarsi. Se è anch'esso un sistema di controllo, allora i vincoli sono gli stessi visti nel caso di comunicazione con il processo, con annesse limitazioni. Se, d'altra parte, si vuole comunicare con un sistema non di controllo, l'interfaccia da implementare non presenta delle particolari restrizioni da rispettare, anzi possono essere considerate come trascurabili.
+È importante sottolineare come, di solito, non sia possibile soddisfare tutti i requisiti imposti dal tipo di comunicazione che si vuole implementare, scendendo di fatto ad un compromesso tra protocolli implementati e tecnologia utilizzata.
+
+Sicurezza
+
+La sicurezza è un aspetto altrettanto importante da considerare al pari della velocità, soprattutto nel caso in cui le probabilità di intrusione da parte di soggetti indesiderati siano abbastanza alte. Chiaramente, nel caso di un sistema chiuso, i tentativi di intrusione a cui si è soggetti diventano esigui, ma non bisogna scordare che è sempre presente la possibilità di un errore umano da parte degli operatori. Si rende necessario, quindi, ricorrere ai ripari preventivamente, cercando di evitare il presentarsi di queste spiacevoli situazioni, che siano causati da attacchi intenzionali o errori in buona fede. 
+
+La gestione della sicurezza deve riguardare sia le comunicazione tra elaboratore e sistema periferico di acquisizione dati, sia tra un sistema SCADA ed un altro, in quanto i entrambi i casi l'alterazione delle informazioni trasportate può provocare un comportamento anomalo da parte dell'impianto di controllo.
+
+Tra le soluzioni adottabili, la più gettonata è la separazione delle diverse aree di lavoro accessibili al sistema ed agli operatori. Questa separazione può avvenire sia fisicamente, così come dal punto di vista dell'implementazione logica, ed in generale è dipendete dal tipo di tecnologia implementata per l'interfaccia di comunicazione. 
+
+In ogni caso, il passo più importante da compiere è quello di definire un'adeguata politica di sicurezza fin dalle fasi progettuali, cosa che negli ultimi anni è diventata imprescindibile, ma che nel passato era trattato con molta superficialità. Questo perché mentre prima i sistemi SCADA erano isolati completamente dal mondo esterno, oggi fanno largo impiego di tecnologie comunicative pubbliche, dal basso costo, ma dalla sicurezza più debole. Si è reso necessario, quindi, un cambio di approccio al tema della sicurezza.
+
+Intelligibilità
+
+L'intelligibilità è un parametro importante nel momento in cui si vuole realizzare un sistema che interagisca costantemente con apparecchiature esterne per la supervisione ed il controllo. In questo caso è possibile applicare diverse soluzioni, ma le più adatte sono quelle che fanno riferimento a degli standard comunicativi predefiniti. Ciò è facilmente comprensibile sia dal punto di vista tecnologico, funzionale ed economico. 
+
+Tecnologico e funzionale perché un protocollo proprietario (ossia non standard) non è detto che sia utilizzato dai dispositivi con cui si vuole comunicare, restringendo quindi la gamma di apparecchi utilizzabili. Inoltre, non è detto che tra quelli effettivamente utilizzabili vi sia il dispositivo adatto a soddisfare tutte le esigenze di comunicazione richieste. Infine, economicamente parlando, un protocollo standardizzato ha dietro di sé il supporto di un'intera comunità scientifica, mentre nel caso di uno proprietario si è costretti a sottostare alle esigenze di mercato dell'azienda padrona del protocollo.
+
+Affidabilità
+
+In generale è richiesto che i dati trasmessi all'elaboratore del sistema SCADA mantengano un alto gradi di integrità. Ciò per rendere possibile una corretta valutazione dello stato evolutivo del processo. Una soluzione potrebbe essere quella di applicare meccanismi di validazione dati nei dispositivi periferici, ma ciò rallenterebbe la risposta generale del sistema all'evoluzione del processo. L'unica opzione rimanente è integrare questi meccanismi nel canale di comunicazione, in modo da riuscire a garantire l'integrità delle informazioni trasportate.
+
+La soluzione ideale per rispondere a questo problema prevede l'implementazione di tre diverse funzionalità:
+
+- rilevazione degli errori;
+- richiesta di ritrasmissione in caso di errori rilevati;
+- ordinamento delle informazione all'interno del flusso dati.
+
+Questi meccanismi sono implementabili nelle maniere più differenti, facendo ricorso agli algoritmi che più si ritengono adatti. Purtroppo, però, l'introduzione di queste funzioni va ad intaccare la velocità di comunicazione, richiedendo, quindi, il raggiungimento di un compromesso in grado di garantire un adeguato rapporto tra la rapidità di scambio delle informazioni e il mantenimento della loro integrità. Inoltre, per ottimizzare l'efficacia della soluzione adottata, è consigliabile lo svolgimento di un'attenta analisi del sistema di comunicazione in questione. È ovvio infatti che nel caso in cui la comunicazione avvenga su di un mezzo di per sé già affidabile, come la fibra ottica, si preferisce evitare l'implementazione di tecnologie per gestire gli errori di trasmissione, in quanto sarebbe praticamente inutilizzato. Se, invece, la comunicazione avviene su di un mezzo meno affidabile, come dei trasmettitori wireless, è fortemente consigliato l'impiego di funzionalità di rilevamento e correzione degli errori.
+
+Infine, nel caso in cui la comunicazione da stabilire sia tra più sistemi SCADA, l'aspetto che si prende più in considerazione è l'ottimizzazione dei costi di trasmissione, in quanto, come detto, sono presenti molti meno vincoli sulla velocità e sull'affidabilità dei dati scambiati.
+
+Disponibilità
+
+In stretta correlazione con l'aspetto dell'affidabilità vi è quello della disponibilità dei dati trasmessi. In casi di disservizio del sistema di comunicazione, infatti, anche le operazioni di controllo, direttamente collegate alle comunicazioni, rischiano di subire dei malfunzionamenti. Occorre, quindi, garantire la continuità della disponibilità delle informazioni in quanti necessaria per svolgere correttamente le attività di controllo (per le quali è fondamentale conoscere in tempo reale lo stato del processo da controllare o, nel caso di attuazione di una politica di controllo, occorre prontamente informare l'attuatore dell'azione che dovrà intraprendere).
+
+Le soluzioni più adatte partono tutte dall'assunzione di un principio molto importante: anche un sistema ad alta disponibilità può interrompere il suo normale servizio per un guasto. In questi casi, per prevenire e combattere il verificarsi di una situazione del genere, si richiede l'utilizzo di protocolli comunicativi opportunamente scelti e la realizzazione di sistemi ridonanti, in cui i dispositivi restano a riposo fino al verificarsi di un guasto. In quel momento saranno prontamente messi in azione per sostituire le componenti ordinarie fuori servizio. Questa soluzione è adottata per tutti i dispositivi presenti nel canale di comunicazione.
+
+Supporto dei servizi
+
+Un'ulteriore aspetto da considerare nell'analisi del sistema di comunicazione è la tipologia delle informazione scambiate. È stato dimostrato, infatti, che a parità di tipo di dati trasmesso, diverse tecnologie e protocolli offrono prestazioni diverse da loro. Occorre, quindi, analizzare se l'interfaccia scelta è adeguata a garantire una qualità di comunicazione sufficientemente elevata per il tipo di dato che si vuole trasmettere.
+
+Differenze tra sistemi DCS e sistemi SCADA
+
+Le componenti appena analizzate non sono una prerogativa dei soli sistemi SCADA, ma sono utilizzati nei vari sistemi di controllo, tra cui i DCS. Ciò che li differenzia, quindi, non è quali strumenti sono utilizzati, ma piuttosto come vengono implementati. In particolar modo la distinzione è sul grado di distribuzione dell'intelligenza di controllo. I DCS, acronimo che sta ad indicare i ``Ditributed Control System'', come suggerisce già il nome stesso, sono basati sull'impiego di strutture di acquisizione dati, ma con anche un'elevata capacità elaborative, creando di fatto un paradigma tecnologico contiguo delle funzioni di controllo e acquisizione, Negli SCADA, invece, come abbiamo visto, le due funzioni sono ben distinte ed affidate ad impianti separati, fisicamente e tecnologicamente.
+
+Nel caso DCS, quindi, non si parla di apparecchiature di acquisizione, ma di unità di elaborazione periferiche, in grado non solo di ricevere dati, ma anche di interpretarli, analizzarli per individuare lo stato attuale in cui il processo si trova e, se necessario, eseguire delle azioni di controllo sul processo. LA complessità architetturale di queste unità periferiche, così come le funzioni che sono in grado di svolgere, è basata sul tipo di processo che si deve controllare. L'unità centrale di elaborazione, nel contesto di un sistema DCS, ha quindi il compito di acquisire sia informazioni grezze che informazioni già elaborate che danno indicazioni sullo stato delle strutture di controllo.
+
+Osservando, però, l'evoluzione tecnologica avvenuta negli ultimi anni che ha interessato anche l'ambiente dei sistemi di controllo, è possibile fare un riflessione sulla necessità di mantenere o meno questa distinzione tra sistemi DCS e SCADA. Inizialmente, la distinzione era dettata dalle differenti caratteristiche tecnologiche che venivano implementate, spesso frutto di scelte obbligatorie per risolvere un particolare problema di controllo. Con lo sviluppo delle infrastrutture di comunicazione e delle tecnologie computazionali la scelta tra un sistema di elaborazione centralizzato con periferiche di acquisizione pure e un sistema con controllo ed elaborazione distribuito anche nelle apparecchiature di acquisizione è diventata sempre più una questione legata a fattori quali scalabilità dell'impianto, grado di manutenzione da garantire e altre caratteristiche non inerenti alla effettiva realizzabilità del sistema. A tal proposito, si prevede che a causa del continuo progresso tecnologico, la distinzione tra sistemi DCS e SCADA si farà sempre più assottigliata fino a sfociare nella creazione di un'unica categoria di classificazione, di cui entrambi faranno parte.
+
+Evoluzione tecnologica dei sistemi SCADA: integrazione con sistemi informativi aziendali
+
+L'evoluzione tecnologica che ha colpito e continua ad interessare i sistemi SCADA ha portato a due principali conseguenze:la prima è stata, come detto, la diminuzione del divario tra la categoria SCADA e quella dei DCS, creando dei sistemi ibridi in cui sono integrate funzionalità di entrambe le parti. La seconda, altrettanto importante, è stata la definizione di nuove architetture con lo scopo di creare non più una paradigma che descriva un sistema fisico, ma piuttosto una funzionalità. In tal senso, è utile vedere le diverse linee evolutive che sono state applicate per realizzare questa idea.
+
+La prima è stata quella che permettesse l'integrazione tra un sistema SCADA con uno gestionale concorrente. In questo modo è possibile interagire direttamente con un sistema informatico aziendale, con il fine di fornire supporto automatizzando la gestione interna, sia organizzativa che contabile.
+
+Una volta progettata l'architettura, con le entità che ne faranno parte, e le comunicazioni tra di esse, occorre analizzare di quali informazione il sistema aziendale ha bisogno per svolgere correttamente le sue funzioni. Il supporto che deve fornire, infatti, è ottimale solo se il sistema SCADA è in grado di fornire le informazioni corrette sullo stato del processo controllato. Un esempio pratico di quanto descritto può essere dato da un sistema SCADA integrato con il sistema gestionale di un magazzino. In questa situazione ipotetica, le decisioni su cosa ordinare e quanto sono prese basandosi sulle informazioni che sono fornite dal sistema SCADA riguardo lo stato del processo controllato. Se queste non fossero corrette, vi sarebbero delle decisioni prese in maniera errata che alla lunga porterebbero ad un danneggiamento economico alla stessa azienda. Questo elencato è solo uno dei molteplici casi in cui è possibile effettuare l'integrazione tra sistema aziendale e quello SCADA, automatizzando la gestione interna. Si possono fare considerazioni simili anche nel caso in cui ci si trova a fornire dei servizi tecnologici tramite web.
+
+Un'altra linea evolutiva scaturita dal processo tecnologico riguarda lo sviluppo di sistema SCADA con larga estensione geografica. In questo caso, un grosso aiuto è stato dato dallo sviluppo delle comunicazioni e le tecnologie legate ad esse. Grazie alle reti ethernet e la tecnologia TCP/IP è stato possibile creare delle infrastrutture di comunicazione sempre più affidabili e soprattutto facilmente modificabili secondo le proprie esigenze. Queste, come detto, sono largamente utilizzate nelle strutture di comunicazione di un sistema SCADA. Inoltre si stanno integrando anche funzionalità legate alla comunicazione radio: sempre più spesso si utilizzano comunicazione wireless per le trasmissioni locali, così come molti sistemi di controllo utilizzano la rete cellulare sia per comunicare con strutture difficilmente raggiungibili da una rete cablata che per avvisare gli stessi operatori nel caso in cui ci sia bisogno di un intervento urgente.
+
+Un nuovo paradigma: la creazione di servizi SCADA
+
+Una delle ultime evoluzioni scaturite dal miglioramento tecnologico è stato un cambio di approccio alla soluzione del problema della supervisione. Tradizionalmente, come visto, sono realizzati dei sistemi di controllo ad hoc la cui gestione è a carico degli operatori responsabili del processo controllato. Questa soluzione prevede prima una fase di analisi per individuare le esigenze di controllo, definire successivamente i requisiti del sistema e la sua architettura per poi, alla fine, passare alla fase di installazione hardware ed implementazione software. Il tutto chiaramente comporta un lavoro molto lungo e oneroso. 
+
+Negli ultimi tempi, invece, si è applicata un diverso approccio per la ricerca della soluzione al problema sopra citato: il focus è stato spostato sulla realizzazione di servizi SCADA che rispondano a esigenze di tipo funzionale. In questo modo il servizio coinvolge due tipologie di operatori, in maniera diversa. Chi crea il servizio, ossia il fornitore, gestisce e controlla direttamente il sistema SCADA e dovrà occuparsi dei problemi architetturali e progettuali. Il committente, ovverosia il fruitore del servizio, non sarà coinvolto nella realizzazione dell'impianto, ma avrà il compito di gestire i problemi organizzativi nati dall'introduzione del sistema di controllo nella rete aziendale.
+
+Come si può notare dallo schema riportato, il sistema di elaborazione viene gestito dal fornitore. Questo sarà messo in comunicazione con le restanti componenti tramite una rete realizzata nelle vicinanze del processo ed accessibile tramite dei canali di comunicazioni simili a quelli utilizzati nei sistemi distribuiti. Il fruitore potrà accedere alle funzionalità di supervisione e controllo del sistema SCADA tramite le interfacce HMI messe a disposizione dal fornitore.
+
+Ovviamente, occorre tenere anche in considerazione gli aspetti legati all'affidabilità del servizio, alle prestazione e, soprattutto, alla sicurezza. Se prima ci trovavamo spesso al cospetto di un sistema chiuso, creato ad hoc per rispettare le proprie esigenze, ora l'adozione di un servizio SCADA comporta il condividere molti dati con una terza parte esterna, rappresentata in questo caso dal fornitore. Questi dati, molto spesso, sono cruciali poiché permettono la realizzazione del sistema di controllo. Una loro eventuale perdita o manomissione comporterebbe dei danni sia economici che operativi molto elevati.

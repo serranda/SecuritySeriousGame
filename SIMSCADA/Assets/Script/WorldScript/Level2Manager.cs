@@ -22,6 +22,8 @@ public class Level2Manager : MonoBehaviour, ILevelManager
 
     public GameData gameData = new GameData();
 
+    [SerializeField] private GameSettingManager gameSettingManager;
+
     private void Start()
     {
         starterRoutine = StarterCoroutine();
@@ -31,7 +33,6 @@ public class Level2Manager : MonoBehaviour, ILevelManager
     private void Update()
     {
         if (!GameDataManager.gameDataLoaded || hudManager == null) return;
-        //gameData.simulationSpeedMultiplier = StaticDb.speedMultiplier;
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -41,29 +42,42 @@ public class Level2Manager : MonoBehaviour, ILevelManager
                 ClassDb.levelMessageManager.StartNeedToCloseDialog();
                 return;
             }
+
+            if (gameData.chartEnabled)
+            {
+                return;
+            }
             ClassDb.pauseManager.TogglePauseMenu();
+
+            gameSettingManager.StartSaveSettingsWebFile(gameSettingManager.gameSettings);
         }
 
-        //DEBUG
-        //---------------------------------------------------------------------------------------------------------------------
-        if (Input.GetKeyDown(KeyCode.V))
-            StartCoroutine(NewFakeLocalThreats());
-
-        if (Input.GetKeyDown(KeyCode.B))
-            StartCoroutine(NewLocalThreats());
-
-        if (Input.GetKeyDown(KeyCode.N))
-            StartCoroutine(NewRemoteThreats());
-
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            Threat threat = ClassDb.threatManager.NewRandomLevel2Threat();
-            InstantiateNewThreat(threat);
-        }
-
-
-
-        //---------------------------------------------------------------------------------------------------------------------
+        ////DEBUG
+        ////---------------------------------------------------------------------------------------------------------------------
+        //if (Input.GetKeyDown(KeyCode.V))
+        //    StartCoroutine(NewFakeLocalThreats());
+        //
+        //if (Input.GetKeyDown(KeyCode.B))
+        //    StartCoroutine(NewLocalThreats());
+        //
+        //if (Input.GetKeyDown(KeyCode.N))
+        //    StartCoroutine(NewRemoteThreats());
+        //
+        //if (Input.GetKeyDown(KeyCode.M))
+        //{
+        //    Threat threat = ClassDb.threatManager.NewRandomLevel1Threat();
+        //    InstantiateNewThreat(threat);
+        //}
+        //
+        //if (Input.GetKeyDown(KeyCode.A))
+        //{
+        //    //DEBUG; CREATE NEW PHISHING THREAT
+        //    Threat threat = new Threat(++gameData.lastThreatId, StaticDb.ThreatType.local, 3f, StaticDb.ThreatAttacker.external, StaticDb.ThreatDanger.high, StaticDb.ThreatAttack.createRemote, 2, false);
+        //    InstantiateNewThreat(threat);
+        //
+        //}
+        //
+        ////---------------------------------------------------------------------------------------------------------------------
 
         if (Input.GetMouseButtonDown(1) && gameData.buttonEnabled)
         {
@@ -85,43 +99,43 @@ public class Level2Manager : MonoBehaviour, ILevelManager
         gameData.longDate = gameData.date.ToFileTimeUtc();
     }
 
-    //DEBUG
-    //---------------------------------------------------------------------------------------------------------------------
-    private IEnumerator NewRemoteThreats()
-    {
-        for (int i = 0; i < 1; i++)
-        {
-            Threat threat = ClassDb.threatManager.NewRemoteThreat();
-
-            InstantiateNewThreat(threat);
-
-            yield return new WaitForSeconds(3);
-        }
-    }
-
-    private IEnumerator NewLocalThreats()
-    {
-        for (int i = 0; i < 1; i++)
-        {
-            Threat threat = ClassDb.threatManager.NewLocalThreat();
-            InstantiateNewThreat(threat);
-
-            yield return new WaitForSeconds(1);
-        }
-    }
-
-    private IEnumerator NewFakeLocalThreats()
-    {
-        for (int i = 0; i < 1; i++)
-        {
-            Threat threat = ClassDb.threatManager.NewFakeLocalThreat();
-            InstantiateNewThreat(threat);
-
-            yield return new WaitForSeconds(1);
-        }
-    }
-
-    //---------------------------------------------------------------------------------------------------------------------
+    ////DEBUG
+    ////---------------------------------------------------------------------------------------------------------------------
+    //private IEnumerator NewRemoteThreats()
+    //{
+    //    for (int i = 0; i < 1; i++)
+    //    {
+    //        Threat threat = ClassDb.threatManager.NewRemoteThreat();
+    //
+    //        InstantiateNewThreat(threat);
+    //
+    //        yield return new WaitForSeconds(3);
+    //    }
+    //}
+    //
+    //private IEnumerator NewLocalThreats()
+    //{
+    //    for (int i = 0; i < 1; i++)
+    //    {
+    //        Threat threat = ClassDb.threatManager.NewLocalThreat();
+    //        InstantiateNewThreat(threat);
+    //
+    //        yield return new WaitForSeconds(1);
+    //    }
+    //}
+    //
+    //private IEnumerator NewFakeLocalThreats()
+    //{
+    //    for (int i = 0; i < 1; i++)
+    //    {
+    //        Threat threat = ClassDb.threatManager.NewFakeLocalThreat();
+    //        InstantiateNewThreat(threat);
+    //
+    //        yield return new WaitForSeconds(1);
+    //    }
+    //}
+    //
+    ////---------------------------------------------------------------------------------------------------------------------
 
     public IEnumerator StarterCoroutine()
     {
@@ -134,29 +148,32 @@ public class Level2Manager : MonoBehaviour, ILevelManager
 
         SpawnHud();
 
-
         //start and set gui setting parameters
-        if (!gameData.firstLaunch && gameData.levelIndex == 2)
+        if (!gameData.firstLaunch && gameData.levelIndex == 1)
         {
+            //WRITE LOG
+            ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.SystemEvent, "LOADING DATA");
+
             RestorePrefabs(gameData);
         }
         else
         {
+            //WRITE LOG
+            ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.SystemEvent, "NEW GAME STARTED");
+
+            //SHOW WELCOME MESSAGE
             ClassDb.levelMessageManager.StartWelcome();
+
+            //SHOW MESSAGE FOR SCADA LESSON
+            ClassDb.levelMessageManager.StartShowScadaLesson();
 
             //EVENT TO SET A THREAT TENDENCIES; IF RESEARCH REPORT IS ACTIVE DISPLAY MESSAGE 
             SetMonthlyThreatAttack();
         }
 
-
         StartTimeRoutine();
 
-        //DEBUG
-        //---------------------------------------------------------------------------------------------------------------------
-
         StartAllCoroutines();
-
-        //---------------------------------------------------------------------------------------------------------------------
     }
 
     public void SpawnHud()
@@ -175,21 +192,16 @@ public class Level2Manager : MonoBehaviour, ILevelManager
     public void StartAllCoroutines()
     {
 
-        //DEBUG
-        //---------------------------------------------------------------------------------------------------------------------
-
         remoteIdsRoutine = RemoteIdsCheckRoutine();
         StartCoroutine(remoteIdsRoutine);
 
         localIdsRoutine = LocalIdsCheckRoutine();
         StartCoroutine(localIdsRoutine);
 
-        //newThreatRoutine = CreateNewThreat();
-        //StartCoroutine(newThreatRoutine);
+        newThreatRoutine = CreateNewThreat();
+        StartCoroutine(newThreatRoutine);
 
-        //---------------------------------------------------------------------------------------------------------------------
-        Debug.Log("COROUTINES STARTED");
-
+        ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.GameEvent, "COROUTINES STARTED");
     }
 
     public void UpdateMinutes()
@@ -202,8 +214,6 @@ public class Level2Manager : MonoBehaviour, ILevelManager
         for (; ; )
         {
             yield return new WaitUntil(() => gameData.minutePercentage > 1);
-
-            //Debug.Log("DeltaTime: " + Time.fixedDeltaTime + " MinutePercentage: " + StaticDb.minutePercentage);
 
             gameData.timeEventList = ClassDb.timeEventManager.UpdateTimeEventList(gameData.timeEventList);
 
@@ -218,14 +228,7 @@ public class Level2Manager : MonoBehaviour, ILevelManager
 
             gameData.totalMoneyEarnPerMinute = StaticDb.baseEarn * gameData.totalEmployees;
 
-            //if (gameData.isMoneyLoss)
-            //{
-            //    gameData.totalMoneyLossPerMinute = gameData.moneyLossList.Values.Sum();
-            //    gameData.isMoneyLoss = false;
-            //}
-
             gameData.totalMoneyLossPerMinute = gameData.moneyLossList.Values.Sum();
-
 
             gameData.totalCostPerMinute = 0;
 
@@ -252,11 +255,12 @@ public class Level2Manager : MonoBehaviour, ILevelManager
 
             gameData.threatSpawnTime += gameData.minutePercentage;
 
+            //CONTROL IF INCREASE COUNTER FOR GAME WIN OR GAME LOSS CONDITION
             if (gameData.reputation >= 85 && gameData.money >= 15000)
             {
                 gameData.winCounter += gameData.minutePercentage;
             }
-            else if (gameData.money <= -10000)
+            else if (gameData.money <= -30000)
             {
                 gameData.lossCounter += gameData.minutePercentage;
             }
@@ -278,13 +282,14 @@ public class Level2Manager : MonoBehaviour, ILevelManager
             SceneManager.GetActiveScene().buildIndex == StaticDb.tutorialSceneIndex)
             return;
 
-        //if (DialogBoxManager.dialogEnabled) return;
-
         if (gameData.winCounter >= 150)
         {
             gameData.isGameWon = true;
             ClassDb.levelMessageManager.StartEndGame();
             StopAllCoroutines();
+
+            //WRITE LOG
+            ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.GameEvent, "GAME WON; LOADING NEXT LEVEL");
         }
 
         if (gameData.lossCounter >= 150)
@@ -292,7 +297,12 @@ public class Level2Manager : MonoBehaviour, ILevelManager
             gameData.isGameWon = false;
             ClassDb.levelMessageManager.StartEndGame();
             StopAllCoroutines();
+
+            //WRITE LOG
+            ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.GameEvent, "GAME LOST; RETURNING TO MAIN MENU");
         }
+
+
     }
 
     public void OnNewMonth()
@@ -312,6 +322,7 @@ public class Level2Manager : MonoBehaviour, ILevelManager
     public void SetMonthlyThreatAttack()
     {
         StaticDb.ThreatAttack attack;
+
         do
         {
             attack = (StaticDb.ThreatAttack)Random.Range(0, 8);
@@ -324,7 +335,8 @@ public class Level2Manager : MonoBehaviour, ILevelManager
         if (gameData.researchUpgrade)
             ClassDb.levelMessageManager.StartShowReport(attack.ToString().ToUpper());
 
-        Debug.Log(attack);
+        //WRITE LOG
+        ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.GameEvent, "NEW MONTHLY THREAT: " + attack.ToString().ToUpper());
 
         SetRandomizer();
 
@@ -373,10 +385,7 @@ public class Level2Manager : MonoBehaviour, ILevelManager
 
             yield return new WaitUntil(() => gameData.threatSpawnTime > gameData.threatSpawnRate);
 
-            //yield return new WaitWhile(() => gameData.hasDosDeployed || gameData.hasPhishingDeployed || gameData.hasReplayDeployed || gameData.hasMitmDeployed || gameData.hasMalwareDeployed || gameData.hasStuxnetDeployed || gameData.hasDragonflyDeployed);
-            yield return new WaitUntil(() =>gameData.hasThreatDeployed);
-
-            //Debug.Log(StaticDb.threatSpawnRate);
+            yield return new WaitWhile(() => gameData.hasThreatDeployed);
 
             NewThreat();
         }
@@ -403,13 +412,15 @@ public class Level2Manager : MonoBehaviour, ILevelManager
             case StaticDb.ThreatType.fakeLocal:
                 //fake local threat
                 StartFakeLocalThreat(threat);
-                //moneyEarnList.Add(threat.aiController,threat.moneyLossPerMinute);
                 break;
             case StaticDb.ThreatType.timeEvent:
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
+
+        //WRITE LOG
+        ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.GameEvent, threat.threatAttack.ToString().ToUpper() + " STARTED");
 
         hudManager.UpdateHud(gameData.money, gameData.successfulThreat,
             gameData.totalThreat, gameData.totalEmployees, gameData.reputation);
@@ -478,10 +489,8 @@ public class Level2Manager : MonoBehaviour, ILevelManager
 
         //CHECK IF PLAYER IS NEAR OBJECTIVE; IF NOT THREAT NOT ELIGIBLE TO DEPLOY
         //BYPASS THIS CHECK IF THREAT IS REMOTE
-        if (threat.aiController.ThreatDeployEligibility() || threat.threatType == StaticDb.ThreatType.remote)
+        if (threat.aiController.ThreatDeployEligibility())
         {
-            //DEBUG
-            //---------------------------------------------------------------------------------------------------------------------
             if (threat.threatType != StaticDb.ThreatType.fakeLocal)
             {
                 //THREAT WITH INTERN ATTACKER; CHECK IF CORRUPTION ATTEMPT IS SUCCESSFUL
@@ -516,18 +525,26 @@ public class Level2Manager : MonoBehaviour, ILevelManager
                     yield break;
                 }
             }
-            //---------------------------------------------------------------------------------------------------------------------
 
             bool deployed = BeforeDeployThreat(threat);
 
             //wait for closing dialog box
             yield return new WaitWhile(() => gameData.dialogEnabled);
 
-            if (!deployed) yield break;
+            if (!deployed)
+            {
+                //WRITE LOG
+                ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.GameEvent, threat.threatAttack.ToString().ToUpper() + " STOPPED");
+                yield break;
+            }
 
             //SET FLAGS TO INFORM ABOUT DEPLOYED THREAT
             gameData.hasThreatDeployed = true;
             gameData.lastThreatDeployed = threat;
+
+            //WRITE LOG
+            ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.GameEvent, threat.threatAttack.ToString().ToUpper() + " DEPLOYED");
+
 
             //Set flag to start evaluate threat management result
             gameData.hasThreatManaged = false;
@@ -538,27 +555,17 @@ public class Level2Manager : MonoBehaviour, ILevelManager
             switch (threat.threatAttack)
             {
                 case StaticDb.ThreatAttack.dos:
-                    ////flag to inform about dos attack
-                    //if (!gameData.hasDosDeployed) gameData.hasDosDeployed = true;
 
                     //Stop all time events before setting money loss
                     ClassDb.timeEventManager.StopTimeEventList(gameData.timeEventList);
 
-                    ////Stop earning until rebooting is executed
-                    //totalMoneyEarnPerMinute = 0f;
-
                     //Set money loss for rebooting and check flag to start money loss
                     gameData.moneyLossList[StaticDb.ThreatAttack.dos] += threat.moneyLossPerMinute * gameData.totalMoneyEarnPerMinute;
-                    //gameData.isMoneyLoss = true;
-
-                    ////Set flag to start evaluate threat management result
-                    //gameData.hasThreatManaged = false;
-                    //StartThreatManagementResultData(threat);
 
                     if (gameData.isFirstDos)
                     {
                         gameData.isFirstDos = false;
-                        //SHOW THE CORRISPONDENT LESSON
+                        //SHOW THE RIGHT LESSON
                         ClassDb.levelMessageManager.StartShowLessonFirstTime(threat);
                         //wait for closing dialog box
                         yield return new WaitWhile(() => gameData.dialogEnabled);
@@ -567,8 +574,6 @@ public class Level2Manager : MonoBehaviour, ILevelManager
                     break;
 
                 case StaticDb.ThreatAttack.phishing:
-                    ////flag to inform about dos attack
-                    //if (!gameData.hasPhishingDeployed) gameData.hasPhishingDeployed = true;
 
                     //Calculate money loss according to the formula moneyLossPerMinute * 60 * threat number of hour  
                     moneyLoss = threat.moneyLossPerMinute * 60 * threat.deployTime;
@@ -576,7 +581,7 @@ public class Level2Manager : MonoBehaviour, ILevelManager
                     //Inform how much money has been lost
                     ClassDb.levelMessageManager.StartMoneyLoss(threat.threatType, moneyLoss);
 
-                    //Decreasing money by moneyloss amount
+                    //Decreasing money by moneyLoss amount
                     gameData.money -= moneyLoss;
 
                     //gameData.hasPhishingDeployed = false;
@@ -584,7 +589,7 @@ public class Level2Manager : MonoBehaviour, ILevelManager
                     if (gameData.isFirstPhishing)
                     {
                         gameData.isFirstPhishing = false;
-                        //SHOW THE CORRISPONDENT LESSON
+                        //SHOW THE RIGHT LESSON
                         ClassDb.levelMessageManager.StartShowLessonFirstTime(threat);
                         //wait for closing dialog box
                         yield return new WaitWhile(() => gameData.dialogEnabled);
@@ -592,36 +597,20 @@ public class Level2Manager : MonoBehaviour, ILevelManager
                     break;
 
                 case StaticDb.ThreatAttack.replay:
-                    ////flag to inform about replay attack
-                    //if (!gameData.hasReplayDeployed) gameData.hasReplayDeployed = true;
 
                     //Stop all time events before setting money loss
                     ClassDb.timeEventManager.StopTimeEventList(gameData.timeEventList);
-
-                    ////Stop earning until checking is executed
-                    //totalMoneyEarnPerMinute = 0f;
 
                     //flag to inform about check plant by phone
                     gameData.hasPlantChecked = false;
 
                     //set money loss until check network cfg has been executed and check flag to start money loss
                     gameData.moneyLossList[StaticDb.ThreatAttack.replay] += threat.moneyLossPerMinute * gameData.totalMoneyEarnPerMinute;
-                    //gameData.isMoneyLoss = true;
-
-                    //Calculate money loss according to the formula moneyLossPerMinute * 60 * threat number of hour  
-                    moneyLoss = threat.moneyLossPerMinute * 60 * threat.deployTime;
-
-                    ////Add threat to replyThreat dictionary in order to show information about money loss when check plant
-                    //TelephoneListener.replayThreats.Add(threat, moneyLoss);
-
-                    ////TODO Set flag to start evaluate threat management result
-                    //gameData.hasThreatManaged = false;
-                    //StartThreatManagementResultData(threat);
 
                     if (gameData.isFirstReplay)
                     {
                         gameData.isFirstReplay = false;
-                        //SHOW THE CORRISPONDENT LESSON
+                        //SHOW THE RIGHT LESSON
                         ClassDb.levelMessageManager.StartShowLessonFirstTime(threat);
                         //wait for closing dialog box
                         yield return new WaitWhile(() => gameData.dialogEnabled);
@@ -629,27 +618,17 @@ public class Level2Manager : MonoBehaviour, ILevelManager
                     break;
 
                 case StaticDb.ThreatAttack.mitm:
-                    ////flag to inform about mitm attack
-                    //if (!gameData.hasMitmDeployed) gameData.hasMitmDeployed = true;
 
                     //Stop all time events before setting money loss
                     ClassDb.timeEventManager.StopTimeEventList(gameData.timeEventList);
 
-                    ////Stop earning until checking is executed
-                    //totalMoneyEarnPerMinute = 0f;
-
                     //set money loss until check network cfg has been executed and check flag to start money loss
                     gameData.moneyLossList[StaticDb.ThreatAttack.mitm] += threat.moneyLossPerMinute * gameData.totalMoneyEarnPerMinute;
-                    //gameData.isMoneyLoss = true;
-
-                    ////TODO Set flag to start evaluate threat management result
-                    //gameData.hasThreatManaged = false;
-                    //StartThreatManagementResultData(threat);
 
                     if (gameData.isFirstMitm)
                     {
                         gameData.isFirstMitm = false;
-                        //SHOW THE CORRISPONDENT LESSON
+                        //SHOW THE RIGHT LESSON
                         ClassDb.levelMessageManager.StartShowLessonFirstTime(threat);
                         //wait for closing dialog box
                         yield return new WaitWhile(() => gameData.dialogEnabled);
@@ -657,36 +636,20 @@ public class Level2Manager : MonoBehaviour, ILevelManager
                     break;
 
                 case StaticDb.ThreatAttack.stuxnet:
-                    ////flag to inform about stuxnet attack
-                    //if (!gameData.hasStuxnetDeployed) gameData.hasStuxnetDeployed = true;
 
                     //Stop all time events before setting money loss
                     ClassDb.timeEventManager.StopTimeEventList(gameData.timeEventList);
-
-                    ////Stop earning until scan is executed
-                    //totalMoneyEarnPerMinute = 0f;
 
                     //flag to inform about check plant by phone
                     gameData.hasPlantChecked = false;
 
                     //set money loss until scan has been executed and check flag to start money loss
                     gameData.moneyLossList[StaticDb.ThreatAttack.stuxnet] += threat.moneyLossPerMinute * gameData.totalMoneyEarnPerMinute;
-                    //gameData.isMoneyLoss = true;
-
-                    //Calculate money loss according to the formula moneyLossPerMinute * 60 * threat number of hour  
-                    moneyLoss = threat.moneyLossPerMinute * 60 * threat.deployTime;
-
-                    ////Add threat to replyThreat dictionary in order to show information about money loss when check plant
-                    //TelephoneListener.stuxnetThreats.Add(threat, moneyLoss);
-
-                    ////TODO Set flag to start evaluate threat management result
-                    //gameData.hasThreatManaged = false;
-                    //StartThreatManagementResultData(threat);
 
                     if (gameData.isFirstStuxnet)
                     {
                         gameData.isFirstStuxnet = false;
-                        //SHOW THE CORRISPONDENT LESSON
+                        //SHOW THE RIGHT LESSON
                         ClassDb.levelMessageManager.StartShowLessonFirstTime(threat);
                         //wait for closing dialog box
                         yield return new WaitWhile(() => gameData.dialogEnabled);
@@ -694,21 +657,15 @@ public class Level2Manager : MonoBehaviour, ILevelManager
                     break;
 
                 case StaticDb.ThreatAttack.dragonfly:
-                    ////flag to inform about dragonfly attack
-                    //if (!gameData.hasDragonflyDeployed) gameData.hasDragonflyDeployed = true;
 
                     //Stop all time events before setting money loss
                     ClassDb.timeEventManager.StopTimeEventList(gameData.timeEventList);
-
-                    ////Stop earning until scan is executed
-                    //totalMoneyEarnPerMinute = 0f;
 
                     //flag to inform about check malware
                     gameData.hasMalwareChecked = false;
 
                     //set money loss until scan has been executed and check flag to start money loss
                     gameData.moneyLossList[StaticDb.ThreatAttack.dragonfly] += threat.moneyLossPerMinute * gameData.totalMoneyEarnPerMinute;
-                    //gameData.isMoneyLoss = true;
 
                     //Calculate money loss according to the formula moneyLossPerMinute * 60 * threat number of hour  
                     moneyLoss = threat.moneyLossPerMinute * 60 * threat.deployTime;
@@ -721,10 +678,6 @@ public class Level2Manager : MonoBehaviour, ILevelManager
 
                     //Decreasing money by moneyloss amount
                     gameData.money -= moneyLoss;
-
-                    ////TODO Set flag to start evaluate threat management result
-                    //gameData.hasThreatManaged = false;
-                    //StartThreatManagementResultData(threat);
 
                     if (gameData.isFirstDragonfly)
                     {
@@ -737,18 +690,12 @@ public class Level2Manager : MonoBehaviour, ILevelManager
                     break;
 
                 case StaticDb.ThreatAttack.malware:
-                    ////flag to inform about malware attack
-                    //if (!gameData.hasMalwareDeployed) gameData.hasMalwareDeployed = true;
 
                     //Stop all time events before setting money loss
                     ClassDb.timeEventManager.StopTimeEventList(gameData.timeEventList);
 
-                    ////Stop earning until scan is executed
-                    //totalMoneyEarnPerMinute = 0f;
-
                     //set money loss until scan has been executed and check flag to start money loss
                     gameData.moneyLossList[StaticDb.ThreatAttack.malware] += threat.moneyLossPerMinute * gameData.totalMoneyEarnPerMinute;
-                    //gameData.isMoneyLoss = true;
 
                     //Calculate money loss according to the formula moneyLossPerMinute * 60 * threat number of hour 
                     moneyLoss = threat.moneyLossPerMinute * 60 * threat.deployTime;
@@ -761,10 +708,6 @@ public class Level2Manager : MonoBehaviour, ILevelManager
 
                     //Decreasing money by moneyloss amount
                     gameData.money -= moneyLoss;
-
-                    ////TODO Set flag to start evaluate threat management result
-                    //gameData.hasThreatManaged = false;
-                    //StartThreatManagementResultData(threat);
 
                     if (gameData.isFirstMalware)
                     {
@@ -804,14 +747,17 @@ public class Level2Manager : MonoBehaviour, ILevelManager
 
                     gameData.money += moneyEarn;
 
-                    //moneyEarnList.Remove(threat.aiController);
-
-                    //isMoneyEarn = true;
-
                     yield break;
 
                 default:
                     throw new ArgumentOutOfRangeException();
+            }
+
+            //check if threat was originated from create remote
+            if (threat.fromCreateRemote)
+            {
+                //show dialog to display lesson about mixed attack
+                ClassDb.levelMessageManager.StartShowLessonFromRemote();
             }
 
             AfterDeployThreat(threat);
@@ -852,15 +798,20 @@ public class Level2Manager : MonoBehaviour, ILevelManager
             }
         }
     }
+
     //REMOVE AI AND POP UP A DIALOG BOX
     public bool BeforeDeployThreat(Threat threat)
     {
-        float threatSuccessRate = Random.Range(0, 100);
 
         if (threat.threatType == StaticDb.ThreatType.remote && !gameData.isFirewallActive)
         {
+            ClassDb.spawnCharacter.RemoveAi(threat.aiController.gameObject);
+            ClassDb.levelMessageManager.StartThreatDeployed(threat);
+
             return true;
         }
+
+        float threatSuccessRate = Random.Range(0, 100);
 
         switch (threat.threatAttack)
         {
@@ -1019,12 +970,22 @@ public class Level2Manager : MonoBehaviour, ILevelManager
 
     public void RemoteIdsCheck()
     {
-        gameData.idsList.Clear();
 
-        foreach (Threat threat in gameData.remoteThreats)
+        foreach (Threat threat in gameData.remoteThreats.ToArray())
         {
-            if (Random.Range(1, 100) < gameData.remoteIdsSuccessRate)
-                gameData.idsList.Add(threat);
+            if (Random.Range(1, 100) >= gameData.remoteIdsSuccessRate) continue;
+
+            //REMOVE AI AND PROGRESS BAR PREFAB FROM SCENE
+            ClassDb.spawnCharacter.RemoveAi(threat.aiController.gameObject);
+            ClassDb.timeEventManager.GetThreatTimeEvent(threat).progressBar.GetComponentInChildren<Slider>().value = 0f;
+            ClassDb.prefabManager.ReturnPrefab(ClassDb.timeEventManager.GetThreatTimeEvent(threat).progressBar.gameObject, PrefabManager.pbIndex);
+
+            //REMOVE THREAT TIME EVENT RELATED FROM LISTS
+            gameData.timeEventList.Remove(ClassDb.timeEventManager.GetThreatTimeEvent(threat));
+            gameData.remoteThreats.Remove(threat);
+
+            //POPULATE IDSLIST
+            gameData.idsList.Add(threat);
         }
 
         if (gameData.idsList.Count <= 0) return;
@@ -1105,16 +1066,31 @@ public class Level2Manager : MonoBehaviour, ILevelManager
     public void SetFirewallActive(bool active)
     {
         gameData.isFirewallActive = active;
+        //REGISTER ACTION RELATIVE TO MONTHLY THREAT
+        ClassDb.userActionManager.RegisterDefenseActivation("firewall", active, gameData.monthlyThreat);
+
+        //WRITE LOG
+        ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.UserEvent, "FIREWALL ACTIVE: " + active.ToString().ToUpper());
     }
 
     public void SetRemoteIdsActive(bool active)
     {
         gameData.isRemoteIdsActive = active;
+        //REGISTER ACTION RELATIVE TO MONTHLY THREAT
+        ClassDb.userActionManager.RegisterDefenseActivation("ids", active, gameData.monthlyThreat);
+
+        //WRITE LOG
+        ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.UserEvent, "IDS ACTIVE: " + active.ToString().ToUpper());
     }
 
     public void SetLocalIdsActive(bool active)
     {
         gameData.isLocalIdsActive = active;
+        //REGISTER ACTION RELATIVE TO MONTHLY THREAT
+        ClassDb.userActionManager.RegisterDefenseActivation("local", active, gameData.monthlyThreat);
+
+        //WRITE LOG
+        ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.UserEvent, "LOCAL SECURITY ACTIVE: " + active.ToString().ToUpper());
     }
 
     public GameData GetGameData()
@@ -1194,13 +1170,6 @@ public class Level2Manager : MonoBehaviour, ILevelManager
             GameObject.Find(data.pressedSprite).GetComponent<InteractiveSprite>().ToggleMenu();
         }
 
-        ////IDCARD
-        //if (data.idCardEnabled)
-        //{
-        //    data.idCardEnabled = false;
-        //    FindObjectOfType<IdCardManager>().ToggleIdCard();
-        //}
-
         //NOTEBOOK
         if (data.noteBookEnabled)
         {
@@ -1213,8 +1182,11 @@ public class Level2Manager : MonoBehaviour, ILevelManager
 
         //RESTORE CAMERA ZOOM VALUE
         CinemachineVirtualCamera virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
-        Debug.Log(data.cameraZoom);
+        //Debug.Log(data.cameraZoom);
         virtualCamera.m_Lens.OrthographicSize = data.cameraZoom;
+
+        //WRITE LOG
+        ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.GameEvent, "DATA LOADED");
 
     }
 }

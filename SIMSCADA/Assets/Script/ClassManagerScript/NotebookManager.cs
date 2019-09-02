@@ -38,6 +38,8 @@ public class NotebookManager : MonoBehaviour
     public static bool isFirstLesson;
     public static Threat firstLessonThreat;
 
+    public static bool isScadaLesson;
+
     private IEnumerator notebookMessageRoutine;
 
     private ILevelManager manager;
@@ -130,9 +132,13 @@ public class NotebookManager : MonoBehaviour
         toggleGroup.SetAllTogglesOff();
         ShowInitialPage();
 
-        if (!isFirstLesson) return;
-        ShowThreatLesson(firstLessonThreat);
-
+        if (isFirstLesson)
+            ShowThreatLesson(firstLessonThreat);
+        else if (isScadaLesson)
+            ShowScadaLesson();
+        else
+            return;
+            
     }
 
     private void OnDisable()
@@ -373,6 +379,15 @@ public class NotebookManager : MonoBehaviour
 
         isFirstLesson = false;
 
+    }
+
+    private void ShowScadaLesson()
+    {
+        Lesson find = lessonObjList.Find(lesson => lesson.id.ToLowerInvariant() == "scada");
+
+        GameObject.Find(find.id + "Lesson").GetComponent<Toggle>().isOn = true;
+
+        isScadaLesson = false;
     }
 
     private IEnumerator NotebookMessageRoutine()

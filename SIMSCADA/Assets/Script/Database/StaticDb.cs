@@ -10,7 +10,7 @@ public class StaticDb
     public static int indexSlot;
 
     //string vale for data format in log file
-    public static string logTimeFormat = "[dd/MMM/yyyy:hh:mm:ss zzz]";
+    public static string logTimeFormat = "[dd/MMM/yyyy:hh:mm:ss]";
     public static string panelTimeFormat = "dd/MM/yyyy hh:mm:ss";
 
     //string values for php script and server folder
@@ -84,6 +84,7 @@ public class StaticDb
     public const string newEmployeesHired = "Messages/NewEmployeesHired";
     public const string showLessonFirstTime = "Messages/ShowLessonFirstTime";
     public const string threatFromRemote = "Messages/ThreatFromRemote";
+    public const string scadaLesson = "Messages/ScadaLesson";
     public const string researchReport = "Messages/ResearchReport";
     public const string endGameWin = "Messages/EndGameWin";
     public const string endGameLoss = "Messages/EndGameLoss";

@@ -28,6 +28,7 @@ public class LevelMessageManager : MonoBehaviour
     private IEnumerator newEmployeesHiredRoutine;
     private IEnumerator showLessonFirstTimeRoutine;
     private IEnumerator showLessonFromRemoteRoutine;
+    private IEnumerator showScadaLessonRoutine;
     private IEnumerator showReportRoutine;
     private IEnumerator endGameRoutine;
     private IEnumerator closeDialogRoutine;
@@ -854,6 +855,43 @@ public class LevelMessageManager : MonoBehaviour
         dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.AddListener(delegate
         {
             ClassDb.dialogBoxManager.CloseDialog(dialog);
+        });
+
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.onClick.RemoveAllListeners();
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.gameObject.SetActive(false);
+    }
+
+    public void StartShowScadaLesson()
+    {
+        showScadaLessonRoutine = ShowScadaLesson();
+        StartCoroutine(showScadaLessonRoutine);
+    }
+
+    private IEnumerator ShowScadaLesson()
+    {
+        yield return new WaitForSeconds(messageDelay);
+
+        Canvas dialog = ClassDb.dialogBoxManager.OpenDialog();
+
+        DialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.scadaLesson));
+
+        dialog.GetComponent<DialogBoxManager>().SetDialog(
+            message.head,
+            message.body,
+            message.backBtn,
+            message.nextBtn,
+            dialog
+        );
+
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.RemoveAllListeners();
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.gameObject.SetActive(true);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.AddListener(delegate
+        {
+            ClassDb.dialogBoxManager.CloseDialog(dialog);
+
+            NotebookManager.isScadaLesson = true;
+
+            ClassDb.notebookManager.ToggleNoteBook();
         });
 
         dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.onClick.RemoveAllListeners();
