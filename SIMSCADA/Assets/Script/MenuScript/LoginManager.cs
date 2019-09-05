@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.IO;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -13,6 +16,8 @@ public class LoginManager : MonoBehaviour
     private IEnumerator checkLoggingPlayer;
     private IEnumerator updatePlayerList;
     private IEnumerator createPlayerFolder;
+
+    private RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
 
     [SerializeField] private Button registrationBtn;
     [SerializeField] private Button loginBtn;
@@ -121,9 +126,24 @@ public class LoginManager : MonoBehaviour
         string address = Application.absoluteURL == string.Empty
             ? StaticDb.serverAddressEditor
             : Application.absoluteURL.TrimEnd('/');
+
+        //TODO CHEcK IF CORRECT
+        //GENERATE SALT AND HASH CODE FOR PASSWORD
+        byte[] hash;
+        byte[] salt;
+        using (SHA256 mySHA256 = SHA256.Create())
+        {
+            salt = new byte[passwordR.text.Length];
+            rng.GetBytes(salt);
+
+            byte[] saltPassword = Encoding.ASCII.GetBytes(passwordR.text.Insert(0, salt.ToString()));
+
+            hash = mySHA256.ComputeHash(saltPassword);
+
+        }
         
         //create player instance with registration credential
-        Player player = new Player(playerUserNameR.text, passwordR.text, playerName.text, playerSurname.text);
+        Player player = new Player(playerUserNameR.text, hash.ToString(), playerName.text, playerSurname.text, salt.ToString());
 
         Debug.Log("PlayerInfo: " + player);
 
@@ -196,11 +216,6 @@ public class LoginManager : MonoBehaviour
             ? StaticDb.serverAddressEditor
             : Application.absoluteURL.TrimEnd('/');
 
-        //create player instance with credential
-        Player player = new Player(playerUserNameL.text, passwordL.text);
-
-        Debug.Log("PlayerInfo: " + player);
-
         //instanciate new wwwform
         WWWForm form = new WWWForm();
 
@@ -234,6 +249,11 @@ public class LoginManager : MonoBehaviour
                 }
                 else
                 {
+                    ////create player instance with credential
+                    //Player player = new Player(playerUserNameL.text, passwordL.text);
+
+                    //Debug.Log("PlayerInfo: " + player);
+
                     //GET JSON PLAYERLIST FROM SERVER AND THEN CREATE PLAYERLIST INSTANCE
                     string jsonData = www.downloadHandler.text;
 
@@ -241,13 +261,37 @@ public class LoginManager : MonoBehaviour
 
                     foreach (Player p in players.list)
                     {
-                        if (p.username == player.username && p.password == player.password)
+                        //if (p.username == player.username && p.hash == player.hash)
+                        //{
+                        //    //PLAYER IS REGISTERED, USERNAME AND PASSWORD CORRESPOND; GET ALL THE INFO
+                        //    Debug.Log("Login Eseguito con successo");
+
+                        //    //get all the actual player information
+                        //    player = p;
+
+                        //    //LOGIN
+                        //    LoginToMenu(player);
+                        //}
+
+                        //TODO CHECK IF CORRECT
+                        //CALCUATE HASH CODE FOR PASSWORD; BEFORE INSERT SALT SAVED FOR THAT PLAYER
+                        byte[] hash;
+                        using (SHA256 mySHA256 = SHA256.Create())
+                        {
+
+                            byte[] saltPassword = Encoding.ASCII.GetBytes(passwordL.text.Insert(0, p.salt));
+
+                            hash = mySHA256.ComputeHash(saltPassword);
+
+                        }
+
+                        if (p.username == playerUserNameL.text && p.hash == hash.ToString())
                         {
                             //PLAYER IS REGISTERED, USERNAME AND PASSWORD CORRESPOND; GET ALL THE INFO
                             Debug.Log("Login Eseguito con successo");
 
                             //get all the actual player information
-                            player = p;
+                            Player player = p;
 
                             //LOGIN
                             LoginToMenu(player);

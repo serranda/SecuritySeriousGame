@@ -13,6 +13,6 @@ public class PlayerList
 
     public override string ToString()
     {
-        return string.Format("List: {0}", list);
+        return $"List: {list}";
     }
 }

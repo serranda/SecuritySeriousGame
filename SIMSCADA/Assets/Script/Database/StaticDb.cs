@@ -29,8 +29,10 @@ public class StaticDb
     public static string getFileInfoScript = "getFileInfo.php";
 
     //player object reference
-    //DEBUG
-    public static Player player = new Player("aaa", "aaa", "aaa", "aaa");
+    public static Player player;
+    ////DEBUG
+    //public static Player player = new Player("aaa", "aaa", "aaa", "aaa", "aaa");
+
 
     //enum for logEvent types
     public enum logEvent
