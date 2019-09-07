@@ -16,7 +16,7 @@ public class PauseManager : MonoBehaviour
 
     public GraphicRaycaster pauseRaycaster;
 
-    private Texture2D texture2D;
+    [SerializeField] private Texture2D texture2D;
     private byte[] imageFile;
 
     private IEnumerator screenShotRoutine;

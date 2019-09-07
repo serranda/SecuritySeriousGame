@@ -200,6 +200,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2de516df7d0195544bba6214507d125c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  text: {fileID: 6758735665744844760}
+  leftButton: {fileID: 8860594811222927376}
+  lbGroup: {fileID: 8560947897061675473}
+  rightButton: {fileID: 3210868466015448594}
+  rbGroup: {fileID: 3269658686674336290}
 --- !u!1 &1867411819179245390
 GameObject:
   m_ObjectHideFlags: 0
@@ -212,7 +217,7 @@ GameObject:
   - component: {fileID: 3666740534360905995}
   - component: {fileID: 6312886817189384018}
   m_Layer: 5
-  m_Name: LT_Image
+  m_Name: LeftImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -286,7 +291,7 @@ GameObject:
   - component: {fileID: 2266441474857561694}
   - component: {fileID: 8292087487202577979}
   m_Layer: 5
-  m_Name: LT_Image
+  m_Name: RightImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -362,7 +367,7 @@ GameObject:
   - component: {fileID: 3210868466015448594}
   - component: {fileID: 3269658686674336290}
   m_Layer: 5
-  m_Name: DB_ButtonRight
+  m_Name: RightButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -876,7 +881,7 @@ GameObject:
   - component: {fileID: 8820521834985182526}
   - component: {fileID: 8820521834985182465}
   m_Layer: 5
-  m_Name: TDB_BodyPanel
+  m_Name: MessagePanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -924,7 +929,7 @@ GameObject:
   - component: {fileID: 8820521835544654944}
   - component: {fileID: 8820521835544654879}
   m_Layer: 5
-  m_Name: TDB_ButtonPanel
+  m_Name: ButtonPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1120,7 +1125,7 @@ GameObject:
   - component: {fileID: 8860594811222927376}
   - component: {fileID: 8560947897061675473}
   m_Layer: 5
-  m_Name: DB_ButtonLeft
+  m_Name: LeftButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

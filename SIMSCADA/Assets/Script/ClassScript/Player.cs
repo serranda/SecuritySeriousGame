@@ -3,15 +3,15 @@
 public class Player
 {
     public string username;
-    public string hash;
+    public byte[] hash;
     public string name;
     public string surname;
-    public string salt;
+    public byte[] salt;
 
     public static int staticInt = 72;
     public string folderName => string.Concat(username, "_", name, surname);
 
-    public Player(string username, string hash, string salt)
+    public Player(string username, byte[] hash, byte[] salt)
     {
         this.username = username;
         this.hash = hash;
@@ -20,7 +20,7 @@ public class Player
         this.salt = salt;
     }
 
-    public Player(string username, string hash, string name, string surname, string salt)
+    public Player(string username, byte[] hash, string name, string surname, byte[] salt)
     {
         this.username = username;
         this.hash = hash;

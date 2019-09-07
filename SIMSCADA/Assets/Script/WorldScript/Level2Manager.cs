@@ -36,6 +36,9 @@ public class Level2Manager : MonoBehaviour, ILevelManager
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            if (StaticDb.isShowingExit)
+                return;
+
             if (gameData.dialogEnabled)
             {
                 //SHOW MESSAGE TO CLOSE ALL THE DIALOG BOX BEFORE GO TO PAUSE

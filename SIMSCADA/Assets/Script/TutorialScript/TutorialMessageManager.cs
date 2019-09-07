@@ -410,6 +410,9 @@ public class TutorialMessageManager : MonoBehaviour
 
         Canvas dialog = ClassDb.dialogBoxManager.OpenDialog();
 
+        //set flag to true: this will prevent esc key to hide pause menu
+        StaticDb.isShowingExit = true;
+
         //disable interaction with pause menu
         ClassDb.pauseManager.pauseRaycaster.enabled = false;
         //open dialog box
@@ -433,6 +436,7 @@ public class TutorialMessageManager : MonoBehaviour
             ClassDb.pauseManager.TogglePauseMenu();
             ClassDb.dialogBoxManager.CloseDialog(dialog);
             ClassDb.sceneLoader.StartLoadByIndex(StaticDb.menuSceneIndex);
+            StaticDb.isShowingExit = false;
         });
 
         dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.onClick.RemoveAllListeners();
@@ -441,6 +445,7 @@ public class TutorialMessageManager : MonoBehaviour
         {
             ClassDb.dialogBoxManager.CloseDialog(dialog);
             ClassDb.pauseManager.pauseRaycaster.enabled = true;
+            StaticDb.isShowingExit = false;
         });
     }
 

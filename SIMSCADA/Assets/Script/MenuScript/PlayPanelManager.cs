@@ -21,7 +21,7 @@ public class PlayPanelManager : MonoBehaviour
     private IEnumerator checkSlotRoutine;
     private IEnumerator deleteSlotRoutine;
 
-    private void OnEnable()
+    public void PopulatePlayButton()
     {
         //get all the playButton and set the listener
         //if slotN is free=true --> play new game

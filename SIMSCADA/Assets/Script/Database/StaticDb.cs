@@ -14,7 +14,7 @@ public class StaticDb
     public static string panelTimeFormat = "dd/MM/yyyy hh:mm:ss";
 
     //string values for php script and server folder
-    public static string serverAddressEditor = "http://192.168.1.112/SIMSCADA";
+    public static string serverAddressEditor = "http://simscada.sfcoding.com/SIMSCADA";
     //public static string serverAddress = Application.absoluteURL.TrimEnd('/');
     public static string phpFolder = "PHP";
     public static string mainDataFolder = "Data";
@@ -365,4 +365,7 @@ public class StaticDb
         local,
         all
     }
+
+    //vale to check if exit message is showed
+    public static bool isShowingExit;
 }

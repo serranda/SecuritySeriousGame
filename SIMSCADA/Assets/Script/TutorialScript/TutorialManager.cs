@@ -63,6 +63,8 @@ public class TutorialManager : MonoBehaviour
 
     public TutorialGameData tutorialGameData;
 
+
+
     private void Awake()
     {
         //instancing data for tutorial
@@ -92,6 +94,9 @@ public class TutorialManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            if (StaticDb.isShowingExit)
+                return;
+
             if (tutorialGameData.dialogEnabled)
             {
                 //SHOW MESSAGE TO CLOSE ALL THE DIALOG BOX BEFORE GO TO PAUSE

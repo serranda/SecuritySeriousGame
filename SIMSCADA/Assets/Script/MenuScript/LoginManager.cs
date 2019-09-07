@@ -127,23 +127,26 @@ public class LoginManager : MonoBehaviour
             ? StaticDb.serverAddressEditor
             : Application.absoluteURL.TrimEnd('/');
 
-        //TODO CHEcK IF CORRECT
         //GENERATE SALT AND HASH CODE FOR PASSWORD
         byte[] hash;
         byte[] salt;
-        using (SHA256 mySHA256 = SHA256.Create())
+        using (SHA256 mySha256 = SHA256.Create())
         {
-            salt = new byte[passwordR.text.Length];
+            salt = new byte[5];
             rng.GetBytes(salt);
 
-            byte[] saltPassword = Encoding.ASCII.GetBytes(passwordR.text.Insert(0, salt.ToString()));
+            byte[] saltPassword = salt.Concat(Encoding.ASCII.GetBytes(passwordR.text)).ToArray();
 
-            hash = mySHA256.ComputeHash(saltPassword);
+            hash = mySha256.ComputeHash(saltPassword);
 
+            //Debug.Log("salt: " + string.Join(" ", salt));
+            //Debug.Log("passwordToByte: " + string.Join(" ", Encoding.ASCII.GetBytes(passwordR.text)));
+            //Debug.Log("saltPassword: " + string.Join(" ", saltPassword));
+            //Debug.Log("hash: " + string.Join(" ", hash));
         }
-        
+
         //create player instance with registration credential
-        Player player = new Player(playerUserNameR.text, hash.ToString(), playerName.text, playerSurname.text, salt.ToString());
+        Player player = new Player(playerUserNameR.text, hash, playerName.text, playerSurname.text, salt);
 
         Debug.Log("PlayerInfo: " + player);
 
@@ -237,7 +240,7 @@ public class LoginManager : MonoBehaviour
             }
             else
             {
-                Debug.Log(www.downloadHandler.text);
+                //Debug.Log(www.downloadHandler.text);
 
                 //CHECK WWW RESPONSE; THERE ARE REGISTERED PLAYER
                 if (www.downloadHandler.text == "File Created" || www.downloadHandler.text == "File Empty")
@@ -261,31 +264,27 @@ public class LoginManager : MonoBehaviour
 
                     foreach (Player p in players.list)
                     {
-                        //if (p.username == player.username && p.hash == player.hash)
-                        //{
-                        //    //PLAYER IS REGISTERED, USERNAME AND PASSWORD CORRESPOND; GET ALL THE INFO
-                        //    Debug.Log("Login Eseguito con successo");
 
-                        //    //get all the actual player information
-                        //    player = p;
 
-                        //    //LOGIN
-                        //    LoginToMenu(player);
-                        //}
-
-                        //TODO CHECK IF CORRECT
                         //CALCUATE HASH CODE FOR PASSWORD; BEFORE INSERT SALT SAVED FOR THAT PLAYER
                         byte[] hash;
-                        using (SHA256 mySHA256 = SHA256.Create())
+                        using (SHA256 mySha256 = SHA256.Create())
                         {
+                            byte[] saltPassword = p.salt.Concat(Encoding.ASCII.GetBytes(passwordL.text)).ToArray();
 
-                            byte[] saltPassword = Encoding.ASCII.GetBytes(passwordL.text.Insert(0, p.salt));
+                            hash = mySha256.ComputeHash(saltPassword);
 
-                            hash = mySHA256.ComputeHash(saltPassword);
-
+                            //Debug.Log("salt: " + string.Join(" ", p.salt));
+                            //Debug.Log("passwordToByte: " + string.Join(" ", Encoding.ASCII.GetBytes(passwordL.text)));
+                            //Debug.Log("saltPassword: " + string.Join(" ", saltPassword));
+                            //Debug.Log("hash: " + string.Join(" ", hash));
+                            //Debug.Log("p.hash: " + string.Join(" ", p.hash));                 
                         }
+                        bool hashEqual = p.hash.SequenceEqual(hash);
 
-                        if (p.username == playerUserNameL.text && p.hash == hash.ToString())
+                        Debug.Log(hashEqual);
+
+                        if (p.username == playerUserNameL.text && hashEqual)
                         {
                             //PLAYER IS REGISTERED, USERNAME AND PASSWORD CORRESPOND; GET ALL THE INFO
                             Debug.Log("Login Eseguito con successo");

@@ -30,9 +30,6 @@ public class NotebookManager : MonoBehaviour
     private int pageCount;
     private int colorIndex;
 
-    private List<TextAsset> lessonTextAssetList;
-    private List<Lesson> lessonObjList;
-
     [SerializeField] private ToggleGroup toggleGroup;
 
     public static bool isFirstLesson;
@@ -82,8 +79,6 @@ public class NotebookManager : MonoBehaviour
 
         manager = SetLevelManager();
         tutorialManager = FindObjectOfType<TutorialManager>();
-
-        //toggleGroup = GameObject.Find(StaticDb.noteBookToggleGroup).GetComponent<ToggleGroup>();
 
         if (tutorialManager != null && tutorialManager.notebookFirstTime)
         {
@@ -293,36 +288,25 @@ public class NotebookManager : MonoBehaviour
 
     private void LoadLesson()
     {
-        //btnList = GameObject.Find(StaticDb.noteBookBtnList).GetComponent<ScrollRect>();
 
-        lessonTextAssetList = new List<TextAsset>();
-        lessonObjList = new List<Lesson>();
-
-        lessonTextAssetList = Resources.LoadAll<TextAsset>("Lessons").ToList();
-
-        foreach (TextAsset lessonTextAsset in lessonTextAssetList)
-        {
-            Lesson lessonObject = JsonUtility.FromJson<Lesson>(lessonTextAsset.ToString());
-            lessonObjList.Add(lessonObject);
-        }
-
-        foreach (Lesson lessonObject in lessonObjList)
+        foreach (TextAsset lessonAsset in Resources.LoadAll<TextAsset>("Lessons").ToList())
         {
             spawnedBtn = ClassDb.prefabManager.GetPrefab(ClassDb.prefabManager.prefabNotebookButton.gameObject,
                 PrefabManager.notebookButtonIndex);
             spawnedBtn.transform.SetParent(btnList.content);
             spawnedBtn.transform.localScale = Vector3.one;
-            spawnedBtn.name = lessonObject.id + "Lesson";
+            spawnedBtn.name = lessonAsset.name;
             spawnedBtn.GetComponent<Toggle>().image.color = SetColor(colorIndex);
             spawnedBtn.GetComponent<Toggle>().graphic.color = SetColor(colorIndex);
 
-            spawnedBtn.GetComponentInChildren<TextMeshProUGUI>().text = lessonObject.id;
+            spawnedBtn.GetComponentInChildren<TextMeshProUGUI>().text = lessonAsset.name.Replace("Lesson", "");
 
             spawnedBtn.GetComponent<Toggle>().group = toggleGroup;
             spawnedBtn.GetComponent<Toggle>().onValueChanged.RemoveAllListeners();
-            Lesson lesson = lessonObject;
             spawnedBtn.GetComponent<Toggle>().onValueChanged.AddListener(delegate
             {
+                Lesson lesson = JsonUtility.FromJson<Lesson>(lessonAsset.ToString());
+
                 pageToDisplay = 1;
                 SetPageTextBody(lesson);
             });
@@ -339,31 +323,29 @@ public class NotebookManager : MonoBehaviour
 
     private void ShowThreatLesson(Threat threat)
     {
-
-        Lesson find = new Lesson();
-
+        TextAsset lessonAsset = new TextAsset();
         switch (threat.threatAttack)
         {
             case StaticDb.ThreatAttack.dos:
-                find = lessonObjList.Find(lesson => lesson.id.ToLowerInvariant() == StaticDb.ThreatAttack.dos.ToString());
+                lessonAsset = Resources.Load<TextAsset>("Lessons/DosLesson");
                 break;
             case StaticDb.ThreatAttack.phishing:
-                find = lessonObjList.Find(lesson => lesson.id.ToLowerInvariant() == StaticDb.ThreatAttack.phishing.ToString());
+                lessonAsset = Resources.Load<TextAsset>("Lessons/PhishingLesson");
                 break;
             case StaticDb.ThreatAttack.replay:
-                find = lessonObjList.Find(lesson => lesson.id.ToLowerInvariant() == StaticDb.ThreatAttack.replay.ToString());
+                lessonAsset = Resources.Load<TextAsset>("Lessons/ReplayLesson");
                 break;
             case StaticDb.ThreatAttack.mitm:
-                find = lessonObjList.Find(lesson => lesson.id.ToLowerInvariant() == StaticDb.ThreatAttack.mitm.ToString());
+                lessonAsset = Resources.Load<TextAsset>("Lessons/MitmLesson");
                 break;
             case StaticDb.ThreatAttack.stuxnet:
-                find = lessonObjList.Find(lesson => lesson.id.ToLowerInvariant() == StaticDb.ThreatAttack.stuxnet.ToString());
+                lessonAsset = Resources.Load<TextAsset>("Lessons/StuxnetLesson");
                 break;
             case StaticDb.ThreatAttack.dragonfly:
-                find = lessonObjList.Find(lesson => lesson.id.ToLowerInvariant() == StaticDb.ThreatAttack.dragonfly.ToString());
+                lessonAsset = Resources.Load<TextAsset>("Lessons/DragonflyLesson");
                 break;
             case StaticDb.ThreatAttack.malware:
-                find = lessonObjList.Find(lesson => lesson.id.ToLowerInvariant() == StaticDb.ThreatAttack.malware.ToString());
+                lessonAsset = Resources.Load<TextAsset>("Lessons/MalwareLesson");
                 break;
             case StaticDb.ThreatAttack.createRemote:
                 break;
@@ -375,7 +357,7 @@ public class NotebookManager : MonoBehaviour
                 throw new ArgumentOutOfRangeException();
         }
 
-        GameObject.Find(find.id + "Lesson").GetComponent<Toggle>().isOn = true;
+        GameObject.Find(lessonAsset.name).GetComponent<Toggle>().isOn = true;
 
         isFirstLesson = false;
 
@@ -383,9 +365,9 @@ public class NotebookManager : MonoBehaviour
 
     private void ShowScadaLesson()
     {
-        Lesson find = lessonObjList.Find(lesson => lesson.id.ToLowerInvariant() == "scada");
+        TextAsset lessonAsset = Resources.Load<TextAsset>("Lessons/ScadaLesson");
 
-        GameObject.Find(find.id + "Lesson").GetComponent<Toggle>().isOn = true;
+        GameObject.Find(lessonAsset.name).GetComponent<Toggle>().isOn = true;
 
         isScadaLesson = false;
     }

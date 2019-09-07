@@ -911,7 +911,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b144ca9004e6e4245ba0804e47db5259, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tutorialManager: {fileID: 0}
+  nextBtn: {fileID: 0}
+  nbGroup: {fileID: 0}
+  previousBtn: {fileID: 0}
+  pbGroup: {fileID: 0}
+  backBtn: {fileID: 0}
+  btnList: {fileID: 0}
+  pageL: {fileID: 0}
+  pageR: {fileID: 0}
+  titleL: {fileID: 0}
+  titleR: {fileID: 0}
+  toggleGroup: {fileID: 0}
 --- !u!114 &198637141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8121,6 +8131,17 @@ MonoBehaviour:
       - m_Target: {fileID: 296847252}
         m_MethodName: set_blocksRaycasts
         m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1189905826}
+        m_MethodName: PopulatePlayButton
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
