@@ -32,20 +32,6 @@ public class HudManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         manager = SetLevelManager();
 
-        //date = GameObject.Find("Date").GetComponent<TextMeshProUGUI>();
-        //money = GameObject.Find("MoneyInt").GetComponent<TextMeshProUGUI>();
-        //successfulThreat = GameObject.Find("SuccessfulThreat").GetComponent<TextMeshProUGUI>();
-        //totalThreat = GameObject.Find("TotalThreat").GetComponent<TextMeshProUGUI>();
-        //trustedEmployees = GameObject.Find("TrustedEmployees").GetComponent<TextMeshProUGUI>();
-        //totalEmployees = GameObject.Find("TotalEmployees").GetComponent<TextMeshProUGUI>();
-        //reputation = GameObject.Find("Reputation").GetComponent<TextMeshProUGUI>();
-        //lastThreatAttack = GameObject.Find("LastThreatType").GetComponent<TextMeshProUGUI>();
-
-        //toggleX1 = GameObject.Find(StaticDb.toggleX1).GetComponent<Toggle>();
-        //toggleX2 = GameObject.Find(StaticDb.toggleX2).GetComponent<Toggle>();
-        //toggleX5 = GameObject.Find(StaticDb.toggleX5).GetComponent<Toggle>();
-        //toggleX10 = GameObject.Find(StaticDb.toggleX10).GetComponent<Toggle>();
-
         SetTogglePressed();
     }
 

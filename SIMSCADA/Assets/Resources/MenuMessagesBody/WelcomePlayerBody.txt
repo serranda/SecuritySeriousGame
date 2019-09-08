@@ -1,0 +1,5 @@
+Benvenuto.
+
+Per poter giocare è necessario effettuare il login con le proprie credenziali. Se non le possiedi, puoi ottenerle compilando il form di registrazione (utilizza il pulsante "Registrati" in basso per accedere al form).
+
+Buon divertimento!

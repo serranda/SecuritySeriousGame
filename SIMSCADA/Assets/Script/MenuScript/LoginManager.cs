@@ -31,6 +31,8 @@ public class LoginManager : MonoBehaviour
 
     private void Start()
     {
+        ClassDb.menuMessageManager.StartWelcomePlayer();
+
         string address = Application.absoluteURL == string.Empty
             ? StaticDb.serverAddressEditor
             : Application.absoluteURL.TrimEnd('/');
@@ -56,7 +58,7 @@ public class LoginManager : MonoBehaviour
                 Debug.Log("Completa tutti i campi");
 
                 //DIALOG BOX MESSAGE INFORMING TO COMPLETE ALL THE FIELDS
-                ClassDb.loginMessageManager.StartCompleteAllField();
+                ClassDb.menuMessageManager.StartCompleteAllField();
                 return;
             }
 
@@ -73,7 +75,7 @@ public class LoginManager : MonoBehaviour
                 Debug.Log("Credenziali Incomplete");
 
                 //DIALOG FOR USER NOT REGISTERED
-                ClassDb.loginMessageManager.StartPlayerNotRegistered();
+                ClassDb.menuMessageManager.StartPlayerNotRegistered();
                 return;
             }
 
@@ -199,7 +201,7 @@ public class LoginManager : MonoBehaviour
                         //NOTIFY OTHER PLAYER WITH PICKED USERNAME EXIST; EXIT
                         Debug.Log("Nome utente già in uso");
                         //DIALOG FOR USER ALREADY EXISTING
-                        ClassDb.loginMessageManager.StartExistingPlayer();
+                        ClassDb.menuMessageManager.StartExistingPlayer();
 
                         yield break;
                     }
@@ -248,7 +250,7 @@ public class LoginManager : MonoBehaviour
                     //CHECK WWW RESPONSE; THERE ARE NO REGISTERED PLAYER
                     Debug.Log("Giocatore non registrato");
                     //DIALOG FOR USER NOT REGISTERED
-                    ClassDb.loginMessageManager.StartPlayerNotRegistered();
+                    ClassDb.menuMessageManager.StartPlayerNotRegistered();
                 }
                 else
                 {
@@ -300,7 +302,7 @@ public class LoginManager : MonoBehaviour
                             //CHECK WWW RESPONSE; THERE ARE NO REGISTERED PLAYER
                             Debug.Log("Giocatore non registrato");
                             //DIALOG FOR USER NOT REGISTERED
-                            ClassDb.loginMessageManager.StartPlayerNotRegistered();
+                            ClassDb.menuMessageManager.StartPlayerNotRegistered();
                         }
                     }
                 }

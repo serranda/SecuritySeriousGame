@@ -6,16 +6,12 @@ using UnityEngine;
 
 public class StaticDb
 {
-    //int value for store slot index
-    public static int indexSlot;
-
     //string vale for data format in log file
     public static string logTimeFormat = "[dd/MMM/yyyy:hh:mm:ss]";
     public static string panelTimeFormat = "dd/MM/yyyy hh:mm:ss";
 
     //string values for php script and server folder
     public static string serverAddressEditor = "http://simscada.sfcoding.com/SIMSCADA";
-    //public static string serverAddress = Application.absoluteURL.TrimEnd('/');
     public static string phpFolder = "PHP";
     public static string mainDataFolder = "Data";
     public static string playerListName = "players";
@@ -25,13 +21,13 @@ public class StaticDb
     public static string writePlayerLogScript = "writePlayerLog.php";
     public static string playerSettingsManagerScript = "playerSettingsManager.php";
     public static string playerSaveManagerScript = "playerSaveManager.php";
-    public static string imageSaveManagerScript = "imageSaveManager.php";
-    public static string getFileInfoScript = "getFileInfo.php";
+    //public static string imageSaveManagerScript = "imageSaveManager.php";
+    //public static string getFileInfoScript = "getFileInfo.php";
 
     //player object reference
     public static Player player;
     ////DEBUG
-    //public static Player player = new Player("aaa", "aaa", "aaa", "aaa", "aaa");
+    //public static Player player = new Player("serranda",new byte[]{72,195,51,37,219,211,47,194,14,127,102,88,167,231,198,228,249,23,135,207,214,207,149,249,152,140,206,226,175,82,115,129},"Andrea","Marchetti", new byte[] {128,88,160,123,31});
 
 
     //enum for logEvent types
@@ -54,9 +50,11 @@ public class StaticDb
     public static string tutorialPanel = "TDB_Template";
 
     //string values for login message files in resources folder
-    public static string completeField = "LoginMessages/CompleteField";
-    public static string existingPlayer = "LoginMessages/ExistingPlayer";
-    public static string playerNotRegistered = "LoginMessages/PlayerNotRegistered";
+    public static string completeField = "MenuMessages/CompleteField";
+    public static string existingPlayer = "MenuMessages/ExistingPlayer";
+    public static string playerNotRegistered = "MenuMessages/PlayerNotRegistered";
+    public static string warningNewGame = "MenuMessages/WarningNewGame";
+    public static string welcomePlayer = "MenuMessages/WelcomePlayer";
 
     //string values for level message files in resources folder
     public const string purchase = "Messages/ConfirmPurchase";
@@ -136,9 +134,9 @@ public class StaticDb
     public static string storeScreenName = "StoreScreen(Clone)";
 
     //string values for save files and folder
-    public static string slotName = "slot";
-    public static string slotExt = ".ini";
-    public static string imageExt = ".png";
+    public static string gameSaveName = "gameSave";
+    public static string gameSaveExt = ".ini";
+    //public static string imageExt = ".png";
     public static string saveFolder = "saves";
 
     //string values for interactive sprite in the scene
@@ -368,4 +366,7 @@ public class StaticDb
 
     //vale to check if exit message is showed
     public static bool isShowingExit;
+
+    //value to check if player pressed new game or load game
+    public static bool isNewGame;
 }

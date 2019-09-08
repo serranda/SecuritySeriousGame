@@ -142,8 +142,6 @@ public class Level2Manager : MonoBehaviour, ILevelManager
 
     public IEnumerator StarterCoroutine()
     {
-        gameData.indexSlot = StaticDb.indexSlot;
-
         //check for data saves and eventually load it
         ClassDb.gameDataManager.StartLoadLevelGameData();
 
@@ -152,7 +150,9 @@ public class Level2Manager : MonoBehaviour, ILevelManager
         SpawnHud();
 
         //start and set gui setting parameters
-        if (!gameData.firstLaunch && gameData.levelIndex == 1)
+        //load game
+        //if (!gameData.firstLaunch && gameData.levelIndex == 2)
+        if (!StaticDb.isNewGame)
         {
             //WRITE LOG
             ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.SystemEvent, "LOADING DATA");
@@ -160,7 +160,11 @@ public class Level2Manager : MonoBehaviour, ILevelManager
             RestorePrefabs(gameData);
         }
         else
+        //new game
         {
+            //SET LEVEL INDEX
+            gameData.levelIndex = 2;
+
             //WRITE LOG
             ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.SystemEvent, "NEW GAME STARTED");
 

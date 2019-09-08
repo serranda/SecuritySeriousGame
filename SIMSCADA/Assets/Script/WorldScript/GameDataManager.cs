@@ -12,8 +12,6 @@ public class GameDataManager : MonoBehaviour
 
     private ILevelManager manager;
 
-    private int levelIndex;
-
     private IEnumerator saveRoutine;
     private IEnumerator loadRoutine;
 
@@ -21,13 +19,13 @@ public class GameDataManager : MonoBehaviour
 
     //THIS CLASS WILL MANAGE ALL THE SAVINGS AND THE LOADINGS OF GAME DATA
 
-    public void StartSaveLevelGameData(byte[] bytes)
+    public void StartSaveLevelGameData(int level)
     {
-        saveRoutine = SaveLevelGameData(bytes);
+        saveRoutine = SaveLevelGameData(level);
         StartCoroutine(saveRoutine);
     }
 
-    private IEnumerator SaveLevelGameData(byte[] bytes)
+    private IEnumerator SaveLevelGameData(int level)
     {
         string address = Application.absoluteURL == string.Empty
             ? StaticDb.serverAddressEditor
@@ -39,15 +37,15 @@ public class GameDataManager : MonoBehaviour
         //GET GAMEDATA FROM THE MANAGER
         gameData = manager.GetGameData();
 
-        //IF IS FIRST LAUNCH SET TO FALSE
-        if (gameData.firstLaunch)
-            gameData.firstLaunch = false;
+        ////IF IS FIRST LAUNCH SET TO FALSE
+        //if (gameData.firstLaunch)
+        //    gameData.firstLaunch = false;
 
         //SET LONG DATE VALUE
         gameData.longDate = gameData.date.ToFileTimeUtc();
 
         //SET LEVEL INDEX
-        gameData.levelIndex = levelIndex;
+        gameData.levelIndex = level;
 
         //SET CAMERA ZOOM VALUE
         CinemachineVirtualCamera virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
@@ -79,7 +77,8 @@ public class GameDataManager : MonoBehaviour
         formData.AddField("mainDataFolder", StaticDb.mainDataFolder);
         formData.AddField("playerFolder", StaticDb.player.folderName);
         formData.AddField("saveFolder", StaticDb.saveFolder);
-        formData.AddField("saveFileName", StaticDb.slotName + manager.GetGameData().indexSlot + StaticDb.slotExt);
+        //formData.AddField("saveFileName", StaticDb.slotName + manager.GetGameData().indexSlot + StaticDb.slotExt);
+        formData.AddField("saveFileName", StaticDb.gameSaveName + StaticDb.gameSaveExt);
         formData.AddField("saveContent", data);
 
         //UPLOAD JSON DATA FROM GAMEDATA CLASS
@@ -99,44 +98,18 @@ public class GameDataManager : MonoBehaviour
                 Debug.Log(www.downloadHandler.text);
             }
         }
-
-        //GET SCREEN CAPTURE
-        byte[] imageBytes = bytes;
-
-        //CREATE NEW WWWFORM FOR SENDING IMAGE
-        WWWForm formImage = new WWWForm();
-
-        //ADD FIELD AND BINARY DATA TO FORM
-        formImage.AddField("mode", "w");
-        formImage.AddField("mainDataFolder", StaticDb.mainDataFolder);
-        formImage.AddField("playerFolder", StaticDb.player.folderName);
-        formImage.AddField("saveFolder", StaticDb.saveFolder);
-        formImage.AddField("imageFileName", StaticDb.slotName + manager.GetGameData().indexSlot + StaticDb.imageExt);
-        formImage.AddBinaryData("imageFile", imageBytes);
-
-        //UPLOAD JSON DATA FROM GAMEDATA CLASS
-        using (UnityWebRequest www =
-            UnityWebRequest.Post(
-                Path.Combine(address,
-                    Path.Combine(StaticDb.phpFolder, StaticDb.imageSaveManagerScript)), formImage))
-        {
-            yield return www.SendWebRequest();
-
-            if (www.isNetworkError || www.isHttpError)
-            {
-                Debug.Log(www.error);
-            }
-            else
-            {
-                Debug.Log(www.downloadHandler.text);
-            }
-        }
     }
 
     public void StartLoadLevelGameData()
     {
-        //SET THE FLAG TO CHECK IF GAME DATAT HAS BEEN LOADED TO FALSE
+        //SET THE FLAG TO CHECK IF GAME DATA HAS BEEN LOADED TO FALSE
         gameDataLoaded = false;
+
+        if (StaticDb.isNewGame)
+        {
+            gameDataLoaded = true;
+            return;
+        }
 
         //START CORUTINE TO LOAD GAMEDATA FROM SERVER
         loadRoutine = LoadLevelGameData();
@@ -155,14 +128,15 @@ public class GameDataManager : MonoBehaviour
         //CREATE NEW WWWFORM FOR GETTING DATA
         WWWForm form = new WWWForm();
 
-        Debug.Log("manager.GetGameData().indexSlot: " + manager.GetGameData().indexSlot);
+        //Debug.Log("manager.GetGameData().indexSlot: " + manager.GetGameData().indexSlot);
 
         //ADD FIELD TO FORM
         form.AddField("mode", "r");
         form.AddField("mainDataFolder", StaticDb.mainDataFolder);
         form.AddField("playerFolder", StaticDb.player.folderName);
         form.AddField("saveFolder", StaticDb.saveFolder);
-        form.AddField("saveFileName", StaticDb.slotName + manager.GetGameData().indexSlot + StaticDb.slotExt);
+        //form.AddField("saveFileName", StaticDb.slotName + manager.GetGameData().indexSlot + StaticDb.slotExt);
+        form.AddField("saveFileName", StaticDb.gameSaveName + StaticDb.gameSaveExt);
 
         //DOWNLOAD JSON DATA FOR GAMEDATA CLASS
         using (UnityWebRequest www =
@@ -211,12 +185,10 @@ public class GameDataManager : MonoBehaviour
         if (SceneManager.GetActiveScene().buildIndex == StaticDb.level1SceneIndex)
         {
             iManager = FindObjectOfType<Level1Manager>();
-            levelIndex = 1;
         }
         else
         {
             iManager = FindObjectOfType<Level2Manager>();
-            levelIndex = 2;
         }
 
         return iManager;

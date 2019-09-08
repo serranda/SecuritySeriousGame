@@ -11,11 +11,8 @@ public class GameData
     //reference for the last sprite pressed; used for spawning action menu
     public string pressedSprite;
 
-    //check to see if first launch
-    public bool firstLaunch = true;
-
-    //id for save slot
-    public int indexSlot;
+    ////id for save slot
+    //public int indexSlot;
 
     //id for last scene reference
     public int lastSceneIndex;
@@ -247,7 +244,5 @@ public class GameData
 
     //value for level index;
     public int levelIndex;
-
-
 
 }

@@ -25,7 +25,7 @@ public class LogManager : MonoBehaviour
 
         WWWForm form = new WWWForm();
 
-        string logContent = string.Concat(DateTime.Now.ToString(StaticDb.logTimeFormat), " [", logEvent.ToString().ToUpper() , "] ", content,"\n");
+        string logContent = string.Concat(DateTime.Now.ToString(StaticDb.logTimeFormat), string.Concat("v", Application.version), " [", logEvent.ToString().ToUpper() , "] ", content,"\n");
 
         //ADD FIELD TO WWWFORM
         form.AddField("mainDataFolder", StaticDb.mainDataFolder);

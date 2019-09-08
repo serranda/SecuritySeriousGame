@@ -1,6 +1,6 @@
 {
 	"head": "CREDENZIALI SBAGLIATE",
-	"bodyPath": "PLayerNotRegisteredBody",
+	"bodyPath": "PlayerNotRegisteredBody",
 	"backBtn": "No",
 	"nextBtn": "Ok"
 }

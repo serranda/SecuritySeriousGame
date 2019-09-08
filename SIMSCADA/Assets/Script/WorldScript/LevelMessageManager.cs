@@ -53,7 +53,6 @@ public class LevelMessageManager : MonoBehaviour
         return iManager;
     }
 
-
     public DialogBoxMessage MessageFromJson(TextAsset jsonFile)
     {
         DialogBoxMessage dialogBoxMessage = JsonUtility.FromJson<DialogBoxMessage>(jsonFile.text);
@@ -386,13 +385,13 @@ public class LevelMessageManager : MonoBehaviour
 
     }
 
-    public void StartExit(byte[] imageBytes)
+    public void StartExit(int level)
     {
-        exitRoutine = Exit(imageBytes);
+        exitRoutine = Exit(level);
         StartCoroutine(exitRoutine);
     }
 
-    private IEnumerator Exit(byte[] imageBytes)
+    private IEnumerator Exit(int level)
     {
         yield return new WaitForSeconds(messageDelay);
 
@@ -423,7 +422,7 @@ public class LevelMessageManager : MonoBehaviour
         {
             ClassDb.pauseManager.TogglePauseMenu();
             ClassDb.dialogBoxManager.CloseDialog(dialog);
-            ClassDb.gameDataManager.StartSaveLevelGameData(imageBytes);
+            ClassDb.gameDataManager.StartSaveLevelGameData(level);
             ClassDb.sceneLoader.StartLoadByIndex(StaticDb.menuSceneIndex);
             StaticDb.isShowingExit = false;
         });

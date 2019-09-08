@@ -1,0 +1,3 @@
+Esiste già un salvataggio del gioco; se continui, sovrascriverai tutti i progressi e dovrai ricominciare il gioco dall'inizio.
+
+Vuoi continuare?

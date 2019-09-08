@@ -11,7 +11,7 @@ public class ClassDb : MonoBehaviour
     public static PauseManager pauseManager;
     public static LevelMessageManager levelMessageManager;
     public static TutorialMessageManager tutorialMessageManager;
-    public static LoginMessageManager loginMessageManager;
+    public static MenuMessageManager menuMessageManager;
     public static ThreatManager threatManager;
     public static TimeEventManager timeEventManager;
     public static TimeManager timeManager;
@@ -38,7 +38,7 @@ public class ClassDb : MonoBehaviour
         pauseManager = GetComponent<PauseManager>();
         levelMessageManager = GetComponent<LevelMessageManager>();
         tutorialMessageManager = GetComponent<TutorialMessageManager>();
-        loginMessageManager = GetComponent<LoginMessageManager>();
+        menuMessageManager = GetComponent<MenuMessageManager>();
         threatManager = GetComponent<ThreatManager>();
         timeEventManager = GetComponent<TimeEventManager>();
         timeManager = GetComponent<TimeManager>();

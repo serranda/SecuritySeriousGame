@@ -16,21 +16,28 @@ public class PauseManager : MonoBehaviour
 
     public GraphicRaycaster pauseRaycaster;
 
-    [SerializeField] private Texture2D texture2D;
-    private byte[] imageFile;
-
     private IEnumerator screenShotRoutine;
 
+    private ILevelManager manager;
+
     [SerializeField] private CanvasGroup canvasGroup;
+
+    private ILevelManager SetLevelManager()
+    {
+        ILevelManager iManager;
+        if (SceneManager.GetActiveScene().buildIndex == StaticDb.level1SceneIndex)
+            iManager = FindObjectOfType<Level1Manager>();
+        else
+            iManager = FindObjectOfType<Level2Manager>();
+
+        return iManager;
+    }
+
 
     public void TogglePauseMenu()
     {
         if (pauseEnabled)
         {
-            //RESET IMAGE BEFORE RESUME GAME
-            Destroy(texture2D);
-            imageFile = null;
-
             //TURN PAUSE MENU OFF
             CanvasOff();
 
@@ -40,9 +47,8 @@ public class PauseManager : MonoBehaviour
         }
         else
         {
-            //GET SCREENSHOT BEFORE TURNING ON PAUSE MENU
-            screenShotRoutine = GetScreenShot();
-            StartCoroutine(screenShotRoutine);
+            //TURN PAUSE MENU ON
+            CanvasOn();
 
             //CHECK IF LISTENER HAS BEEN ALREADY SET;
             //NEEDED BECAUSE THESE BUTTONS HAVE ALREADY LISTENER TO APPLY AND UPLOAD SETTINGS FILE,
@@ -60,21 +66,10 @@ public class PauseManager : MonoBehaviour
         ClassDb.timeManager.ToggleTime();
     }
 
-    private IEnumerator GetScreenShot()
-    {
-        //WAIT FOR END OF FRAME TO GET THE SCREENSHOT
-        yield return new WaitForEndOfFrame();
-        texture2D = ScreenCapture.CaptureScreenshotAsTexture();
-        imageFile = texture2D.EncodeToPNG();
-
-        //TURN PAUSE MENU ON
-        CanvasOn();
-
-    }
-
-
     public void SetListener()
     {
+        manager = SetLevelManager();
+
         resumeBtn.onClick.AddListener(delegate
         {
             TogglePauseMenu();
@@ -98,11 +93,11 @@ public class PauseManager : MonoBehaviour
         {
             exitBtn.onClick.AddListener(delegate
             {
-                ClassDb.levelMessageManager.StartExit(imageFile);
+                ClassDb.levelMessageManager.StartExit(manager.GetGameData().levelIndex);
             });
         }
 
-        Debug.Log("SET LISTENER");
+        //Debug.Log("SET LISTENER");
 
         //SET THE FLAG TO TRUE IN ORDER TO CALL THIS METHOD ONLY ONCE
         listenerSet = true;

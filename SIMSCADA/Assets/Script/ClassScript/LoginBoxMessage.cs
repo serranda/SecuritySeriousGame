@@ -2,28 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LoginBoxMessage
+public class MenuBoxMessage
 {
     public string head;
     public string bodyPath;
     public string backBtn;
     public string nextBtn;
 
-    public string body
-    {
-        get
-        {
-            return string.IsNullOrEmpty(bodyPath)
-                ? string.Empty
-                : Resources.Load<TextAsset>("LoginMessagesBody/" + bodyPath).text;
-        }
-
-    }
+    public string body =>
+        string.IsNullOrEmpty(bodyPath)
+            ? string.Empty
+            : Resources.Load<TextAsset>("MenuMessagesBody/" + bodyPath).text;
 
 
     public override string ToString()
     {
-        return string.Format("Head: {0}, BodyPath: {1}, BackBtn: {2}, NextBtn: {3}, Body: {4}",
-            head, bodyPath, backBtn, nextBtn, body);
+        return $"Head: {head}, BodyPath: {bodyPath}, BackBtn: {backBtn}, NextBtn: {nextBtn}, Body: {body}";
     }
 }
