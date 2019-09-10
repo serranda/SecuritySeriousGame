@@ -1,29 +1,91 @@
 In questo capitolo verranno esposte le motivazioni che hanno portato allo sviluppo di SimSCADA. Inizialmente verranno illustrate le idee che si trovano alla base dello sviluppo del gioco. In seguito verranno mostrate le scelte di design e progettazione prese durante l'implementazione del progetto. Verranno descritte alcune delle dinamiche base presenti nel gioco e come sono state sviluppate. Verrà illustrato quali lezioni sono state inserite nel gioco e come possono essere apprese dal giocatore. Infine verrà mostrato come è stato realizzata la raccolta dati per monitorare e valutare le prestazioni del giocatore.
 
-\section{Idee dietro lo sviluppo}
+\section{Scelte di game design}
 
-Il gioco è stato sviluppato come il progetto di una tesi magistrale. L'intento principale era di creare un concept per uno strumento di formazione utilizzabile per insegnare concetti di sicurezza informatica. Essendo un campo molto vasto, dopo un'attenta analisi sia dei serious games a tema di sicurezza informatica già presenti nel mercato che di altri lavori di tesi precedentemente sviluppati, si è realizzata l'assenza di uno strumento del genere nel campo industriale, in particolare in quello dei sistemi SCADA. Si è deciso quindi di rivolgere l'attenzione verso questo mondo che viene ancora considerato come sicuro e privo di minacce, anche se gli episodi registrati negli ultimi anni descrivono un quadro ben diverso.
+\subsection{Perché i sistemi SCADA}
 
-Il mondo dei sistemi SCADA è caratterizzato da una elevata varietà di fini applicativi: si va dal sistema di controllo per impianti industriali a quelli per il controllo dei trasporti automatizzati, passando per impianti di produzione energetica (centrali nucleari, gasdotti, ecc.). Quindi, piuttosto che focalizzarsi solo su una delle molte applicazioni per sistemi del genere, si è preferito mantenere un'ambientazione più generica. Questo è stato fatto principalmente per due motivi:
+Il gioco è stato sviluppato come parte pratica di una tesi magistrale. Vista le difficoltà che possono nascere durante la creazione di un videogioco, si è cercato principalmente di creare un concept di ciò che potrebbe essere uno strumento di formazione in ambito di sicurezza informatica. Questa è una materia che può coinvolgerne molte altre. È stata necessaria, quindi, un'attenta analisi iniziale sia dei serious games a tema di sicurezza informatica già presenti nel mercato che di altri lavori precedentemente sviluppati (anche non commercializzati). Da questa analisi è scaturita l'assenza di uno strumento del genere applicabile in un contesto industriale e che andasse a coinvolgere i sistemi SCADA. Si è deciso quindi di rivolgere l'attenzione verso questo mondo che, a causa di una percezione influenzata ancora dalle idee del passato, viene ancora considerato come sicuro e privo di minacce, anche se gli episodi registrati negli ultimi anni descrivono un quadro ben diverso.
+
+Il mondo dei sistemi SCADA è caratterizzato da una elevata varietà di fini applicativi: si va dal sistema di controllo per impianti industriali a quelli per il controllo dei trasporti automatizzati, passando per impianti di produzione energetica (centrali nucleari, gasdotti, ecc.). Piuttosto che focalizzarsi solo su una delle molte applicazioni per sistemi del genere, si è preferito mantenere un'ambientazione più generica. Questo è stato fatto principalmente per due motivi:
 
 \begin{itemize}
 
-\item innanzitutto riprodurre solo un determinato campo in maniera fedele avrebbe limitato in partenza l'utenza finale;
+\item innanzitutto riprodurre solo un determinato campo in maniera fedele avrebbe limitato in qualche modo il bacino d'utenza finale;
 
-\item l'intento principale per cui è stato sviluppato il gioco è quello di educare il giocatore a prendere delle decisioni mirate ed oculate sia in maniera preventiva che al momento dell'emergenza, concentrandosi quindi più sulle azioni dell'utente che sugli effettivi strumenti utilizzati, in quanto differenti da situazione a situazione.
+\item l'intento principale per cui è stato sviluppato il gioco è quello di cercare di educare il giocatore a prendere delle decisioni mirate ed oculate sia in maniera preventiva che al momento dell'emergenza, cercando di dare maggior importanza alle azioni che l'utente deve attuare rispetto agli effettivi strumenti utilizzati, in quanto differenti da situazione a situazione;
+
+\item per aiutare a mantenere il tipo di ambientazione scelto, si è evitato di inserire rimandi a software e tecnologie specifici utilizzati in ambienti SCADA, in quanto questi si differenziano da situazione a situazione, a seconda del processo da controllare, l'impianto su cui si agisce e tutti gli altri elementi che sono stati elencati in \ref{sec:architecture}.
 
 \end{itemize}
 
-Chiaramente il gioco è rivolto ad un'utenza che possiede già una certa formazione basilare su alcuni concetti chiave dell'ambiente SCADA. Infatti, all'interno del gioco sono state inserite delle nozioni relative alle diverse minacce informatiche che possono colpire un sistema SCADA, e come sia possibile difendersi da esse o rimediare ad un loro attacco, senza però soffermarsi su determinati aspetti dati per assodati (come ad esempio cosa sia un sistema SCADA, un PLC o un'interfaccia HMI).
+Ai fini di non ridurre in maniera eccessiva l'utenza finale, si sono inserite all'interno del gioco delle nozioni su cosa sia un sistema SCADA ed altre informazioni relativi ad essi, oltre a tutte le lezioni riguardanti i pericoli e gli attacchi informatici a cui un sistema di questi tipo può essere sottoposto. Sono poi presenti le lezioni sugli attacchi informatici che sistemi di questo tipo possono subire e quali azioni si possono effettuare per mitigare delle situazioni potenzialmente pericolose.
 
-\section{Scelte di Design}
+\subsection{La tipologia di gioco: tycoon}
 
-\subsection{Linee guida}
+Per ottemperare all'intento prefissato di dar risalto alle azioni che l'utente deve intraprendere durante la propria partita, si è scelto di sviluppare un gioco di genere gestionale o tycoon, ispirandosi in particolar modo alla serie di titoli di questo genere sviluppati nel corso degli anni, quali ``Roller Coaster Tycoon'' e ``SimCity''. Lo scenario tipico di questi giochi prevede che l'utente si trovi a capo di una determinata realtà economica (un parco di divertimento, una città e così via, a seconda dell'ambientazione) e deve cercare di gestirla nel migliore dei modi (portandola ad esempio ad aumentare gli incassi o completando altri obiettivi imposti dal sistema), cercando di far fronte con le proprie azioni ai vari problemi che si presentano nel corso della partita.
 
-Dato l'intento di fornire una certa globalità all'applicazione, si è scelto di adottare come tipologia di gioco quello gestionale, ispirandosi in particolar modo alla serie di titoli tycoon sviluppati nel corso degli anni, quali ``Roller Coaster Tycoon'' e ``SimCity''. In questi giochi l'utente si trova a capo di una particolare realtà economica (un parco di divertimento, una città e così via, a seconda dell'ambientazione scelta nel gioco) e deve gestirla nel migliore dei modi, portandola ad aumentare gli incassi e, contemporaneamente,  cercando di far fronte ai problemi che si presentano nel corso della partita.
+Da questo punto di vista, si è cercato di riprenderne anche l'impostazione grafico, adottando uno stile retro, di rimando alle versioni dei suddetti titoli sviluppati a cavallo degli anni `80 e `90 (periodo caratterizzato da un massiccio sviluppo di questa tipologia di giochi). Inoltre questo stile permette di mantenere il gioco leggero, graficamente parlando, rendendolo utilizzabile anche su macchine con basse performance. 
 
-Da questo punto di vista, anche lo stile grafico è stato ripreso 
+\subsection{La piattaforma di destinazione: WebGL}
 
-\subsection{Sistema operativo di destinazione}
+La piattaforma su cui far eseguire il gioco una volta completato è stata oggetto di diverse analisi. Nella fase iniziale di sviluppo, si era deciso di implementare il gioco per piattaforma Windows, essendo questo il sistema operativo più diffuso, soprattutto in ambito di videogames. Durante lo sviluppo del gioco, però, è stato considerato che, sebbene diffusa, sviluppare il gioco solo per piattaforma Windows sarebbe stato comunque limitante per lo scopo finale del progetto. È stato deciso, quindi, di cambiare la piattaforma di destinazione, affidandosi all'utilizzo delle API WebGL.
 
-Il gioco è stato sviluppato per piattaforme Windows
+Queste interfacce di programmazione, scritte in linguaggio JavaScript, permettono l'esecuzione di applicazioni 2D e 3D tramite web browser, senza richiedere l'utilizzo di alcun tipo di plug-in da parte dell'utente, facendo eseguire il codice relativo alla componente grafica direttamente alla GPU del sistema utente. Sono state rilasciate inizialmente nel 2011 e da allora si sono diffuse largamente, venendo integrate da altri standard web. Recentemente diversi motori grafici hanno iniziato a supportarne lo sviluppo (Unity e Unreal Engine tra i più famosi) permettendo ulteriormente il diffondersi di questa tecnologia.
+
+Le ragioni per cui è stato effettuato il cambio della piattaforma sono diverse, quelle che hanno avuto un peso maggiore nella decisione sono state:
+
+\begin{itemize}
+
+\item la tecnologia WebGL può essere eseguita su qualsiasi sistema, a prescindere dal sistema operativo installato su di esso. Basta, infatti, l'utilizzo di un web browser che ne supporti l'utilizzo (ovviamente il sistema deve essere sufficientemente potente per garantire il corretto funzionamento del gioco, ma nel caso in questione non ci si è soffermati più di tanto su questo aspetto, in quanto il gioco presenta una grafica molto minimale che non richiede un utilizzo eccessivo di risorse da parte del sistema);
+
+\item dovendo effettuare una raccolta dati sulle performance del giocatore, in modo da poter estrapolare successivamente i dati che permettano di capire se l'apprendimento del giocatore sta avvenendo in maniera corretta, utilizzare una tecnologia web, come appunto WebGL, permette una gestione più semplice di questo aspetto. Infatti, mentre il codice grafico è eseguito in locale, il codice di controllo del gioco viene eseguito dal server su cui è stato caricato. Per la raccolta dati, quindi, è stato sufficiente creare i file necessari all'interno del server e collezionarli, senza richiedere alcun tipo di azione da parte del giocatore.
+
+\end{itemize}
+
+\subsection{Il motore di gioco: Unity}
+
+La scelta della piattaforma di sviluppo è stata presa senza troppi dubbi, contrariamente agli altri aspetti fin'ora esposti. Subito, infatti, è stato deciso di sviluppare il gioco grazie all'ausilio del software Unity, un motore grafico multipiattaforma, che permette la creazione di applicazioni grafiche sia 2D che 3D. Inizialmente si è tentato di approcciare lo sviluppo del gioco tramite l'utilizzo del framework Phaser.io, ma questa idea è stata rapidamente scartata per diversi motivi tra cui:
+
+\begin{itemize}
+
+\item Phaser.io è un framework di gioco nato di recente e creato unicamente per applicazioni 2D. Unity, d'altro canto, è un motore grafico in circolazione da molto più tempo e che permette di sviluppare applicazioni sia in 2D che in 3D. Dato che lo stile grafico del gioco è stato deciso solamente in un secondo momento, avere una piattaforma di sviluppo che non ponesse dei limiti da questo punto di vista è stato decisivo;
+
+\item il fatto che Unity abbia un tempo di vita maggiore, fa si che esistano molti più asset grafici, sviluppati da terze parti, liberamente utilizzabili e che hanno permesso di velocizzare lo sviluppo in alcuni momenti;
+
+\item Unity permette di cambiare la piattaforma di destinazione, a prescindere dal codice che si è prodotto fino a quel momento. Questa funzionalità è stata presa in considerazione nella scelta ed è stata, come si è visto, sfruttata durante lo svolgimento del lavoro;
+
+\item Unity permette di sviluppare codice in diversi linguaggi di programmazione (C, C++, C\#) mentre Phaser.io è scritto solamente per linguaggio JavaScript. Data la maggior familiarità dello sviluppatore con il linguaggio C\# (utilizzato poi nello sviluppo del codice), Unity è sembrata la scelta più adatta per iniziare in maniera più veloce lo sviluppo del gioco.
+
+\end{itemize}
+
+\subsection{L'IDE: Visual Studio}
+
+Per quanto riguarda l'IDE di sviluppo, la scelta di Unity come motre grafico ha condizionato in maniera decisiva la scelta di quest'ultimo. Sebbene, infatti, sia possibile utilizzare qualsiasi IDE che permette lo sviluppo di codice C\#, Visual Studio, a differenza degli altri software, possiede diverse integrazioni con il motore in questione che sono di supporto nello sviluppo, rendendo di fatto questa scelta quasi obbligata. 
+
+\section{La raccolta dati}
+
+Prima di iniziare lo sviluppo del gioco, è stata affrontata una fase di raccolta dati. Lo scopo era quello di individuare quale fosse il modo migliore per rappresentare l'ambiente SCADA all'interno di un videogioco. In particolare si voleva evitare di rendere il gioco troppo tecnico e complesso da punto di vista operativo, in quanto avrebbe limitato, come detto, il bacino di utenza finale e sarebbe stato eventualmente di difficile comprensione per il giocatore.
+
+L'idea di gioco iniziale era quella di creare un simulatore di un sistema SCADA. Il giocatore avrebbe interagito con esso tramite l'interfaccia HMI e avrebbe dovuto fronteggiare diversi tipi di attacchi informatici. Per questo motivo sono stati presi in esame una serie di software per interfacce HMI, tra cui WinLog CC e STEP7. Quest'ultimo, in particolare è sviluppato dalla Siemens e fa parte della famiglia di prodotti Simatic, comprendente sia software che hardware per il controllo di sistemi di automazione. Analizzati i software, però si è capito che emulare un sistema SCADA sarebbe stato complesso, in quanto era necessario dover programmare i diversi PLC che avrebbero controllato il processo (emulato anch'esso tramite computer). 
+
+Scartata quindi l'ipotesi dell'emulatore, si è deciso di porre il focus del gioco sulle diverse minacce che possono coinvolgere un sistema SCADA. Dalle ricerche svolte, infatti, sugli attacchi informatici effettuati ai danni di un sistema di controllo, è emerso che esiste ancora l'errata convinzione di ritenere l'ambiente SCADA sicuro dagli attacchi esterni in quanto tecnologicamente diverso, senza rendersi conto che, in realtà, con il passare degli anni le tecnologie del mondo domestico sono entrate a far parte di quello industriale, rendendoli molto più simili di quanto si pensi.
+
+Partendo da ciò, è stata formulata l'idea di un gioco gestionale in cui l'utente si trova a gestire la sicurezza di un ambiente SCADA, fronteggiando diversi tipi di attacchi e cercando di prevenire il fallimento economico per colpa di essi.
+
+\section{La storia nel gioco}
+
+Il gioco si sviluppa all'interno di una società fornitrice di servizi SCADA. Il giocatore è stato appena messo a capo del reparto di sicurezza e dovrà gestire i vari aspetti legati ad essa. Quindi non dovrà solo evitare di subire attacchi informatici, ma avrà il compito anche di scovare eventuali infiltrati tra i dipendenti che si troveranno a lavorare all'interno dei locali da proteggere.
+
+Ma mano che riuscirà a difendere i sistemi aziendali, il giocatore guadagnerà soldi e aumenterà la propria reputazione. Questo gli permetterà di acquistare migliorie difensive per aiutarlo nel proprio compito. Una volta raggiunto un livello di reputazione e soldi sufficientemente alto, lo scenario si concluderà con la vittoria e si potrà accedere la secondo livello, in cui dovrà fronteggiare minacce più pericolose. Se, invece, non dovesse riuscire a proteggere l'azienda dagli attacchi e subisse troppi attacchi, con relative perdite economiche, il gioco terminerà con una sconfitta e il giocatore dovrà ricominciare lo scenario dall'inizio.
+
+La storia è stata mantenuta molto basilare in quanto, tipicamente, nei giochi gestionali non ha una particolare rilevanza. In questo tipo di giochi vi sono, usualmente, degli obiettivi che il giocatore può completare nel corso del gioco (raggiungere un determinato livello di introiti economici, effettuare un determinato numero di azioni positive, ecc.), ma in questo caso sono stati estromessi nella programmazione per questioni legate al tempo necessario per idearle ed implementarle.
+
+\section{Contenuto del gioco}
+
+\subsection{Game tutorial}
+
+\subsection{Le lezioni}
+
+\section{Gestione degli asset di gioco}
+
+\section{Implementazione delle routine per le AI}
