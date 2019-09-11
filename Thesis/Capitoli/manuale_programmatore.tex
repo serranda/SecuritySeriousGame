@@ -1,0 +1,45 @@
+In questo capitolo sono inserite tutte le informazioni necessarie per chiunque voglia modificare la struttura del gioco, aggiungendo livelli, minacce, messaggi e quant'altro. Nella prima parte è esposta la modalità di installazione del gioco, in modo da riuscire ad eseguirlo in locale con fini di sviluppo \ref{sec:howto}. Successivamente, nei paragrafi \ref{sec:noncodecontents}, \ref{sec:classes} e \ref{sec:prefabs} sono fornite informazioni riguardo sia i file di codice che non, utilizzati all'interno del gioco e su cui eventualmente agire per apportare modifiche riguardo la logica del gameplay. In \ref{sec:folderstructure} è mostrata la struttura delle cartelle di gioco, esposta così come appare all'interno dell'editor di Unity. Infine, nell'ultima sezione (\ref{sec:addlevel}) è esposto come è possibile aggiungere dei livelli al gioco.
+
+\section{Guida d'installazione}\label{sec:howto}
+
+Il gioco, al momento della stesura di questo report, è disponibile all'indirizzo \url{http://simscada.sfcoding.com/SIMSCADA/}. Se non dovesse essere più disponibile, è possibile eseguirne una versione in un server locale. Questo può essere utile anche per effettuare test in caso di modifiche del codice di controllo, aggiunte di livelli e così via. Per far sì che il gioco funzioni in locale, però, sono necessari alcuni passaggi.
+
+\begin{description}
+
+\item[Installazione di un server di gioco] Per eseguire il gioco, è sufficiente avere un web server Apache installato sulla propria macchina e copiare i file prodotti da Unity al momento della build, ossia il contenuto delle cartelle \cmd{Build} e \cmd{TemplateData}, più il file \cmd{index.html}, all'interno della cartella \cmd{htdocs} del server. Esistono diversi metodi per installare un server Apache, a seconda anche del sistema operativo su cui si sta lavorando, ma una soluzione veloce, semplice e soprattutto valida per tutti i casi è quella fornita dal software \cmd{XAMPP}. 
+
+Questo software, disponibile al link \url{https://www.apachefriends.org/it/download.html}, è disponibile per Windows, MacOS e Linux e permette di installare velocemente tutte le componenti necessarie per eseguire un web server sulla propria macchina in locale. 
+
+Una volta terminata la procedura d'installazione di \cmd{XAMPP}, sarà necessario individuare la cartella dove sono stati salvati i file. Normalmente, quelle predefinite sono:
+
+\begin{description}
+
+\item[Windows:] C:/xampp
+
+\item[Linux:]  /opt/xampp
+
+\item[MacOS:]  /Applications/XAMPP/xamppfiles
+
+\end{description}
+
+\item[Creazione della cartella di gioco] Trovata la cartella di installazione di \cmd{XAMPP}, sarà necessario individuare la cartella\cmd{htdocs}. Al suo interno è consigliato creare un'ulteriore cartella, denominata ad esempio \cmd{SIMSCADA}. Qui dovranno essere copiati tutti i file prodotti da Unity al momento della build.
+
+\item[Download del progetto] È possibile ottenere
+
+\item[Installazione di Unity]
+
+\item[Creazione della build]
+
+\item[Copia della build nel server]
+
+\end{description}
+
+\section{Contenuti del gioco senza codice}\label{sec:noncodecontents}
+
+\section{Classi}\label{sec:classes}
+
+\section{Prefab}\label{sec:prefabs}
+
+\section{Struttura delle cartelle}\label{sec:folderstructure}
+
+\section{Come aggiungere un livello}\label{sec:addlevel}
