@@ -80,12 +80,48 @@ Ma mano che riuscirà a difendere i sistemi aziendali, il giocatore guadagnerà so
 
 La storia è stata mantenuta molto basilare in quanto, tipicamente, nei giochi gestionali non ha una particolare rilevanza. In questo tipo di giochi vi sono, usualmente, degli obiettivi che il giocatore può completare nel corso del gioco (raggiungere un determinato livello di introiti economici, effettuare un determinato numero di azioni positive, ecc.), ma in questo caso sono stati estromessi nella programmazione per questioni legate al tempo necessario per idearle ed implementarle.
 
-\section{Contenuto del gioco}
+\section{Struttura del gioco}
 
-\subsection{Game tutorial}
+Il gioco è ambientato in un'unica mappa, al cui interno si svolgono tutte le azioni del gioco. La mappa è divisa in due locali principali: la stanza server e la stanza degli operatori. Durante lo svolgimento della partita verranno generati automaticamente dei personaggi, raffiguranti i dipendenti dell'azienda. Questi avranno dei lavori da svolgere, la cui durata è indicata da una progress bar presente sopra la testa del personaggio, e il giocatore dovrà impedire che venga interrotto. Se ci riuscirà, riceverà un bonus economico, altrimenti subirà una perdita di soldi.
 
-\subsection{Le lezioni}
+Non tutti i lavoratori, però, sono reali: fra di essi, infatti, possono nascondersi dei personaggi ostili, il cui compito sarà quello di effettuare un attacco nei confronti dell'azienda. In questo caso il giocatore dovrà fermarli prima che riescano nel loro intento, altrimenti subirà una perdita economica e, se necessario, dovrà rimettere in funzione il sistema. Per individuare le minacce, il giocatore potrà interagire con i vari personaggi presenti nello scenario e avrà la possibilità di avvalersi di aiuti acquistabili tramite lo store interno.
+
+Oltre alle minacce fisiche, il giocatore dovrà difendersi anche dalle minacce remote, il cui attacco può avvenire in qualunque momento. Per evitarle, sarà compito del giocatore attivare le difese da remoto (firewall, ids, ecc.) e migliorarne il tasso di efficacia, sempre tramite acquisti nello store. 
+
+Il giocatore, oltre che con i personaggi, potrà interagire anche con altre attrezzature (pc, server, ecc.) tramite cui eseguire diverse azioni, sia preventive, ma anche di riparazione, nel caso in cui non sia riuscito a sgominare una minaccia in tempo.
+
+Un'altra delle componenti che sarà d'aiuto durante la partita è, come anticipato, lo store: tramite esso, il giocatore potrà acquistare nuove difese, migliorare quelle che possiede già e, inoltre, eseguire campagne di assunzione del personale, in modo da aumentare gli introiti dell'azienda.
+
+\section{Game tutorial}
+
+Prima di iniziare a giocare, viene presentata l'opportunità di svolgere un tutorial. Questo serve, come in questo tipo di giochi, a presentare le dinamiche base del gioco, mostrare con quali oggetti è possibile interagire, oltre a fornire nozioni sulle minacce da cui dovrà difendersi. 
+
+Il tutorial è parte integrante dell'esperienza di formazione fornita dal gioco, in quanto sono presenti anche delle informazioni sui sistemi SCADA e cosa siano. Questo è stato necessario in quanto non conoscendo in anticipo la formazione del giocatore sull'argomento è importante che i concetti base siano esposti. Questi poi saranno ampliati nel corso della partita, grazie anche alle lezioni inserite nel gioco.
+
+\section{Le lezioni}
+
+Il gioco è suddiviso in due livelli, creati in modo che al passaggio dal primo al secondo la difficoltà aumenti. Durante la partita al giocatore verranno impartite delle lezioni in relazione alle minacce che subirà. Ognuna di esse, infatti, potrà essere effettuata attraverso un diverso tipo di attacco: attacco \mitm, phishing, malware e così via, fino ad arrivare anche ad attacchi complessi e/o combinati. Ogni volta che il giocatore subirà un nuovo attacco, verrà subito mostrata la lezione corrispondente in cui saranno anche esposte le misure difensive che dovrà intraprendere.
+
+Essendo diviso in due livelli, nel primo gli attacchi che subirà saranno più semplici, mentre nel secondo sono introdotti anche attacchi complessi, a cui il giocatore dovrà reagire con una combinazione di diverse azioni difensive.
+
+Oltre alle lezioni sugli attacchi, sono fornite anche lezioni più approfondite su cosa sia un sistema SCADA, sulle componenti che possono trovarsi in un'architettura tipica e sulle difese che è possibile implementare per proteggerlo.
+
+Le lezioni sono accessibili in ogni momento, sia all'interno del gioco (interagendo con il telefono sarà possibile aprire il quaderno al cui interno sono raccolte tutte le lezioni), sia dal menù principale del gioco. In questo modo, se ne dovesse avere bisogno, l'utente potrà rivedere le nozioni di teoria durante la partita, ma anche ripassarle in un secondo momento.
 
 \section{Gestione degli asset di gioco}
 
-\section{Implementazione delle routine per le AI}
+Tutti gli asset grafici e audio del gioco sono gestiti automaticamente da Unity, così come il loro caricamento. Una volta importati dentro l'editor, infatti, è possibile gestirne il caricamento tramite la classe \cmd{Resources}, in grado di gestire diversi tipi di file multimediali e testuali. Tra gli asset utilizzati sono ad annoverare anche i file di testo al cui interno sono trascritte le lezioni, quelli con i messaggi di sistema, così come i file \cmd{.json} utilizzati per creare le varie classi create per il gioco. 
+
+Altri asset caricati sempre tramite la classe \cmd{Resources} sono le immagini utilizzate per raffigurare i personaggi all'interno della mappa e quelle necessarie per raffigurare le loro animazioni di movimento.
+
+\section{Raccolta dati giocatore}
+
+Durante il gioco, sono raccolte delle statistiche sulle azioni del giocatore. Principalmente sono monitorati due parametri: i tempi di reazione nel momento in cui l'utente intraprende delle azioni di risposta all'esecuzione di una minaccia e le azioni di prevenzione eseguite durante il corso di tutta la partita. 
+
+Nel primo caso, lo scopo è di osservare innanzitutto se il giocatore riesce a migliorare i tempi di reazione man mano che la partita procede. Questi tempi sono registrati e illustrati in una tabella, osservabile sia durante la partita che alla fine della stessa. L'andamento dei tempi di risposta, inoltre, può fornire un'informazione sulla qualità dell'apprendimento. Se i fatti i tempi per una determinata tipologia di attacco rimangono invariati nel corso del tempo (o addirittura aumentano) si può presupporre che il giocatore abbia difficoltà nel capire in fondo quel tipo di attacco e saprà quale lezione rivedere per colmare le proprie lacune.
+
+La registrazione delle azioni di risposta, invece, viene effettuata per capire in quale modo il giocatore si comporta nel momento di gioco che intercorre tra una minaccia e l'altra (ossia quei momenti in cui gli attacchi sono in preparazione). Questa registrazione è effettuata in relazione alla ``minaccia in tendenza''. Periodicamente, infatti, sarà scelto un particolare tipo di attacco che sarà di tendenza per un determinato lasso di tempo. Se il giocatore effettuerà delle azioni preventive (acquisti, attivazione o disattivazione di determinati sistemi di difesa) utili a contrastare quel tipo di minaccia è lecito presupporre che abbia recepito la lezione inerente ad essa, altrimenti è probabile che debba rivedere le informazioni presenti all'interno del gioco.
+
+ Un'altra tipologia di azione registrata è quella di ``contrasto'' alle minaccia già eseguite. In questa situazione, a seconda dell'attacco subito, verranno analizzate le scelte effettuate dal giocatore per porre rimedio al danno. Anche in questo caso, se le scelte effettuate risultano non in linea con quelle richieste per fermare quel determinato tipo di attacco, è probabile che il giocatore debba rivedere le lezioni inerenti ad esso.
+ 
+ Tutte queste informazioni sono raccolte e scritte nel log del giocatore, creato e salvato all'interno del server. Questo file di testo viene costantemente aggiornato sia con queste informazioni, ma anche con gli altri eventi generati dal gioco.
