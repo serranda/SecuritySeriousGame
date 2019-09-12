@@ -46,7 +46,7 @@ public class DialogBoxManager : MonoBehaviour
         switch (dialogBoxTitle.text)
         {
             case "ESCI":
-                dialogBox.sortingOrder = 4;
+                dialogBox.sortingOrder = 18;
                 break;
             case "CHIUDI TUTTE LE FINESTRE":
                 dialogBox.sortingOrder = 3;

@@ -69,12 +69,11 @@ public class Level1Manager : MonoBehaviour, ILevelManager
         //    StartCoroutine(NewRemoteThreats());
 
 
-        //TODO COMMENT
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            Threat threat = ClassDb.threatManager.NewRandomLevel2Threat();
-            Debug.Log(threat);
-        }
+        //if (Input.GetKeyDown(KeyCode.M))
+        //{
+        //    Threat threat = ClassDb.threatManager.NewRandomLevel2Threat();
+        //    Debug.Log(threat);
+        //}
 
         //if (Input.GetKeyDown(KeyCode.A))
         //{
@@ -184,11 +183,9 @@ public class Level1Manager : MonoBehaviour, ILevelManager
             SetTrendThreatAttack();
         }
 
-        //TODO UNCOMMENT
+        StartTimeRoutine();
 
-        //StartTimeRoutine();
-
-        //StartAllCoroutines();
+        StartAllCoroutines();
     }
 
     public void SpawnHud()

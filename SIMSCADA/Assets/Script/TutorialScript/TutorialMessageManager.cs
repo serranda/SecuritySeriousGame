@@ -443,6 +443,7 @@ public class TutorialMessageManager : MonoBehaviour
         dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.gameObject.SetActive(true);
         dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.onClick.AddListener(delegate
         {
+            ClassDb.pauseManager.TogglePauseMenu();
             ClassDb.dialogBoxManager.CloseDialog(dialog);
             ClassDb.pauseManager.pauseRaycaster.enabled = true;
             StaticDb.isShowingExit = false;

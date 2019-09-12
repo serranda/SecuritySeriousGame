@@ -63,7 +63,9 @@ public class PauseManager : MonoBehaviour
         }
 
         //ACCORDING TO THE pauseEnabled FLAG VALUE RESTART OR STOP THE TIME
-        ClassDb.timeManager.ToggleTime();
+
+        if(!StaticDb.isShowingExit)
+            ClassDb.timeManager.ToggleTime();
     }
 
     public void SetListener()
@@ -86,6 +88,8 @@ public class PauseManager : MonoBehaviour
         {
             exitBtn.onClick.AddListener(delegate
             {
+                TogglePauseMenu();
+
                 ClassDb.tutorialMessageManager.Exit();
             });
         }
@@ -93,6 +97,8 @@ public class PauseManager : MonoBehaviour
         {
             exitBtn.onClick.AddListener(delegate
             {
+                TogglePauseMenu();
+
                 ClassDb.levelMessageManager.StartExit(manager.GetGameData().levelIndex);
             });
         }
