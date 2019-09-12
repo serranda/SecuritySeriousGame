@@ -70,6 +70,8 @@ public class RoomPcListener : MonoBehaviour
                     buttons[1].onClick.AddListener(delegate
                     {
                         manager.SetFirewallActive(false);
+                        interactiveSprite.ToggleMenu();
+                        interactiveSprite.ToggleMenu();
                     });
                 }
                 else
@@ -79,6 +81,8 @@ public class RoomPcListener : MonoBehaviour
                     buttons[1].onClick.AddListener(delegate
                     {
                         manager.SetFirewallActive(true);
+                        interactiveSprite.ToggleMenu();
+                        interactiveSprite.ToggleMenu();
                     });
                 }
 
@@ -90,6 +94,8 @@ public class RoomPcListener : MonoBehaviour
                     buttons[2].onClick.AddListener(delegate
                     {
                         manager.SetRemoteIdsActive(false);
+                        interactiveSprite.ToggleMenu();
+                        interactiveSprite.ToggleMenu();
                     });
                 }
                 else
@@ -99,6 +105,8 @@ public class RoomPcListener : MonoBehaviour
                     buttons[2].onClick.AddListener(delegate
                     {
                         manager.SetRemoteIdsActive(true);
+                        interactiveSprite.ToggleMenu();
+                        interactiveSprite.ToggleMenu();
                     });
                 }
 
@@ -109,6 +117,8 @@ public class RoomPcListener : MonoBehaviour
                     buttons[3].onClick.AddListener(delegate
                     {
                         manager.SetLocalIdsActive(false);
+                        interactiveSprite.ToggleMenu();
+                        interactiveSprite.ToggleMenu();
                     });
                 }
                 else
@@ -118,6 +128,8 @@ public class RoomPcListener : MonoBehaviour
                     buttons[3].onClick.AddListener(delegate
                     {
                         manager.SetLocalIdsActive(true);
+                        interactiveSprite.ToggleMenu();
+                        interactiveSprite.ToggleMenu();
                     });
                 }
 
@@ -434,25 +446,25 @@ public class RoomPcListener : MonoBehaviour
         }
     }
 
-    public void ToggleScadaScreen()
-    {
-        manager = SetLevelManager();
+    //public void ToggleScadaScreen()
+    //{
+    //    manager = SetLevelManager();
 
-        if (manager.GetGameData().scadaEnabled)
-        {
-            ClassDb.prefabManager.ReturnPrefab(scadaScreen.gameObject, PrefabManager.scadaIndex);
-            manager.GetGameData().scadaEnabled = false;
-            //WRITE LOG
-            ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.UserEvent, "SCADA SCREEN CLOSED");
-        }
-        else
-        {
-            scadaScreen = ClassDb.prefabManager.GetPrefab(ClassDb.prefabManager.prefabScadaScreen.gameObject, PrefabManager.scadaIndex).GetComponent<Canvas>();
-            manager.GetGameData().scadaEnabled = true;
-            //WRITE LOG
-            ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.UserEvent, "SCADA SCREEN OPENED");
-        }
-    }
+    //    if (manager.GetGameData().scadaEnabled)
+    //    {
+    //        ClassDb.prefabManager.ReturnPrefab(scadaScreen.gameObject, PrefabManager.scadaIndex);
+    //        manager.GetGameData().scadaEnabled = false;
+    //        //WRITE LOG
+    //        ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.UserEvent, "SCADA SCREEN CLOSED");
+    //    }
+    //    else
+    //    {
+    //        scadaScreen = ClassDb.prefabManager.GetPrefab(ClassDb.prefabManager.prefabScadaScreen.gameObject, PrefabManager.scadaIndex).GetComponent<Canvas>();
+    //        manager.GetGameData().scadaEnabled = true;
+    //        //WRITE LOG
+    //        ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.UserEvent, "SCADA SCREEN OPENED");
+    //    }
+    //}
 
     public void ToggleStoreScreen()
     {

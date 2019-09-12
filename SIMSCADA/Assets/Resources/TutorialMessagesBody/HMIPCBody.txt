@@ -1,1 +1,1 @@
-Questo è il terminale HMI, con cui potrai eseguire alcune azioni difensive oltre a poter accedere al pannello di controllo HMI e alla schermata del negozio.
+Questo è il terminale HMI, con cui potrai eseguire alcune azioni difensive oltre a poter accedere alla schermata del negozio per acquistare migliorie e nuovi sistemi di difesa.

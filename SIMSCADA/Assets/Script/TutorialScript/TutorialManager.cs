@@ -29,7 +29,7 @@ public class TutorialManager : MonoBehaviour
     //bool for check if first click on room pc
 
     public bool roomPcFirstTime = true;
-    public bool firstTimeHMIPanel = true;
+    //public bool firstTimeHMIPanel = true;
     public bool firstTimeMarket = true;
 
     //bool for check if first click on security check
@@ -186,7 +186,7 @@ public class TutorialManager : MonoBehaviour
         ClassDb.tutorialMessageManager.Welcome1Message();
 
         //wait until dialog has been disabled
-        yield return new WaitWhile(() => TutorialDialogBoxManager.dialogEnabled);
+        yield return new WaitWhile(() => tutorialGameData.dialogEnabled);
 
         //set flag to start next coroutine
         welcome1 = true;
@@ -210,7 +210,7 @@ public class TutorialManager : MonoBehaviour
         ClassDb.tutorialMessageManager.Welcome2Message();
 
         //wait until dialog has been disabled
-        yield return new WaitWhile(() => TutorialDialogBoxManager.dialogEnabled);
+        yield return new WaitWhile(() => tutorialGameData.dialogEnabled);
 
         //set flag to start next coroutine
         welcome2 = true;
@@ -240,7 +240,7 @@ public class TutorialManager : MonoBehaviour
         ClassDb.tutorialMessageManager.Welcome3Message();
 
         //wait until dialog has been disabled
-        yield return new WaitWhile(() => TutorialDialogBoxManager.dialogEnabled);
+        yield return new WaitWhile(() => tutorialGameData.dialogEnabled);
 
         //set flag to start next coroutine
         welcome3 = true;
@@ -262,7 +262,7 @@ public class TutorialManager : MonoBehaviour
         ClassDb.tutorialMessageManager.Welcome4Message();
 
         //wait until dialog has been disabled
-        yield return new WaitWhile(() => TutorialDialogBoxManager.dialogEnabled);
+        yield return new WaitWhile(() => tutorialGameData.dialogEnabled);
 
         //set flag to start next coroutine
         welcome4 = true;
@@ -284,7 +284,7 @@ public class TutorialManager : MonoBehaviour
         ClassDb.tutorialMessageManager.Welcome5Message();
 
         //wait until dialog has been disabled
-        yield return new WaitWhile(() => TutorialDialogBoxManager.dialogEnabled);
+        yield return new WaitWhile(() => tutorialGameData.dialogEnabled);
 
         //set flag to start next coroutine
         welcome5 = true;
@@ -306,7 +306,7 @@ public class TutorialManager : MonoBehaviour
         ClassDb.tutorialMessageManager.Welcome6Message();
 
         //wait until dialog has been disabled
-        yield return new WaitWhile(() => TutorialDialogBoxManager.dialogEnabled);
+        yield return new WaitWhile(() => tutorialGameData.dialogEnabled);
 
         //set flag to start next coroutine
         welcome6 = true;
@@ -335,7 +335,7 @@ public class TutorialManager : MonoBehaviour
         ClassDb.tutorialMessageManager.Welcome7Message();
 
         //wait until dialog has been disabled
-        yield return new WaitWhile(() => TutorialDialogBoxManager.dialogEnabled);
+        yield return new WaitWhile(() => tutorialGameData.dialogEnabled);
 
         //set flag to start next coroutine
         welcome7 = true;
@@ -349,9 +349,9 @@ public class TutorialManager : MonoBehaviour
         //wait for click on room pc
         yield return new WaitUntil(() => !roomPcFirstTime);
 
-        //wait for click on scada screen
-        yield return new WaitUntil(() => !firstTimeHMIPanel);
-        yield return new WaitUntil(() => !tutorialGameData.scadaEnabled);
+        ////wait for click on scada screen
+        //yield return new WaitUntil(() => !firstTimeHMIPanel);
+        //yield return new WaitUntil(() => !tutorialGameData.scadaEnabled);
 
         //wait for click on store screen
         yield return new WaitUntil(() => !firstTimeMarket);
@@ -394,7 +394,7 @@ public class TutorialManager : MonoBehaviour
         ClassDb.tutorialMessageManager.IdsFirewallIpsMessage();
 
         //wait until dialog has been disabled
-        yield return new WaitWhile(() => TutorialDialogBoxManager.dialogEnabled);
+        yield return new WaitWhile(() => tutorialGameData.dialogEnabled);
 
         //set flag to start next coroutine
         idsFirewallIps = true;
@@ -416,7 +416,7 @@ public class TutorialManager : MonoBehaviour
         ClassDb.tutorialMessageManager.InteractiveObjectMessage();
 
         //wait until dialog has been disabled
-        yield return new WaitWhile(() => TutorialDialogBoxManager.dialogEnabled);
+        yield return new WaitWhile(() => tutorialGameData.dialogEnabled);
 
         //set flag to start next coroutine
         interactiveObject = true;
@@ -444,7 +444,7 @@ public class TutorialManager : MonoBehaviour
         ClassDb.tutorialMessageManager.PostWelcomeMessage();
 
         //wait until dialog has been disabled
-        yield return new WaitWhile(() => TutorialDialogBoxManager.dialogEnabled);
+        yield return new WaitWhile(() => tutorialGameData.dialogEnabled);
 
         //set flag to start next coroutine
         postWelcome = true;
@@ -472,7 +472,7 @@ public class TutorialManager : MonoBehaviour
         ClassDb.tutorialMessageManager.RemoteAttackMessage();
 
         //wait until dialog has been disabled
-        yield return new WaitWhile(() => TutorialDialogBoxManager.dialogEnabled);
+        yield return new WaitWhile(() => tutorialGameData.dialogEnabled);
 
         //set flag to start next coroutine
         remoteAttackMessage = true;
@@ -500,7 +500,7 @@ public class TutorialManager : MonoBehaviour
         ClassDb.tutorialMessageManager.LocalAttackMessage();
 
         //wait until dialog has been disabled
-        yield return new WaitWhile(() => TutorialDialogBoxManager.dialogEnabled);
+        yield return new WaitWhile(() => tutorialGameData.dialogEnabled);
 
         //set flag to start next coroutine
         localAttackMessage = true;
@@ -528,7 +528,7 @@ public class TutorialManager : MonoBehaviour
         ClassDb.tutorialMessageManager.PostAttackMessage();
 
         //wait until dialog has been disabled
-        yield return new WaitWhile(() => TutorialDialogBoxManager.dialogEnabled);
+        yield return new WaitWhile(() => tutorialGameData.dialogEnabled);
 
         //set flag to start next coroutine
         postAttackMessage = true;
@@ -546,7 +546,7 @@ public class TutorialManager : MonoBehaviour
         ClassDb.tutorialMessageManager.FinalMessage();
 
         //wait until dialog has been disabled
-        yield return new WaitWhile(() => TutorialDialogBoxManager.dialogEnabled);
+        yield return new WaitWhile(() => tutorialGameData.dialogEnabled);
 
         //set flag to start next coroutine
         finalMessage = true;

@@ -1,4 +1,4 @@
 Passiamo ora ai comandi ed alle informazioni necessarie per svolgere il tuo lavoro: iniziamo dal pannello posto in basso nella schermata.
 Qui sono riportate le informazioni più importanti di cui hai bisogno. In particolare, andando da sinistra a destra, sono riportati nell'ordine:
-data e ora in gioco, reputazione personale, fondi a disposizione, numero di attacchi subiti, numero totale di attacchi (subiti/bloccati), numero di impiegati (TRUSTED/impiegati totali).
+data e ora in gioco, reputazione personale, fondi a disposizione, numero di attacchi subiti, numero totale di attacchi (subiti/bloccati), numero di impiegati (SPECIALIZZATO/impiegati totali).
 Sopra al numero degli impiegati è presente una serie di bottoni con cui poter impostare la velocità di scorrimento del tempo.

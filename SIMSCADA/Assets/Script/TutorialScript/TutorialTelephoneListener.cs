@@ -82,7 +82,7 @@ public class TutorialTelephoneListener : MonoBehaviour
         ClassDb.tutorialMessageManager.Telephone1Message();
 
         //wait until dialog has been disabled
-        yield return new WaitWhile(() => TutorialDialogBoxManager.dialogEnabled);
+        yield return new WaitWhile(() => tutorialManager.tutorialGameData.dialogEnabled);
 
         //set flag to start next coroutine
         telephone1 = true;
@@ -102,7 +102,7 @@ public class TutorialTelephoneListener : MonoBehaviour
         ClassDb.tutorialMessageManager.Telephone2Message();
 
         //wait until dialog has been disabled
-        yield return new WaitWhile(() => TutorialDialogBoxManager.dialogEnabled);
+        yield return new WaitWhile(() => tutorialManager.tutorialGameData.dialogEnabled);
 
         //set flag to start next coroutine
         telephone2 = true;

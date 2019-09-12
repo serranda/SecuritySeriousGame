@@ -1,1 +1,1 @@
-Oltre alle credenziali, ti verrà mostrato una descrizione sulle ultime attività dell’utente. Potrai individuare al meglio chi di loro sta effettuando azioni sospette.
+Oltre alle credenziali, ti verrà mostrato una nota sulle ultime attività dell’utente. Potrai individuare al meglio chi di loro sta effettuando azioni sospette.

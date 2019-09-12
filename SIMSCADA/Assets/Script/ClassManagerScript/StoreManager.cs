@@ -98,7 +98,7 @@ public class StoreManager : MonoBehaviour
             itemOnList.transform.SetParent(content);
             itemOnList.transform.localScale = Vector3.one;
             itemOnList.name = "Item" + itemList.IndexOf(item);
-            itemOnList.GetComponentsInChildren<TextMeshProUGUI>()[0].text = item.name;
+            itemOnList.GetComponentsInChildren<TextMeshProUGUI>()[0].text = item.name.ToUpper();
             itemOnList.GetComponentsInChildren<TextMeshProUGUI>()[2].text = item.currentLevel.ToString();
             itemOnList.GetComponentsInChildren<TextMeshProUGUI>()[3].text = item.price.ToString();
             itemOnList.GetComponent<Button>().onClick.RemoveAllListeners();
@@ -361,8 +361,8 @@ public class StoreManager : MonoBehaviour
             default:
                 throw new ArgumentOutOfRangeException();
         }
-        //TODO GET DATA ABOUT PURCHASE
-        ClassDb.userActionManager.RegisterItemPurchase(itemStore, manager.GetGameData().monthlyThreat);
+        //GET DATA ABOUT PURCHASE
+        ClassDb.userActionManager.RegisterItemPurchase(itemStore, manager.GetGameData().trendThreat);
 
     }
 

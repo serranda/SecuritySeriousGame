@@ -51,7 +51,7 @@ public class StaticDb
 
     //string values for login message files in resources folder
     public static string completeField = "MenuMessages/CompleteField";
-    public static string existingPlayer = "MenuMessages/ExistingPlayer";
+    public static string existingPlayer = "MenuMessages/UserInUse";
     public static string playerNotRegistered = "MenuMessages/PlayerNotRegistered";
     public static string warningNewGame = "MenuMessages/WarningNewGame";
     public static string welcomePlayer = "MenuMessages/WelcomePlayer";
@@ -113,7 +113,7 @@ public class StaticDb
     public static string tutorialLocalAttack = "TutorialMessages/LocalAttack";
     public static string tutorialInteractiveObject = "TutorialMessages/InteractiveObject";
     public static string tutorialHMIPC = "TutorialMessages/HMIPC";
-    public static string tutorialHMIPanel = "TutorialMessages/HMIPanel";
+    //public static string tutorialHMIPanel = "TutorialMessages/HMIPanel";
     public static string tutorialFinalMessage = "TutorialMessages/FinalMessage";
     public static string notebookMessage = "TutorialMessages/Notebook";
     public const string tutorialExit = "TutorialMessages/TutorialExit";
@@ -215,8 +215,8 @@ public class StaticDb
     {
         local,
         remote,
-        hybrid,
         fakeLocal,
+        hybrid,
         timeEvent
     }
 

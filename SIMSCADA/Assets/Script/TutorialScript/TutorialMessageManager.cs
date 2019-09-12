@@ -341,21 +341,21 @@ public class TutorialMessageManager : MonoBehaviour
 
     }
 
-    public void HMIPanelMessage()
-    {
-        ClassDb.tutorialDialogBoxManager.ToggleTutorialDialogBox();
+    //public void HMIPanelMessage()
+    //{
+    //    ClassDb.tutorialDialogBoxManager.ToggleTutorialDialogBox();
 
-        TutorialDialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.tutorialHMIPanel));
+    //    TutorialDialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.tutorialHMIPanel));
 
-        ClassDb.tutorialDialogBoxManager.SetTutorialDialog(message.body);
+    //    ClassDb.tutorialDialogBoxManager.SetTutorialDialog(message.body);
 
-        TutorialDialogBoxManager.btnTutorialDialog.onClick.RemoveAllListeners();
-        TutorialDialogBoxManager.btnTutorialDialog.onClick.AddListener(delegate
-        {
-            ClassDb.tutorialDialogBoxManager.ToggleTutorialDialogBox();
-        });
+    //    TutorialDialogBoxManager.btnTutorialDialog.onClick.RemoveAllListeners();
+    //    TutorialDialogBoxManager.btnTutorialDialog.onClick.AddListener(delegate
+    //    {
+    //        ClassDb.tutorialDialogBoxManager.ToggleTutorialDialogBox();
+    //    });
 
-    }
+    //}
 
     public void FinalMessage()
     {

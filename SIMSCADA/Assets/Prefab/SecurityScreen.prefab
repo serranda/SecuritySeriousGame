@@ -65,9 +65,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: 'Medium
-
-'
+  m_text: Media
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e833bd9a2ba996b43bccf54197b2e9d4, type: 2}
   m_sharedMaterial: {fileID: 21003200751327136, guid: e833bd9a2ba996b43bccf54197b2e9d4,
@@ -137,9 +135,9 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 7460460935716757260}
-    characterCount: 7
+    characterCount: 5
     spriteCount: 0
-    spaceCount: 1
+    spaceCount: 0
     wordCount: 1
     linkCount: 0
     lineCount: 1
@@ -320,9 +318,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: 'Loose
-
-'
+  m_text: Bassa
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e833bd9a2ba996b43bccf54197b2e9d4, type: 2}
   m_sharedMaterial: {fileID: 21003200751327136, guid: e833bd9a2ba996b43bccf54197b2e9d4,
@@ -392,9 +388,9 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 4885538906640600886}
-    characterCount: 6
+    characterCount: 5
     spriteCount: 0
-    spaceCount: 1
+    spaceCount: 0
     wordCount: 1
     linkCount: 0
     lineCount: 1
@@ -1309,7 +1305,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: Strict
+  m_text: Alta
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e833bd9a2ba996b43bccf54197b2e9d4, type: 2}
   m_sharedMaterial: {fileID: 21003200751327136, guid: e833bd9a2ba996b43bccf54197b2e9d4,
@@ -1379,7 +1375,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 951782281202768263}
-    characterCount: 6
+    characterCount: 4
     spriteCount: 0
     spaceCount: 0
     wordCount: 1

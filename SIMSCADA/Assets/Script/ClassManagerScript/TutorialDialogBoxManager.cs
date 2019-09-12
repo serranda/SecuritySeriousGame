@@ -11,28 +11,26 @@ public class TutorialDialogBoxManager : MonoBehaviour
 
     public static int i = 1;
 
-    public static bool dialogEnabled;
-
     private Canvas tutorialDialog;
 
-    private void Awake()
-    {
-        dialogEnabled = false;
-    }
+    private TutorialManager tutorialManager;
 
     private void OnEnable()
     {
+        tutorialManager = FindObjectOfType<TutorialManager>();
+
         bodyTutorialDialog = GameObject.Find(StaticDb.tutorialDialogBoxMessage).GetComponent<TextMeshProUGUI>();
         btnTutorialDialog = GameObject.Find(StaticDb.tutorialDialogBoxBtn).GetComponent<Button>();
 
         dialogTransform = GameObject.Find(StaticDb.tutorialPanel).GetComponent<RectTransform>();
 
-        dialogEnabled = true;
+        tutorialManager.tutorialGameData.dialogEnabled = true;
     }
 
     private void OnDisable()
     {
-        dialogEnabled = false;
+        tutorialManager.tutorialGameData.dialogEnabled = false;
+
     }
 
     public void SetTutorialDialog(string message)
@@ -42,7 +40,9 @@ public class TutorialDialogBoxManager : MonoBehaviour
 
     public void ToggleTutorialDialogBox()
     {
-        if (dialogEnabled)
+        tutorialManager = FindObjectOfType<TutorialManager>();
+
+        if (tutorialManager.tutorialGameData.dialogEnabled)
         {
             ClassDb.prefabManager.ReturnPrefab(tutorialDialog.gameObject, PrefabManager.tutorialDialogIndex);
         }

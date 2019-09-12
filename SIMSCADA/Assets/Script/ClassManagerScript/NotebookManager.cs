@@ -220,8 +220,8 @@ public class NotebookManager : MonoBehaviour
 
     private void SetPageTextBody(Lesson lesson)
     {
-        titleL.text = lesson.id.ToUpperInvariant();
-        titleR.text = lesson.id.ToUpperInvariant();
+        titleL.text = lesson.id;
+        titleR.text = lesson.id;
 
         pageL.text = lesson.textBody;
         pageR.text = lesson.textBody;
@@ -378,7 +378,7 @@ public class NotebookManager : MonoBehaviour
         ClassDb.tutorialMessageManager.NoteBookMessage();
 
         //wait until dialog has been disabled
-        yield return new WaitWhile(() => TutorialDialogBoxManager.dialogEnabled);
+        yield return new WaitWhile(() => tutorialManager.tutorialGameData.dialogEnabled);
 
         tutorialManager.notebookFirstTime = false;
 

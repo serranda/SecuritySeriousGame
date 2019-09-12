@@ -167,8 +167,8 @@ public class TutorialInteractiveSprite : MonoBehaviour, IPointerUpHandler, IPoin
 
     public void CheckOperativeItem()
     {
-        Debug.Log(tutorialManager + " manager");
-        Debug.Log(tutorialManager.tutorialGameData + " data");
+        //Debug.Log(tutorialManager + " manager");
+        //Debug.Log(tutorialManager.tutorialGameData + " data");
 
         int limit;
         switch (gameObject.tag)

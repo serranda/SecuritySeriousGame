@@ -42,7 +42,7 @@ public class CameraManager : MonoBehaviour
         {
             if (PauseManager.pauseEnabled
                 || manager.GetGameData().dialogEnabled
-                || manager.GetGameData().scadaEnabled
+                //|| manager.GetGameData().scadaEnabled
                 || manager.GetGameData().cursorOverAi
                 || manager.GetGameData().storeEnabled
                 || manager.GetGameData().chartEnabled
@@ -50,15 +50,19 @@ public class CameraManager : MonoBehaviour
                 //|| isCameraMainNull
             ) return;
         }
-        else
+        else if(tutorialManager != null)
         {
             if (PauseManager.pauseEnabled
                 || tutorialManager.tutorialGameData.dialogEnabled
-                || tutorialManager.tutorialGameData.scadaEnabled
+                //|| tutorialManager.tutorialGameData.scadaEnabled
                 || tutorialManager.tutorialGameData.storeEnabled
                 || InteractiveSprite.onSprite
                 //|| isCameraMainNull
-            ) return;
+            )
+            {
+                Debug.Log("CURSOR");
+                return;
+            }
         }
 
 

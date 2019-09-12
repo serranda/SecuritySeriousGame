@@ -59,6 +59,8 @@ public class ServerPcListener : MonoBehaviour
                 buttons[0].onClick.AddListener(delegate
                 {
                     manager.SetFirewallActive(false);
+                    interactiveSprite.ToggleMenu();
+                    interactiveSprite.ToggleMenu();
                 });
             }
             else
@@ -68,6 +70,8 @@ public class ServerPcListener : MonoBehaviour
                 buttons[0].onClick.AddListener(delegate
                 {
                     manager.SetFirewallActive(true);
+                    interactiveSprite.ToggleMenu();
+                    interactiveSprite.ToggleMenu();
                 });
             }
 
@@ -79,6 +83,8 @@ public class ServerPcListener : MonoBehaviour
                 buttons[1].onClick.AddListener(delegate
                 {
                     manager.SetRemoteIdsActive(false);
+                    interactiveSprite.ToggleMenu();
+                    interactiveSprite.ToggleMenu();
                 });
             }
             else
@@ -88,6 +94,8 @@ public class ServerPcListener : MonoBehaviour
                 buttons[1].onClick.AddListener(delegate
                 {
                     manager.SetRemoteIdsActive(true);
+                    interactiveSprite.ToggleMenu();
+                    interactiveSprite.ToggleMenu();
                 });
             }
 
@@ -98,6 +106,8 @@ public class ServerPcListener : MonoBehaviour
                 buttons[2].onClick.AddListener(delegate
                 {
                     manager.SetLocalIdsActive(false);
+                    interactiveSprite.ToggleMenu();
+                    interactiveSprite.ToggleMenu();
                 });
             }
             else
@@ -107,6 +117,8 @@ public class ServerPcListener : MonoBehaviour
                 buttons[2].onClick.AddListener(delegate
                 {
                     manager.SetLocalIdsActive(true);
+                    interactiveSprite.ToggleMenu();
+                    interactiveSprite.ToggleMenu();
                 });
             }
 

@@ -134,7 +134,7 @@ public class TutorialServerPcListener : MonoBehaviour
         ClassDb.tutorialMessageManager.ServerMessage();
 
         //wait until dialog has been disabled
-        yield return new WaitWhile(() => TutorialDialogBoxManager.dialogEnabled);
+        yield return new WaitWhile(() => tutorialManager.tutorialGameData.dialogEnabled);
 
         tutorialManager.serverPcFirstTime = false;
     }

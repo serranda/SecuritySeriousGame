@@ -22,6 +22,8 @@ public class Level2Manager : MonoBehaviour, ILevelManager
 
     public GameData gameData = new GameData();
 
+    private int trendLimit = 72 * 60;
+
     [SerializeField] private GameSettingManager gameSettingManager;
 
     private void Start()
@@ -175,7 +177,7 @@ public class Level2Manager : MonoBehaviour, ILevelManager
             ClassDb.levelMessageManager.StartShowScadaLesson();
 
             //EVENT TO SET A THREAT TENDENCIES; IF RESEARCH REPORT IS ACTIVE DISPLAY MESSAGE 
-            SetMonthlyThreatAttack();
+            SetTrendThreatAttack();
         }
 
         StartTimeRoutine();
@@ -224,13 +226,21 @@ public class Level2Manager : MonoBehaviour, ILevelManager
 
             gameData.timeEventList = ClassDb.timeEventManager.UpdateTimeEventList(gameData.timeEventList);
 
-            gameData.previousMonth = gameData.date.Month;
+            //gameData.previousMonth = gameData.date.Month;
 
             gameData.date = gameData.date.AddMinutes(1.0);
 
-            if (gameData.date.Month != gameData.previousMonth)
+            //if (gameData.date.Month != gameData.previousMonth)
+            //{
+            //    OnNewTrend();
+            //}
+
+            gameData.trendHour++;
+
+            if (gameData.trendHour > trendLimit)
             {
-                OnNewMonth();
+                gameData.trendHour = 0;
+                SetTrendThreatAttack();
             }
 
             gameData.totalMoneyEarnPerMinute = StaticDb.baseEarn * gameData.totalEmployees;
@@ -312,38 +322,38 @@ public class Level2Manager : MonoBehaviour, ILevelManager
 
     }
 
-    public void OnNewMonth()
-    {
-        //RANDOM EVENTS TO GIVE MONEY
-        if (Random.Range(0, 100) < gameData.reputation)
-        {
-            //Message to inform boss has given more money
-            ClassDb.levelMessageManager.StartMoneyEarnTrue(UpdateMoney());
-        }
+    //public void OnNewTrend()
+    //{
+    //    //RANDOM EVENTS TO GIVE MONEY
+    //    if (Random.Range(0, 100) < gameData.reputation)
+    //    {
+    //        //Message to inform boss has given more money
+    //        ClassDb.levelMessageManager.StartMoneyEarnTrue(UpdateMoney());
+    //    }
 
 
-        //EVENT TO SET A THREAT TENDENCIES; IF RESEARCH REPORT IS ACTIVE DISPLAY MESSAGE 
-        SetMonthlyThreatAttack();
-    }
+    //    //EVENT TO SET A THREAT TENDENCIES; IF RESEARCH REPORT IS ACTIVE DISPLAY MESSAGE 
+    //    SetTrendThreatAttack();
+    //}
 
-    public void SetMonthlyThreatAttack()
+    public void SetTrendThreatAttack()
     {
         StaticDb.ThreatAttack attack;
 
         do
         {
             attack = (StaticDb.ThreatAttack)Random.Range(0, 8);
-        } while (gameData.monthlyThreat.threatAttack == attack);
+        } while (gameData.trendThreat.threatAttack == attack);
 
-        Threat generalMonthlyThreat = Threat.GetThreatFromThreatAttack(attack);
+        Threat generalTrendThreat = Threat.GetThreatFromThreatAttack(attack);
 
-        gameData.monthlyThreat = generalMonthlyThreat;
+        gameData.trendThreat = generalTrendThreat;
 
         if (gameData.researchUpgrade)
             ClassDb.levelMessageManager.StartShowReport(attack.ToString().ToUpper());
 
         //WRITE LOG
-        ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.GameEvent, "NEW MONTHLY THREAT: " + attack.ToString().ToUpper());
+        ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.GameEvent, "NEW TREND THREAT: " + attack.ToString().ToUpper());
 
         SetRandomizer();
 
@@ -354,7 +364,7 @@ public class Level2Manager : MonoBehaviour, ILevelManager
         List<StaticDb.ThreatAttack> keys = gameData.weights.Keys.ToList();
         foreach (StaticDb.ThreatAttack key in keys)
         {
-            if (key == gameData.monthlyThreat.threatAttack)
+            if (key == gameData.trendThreat.threatAttack)
             {
                 gameData.weights[key] = 0.65f;
             }
@@ -1074,7 +1084,7 @@ public class Level2Manager : MonoBehaviour, ILevelManager
     {
         gameData.isFirewallActive = active;
         //REGISTER ACTION RELATIVE TO MONTHLY THREAT
-        ClassDb.userActionManager.RegisterDefenseActivation("firewall", active, gameData.monthlyThreat);
+        ClassDb.userActionManager.RegisterDefenseActivation("firewall", active, gameData.trendThreat);
 
         //WRITE LOG
         ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.UserEvent, "FIREWALL ACTIVE: " + active.ToString().ToUpper());
@@ -1084,7 +1094,7 @@ public class Level2Manager : MonoBehaviour, ILevelManager
     {
         gameData.isRemoteIdsActive = active;
         //REGISTER ACTION RELATIVE TO MONTHLY THREAT
-        ClassDb.userActionManager.RegisterDefenseActivation("ids", active, gameData.monthlyThreat);
+        ClassDb.userActionManager.RegisterDefenseActivation("ids", active, gameData.trendThreat);
 
         //WRITE LOG
         ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.UserEvent, "IDS ACTIVE: " + active.ToString().ToUpper());
@@ -1094,7 +1104,7 @@ public class Level2Manager : MonoBehaviour, ILevelManager
     {
         gameData.isLocalIdsActive = active;
         //REGISTER ACTION RELATIVE TO MONTHLY THREAT
-        ClassDb.userActionManager.RegisterDefenseActivation("local", active, gameData.monthlyThreat);
+        ClassDb.userActionManager.RegisterDefenseActivation("local", active, gameData.trendThreat);
 
         //WRITE LOG
         ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.UserEvent, "LOCAL SECURITY ACTIVE: " + active.ToString().ToUpper());
@@ -1122,12 +1132,12 @@ public class Level2Manager : MonoBehaviour, ILevelManager
             FindObjectOfType<RoomPcListener>().ToggleStoreScreen();
         }
 
-        //SCADASCREEN
-        if (data.scadaEnabled)
-        {
-            data.scadaEnabled = false;
-            FindObjectOfType<RoomPcListener>().ToggleScadaScreen();
-        }
+        ////SCADASCREEN
+        //if (data.scadaEnabled)
+        //{
+        //    data.scadaEnabled = false;
+        //    FindObjectOfType<RoomPcListener>().ToggleScadaScreen();
+        //}
 
         //TIMEVENTS, INCLUDED RESTORE THE PROGRESSBAR, REMOTE AI AND LOCAL AI
         if (data.timeEventList.Count > 0)

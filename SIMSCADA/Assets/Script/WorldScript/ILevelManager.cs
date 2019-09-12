@@ -19,9 +19,9 @@ interface ILevelManager
 
     void CheckEndgame();
 
-    void OnNewMonth();
+    //void OnNewTrend();
 
-    void SetMonthlyThreatAttack();
+    void SetTrendThreatAttack();
 
     void SetRandomizer();
 

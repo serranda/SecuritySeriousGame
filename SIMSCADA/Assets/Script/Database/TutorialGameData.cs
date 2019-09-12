@@ -214,7 +214,7 @@ public class TutorialGameData
     public bool isLocalIdsActive;
 
     //flags to check which prefab are active
-    public bool scadaEnabled;
+    //public bool scadaEnabled;
     public bool storeEnabled;
     //public bool securityScreenEnabled;
     public bool noteBookEnabled;

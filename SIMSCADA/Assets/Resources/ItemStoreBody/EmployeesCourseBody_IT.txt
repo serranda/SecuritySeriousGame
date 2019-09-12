@@ -1,1 +1,3 @@
 Manda i dipendenti dell'azienda ad un corso di aggiornamento sulle ultime normative sulla sicurezza informatica. In questo modo cadranno vittime di attacchi meno frequentemente.
+
+N.B. Il corso verrà frequentato dal 10% dei tuoi impiegati totali.

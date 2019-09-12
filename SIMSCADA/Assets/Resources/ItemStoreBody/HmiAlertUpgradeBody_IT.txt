@@ -1,1 +1,1 @@
-Le stazioni HMI ti allerteranno quando qualcuno cercherà di utilizzare un attacco replay contro il tuo sistema SCADA.
+Il software di gestione delle interfacce HMI viene aggiornato. Aumenta la resistenza alle minacce di tipo replay.

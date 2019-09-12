@@ -118,7 +118,7 @@ public class GameData
     public string lastFemaleSpriteNumber;
 
     //value for monthly threat tendencies 
-    public Threat monthlyThreat;
+    public Threat trendThreat;
 
     public ThreatAttackFloatDictionary weights = new ThreatAttackFloatDictionary
     {
@@ -153,8 +153,11 @@ public class GameData
     public List<Threat> localThreats = new List<Threat>();
     public List<Threat> idsList = new List<Threat>();
 
-    //int for previous month check (in order to increase month)
-    public int previousMonth;
+    ////int for previous month check (in order to increase month)
+    //public int previousMonth;
+
+    //int for trend counter check
+    public int trendHour;
 
     ////flag to check if there is a money loss
     //public bool isMoneyLoss;
@@ -205,7 +208,7 @@ public class GameData
     public bool isLocalIdsActive;
 
     //flags to check which prefab are active
-    public bool scadaEnabled;
+    //public bool scadaEnabled;
     public bool storeEnabled;
     public bool securityScreenEnabled;
     public bool noteBookEnabled;
