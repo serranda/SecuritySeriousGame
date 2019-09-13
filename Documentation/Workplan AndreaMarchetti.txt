@@ -48,11 +48,9 @@ Nella conclusione verranno evidenziati i punti salienti del lavoro svolto, anali
 
 ### Punti in corso
 
-Perfezionamento del gioco e delle funzionalità per la raccolta dati (attualmente il gioco presenta tutte le principali componenti di gameplay; saranno eseguiti una serie di test tecnici per verificare il loro corretto funzionamento, dopodiché si procederà on la raccolta dati)
+Completamento del report scritto (Il report verrà completato con i capitoli relativi alla parte tecnica del gioco: quali strumenti sono stati utilizzati, come è stato affrontato lo sviluppo, perché sono state prese determinate scelte di gameplay)
 
 ### Punti in attesa 
-
-Analisi dei criteri di valutazione
 
 ### Punti conclusi
 
@@ -68,8 +66,10 @@ Analisi dei criteri di valutazione
 - Implementazione della parte di gameplay
 (Sono state sviluppate le componenti principali che caratterizzano il gameplay del gioco)
 
+- Perfezionamento del gioco e delle funzionalità per la raccolta dati (attualmente il gioco presenta tutte le principali componenti di gameplay; saranno eseguiti una serie di test tecnici per verificare il loro corretto funzionamento, dopodiché si procederà on la raccolta dati)
+
 ### Previsioni per le prossime settimane
 
-- Completamento del report scritto (Il report verrà completato con i capitoli relativi alla parte tecnica del gioco: quali strumenti sono stati utilizzati, come è stato affrontato lo sviluppo, perché sono state prese determinate scelte di gameplay)
+
 
 
