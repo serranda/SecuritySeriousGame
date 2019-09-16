@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class InteractiveSprite : MonoBehaviour, IPointerUpHandler, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
@@ -46,10 +41,6 @@ public class InteractiveSprite : MonoBehaviour, IPointerUpHandler, IPointerDownH
 
         //SET OPERATIVE
         CheckOperativeItem();
-
-        ////set the actual sprite with the normal one
-        //SetSprite(0);
-
     }
 
     public void OnPointerUp(PointerEventData eventData)
@@ -72,21 +63,16 @@ public class InteractiveSprite : MonoBehaviour, IPointerUpHandler, IPointerDownH
         //swap the actual sprite with the highlighted one
         onSprite = true;
         SetSprite(1);
-        //Debug.Log("ENTER " + gameObject.name);
-
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        //prevent sprite swap
         if (GetComponentInChildren<ProgressBarManager>()) return;
 
         //swap the actual sprite with the normal one
         onSprite = false;
         SetSprite(0);
-
-        //Debug.Log("EXIT " + gameObject.name);
-
-
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -106,7 +92,6 @@ public class InteractiveSprite : MonoBehaviour, IPointerUpHandler, IPointerDownH
         return iManager;
     }
 
-
     private void SetSprite(int index)
     {
         //set the sprite stored in the related folder located within the "Resources" folder
@@ -115,7 +100,7 @@ public class InteractiveSprite : MonoBehaviour, IPointerUpHandler, IPointerDownH
 
     public void ToggleMenu()
     {
-        if (manager.GetGameData().buttonEnabled && gameObject.name == manager.GetGameData().pressedSprite)
+        if (manager.GetGameData().actionButtonEnabled && gameObject.name == manager.GetGameData().pressedSprite)
         {
             ClassDb.prefabManager.ReturnPrefab(actionMenu.gameObject, PrefabManager.actionIndex);
 
@@ -142,7 +127,7 @@ public class InteractiveSprite : MonoBehaviour, IPointerUpHandler, IPointerDownH
             actionButtonManager = GameObject.Find(StaticDb.actionMenuName).GetComponent<ActionButtonManager>();
             actionButtonManager.GetButtons();
 
-            SetListener();
+            SetObjectListener();
 
             hasMenu = true;
 
@@ -150,31 +135,11 @@ public class InteractiveSprite : MonoBehaviour, IPointerUpHandler, IPointerDownH
 
     }
 
-    private void SetListener()
+    private void SetObjectListener()
     {
-        //set all the listener for the function related to the button onClick
-        switch (gameObject.tag)
-        {
-            case StaticDb.telephoneTag:
-                TelephoneListener telephoneListener = GetComponent<TelephoneListener>();
-                telephoneListener.SetTelephoneListeners();
-                break;
-            case StaticDb.securityCheckTag:
-                SecurityListener securityListener = GetComponent<SecurityListener>();
-                securityListener.SetSecurityListeners();
-                break;
-            case StaticDb.roomPcTag:
-                RoomPcListener roomPcListener = GetComponent<RoomPcListener>();
-                roomPcListener.SetComputerListeners();
-                break;
-            case StaticDb.serverPcTag:
-                ServerPcListener serverPcListener = GetComponent<ServerPcListener>();
-                serverPcListener.SetSeverPcListeners();
-                break;
-            default:
-                actionButtonManager.ResetButtonOnClick();
-                break;
-        }
+        IObjectListener objectListener = gameObject.GetComponent<IObjectListener>();
+
+        objectListener.SetListeners();
     }
 
     public void SetInteraction(bool colliderEnabled)

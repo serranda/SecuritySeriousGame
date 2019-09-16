@@ -200,6 +200,56 @@ public class ThreatManager : MonoBehaviour
 
     }
 
+    public Threat NewFromCreateRemoteThreat()
+    {
+        int id = ++manager.GetGameData().lastThreatId;
+        StaticDb.ThreatType threatType = StaticDb.ThreatType.remote;
+
+        float deployTime = Random.Range(2f, 6f);
+
+        StaticDb.ThreatAttacker threatAttacker = (StaticDb.ThreatAttacker)Random.Range(0, 2);
+
+        StaticDb.ThreatAttack threatAttack;
+
+        do
+        {
+            threatAttack = (StaticDb.ThreatAttack)manager.GetGameData().threatRandomizer.GetNext();
+
+        } while ((int)threatAttack > 5);
+
+        StaticDb.ThreatDanger threatDanger = (StaticDb.ThreatDanger)Random.Range(0, 3);
+
+        float moneyLossPerMinute;
+
+        switch (threatDanger)
+        {
+            case StaticDb.ThreatDanger.low:
+                moneyLossPerMinute = Random.Range(1f, 1.5f);
+                break;
+            case StaticDb.ThreatDanger.medium:
+                moneyLossPerMinute = Random.Range(2f, 2.5f);
+                break;
+            case StaticDb.ThreatDanger.high:
+                moneyLossPerMinute = Random.Range(3f, 3.5f);
+                break;
+            case StaticDb.ThreatDanger.fakeLocal:
+                moneyLossPerMinute = Random.Range(3f, 3.5f);
+                break;
+            case StaticDb.ThreatDanger.timeEvent:
+                moneyLossPerMinute = 0;
+                break;
+            default:
+                moneyLossPerMinute = 0;
+                break;
+        }
+
+        Threat threat = new Threat(id, threatType, deployTime, threatAttacker, threatDanger, threatAttack, moneyLossPerMinute, true);
+
+        //Debug.Log(threat);
+
+        return threat;
+    }
+
     public Threat NewLocalThreat()
     {
         int id = ++manager.GetGameData().lastThreatId;
@@ -300,56 +350,6 @@ public class ThreatManager : MonoBehaviour
         return threat;
     }
 
-    public Threat NewFromCreateRemoteThreat()
-    {
-        int id = ++manager.GetGameData().lastThreatId;
-        StaticDb.ThreatType threatType = StaticDb.ThreatType.remote;
-
-        float deployTime = Random.Range(2f, 6f);
-
-        StaticDb.ThreatAttacker threatAttacker = (StaticDb.ThreatAttacker)Random.Range(0, 2);
-
-        StaticDb.ThreatAttack threatAttack;
-
-        do
-        {
-            threatAttack = (StaticDb.ThreatAttack)manager.GetGameData().threatRandomizer.GetNext();
-
-        } while ((int)threatAttack > 5);
-
-        StaticDb.ThreatDanger threatDanger = (StaticDb.ThreatDanger)Random.Range(0, 3);
-
-        float moneyLossPerMinute;
-
-        switch (threatDanger)
-        {
-            case StaticDb.ThreatDanger.low:
-                moneyLossPerMinute = Random.Range(1f, 1.5f);
-                break;
-            case StaticDb.ThreatDanger.medium:
-                moneyLossPerMinute = Random.Range(2f, 2.5f);
-                break;
-            case StaticDb.ThreatDanger.high:
-                moneyLossPerMinute = Random.Range(3f, 3.5f);
-                break;
-            case StaticDb.ThreatDanger.fakeLocal:
-                moneyLossPerMinute = Random.Range(3f, 3.5f);
-                break;
-            case StaticDb.ThreatDanger.timeEvent:
-                moneyLossPerMinute = 0;
-                break;
-            default:
-                moneyLossPerMinute = 0;
-                break;
-        }
-
-        Threat threat = new Threat(id, threatType, deployTime, threatAttacker, threatDanger, threatAttack, moneyLossPerMinute, true);
-
-        //Debug.Log(threat);
-
-        return threat;
-    }
-
     public Threat NewFakeLocalThreat()
     {
         int id = ++manager.GetGameData().lastThreatId;
@@ -371,7 +371,5 @@ public class ThreatManager : MonoBehaviour
 
         return threat;
     }
-
-
 
 }

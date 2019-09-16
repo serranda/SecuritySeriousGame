@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class RoomPcListener : MonoBehaviour
+public class RoomPcListener : MonoBehaviour, IObjectListener
 {
     private static Canvas scadaScreen;
 
@@ -36,7 +36,7 @@ public class RoomPcListener : MonoBehaviour
         return iManager;
     }
 
-    public void SetComputerListeners()
+    public void SetListeners()
     {
         List<Button> buttons;
 

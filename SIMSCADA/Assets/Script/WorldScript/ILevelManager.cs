@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections;
 
 interface ILevelManager
 {
@@ -18,8 +15,6 @@ interface ILevelManager
     IEnumerator OnNewMinute();
 
     void CheckEndgame();
-
-    //void OnNewTrend();
 
     void SetTrendThreatAttack();
 

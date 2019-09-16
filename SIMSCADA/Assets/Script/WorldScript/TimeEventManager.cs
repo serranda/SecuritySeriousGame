@@ -252,7 +252,7 @@ public class TimeEventManager : MonoBehaviour
         //set the progressbar reference to the time event
         timeEvent.progressBar = progressBar;
 
-        Debug.Log(timeEvent.threat.aiController.spriteToAnimate);
+        //Debug.Log(timeEvent.threat.aiController.spriteToAnimate);
 
     }
 

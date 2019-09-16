@@ -645,7 +645,7 @@ public class AiController : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
 
     public void ToggleMenu()
     {
-        if (manager.GetGameData().buttonEnabled && gameObject.name == manager.GetGameData().pressedSprite)
+        if (manager.GetGameData().actionButtonEnabled && gameObject.name == manager.GetGameData().pressedSprite)
         {
             ClassDb.prefabManager.ReturnPrefab(actionMenu.gameObject, PrefabManager.actionIndex);
         }

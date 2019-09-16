@@ -1,0 +1,4 @@
+﻿interface IObjectListener
+{
+    void SetListeners();
+}

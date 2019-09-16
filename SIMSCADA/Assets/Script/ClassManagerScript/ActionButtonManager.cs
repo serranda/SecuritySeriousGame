@@ -26,7 +26,7 @@ public class ActionButtonManager : MonoBehaviour
 
         if (manager != null)
         {
-            manager.GetGameData().buttonEnabled = true;
+            manager.GetGameData().actionButtonEnabled = true;
         }
         else
         {
@@ -42,7 +42,7 @@ public class ActionButtonManager : MonoBehaviour
 
         if (manager != null)
         {
-            manager.GetGameData().buttonEnabled = false;
+            manager.GetGameData().actionButtonEnabled = false;
         }
         else
         {

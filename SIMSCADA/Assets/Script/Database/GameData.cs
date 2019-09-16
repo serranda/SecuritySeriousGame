@@ -213,7 +213,7 @@ public class GameData
     public bool securityScreenEnabled;
     public bool noteBookEnabled;
     public bool idCardEnabled;
-    public bool buttonEnabled;
+    public bool actionButtonEnabled;
     public bool dialogEnabled;
     public bool chartEnabled;
 

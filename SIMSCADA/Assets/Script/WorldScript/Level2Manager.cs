@@ -84,7 +84,7 @@ public class Level2Manager : MonoBehaviour, ILevelManager
         //
         ////---------------------------------------------------------------------------------------------------------------------
 
-        if (Input.GetMouseButtonDown(1) && gameData.buttonEnabled)
+        if (Input.GetMouseButtonDown(1) && gameData.actionButtonEnabled)
         {
             Canvas actionMenu = GameObject.Find(StaticDb.actionMenuName).GetComponent<Canvas>();
             ClassDb.prefabManager.ReturnPrefab(actionMenu.gameObject, PrefabManager.actionIndex);
@@ -226,14 +226,7 @@ public class Level2Manager : MonoBehaviour, ILevelManager
 
             gameData.timeEventList = ClassDb.timeEventManager.UpdateTimeEventList(gameData.timeEventList);
 
-            //gameData.previousMonth = gameData.date.Month;
-
             gameData.date = gameData.date.AddMinutes(1.0);
-
-            //if (gameData.date.Month != gameData.previousMonth)
-            //{
-            //    OnNewTrend();
-            //}
 
             gameData.trendHour++;
 
@@ -321,20 +314,6 @@ public class Level2Manager : MonoBehaviour, ILevelManager
 
 
     }
-
-    //public void OnNewTrend()
-    //{
-    //    //RANDOM EVENTS TO GIVE MONEY
-    //    if (Random.Range(0, 100) < gameData.reputation)
-    //    {
-    //        //Message to inform boss has given more money
-    //        ClassDb.levelMessageManager.StartMoneyEarnTrue(UpdateMoney());
-    //    }
-
-
-    //    //EVENT TO SET A THREAT TENDENCIES; IF RESEARCH REPORT IS ACTIVE DISPLAY MESSAGE 
-    //    SetTrendThreatAttack();
-    //}
 
     public void SetTrendThreatAttack()
     {
@@ -1181,9 +1160,9 @@ public class Level2Manager : MonoBehaviour, ILevelManager
         }
 
         //PRESSED ITEM MENU
-        if (data.buttonEnabled)
+        if (data.actionButtonEnabled)
         {
-            data.buttonEnabled = false;
+            data.actionButtonEnabled = false;
             GameObject.Find(data.pressedSprite).GetComponent<InteractiveSprite>().ToggleMenu();
         }
 

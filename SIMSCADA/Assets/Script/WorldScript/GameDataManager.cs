@@ -63,7 +63,7 @@ public class GameDataManager : MonoBehaviour
                 Debug.Log(timeEvent.threat.aiController);
             }
 
-            Debug.Log("FOREACH");
+            //Debug.Log("FOREACH");
         }
 
         //PARSE GAMEDATA INSTANCE INTO JSON

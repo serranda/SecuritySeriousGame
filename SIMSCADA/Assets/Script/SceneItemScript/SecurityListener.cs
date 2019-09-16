@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class SecurityListener : MonoBehaviour
+public class SecurityListener : MonoBehaviour, IObjectListener
 {
     private static Canvas securityScreen;
     private InteractiveSprite interactiveSprite;
@@ -31,7 +31,7 @@ public class SecurityListener : MonoBehaviour
         return iManager;
     }
 
-    public void SetSecurityListeners()
+    public void SetListeners()
     {
         List<Button> buttons = interactiveSprite.actionButtonManager.GetActiveCanvasGroup(1);
 

@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class ServerPcListener : MonoBehaviour
+public class ServerPcListener : MonoBehaviour, IObjectListener
 {
     [SerializeField] private InteractiveSprite interactiveSprite;
 
@@ -43,7 +43,7 @@ public class ServerPcListener : MonoBehaviour
         return iManager;
     }
 
-    public void SetSeverPcListeners()
+    public void SetListeners()
     {
         List<Button> buttons;
 

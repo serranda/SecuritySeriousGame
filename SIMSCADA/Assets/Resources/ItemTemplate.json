@@ -1,10 +1,11 @@
 {
-	"name": "ItemTemplateName",
-	"descriptionPath": "ItemTemplateDescriptionBodyPath",
-	"imageName": "IItemTemplateImageName",
+	"name": "",
+	"descriptionPath": "",
+	"imageName": "",
 	"price": 0,
 	"finalLevel": 0,
 	"effect" : 0,
 	"currentLevel" :  0,
-	"itemObject" :  {}
+	"itemObject" :  {},
+	"threatAffinity" : []
 }

@@ -89,7 +89,7 @@ public class StoreManager : MonoBehaviour
         }
 
         //SORT ITEMLIST
-        itemList.Sort(ItemStore.NameComparer);
+        itemList.Sort(ItemStore.nameComparer);
 
         foreach (ItemStore item in itemList)
         {

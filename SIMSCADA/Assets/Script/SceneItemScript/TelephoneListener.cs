@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class TelephoneListener : MonoBehaviour
+public class TelephoneListener : MonoBehaviour, IObjectListener
 {
     private InteractiveSprite interactiveSprite;
 
@@ -34,7 +34,7 @@ public class TelephoneListener : MonoBehaviour
         return iManager;
     }
 
-    public void SetTelephoneListeners()
+    public void SetListeners()
     {
         List<Button> buttons;
 

@@ -1,5 +1,4 @@
 ﻿using System;
-using UnityEngine;
 
 [System.Serializable]
 public class Threat
@@ -16,19 +15,6 @@ public class Threat
     //values for ai controller prefab; the serializable one is created when game is saved
     public AiController aiController;
     public SerializableAiController serializableAiController;
-
-
-    //public Threat(int id, StaticDb.ThreatType threatType, float deployTime, StaticDb.ThreatAttacker threatAttacker, StaticDb.ThreatDanger threatDanger, StaticDb.ThreatAttack threatAttack, AiController aiController, float moneyLossPerMinute)
-    //{
-    //    this.id = id;
-    //    this.threatType = threatType;
-    //    this.deployTime = deployTime;
-    //    this.threatAttacker = threatAttacker;
-    //    this.threatDanger = threatDanger;
-    //    this.threatAttack = threatAttack;
-    //    this.aiController = aiController;
-    //    this.moneyLossPerMinute = moneyLossPerMinute;
-    //}
 
     public Threat(int id, StaticDb.ThreatType threatType, float deployTime, StaticDb.ThreatAttacker threatAttacker, StaticDb.ThreatDanger threatDanger, StaticDb.ThreatAttack threatAttack, float moneyLossPerMinute, bool fromCreateRemote)
     {

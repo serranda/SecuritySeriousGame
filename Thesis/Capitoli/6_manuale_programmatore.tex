@@ -1,0 +1,481 @@
+In questo capitolo sono inserite tutte le informazioni necessarie per chiunque voglia modificare la struttura del gioco, aggiungendo livelli, minacce, messaggi e quant'altro. Nella prima parte è esposta la modalità di installazione del gioco, in modo da riuscire ad eseguirlo in locale con fini di sviluppo \ref{sec:howto}. Successivamente, nei paragrafi \ref{sec:noncodecontents}, \ref{sec:classes} e \ref{sec:prefabs} sono fornite informazioni riguardo sia i file di codice che non, utilizzati all'interno del gioco e su cui eventualmente agire per apportare modifiche riguardo la logica del gameplay. In \ref{sec:folderstructure} è mostrata la struttura delle cartelle di gioco, esposta così come appare all'interno dell'editor di Unity. Infine, nell'ultima sezione (\ref{sec:addlevel}) è esposto come è possibile aggiungere dei livelli al gioco.
+
+\section{Guida d'installazione}\label{sec:howto}
+
+Il gioco, al momento della stesura di questo report, non è da installare ed è disponibile all'indirizzo \url{http://simscada.sfcoding.com/SIMSCADA/}. Se il sito di hosting non dovesse essere più raggiungibile, è possibile eseguirne una versione in un server locale. Questo può essere utile anche per effettuare test in caso di modifiche del codice di controllo, aggiunte di livelli e così via. Per far sì che il gioco funzioni in locale, però, sono necessari alcuni passaggi.
+
+\begin{description}
+
+\item[Installazione di un server di gioco] Per eseguire il gioco, è sufficiente avere un web server Apache installato sulla propria macchina e copiare i file prodotti da Unity al momento della build, ossia il contenuto delle cartelle \code{Build} e \code{TemplateData}, più il file \code{index.html}, all'interno della cartella \code{htdocs} del server. Esistono diversi metodi per installare un server Apache, a seconda anche del sistema operativo su cui si sta lavorando, ma una soluzione veloce, semplice e soprattutto valida per tutti i casi è quella fornita dal software \code{XAMPP}. 
+
+Questo software, disponibile al link \url{https://www.apachefriends.org/it/download.html}, è disponibile per Windows, MacOS e Linux e permette di installare velocemente tutte le componenti necessarie per eseguire un web server sulla propria macchina in locale. 
+
+Una volta terminata la procedura d'installazione di \code{XAMPP}, sarà necessario individuare la cartella dove sono stati salvati i file. Normalmente, quelle predefinite sono:
+
+\begin{description}
+
+\item[Windows:] C:/xampp
+
+\item[Linux:]  /opt/xampp
+
+\item[MacOS:]  /Applications/XAMPP/xamppfiles
+
+\end{description}
+
+\item[Creazione della cartella di gioco] Trovata la cartella di installazione di \code{XAMPP}, sarà necessario individuare la cartella\code{htdocs}. Al suo interno è consigliato creare un'ulteriore cartella, denominata ad esempio \code{SIMSCADA}. Qui dovranno essere copiati tutti i file prodotti da Unity al momento della build.
+
+\item[Download del progetto] Tutti i file del progetto Unity sono salvati nella repository GitHub raggiungibile all'indirzzo \url{https://github.com/serranda/SecuritySeriousGame}. È possibile ottenerne una copia sia utilizzando il comando \code{git clone https://github.com/serranda/} \code{SecuritySeriousGame} (per utilizzare questo comando è necessario installare il client Git nel proprio sistema, per questo passaggio si rimanda alle guida ufficiali presenti nel sito di Git, \url{https://git-scm.com/downloads}), ma anche tramite il pulsante download presente nella pagina della repository ( in questo caso verrà effettuato il download di un file .zip. Una volta ottenuta, sarà necessario estrarne il contenuto)
+
+\item[Installazione di Unity] Per installare l'editor di Unity sul proprio sistema, il modo più semplice è quello di utilizzare lo Unity Hub creato per aiutare nella gestione delle installazioni e dei progetti creati con l'editor. Questo programma può essere ottenuto vistando il forum ufficiale al link \url{https://forum.unity.com/threads/unity-hub-v2-0-0-release.677485/}. Una volta installato Unity Hub, è possibile scegliere la versione dell'editor che si vuole installare. Per questo progetto è consigliato utilizzare le versioni 2018.4.x LTS, in quanto sono quelle che garantiscono la compatibilità con tutti i file del progetto. Versioni precedenti non sono utilizzabili, mentre per quanto riguarda quelle successive non se ne garantisce il corretto funzionamento con il progetto intero.
+Al momento dell'installazione dell'editor è importante selezionare di voler installare anche il modulo aggiuntivo denominato \code{WebGL Build Support}, con cui sarà possibile creare la build effettiva del gioco.
+Una volta installato l'editor, è possibile importarvi al suo interno i file del progetto, contenuti all'interno della cartella \code{SIMSCADA}.
+
+\item[Creazione della build] Una volta importati i file del progetto, è possibile aprirlo all'interno dell'editor. Se si vogliono apportare delle modifiche, è possibile farlo. Una volta terminate, è necessario creare la build finale, da caricare successivamente nel server locale creato tramite XAMPP. Per fare ciò, bisogna selezionare la voce \code{Build Settings}, contenuta all'interno del tab \cmd{File}. A questo punto si aprirà una finestra in cui sarà necessario impostare quali scene si vogliono includere nella build finale e per quale piattaforma effettuarla. Occorrerà quindi selezionare la piattaforma WebGL dal menù posto sulla sinistra della finestra e premere sul tasto \code{Build}. A questo punto, dopo aver scelto la cartella all'interno di cui verranno generati tutti i file, la compilazione inizierà e sarà necessario attenderne il termine.
+
+\item[Copia della build nel server] Terminata la compilazione, è possibile prenderne il contenuto e spostarlo all'interno della cartella \code{SIMSCADA}, creata precedentemente nella directory \code{htdocs} di \code{XAMPP}. È necessario, inoltre, spostare anche la cartella \code{PHP} (situata all'interno della directory del progetto ottenuta tramite GitHub), contenente i file degli script PHP necessari per eseguire operazioni sul server. Una volta eseguite queste azioni è possibile utilizzare un qualsiasi web browser che supporti l'utilizzo di WebGL (per controllare che il proprio browser supporti l'esecuzione di applicazioni WebGL è possibile collegarsi al sito \url{https://get.webgl.org/} ed effettuare il test ) e collegarsi all'indirizzo \url{localhost/SIMSCADA/}. Il gioco partirà non appena terminato il caricamento della pagina.
+
+\end{description}
+
+\section{Contenuti del gioco senza codice}\label{sec:noncodecontents}
+
+Diverse risorse del gioco sono definite attraverso file di testo e json in modo da agevolare le operazioni di gestione durante la partita e/o eventuali loro modifiche durante lo sviluppo. Questi file sono contenuti all'interno della cartella \code{Resources} della directory del progetto. Questo si è reso necessario in modo da poter sfruttare i metodi della classe \code{Resources} e caricare velocemente il contenuto dei file all'interno del gioco. Di seguito saranno descritte le strutture di queste risorse più nel dettaglio. 
+
+Di queste risorse sono stati creati anche dei template a cui far riferimento, nel caso in cui se ne voglia aggiungere di nuovi. Questi sono situati sempre nella directory del progetto Unity.
+
+\subsection{Messages}
+
+All'interno del gioco sono presenti diversi messaggi di sistema rivolti all'utente, in modo da informarlo sugli avvenimenti della partita, se sta commettendo qualche azione errata o, ancora, per fornire dei suggerimenti. Vi sono poi i messaggi del tutorial, tramite cui si danno al giocatore le informazioni necessarie per apprendere le dinamiche basilari del gameplay. Ognuno di questi messaggi è creato partendo dal contenuto di due file, un file json ed un file txt.
+
+Nel file json sono contenuti i valori delle proprietà della classe con cui si definiscono i messaggi all'interno del codice (un esempio di file json di questo genere è mostrao nella figura \ref{fig:dialogboxmessagejson}). La classe è stata denominata \code{DialogBoxMessage} ed il suo contenuto è riportato nella figura \ref{fig:dialogboxmessageclass}.
+
+Come è possibile vedere, un oggetto della classe \code{DialogBoxMessage} è composto da cinque proprietà. Le prime quattro 4 sono fornite dal file json e sono:
+
+\begin{itemize}
+
+\item \code{head}, ossia il testo riportato nel titolo del messaggio;
+
+\item \code{bodyPath}, ossia il percorso dove è salvato il testo del messaggio;
+
+\item \code{backBtn}, ossia il testo che viene riportato in uno dei due pulsanti con cui il giocatore può interagire (usualmente con questo valore si vuole indicare il pulsante che permette di tornare indietro o annullare un'eventuale azione proposta dal sistema);
+
+\item \code{nextBtn}, ossia il testo che viene riportato nell'altro pulsante (con questo valore, al contrario, si vuole indicare il pulsante che permette procedere con l'azione proposta dal gioco).
+
+\end{itemize}
+
+Queste proprietà sono assegnate durante la creazione dell'oggetto, resa possibile grazie al metodo \code{FromJson} della classe \code{JsonUtility}, messa a disposizione dalle API di Unity (\ref{fig:jsonutility}).
+
+La quinta proprietà, \code{body}, come si può vedere la codice della classe riportato in figura \ref{fig:dialogboxmessageclass}, viene creata automaticamente a partire dalla proprietà \code{bodyPath}. Come anticipato, \code{bodyPath} contiene il valore del percorso in cui è salvato il file txt in cui è riportato il testo completo del messaggio. È stato deciso, infatti, di non inserire l'intero contenuto del messaggio nel file json, ma di salvarlo in un file a parte, tenendo nota però della sua posizione (relativa al working tree del progetto di Unity).
+
+Questa strategia, applicata anche per i file delle \code{Lesson} (come si vedrà successivamente in \ref{sec:lessons}) è stata ideata per evitare di incappare in errori durante la fase di deserializzazione del file json. In questo modo, inoltre, è possibile modificare il contenuto del messaggio con un qualsiasi editor di testo (è importante che la codifica del file txt sia impostata in \code{UTF-8}, altrimenti l'editor di Unity non riconsocerà il contenuto e darà un errore al momento della creazione dell'oggetto) senza dover cambiare la struttura del file json.
+
+\begin{figure}[tb]
+\HRule
+\begin{lstlisting}
+{
+	"head": <MessageHead>,
+	"bodyPath": <MessageBodyPath>,
+	"backBtn": <MessageBackBtn>,
+	"nextBtn": <MessageNextBtn>
+}
+\end{lstlisting}
+\HRule
+\caption{Contenuto del file json da cui sono estratte le proprietà della classe \code{DialogBoxMessage}.\label{fig:dialogboxmessagejson}}
+\end{figure}
+
+\begin{figure}[tb]
+\HRule
+\begin{lstlisting}
+using UnityEngine;
+
+public class DialogBoxMessage
+{
+    public string head;
+    public string bodyPath;
+    public string backBtn;
+    public string nextBtn;
+
+    public string body =>
+        string.IsNullOrEmpty(bodyPath) 
+            ? string.Empty 
+            : Resources.Load<TextAsset>(bodyPath).text;
+}
+\end{lstlisting}
+\HRule
+\caption{Contenuto della classe \code{DialogBoxMessage}.\label{fig:dialogboxmessageclass}}
+\end{figure}
+
+\begin{figure}[tb]
+\HRule
+\begin{lstlisting}
+DialogBoxMessage dialogBoxMessage = JsonUtility.FromJson<DialogBoxMessage>(jsonFile.text);
+\end{lstlisting}
+\HRule
+\caption{Codice tramite cui sono creati gli oggetti della classe \code{DialogBoxMessage}.\label{fig:jsonutility}}
+\end{figure}
+
+\subsection{Lesson}\label{sec:lessons}
+
+Anche per le lezioni è stato utilizzato un approccio simile a quello visto per i \code{DialogBoxMessage}. In questo caso le proprietà definite per la classe sono solamente tre (\ref{fig:lessonclass}), di cui quelle riportate nel file json sono \code{id} e \code{textPath} (\ref{fig:lessonjson}).
+
+Come nel caso dei \code{DialogBoxMessage}, anche il testo delle \code{Lesson} è salvato in un file di testo a parte, la cui posizione è memorizzata con la proprietà \code{textPath}. Questa verrà poi utilizzata per generare, al momento della creazione dell'oggetto, il valore della proprietà \code{textBody}. 
+
+L'altra proprietà, \code{id}, è utilizzata per identificare l'argomento associato alla lezione in questione. Il suo valore, inoltre, è impiegato per rinominare i pulsanti tramite cui è possibile selezionare la lezione a cui si vuole accedere (\ref{fig:notebookImage})
+
+\begin{figure}[tb]
+\HRule
+\begin{lstlisting}
+{
+  "id":"LessonID",
+  "textPath":"LessonBodyPath"
+}
+\end{lstlisting}
+\HRule
+\caption{Contenuto del file json da cui sono estratte le proprietà della classe \code{Lesson}.\label{fig:lessonjson}}
+\end{figure}
+
+\begin{figure}[tb]
+\HRule
+\begin{lstlisting}
+using UnityEngine;
+
+public class Lesson
+{
+    public string id;
+    public string textPath;
+
+    public string textBody =>
+        string.IsNullOrEmpty(textPath)
+            ? string.Empty
+            : Resources.Load<TextAsset>("LessonsBody/" + textPath + "_IT").text;
+}
+\end{lstlisting}
+\HRule
+\caption{Contenuto della classe \code{Lesson}.\label{fig:lessonclass}}
+\end{figure}
+
+\begin{figure}
+\centerline{\includegraphics[scale=0.3]{Immagini/notebookImage}}
+\caption{ Screenshot del quaderno presente nel gioco, tramite cui è possibile accedere alle \code{Lesson}. Sulla destra sono visibili i pulsanti, raffigurati come dei segnalibri, tramite cui è possibile acceder al testo inerente alla \code{Lesson} desiderata.\label{fig:notebookImage}}
+\end{figure}
+
+\subsection{ItemStore}
+
+\code{ItemStore} è la classe tramite cui sono definiti gli oggetti acquistabili tramite il negozio. L'approccio è lo stesso utilizzato per gli altri oggetti e sfrutta, come visto, un file json per creare l'oggetto della classe \code{ItemStore} e un file txt contenente la descrizione dell'oggetto da visualizzare nel gioco. Gli \code{ItemStore}, però, posseggono ulteriori proprietà (figure \ref{fig:itemstorejson} e \ref{fig:itemstoreclass}), qui di seguito analizzate:
+
+\begin{itemize}
+
+\item \code{name}, ossia il nome con cui è identificato un oggetto. Al momento della creazione della lista di \code{ItemStore}, è la proprietà utilizzata per ordinare la collezione di oggetti. Questo è possibile grazie all'implementazione di un classe a parte, \code{NameRelationalComparer}. Questa è una classe, derivata dall'interfaccia \code{IComparer<T>}, esposta tramite l'utilizzo di una proprietà statica (\ref{fig:namerelationalcomparer}), che permette di ordinare una lista di \code{ItemStore} tramite il metodo \code{List<T>.Sort} (\ref{fig:listsort}). Per il caso in questione è stata scelta come termine di paragone il solo nome dell'oggetto, mo ovviamente è possibile implementare altre classi che tengano conto di più proprietà;
+
+\item \code{descriptionPath}, stringa tramite cui è memorizzato il percorso di salvataggio del fil txt contenete la descrizione dell'oggetto;
+
+\item \code{imageName}, stringa contenete il nome dell'immagine associata all'oggetto. L'immagine, successivamente, verrà caricata sempre tramite la classe \code{Resources}. Questa proprietà, attualmente, non è ancora utilizzata, ma lo sarà in un possibile futuro sviluppo del gioco (si rimanda alla sezione \ref{sec:futuredevelop});
+ 
+\item \code{price}, valore tramite cui è impostato il prezzo iniziale dell'oggetto. Ad ogni acquisto subirà un incrementato del 10\%. La modifica del prezzo non è memorizzata nel file json originale, si rimanda alla sezione \ref{sec:gamesaves} per ulteriori spiegazioni;
+
+\item \code{finalLevel}, ossia il valore del livello finale a cui può arrivare un oggetto dopo essere stato potenziato al massimo. Per alcune tipologie di oggetti, come ad esempio la campagna di assunzione per aumentare il numero di dipendenti dell'azienda, non è previsto un limite di livello. In questo caso il valore della proprietà sarà di -1;
+
+\item \code{currentLevel}, il livello di potenziamento a cui si trova attualmente l'oggetto. Il valore di partenza è 0 ed è aumentato ad ogni acquisto, a meno che non si tratti di oggetti senza limite di potenziamento, nel cui caso rimarrà fisso al valore iniziale;
+
+\item \code{effect}, il valore tramite cui è identificato quale effetto produce l'acquisto dell'oggetto. Ad ogni oggetto è assegnato un valore univoco di questa proprietà. L'applicazione dell'effetto è gestita tramite l'utilizzo di uno statement \code{switch} che, in base al valore assegnato all'effetto, esegue il codice associato al \code{case} corrispondente;
+
+\item \code{itemObject}, ossia l'istanza del \code{GameObject} associato ad un \code{ItemStore}. Questa proprietà non viene sfruttata in fase di creazione dell'oggetto, ma è in realtà necessaria per permettere la corretta memorizzazione degli \code{ItemStore} durante la fase di salvataggio. Per approfondimenti si rimanda alla sezione \ref{sec:gamesaves};
+
+\item \code{threatAffinity}, ossia una lista contenente i tipi di minaccia contro di cui l'\code{ItemStore} in questione garantisce protezione. Questa proprietà è utilizzata durante la fase di analisi delle performance del giocatore (si rimanda alla sezione \ref{sec:analysis}).
+\end{itemize}
+
+\begin{figure}[tb]
+\HRule
+\begin{lstlisting}
+{
+	"name": "",
+	"descriptionPath": "",
+	"imageName": "",
+	"price": 0,
+	"finalLevel": 0,
+	"currentLevel" :  0,
+	"effect" : 0,	
+	"itemObject" :  {},
+	"threatAffinity" : []
+}
+\end{lstlisting}
+\HRule
+\caption{Contenuto del file json da cui sono estratte le proprietà della classe \code{ItemStore}.\label{fig:itemstorejson}}
+\end{figure}
+
+\begin{figure}[tb]
+\HRule
+\begin{lstlisting}
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+
+[System.Serializable]
+public class ItemStore
+{
+    public string name;
+    public string descriptionPath;
+
+    public string descriptionBody =>
+        string.IsNullOrEmpty(descriptionPath)
+            ? string.Empty
+            : Resources.Load<TextAsset>("ItemStoreBody/"+descriptionPath + "_IT").text;
+
+    //public string imageName;
+    public int price;
+    public int finalLevel;
+    public int effect;
+    public int currentLevel;
+    public GameObject itemObject;
+    public List<string> threatAffinity;
+}
+\end{lstlisting}
+\HRule
+\caption{Contenuto della classe \code{ItemStore}.\label{fig:itemstoreclass}}
+\end{figure}
+
+\begin{figure}[tb]
+\HRule
+\begin{lstlisting}
+private sealed class NameRelationalComparer : IComparer<ItemStore>
+{
+    public int Compare(ItemStore x, ItemStore y)
+    {
+        if (ReferenceEquals(x, y)) return 0;
+        if (ReferenceEquals(null, y)) return 1;
+        if (ReferenceEquals(null, x)) return -1;
+        return string.Compare(x.name, y.name, StringComparison.Ordinal);
+    }
+}
+
+public static IComparer<ItemStore> nameComparer { get; } = new NameRelationalComparer();
+\end{lstlisting}
+\HRule
+\caption{Definizione della classe \code{NameRelationalComparer} derivata dall'interfaccia \code{IComparer<T>}.\label{fig:namerelationalcomparer}}
+\end{figure}
+
+\begin{figure}[tb]
+\HRule
+\begin{lstlisting}
+//POPULATE ITEMLIST
+if (itemList.Count == 0)
+{
+    foreach (TextAsset textAsset in itemAsset)
+    {
+        ItemStore itemStore = ItemStoreFromJson(textAsset);
+        itemList.Add(itemStore);
+    }
+}
+
+//SORT ITEMLIST
+itemList.Sort(ItemStore.nameComparer);
+\end{lstlisting}
+\HRule
+\caption{Creazione della lista di \code{ItemStore} e successivo ordinamento tramite il metodo \code{List<T>.Sort}.\label{fig:listsort}}
+\end{figure}
+
+\section{Classi e script di controllo} \label{sec:classes}
+
+La programmazione di un'applicazione tramite Unity si basa sull'utilizzo di script di codice, eventualmente associabili a dei \code{GameObject}, che vengono eseguiti durante il gioco. Questo è possibile tramite le varie funzioni delle API messe a disposizione da Unity. Per l'elenco completo di tutte le funzioni si rimanda al manuale disponibile al link \url{https://docs.unity3d.com/ScriptReference/index.html}. È comunque possibile accedere tramite l'editor ad una copia di questo manuale, specifica per la versione di Unity che si sta utilizzando: è sufficiente aprire il tab \code{Help} e fare click sulla voce \code{Scripting Reference}.
+
+Tutti gli script creati con Unity devono derivare dalla classe base \code{MonoBehaviour}, in modo da rendere possibile l'utilizzo delle funzioni evento associate ad essa. Ad ogni frame, Unity scorre tutti gli script attivi in scena, e se trova una di queste funzioni predefinite, la chiama (passando quindi il controllo alla funzione). Al termine dell'esecuzione, il controllo viene restituito a Unity.
+
+Nelle prossime sezioni verranno analizzati alcuni degli script creati per le gestione delle componenti di gioco con cui l'utente può interagire durante una partita (\ref{sec:threat}, \ref{sec:ai}, \ref{sec:interactivesprite}) e quelli utilizzati per gestire la logica di gioco (\ref{sec:manager}), il salvataggio dei dati (\ref{sec:gamesaves}) e l'analisi delle prestazioni del giocatore (\ref{sec:analysis}).
+
+\subsection{\code{InteractiveSprite} e \code{IObjectListener}}\label{sec:interactivesprite}
+
+Questo script è associato a tutti gli oggetti della scena con cui il giocatore può interagire (fig. \ref{fig:interactiveImage}). Esegue diverse funzioni, in base agli eventi che hanno luogo durante lo svolgimento della partita. La prima avviene in automatico ad ogni avvio del gioco. Questo è possibile grazie al metodo \code{Start}, eseguito all'attivazione dell'oggetto a cui lo script è associato. Di norma il metodo è utilizzato per impostare uno stato iniziale. In questo caso, sono eseguiti dei controlli per impostare alcune variabili e, soprattutto, per stabilire se l'oggetto deve essere attivato o meno. 
+
+Inizialmente, infatti, gli oggetti con cui è possibile effettuare delle azioni sono limitati nel numero. Per incrementarlo è necessario acquistare l'upgrade, specifico per ogni oggetto, dal negozio. Tramite il metodo \code{Start}, quindi, dopo aver impostato i valori di alcune variabili, si richiama il metodo \code{CheckOperativeItem}. Tramite esso si controlla il nome dell'oggetto, si ricava il numero massimo di quel tipo di oggetti che possono essere attivi in scena e, in base al confronto tra il valore del limite ed il numero associato ad ogni oggetto (sono denominati in maniera sequenziale, in modo da poter ricavare facilmente il numero dell'oggetto dal suo nome), viene deciso se renderlo interattivo o meno.
+
+Un'altra serie di funzioni svolte nello script sono quelle che servono ad interagire effettivamente con l'oggetto. In questo caso vengono sfruttate le interfacce \code{IPointerUpHandler}, \code{IPointerDown-} \code{Handler}, \code{ IPointerEnterHandler}, \code{IPointerExitHandler} e \code{IPointerClickHandler} che permettono l'implementazione dei corrispettivi metodi \code{OnPointerUp}, \code{OnPointerDown}, \code{OnPointerEnter}, \code{OnPointerExit} e \code{OnPointerClick} utilizzati per gestire le interazioni dell'oggetto con il puntatore del mouse. Queste funzioni rimangono inizialmente in attesa e sono eseguite a seguito di un particolare evento del mouse. Nello specifico, le azioni controllate in questo caso sono il click, l'ingresso del cursore all'interno dell'immagine dell'oggetto e la sua uscita. 
+
+Allo scatenarsi dei citati eventi, lo script svolge due azioni: la prima consiste nel cambio dell'immagine associata all'oggetto, in modo da dare l'impressione del click su di un pulsante. La seconda prevede la comparsa del menù contestuale associato all'oggetto, specifico per ognuna delle categorie di \code{InteractiveSprite}. Il menù è composto semplicemente da dei pulsanti, denominati nel codice come \code{ActionButton}, tanti quante sono le azioni effettuabili con l'oggetto selezionato. È necessario, però, impostare anche i \code{Listener} per ognuno di essi, in modo da permettere lo svolgimento effettivo delle azioni proposte. Per agevolare questa procedura, si è ricorso all'utilizzo di un'interfaccia, denominata \code{IObjectListener} che, come si può veder in \ref{fig:iobjectinterface}, prevede l'implementazione di un unico metodo, \code{SetListeners}. Per ogni categoria degli oggetti (\code{Telephone}, \code{ServerPc}, \code{RoomPc} e \code{Security}) è stato implementato uno script apposito, derivato dall'interfaccia \code{IObjectListener}. In questo modo, al click del mouse, è possibile richiamare il metodo \code{SetListeners} esposto tramite l'interfaccia, senza la necessità di conoscere su quale oggetto si sta cliccando (vedi fig. \ref{fig:setobjectlistener}).
+ 
+\begin{figure}
+\centerline{\includegraphics[scale=0.3]{Immagini/interactiveImage}}
+\caption{ Screenshot dello scenario di gioco. Le \code{InteractiveSprite} sono facilmente riconoscibili grazie al bordo verde che le circonda.\label{fig:interactiveImage}}
+\end{figure}
+
+\begin{figure}[tb]
+\HRule
+\begin{lstlisting}
+// Start is called before the first frame update
+private void Start()
+{
+    manager = SetLevelManager();
+
+    interactiveSprite = GetComponent<SpriteRenderer>();
+    boxCollider2D = GetComponent<BoxCollider2D>();
+
+    //get the real name fo the sprite without the index. necessary in order to swap the sprite
+    int pos = interactiveSprite.sprite.name.IndexOf("_", StringComparison.Ordinal);
+    realName = interactiveSprite.sprite.name.Substring(0, pos);
+
+    spriteMaxIndex = Resources.LoadAll<Sprite>(Path.Combine(StaticDb.rscIntSpriteFolder, realName)).Length - 1;
+
+    //SET OPERATIVE
+    CheckOperativeItem();
+}
+\end{lstlisting}
+\HRule
+\caption{Metodo \code{Start} della classe \code{InteractiveSprite}.\label{fig:interactiveStart}}
+\end{figure}
+
+\begin{figure}[tb]
+\HRule
+\begin{lstlisting}
+interface IObjectListener
+{
+    void SetListeners();
+}
+\end{lstlisting}
+\HRule
+\caption{Codice dell'interfaccia \code{IObjectInterface}.\label{fig:iobjectinterface}}
+\end{figure}
+
+\begin{figure}[tb]
+\HRule
+\begin{lstlisting}
+private void SetObjectListener()
+{
+    IObjectListener objectListener = gameObject.GetComponent<IObjectListener>();
+
+    objectListener.SetListeners();
+}
+\end{lstlisting}
+\HRule
+\caption{Metodo \code{SetObjectListener} implementato nello script \code{InteractiveSprite}.\label{fig:setobjectlistener}}
+\end{figure}
+
+\subsection{\code{Threat}}\label{sec:threat}
+
+Con la classe \code{Threat} si va a definire il codice relativo alle minacce da cui difendersi. Queste istanze vengono create periodicamente dal \code{LevelManager} in maniera casuale (per ulteriori spiegazioni vedere \ref{sec:manager}}, per poi essere associate al \code{GameObject} di un \code{AI} (vedi \ref{sec:ai}).
+
+La classe \code{Threat} presenta diverse proprietà (fig. \ref{fig:threatclass}) esposte qui di seguito più nel dettaglio:
+
+\begin{itemize}
+
+\item \code{id}, int utilizzato per identificare in maniera univoca ogni nuova \code{Threat} generata. È assegnato al momento della creazione di una nuova \code{Threat} ed è incrementato in maniera sequenziale;
+
+\item \code{threatType}, enum creato per identificare il tipo di \code{Threat} e può assumere uno tra cinque valori predefiniti. Questi sono \code{local},\code{remote},\code{fakeLocal},\code{hybrid} e \code{timeEvent}. Ognuno di essi contraddistingue un tipo di minaccia diverso, ad esempio \code{local} è utilizzato per gli attacchi che vengono effettuati dall'interno dell'azienda mentre \code{remote} per quelli condotti dall'esterno;
+
+\item \code{deployTime}, valore che identifica il tempo (in termini di gioco) necessario perché l'attacco venga effettuato. Si può considerare anche come il tempo a disposizione del giocatore per evitare di subire quella minaccia;
+
+\item \code{threatAttacker}, enum utilizzato per distinguere la tipologia dell'attaccante. Può assumere i valori di \code{internal}, utilizzato per gli attacchi effettuati da dipendenti corrotti interni all'azienda, \code{external}, con cui si identificano i normali attaccanti, e \code{timeEvent}, utilizzato per identificare le minacce associate ai \code{TimeEvent} generici (vedi\ref{sec:timeevent});
+
+\item \code{threatDanger}, enum che definisce il livello di pericolosità della minaccia. In particolare, viene utilizzato per simulare il tentativo di corruzione nei confronti di un impiegato dell'azienda. Se il livello di pericolosità della minaccia è più alto del grado di resistenza del dipendente si subirà l'attacco, altrimenti verrà fermato;
+
+\item \code{threatAttack}, enum che identifica quale tipo di attacco è associato alla nuova \code{Threat} generata. I valori che definiscono gli attacchi sono i seguenti: \code{dos}, \code{phishing}, \code{replay}, \code{mitm}, \code{stuxnet}, \code{dragonfly}, \code{malware}, \code{createRemote}, \code{fakeLocal} e \code{timeEvent}. I primi sette, come si evince dai nomi dati, identificano tipi di attacchi reali, \code{createRemote} è utilizzato per gli attacchi \code{local} al cui termine però non viene effettuato alcun attacco, ma se ne genera uno di tipo \code{remote}, \code{fakeLocal} identifica le attività locali legittime (inizialmente era utilizzato per identificare degli attacchi finti, successivamente, dopo aver cambiato le modalità con cui è effettuato un attacco si è riutilizzata la definizione per le attività locali delle AI che generano profitti) e \code{timeEvent}, infine, è associato alle minacce utilizzate per i \code{TimeEvent} generici (vedi\ref{sec:timeevent});
+
+\item \code{fromCreateRemote}, bool utilizzato per identificare quelle minacce \code{remote} che hanno avuto origine da un attacco \code{createRemote} (è necessario per mostrare successivamente il messaggio relativo a questo tipo di attacco); 
+
+\item \code{aiController} e \code{serializableAiController}, proprietà entrambe utilizzate per salvare le informazioni relative all'\code{AI} associata alla \code{Threat} generata. Sono utilizzate entrambe, nonostante rappresentino sostanzialmente la stessa variabile, in quanto di \code{aiController}, un'istanza dello script responsabile del controllo delle \code{AI} (vedi \ref{sec:ai}), non è possibile effettuare la serializzazione in fase di salvataggio. Viene, quindi, sostituita dalla classe \code{serializableAiController} con cui vengono salvat i valori delle proprietà di \code{aiController}, permettendone successivamente il ripristino in fase di caricamento della partita (vedi \ref{sec:gamesaves}.
+
+\end{itemize}
+
+\begin{figure}[tb]
+\HRule
+\begin{lstlisting}
+public class Threat
+{
+    public int id;
+    public StaticDb.ThreatType threatType;
+    public float deployTime; //expressed in hour
+    public StaticDb.ThreatAttacker threatAttacker;
+    public StaticDb.ThreatDanger threatDanger;
+    public StaticDb.ThreatAttack threatAttack;
+    public float moneyLossPerMinute;
+    public bool fromCreateRemote;
+
+    //values for ai controller prefab; the serializable one is created when game is saved
+    public AiController aiController;
+    public SerializableAiController serializableAiController;
+}
+\end{lstlisting}
+\HRule
+\caption{Proprietà della classe \code{Threat}.\label{fig:threatclass}}
+\end{figure}
+
+\subsection{\code{TimeEvent}}\label{sec:timeevent}
+
+Un'altra classe di particolare importanza è quella dei \code{TimeEvent}, responsabile della definizione di tutti gli eventi a tempo che possono avvenire durante la partita. Tra questi vengono annoverate le \code{Threat}, ma anche tutti gli eventi a tempo che sono effettuabili tramite gli oggetti. Le proprietà (visibili in fig. \ref{fig:timeeventclass}), sono:
+
+\begin{itemize}
+
+\item \code{id}, int che identifica in maniera univoca ogni \code{TimeEvent}. È incrementato sequenzialmente ad ogni evento generato;
+
+\item \code{duration}, float che esprime, in termini di tempo di gioco, la durata di un evento. Se l'evento è associato ad una \code{Threat}, coincide con il valore di \code{deployTime};
+
+\item \code{percentagePerMin}, float, calcolato al momento della generazione dell'evento, che esprime il progresso percentuale compiuto ogni minuto;
+
+\item \code{currentPercentage}, float che esprime l'attuale percentuale di completamento dell'evento;
+
+\item \code{progressBar}, riferimento al \code{Canvas} utilizzato per rappresentare la barra di progresso associata all'evento;
+
+\item \code{visible}, bool con il quale si definisce la visibilità della barra di progresso (alcuni eventi a tempo, come le minacce da remoto, non sono visibili e necessitano l'occultamento della barra di progresso);
+
+\item \code{threat}, la \code{Threat} associata all'evento. Se il \code{TimEvent} generato è una nuova minaccia, questa proprietà imposterà tutti i valori specificamente per il tipo di minaccia generata, altrimenti verranno utilizzati valori standard per ogni proprietà della minaccia, in modo da renderla identificabile dalle reali \code{Threat} in corso di svolgimento;
+
+\item \code{stoppable}, bool con cui si identifica se il \code{TimeEvent} possa essere fermato dall'utente o meno;
+
+\item \code{progressBarParentName}, stringa per memorizzare il nome dell'oggetto a cui è attaccata la \code{progressBar};
+
+\item \code{routine}, stringa utilizzata per memorizzare la routine da eseguire al termine del completamento del \code{TimeEvent}. È utilizzata al momento del ripristino degli oggetti dopo il caricamento di una partita (vedi \ref{sec:gamesaves}).
+
+\end{itemize}
+
+\begin{figure}[tb]
+\HRule
+\begin{lstlisting}
+public class TimeEvent
+{
+    public int id;
+    public float duration; //expressed in minute
+    public float percentagePerMin;
+    public float currentPercentage;
+    public Canvas progressBar;
+    public bool visible;
+    public Threat threat;
+    public bool stoppable;
+    public string progressBarParentName;
+    public string routine;
+}
+\end{lstlisting}
+\HRule
+\caption{Proprietà della classe \code{TimeEvent}.\label{fig:timeeventclass}}
+\end{figure}
+
+\subsection{\code{AI}}\label{sec:ai}
+
+Le \code{AI} sono dei prefab utilizzati per rappresentare nella scena del gioco i personaggi umani, ossia i dipendenti interni dell'azienda e gli attaccanti che tentano di camuffarsi tra loro. I prefab sono dei \code{GameObject} di Unity che è possibile salvare, insieme a tutte le componenti e le proprietà necessarie. In questo modo è possibile utilizzarli in un secondo momento come template per creare delle istanze nella scena del \code{GameObject} in questione.
+
+Come si può vedere in \ref{fig:aiprefab}, il prefab utilizzato per le \code{AI} comprende diverse componenti, tutte dipendenti tra di loro al fine di garantirne il corretto funzionamento. Alcune di esse sono delle componenti base di Unity, necessarie affinché il \code{prefab} sia visibile e possa interagire sia con le azioni dell'utente che con le altre componenti presenti nella scena. Tra queste componenti si possono annoverare\code{Rigidbody 2D}, \code{Box Collider 2D}, \code{Animator}, \code{Sprite Renderer}, \code{Canvas Renderer} e \code{Canvas Group}.
+
+Le rimanenti tre componenti, invece, sono state implementate appositamente per asserire alle funzionalità di gestione del \code{prefab}, animazione e risposta agli input del giocatore d. In particolare:
+
+\begin{itemize}
+
+\item \code{AiController} è la classe responsabile per la gestione generale del prefab. Tramite questo script sono effettuate le azioni del movimento nella scena dell'oggetto, oltre ad un serie di funzioni di controllo relative alla partita in corso. Il movimento è gestito in tre fasi: durante la creazione di una nuova istanza del \code{prefab} viene impostato un oggetto della scena come obiettivo da raggiungere al termine del \code{TimeEvent} associato all'\code{AI}. Dopodiché viene creata una destinazione temporanea da raggiungere, situata in un intorno dell'obiettivo (l'intorno ha un raggio che si restringe con il progredire del \code{TimEvent} associato). Una volta creata la destinazione temporanea, viene calcolato se è raggiungibile, tramite un algoritmo di pathfinding. Se il calcolo dà un riscontro positivo, fornendo un percorso da seguire, lo script inizia a spostare la posizione dell'oggetto verso la destinazione, seguendo il percorso fornito precedentemente, e, contemporaneamente, imposta l'immagine da visualizzare dallo script responsabile dell'animazione (\code{SpriteSheet Animator}). Una volta raggiunta la sua destinazione, o nel caso in cui l'algoritmo di pathfinding non si riuscito a trovare un percorso, l'\code{AI} viene fermata per alcuni secondi, prima di rieseguire le azioni precedenti.
+
+
+
+\item \code{AiListener}
+
+\item \code{SpriteSheet Animator}
+
+\end{itemize}
+
+\begin{figure}
+\centerline{\includegraphics[scale=0.3]{Immagini/aiImage}}
+\caption{ Screenshot del prefab utilizzato per le \code{AI}. Sulla destra si possono notare le varie componenti utilizzate per il prefab, tra cui gli script \code{AiController} e \code{AiListener}, utilizzati per gestire i movimenti e le azioni delle \code{AI}.\label{fig:aiprefab}}
+\end{figure}
+
+\subsection{\code{LevelManager} e \code{ILevelManager}}\label{sec:manager}
+
+\subsection{Script per il salvataggio} \label{sec:gamesaves}
+
+\subsection{Script per l'analisi delle prestazioni del giocatore} \label{sec:analysis}
+
+\section{Struttura delle directory del progetto} \label{sec:folderstructure}
+
+\section{Come aggiungere un livello}\label{sec:addlevel}

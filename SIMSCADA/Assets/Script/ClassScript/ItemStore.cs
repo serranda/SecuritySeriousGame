@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,7 +13,7 @@ public class ItemStore
             ? string.Empty
             : Resources.Load<TextAsset>("ItemStoreBody/"+descriptionPath + "_IT").text;
 
-    public string imageName;
+    //public string imageName;
     public int price;
     public int finalLevel;
     public int effect;
@@ -25,10 +24,10 @@ public class ItemStore
     public override string ToString()
     {
         return
-            $"Name: {name}, Description: {descriptionPath}, ImageName: {imageName}, Price: {price}, FinalLevel: {finalLevel}, Effect: {effect}, CurrentLevel: {currentLevel}, ItemObject: {itemObject}, ThreatAffinity: {threatAffinity}";
+            $"Name: {name}, Description: {descriptionPath}, Price: {price}, FinalLevel: {finalLevel}, Effect: {effect}, CurrentLevel: {currentLevel}, ItemObject: {itemObject}, ThreatAffinity: {threatAffinity}";
     }
 
-    private sealed class nameRelationalComparer : IComparer<ItemStore>
+    private sealed class NameRelationalComparer : IComparer<ItemStore>
     {
         public int Compare(ItemStore x, ItemStore y)
         {
@@ -39,5 +38,5 @@ public class ItemStore
         }
     }
 
-    public static IComparer<ItemStore> NameComparer { get; } = new nameRelationalComparer();
+    public static IComparer<ItemStore> nameComparer { get; } = new NameRelationalComparer();
 }
