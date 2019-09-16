@@ -461,13 +461,22 @@ La routine di movimento continuerà fin quando il \code{TimeEvent} associato all'
 
 \item \code{AiListener} è lo script in cui sono definite le azioni che è possibile effettuare con le \code{AI} presenti in scena. In particolare, tramite \code{Ai Controller} sono implementati i metodi per abilitare l'interazione del \code{prefab} con gli input dell'utente (come è stato fatto per le \code{InteractiveSprite} viste in precedenza in \ref{sec:interactivesprite}). Anche in questo caso, una volta effettuato un click sull'immagine di una \code{AI}, si aprirà il menù con i pulsanti relativi alle azioni che si possono svolgere. I metodi artefici di queste azioni sono racchiusi, appunto, all'interno della classe \code{AiListener}.
 
-\item \code{SpriteSheet Animator} è la classe con cui è resa possibile l'animazione delle \code{AI}. Dato che le immagini relative al \code{prefab} sono scelte casualmente al momento della creazione.
+\item \code{SpriteSheet Animator} è la classe con cui è resa possibile l'animazione delle \code{AI}. Dato che le immagini relative al \code{prefab} sono scelte casualmente al momento della creazione, creare per ognuna di esse un'animazione specifica avrebbe richiesto molto tempo. Inoltre ciò avrebbe reso necessario la costruzione di \code{prefab} multipli per la \code{AI} (uno per ogni personaggio che si vuole raffigurare). Per questo si è deciso di tentare un approccio più elastico, che potesse essere applicato con facilità al caso in questione e rimanesse valido anche in caso di eventuali futuri sviluppi.
+
+Il metodo attualmente in uso prevede l'utilizzo di un \code{Animator} in cui sono creati due stati, \code{Idle}, relativo a quando il personaggio è fermo, e \code{Walk}, per i movimenti dell'\code{AI}. Per ognuno degli stati sono state programmate otto animazioni, grazie all'utilizzo dei \code{Blend Trees} messi a disposizione dall'editor di Unity. I \code{Blend Trees} sono uno strumento che permette di miscelare animazioni multiple. tramite l'utilizzo di un parametro numerico. In questo caso sono stati sfruttati per riprodurre le animazioni in base alla direzione di cammino (e di arresto) del personaggio: otto, infatti, sono le direzioni lungo cui una \code{AI} può muoversi (nord, sud, est, ovest e quelle intermedie tra queste quattro). Quindi, durante lo spostamento del personaggio, viene calcolata la direzione e il \code{Blend Tree} permette la visualizzazione dell'animazione corretta. Questo, però, non è sufficiente per risolvere completamente il problema, dato che persiste la questione legata alle differenti immagini di cui riprodurre l'animazione. Per ovviare a ciò, è stata sfruttata la possibilità di creare delle animazioni in cui ad ogni cambio di frame viene eseguito un metodo. Nel caso in questione inizialmente si procede ad identificare il gruppo di immagini da riprodurre, partendo dal nome dell'immagine iniziale. Una volta effettuata l'identificazione, si procede con il caricare ognuna delle immagini in un array. Successivamente, tramite il metodo richiamato dall'\code{Animator} ad ogni frame, si indica quale visualizzare specificandone l'indice dell'array.
+
+La soluzione adottata è stata creata ad hoc per il set di immagini con cui deve interagire. I diversi set, infatti, presentano tutte lo stesso numero immagini, disposte secondo le stesse modalità. Una volta importati nell'editor di Unity, grazie allo \code{Sprite Editor} è stato possibile dividere ogni set, creando singole immagini indicizzate in maniera sequenziale. Dato che ad ogni valore dell'indice corrisponde lo stesso tipo di immagine da visualizzare, è stato semplice arrivare alla soluzione attualmente in uso. In figura \ref{fig:aiSpriteImage} è possibile vedere un esempio dei diversi set di immagini utilizzate.
 
 \end{itemize}
 
 \begin{figure}
 \centerline{\includegraphics[scale=0.3]{Immagini/aiImage}}
 \caption{ Screenshot del prefab utilizzato per le \code{AI}. Sulla destra si possono notare le varie componenti utilizzate per il prefab, tra cui gli script \code{AiController} e \code{AiListener}, utilizzati per gestire i movimenti e le azioni delle \code{AI}.\label{fig:aiprefab}}
+\end{figure}
+
+\begin{figure}
+\centerline{\includegraphics[scale=0.3]{Immagini/aiSpriteImage}}
+\caption{ Esempio di set di immagini utilizzate per le \code{AI}.\label{fig:aiSpriteImage}}
 \end{figure}
 
 \subsection{\code{LevelManager} e \code{ILevelManager}}\label{sec:manager}
