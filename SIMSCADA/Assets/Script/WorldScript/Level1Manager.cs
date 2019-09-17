@@ -96,7 +96,8 @@ public class Level1Manager : MonoBehaviour, ILevelManager
 
         UpdateMinutes();
 
-        gameData.threatSpawnRate = gameData.threatSpawnBaseTime / (float)gameData.totalEmployees;
+        gameData.threatSpawnRate = gameData.threatSpawnBaseTime / (float) gameData.totalEmployees;
+
         if (gameData.threatSpawnRate < 10)
         {
             gameData.threatSpawnRate = 10;

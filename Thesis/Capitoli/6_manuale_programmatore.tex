@@ -158,7 +158,7 @@ public class Lesson
 \caption{ Screenshot del quaderno presente nel gioco, tramite cui è possibile accedere alle \code{Lesson}. Sulla destra sono visibili i pulsanti, raffigurati come dei segnalibri, tramite cui è possibile acceder al testo inerente alla \code{Lesson} desiderata.\label{fig:notebookImage}}
 \end{figure}
 
-\subsection{ItemStore}
+\subsection{ItemStore}\label{sec:itemstore}
 
 \code{ItemStore} è la classe tramite cui sono definiti gli oggetti acquistabili tramite il negozio. L'approccio è lo stesso utilizzato per gli altri oggetti e sfrutta, come visto, un file json per creare l'oggetto della classe \code{ItemStore} e un file txt contenente la descrizione dell'oggetto da visualizzare nel gioco. Gli \code{ItemStore}, però, posseggono ulteriori proprietà (figure \ref{fig:itemstorejson} e \ref{fig:itemstoreclass}), qui di seguito analizzate:
 
@@ -481,10 +481,117 @@ La soluzione adottata è stata creata ad hoc per il set di immagini con cui deve 
 
 \subsection{\code{LevelManager} e \code{ILevelManager}}\label{sec:manager}
 
+Gli script analizzati fin'ora sono quelli implementati per il controllo di singoli elementi di gioco, ma, affinché tutto queste componenti possano interagire tra di loro in maniera ordinata e controllata, è necessario di uno script d gestione globale. Da questo bisogno si è arrivati alla creazione del \code{LevelManager} e della relativa interfaccia di classe \code{ILevelManager}.
+
+Il \code{LevelManager} è il vero nucleo del gameplay, senza di cui il gioco non sarebbe nemmeno utilizzabile. Al suo interno sono svolte diverse funzioni di creazione, gestione degli elementi di gioco e controllo dei dati relativi alla partita in corso di svolgimento. Tra le più significative si annoverano:
+
+\begin{itemize}
+
+\item metodi per la simulazione e gestione temporale, fondamentali per la gestione dei \code{TimeEvent}. Tramite queste funzioni, gli eventi a tempo possono essere completati e le azioni per cui sono stati creati possono essere eseguite. Inoltre, correlato alla simulazione temporale vi è anche la creazione e gestione delle minacce. Ogni \code{Threat} viene generata con una cadenza temporale variabile nel corso del gioco. Sia la creazione di una nuova minaccia che la frequenza con cui ciò avviene sono gestite dal \code{LevelManager} (vedi \ref{fig:levelmanagernewthreat});
+
+\item legate alla creazione della minaccia, all'interno del \code{LevelManager} sono contenuti anche i metodi necessari per la loro gestione. In particolare le funzioni \code{BeforeDeployThreat}, \code{DeployThreat} e \code{AfterDeploThreat}, che gestiscono rispettivamente ciò che avviene prima, durante e dopo il concretizzarsi di un attacco. Nel primo metodo sono svolti dei controlli per accertare che la minaccia possa essere concretizzata in un attacco, in base anche alle caratteristiche del tipo di \code{Threat} in questione. Se il riscontro è negativo, viene richiamato il metodo per mostrare il messaggio corrispondente, la minaccia è tolta dalla coda degli eventi ed il \code{prefab} eliminato dalla scena. In caso positivo, invece, viene richiamato il metodo \code{DeployThreat} in cui, sempre in base al \code{ThreatType} vengono effettuate le azioni specifiche per concretizzare l'attacco. Una volta fatto ciò (e mostrato anche il messaggio all'utente che lo notifica di un attacco avvenuto), viene eseguito il metodo \code{AfterDeployThreat}, in cui sono aggiornati i valori relativi alle statistiche di gioco (attacchi ricevuti, numero di dipendenti e  reputazione del giocatore).Il metodo è richiamato anche in caso di attacco non andato a segno, ma chiaramente i valori saranno aggiornati tenendo conto del mancato attacco;
+
+\item una volta subito un attacco, il giocatore dovrà intraprendere determinate azioni, a seconda del tipo, attraverso gli oggetti presenti in gioco (le \code{InteractiveSprite} analizzate in \ref{sec:interactivesprite}). I metodi relative alle azioni sono contenute nei \code{IObjectListener} di ogni oggetto, ma al fine della raccolta dati, nel \code{LevelManager}, durante questa fase, viene eseguito il metodo \code{ThreatManagementResultData} con cui si analizzano le mosse del giocatore, per capire come sta procedendo per risolvere la situazione di crisi dovuta all'attacco. Questo aspetto verrà approfondito in \ref{sec:analysis};
+
+\item un'altra serie di metodi, legata sempre al gameplay, sono quelli necessari per attivare le difese (firewall, IDS e sicurezza locale) in grado di prevenire gli attacchi. Queste sono attivabili tramite gli oggetti in scena, ma il loro codice di controllo è stato inserito nel \code{LevelManager} poiché agiscono sulle variabili di gioco definite al suo interno. In particolare, effettuano dei controlli sulle code di minacce attive e, nel caso in cui abbiano successo lanciano un messaggio all'utente. La probabilità di efficacia delle componenti è fissa e può essere incrementata tramite gli acquisti del negozio, tuttavia il controllo in sé consiste nel confronto tra il suddetto valore e un numero calcolato casualmente. Se il numero è più alto della probabilità l'attacco non viene intercettato, altrimenti la difesa ha avuto successo e si procede con l'informare l'utente.
+
+\end{itemize}
+
+Tutti i metodi appena analizzati, oltre a diversi altri non elencati ma che svolgono funzioni di supporto nelle azioni elencate, sono implementati in ogni \code{LevelManager}. Per rendere possibile il loro utilizzo anche da classi esterne, senza ogni volta dover effettuare controlli su quale livello si sta giocando per recuperare la giusta istanza del corretto \code{LevelManager}, si è fatto utilizzo anche in questo caso di un'interfaccia, \code{ILevelManager}. In essa sono definiti tutti i metodi che devono essere presenti in un \code{LevelManager} affinché la partita si svolga correttamente. In questo modo la procedura per richiamare un metodo da una classe esterna risulta più veloce in quanto è sufficiente ottenere l'istanza dell'interfaccia, invece di quella della classe specifica (vedi fig. \ref{fig:setlevelmanager}). Inoltre, essendo definiti al suo interno tutti i metodi necessari affinché la partita si svolga in maniera corretta, risulta più semplice aggiungere dei nuovi livelli al gioco. Per questo punto si rimanda alla sezione \ref{sec:addlevel}.
+
+\begin{figure}[tb]
+\HRule
+\begin{lstlisting}
+
+gameData.threatSpawnRate = gameData.threatSpawnBaseTime / (float) gameData.totalEmployees;
+
+public IEnumerator CreateNewThreat()
+{
+    //yield return new WaitForSeconds(5);
+    for (;;)
+    {
+        gameData.threatSpawnTime = 0;
+
+        yield return new WaitUntil(() => gameData.threatSpawnTime > gameData.threatSpawnRate);
+
+        yield return new WaitWhile(() => gameData.hasThreatDeployed);
+
+        NewThreat();
+    }
+}
+\end{lstlisting}
+\HRule
+\caption{Metodo per la creazione di una nuova minaccia. Nella prima riga di codice è possibile vedere la definizione della frequenza con cui le minacce sono create.\label{fig:levelmanagernewthreat}}
+\end{figure}
+
+\begin{figure}[tb]
+\HRule
+\begin{lstlisting}
+    private ILevelManager SetLevelManager()
+    {
+        ILevelManager iManager;
+        if (SceneManager.GetActiveScene().buildIndex == StaticDb.level1SceneIndex)
+            iManager = FindObjectOfType<Level1Manager>();
+        else
+            iManager = FindObjectOfType<Level2Manager>();
+
+        return iManager;
+    }
+\end{lstlisting}
+\HRule
+\caption{Metodo con cui si richiama l'istanza dell'interfaccia \code{ILevelManager} nelle classi esterne. Utilizzando la variabile \code{iManager} è possibile richiamarne i metodi.\label{fig:setlevelmanager}}
+\end{figure}
+
 \subsection{Script per il salvataggio} \label{sec:gamesaves}
+
+Come in tutti i giochi, è presente durante la partita la possibilità di salvare i dati, interrompendola, per poi continuare in un secondo momento. I file dei dati salvati sono mantenuti nel server, all'interno della cartella creata per ogni giocatore. Al fine di inviare le informazioni sulla partita in maniera veloce e in un formato facilmente gestibile, si è scelto di fare ricorso, nuovamente, alla classe di Unity \code{JsonUtility}, serializzando tutto in un unico file json da inviare al server. Per rendere questo processo ancora più veloce e semplice da eseguire, è stato deciso di implementare una classe, denominata \code{GameData}, al cui interno sono contenuti i valori di tutte le variabile relative al gioco:
+\begin{itemize}
+\item liste dei \code{TimeEvent} e delle \code{Threat} in corso di svolgimento;
+
+\item flag relativi agli stati delle difese (attivate o disattivate);
+
+\item valori relativi a data, soldi a disposizione, minacce sventate, minacce subite e altre statistiche del gioco;
+
+\item flag con cui registrare l'acquisto di determinati potenziamenti dal negozio;
+
+\item valori necessari per il corretto ripristino dei \code{prefab} al momento del caricamento di una partita.
+
+\end{itemize}
+
+Tutti questi valori sono di tipo primitivo, in modo da poter essere serializzati correttamente in un file json. Sono presenti anche variabili di tipo complesso e/o personalizzato (come ad esempio la lista dei \code{TimeEvent} in corso di svolgimento), ma si è potuto utilizzarle perché anch'esse, a loro volta, sono state rese possibili da serializzare.
+
+I metodi per il salvataggio ed il caricamento del gioco sono contenuti nella classe \code{GameDataManager} e sono richiamati due classi esterne, risepttivamente \code{PauseManager}, ossia lo script utilizzato per mettere in pausa il gioco e da cui è possibile caricare il menù iniziale, e \code{LevelManager}. In quest'ultima, infatti, è presente il campo dell'istanza di \code{GameData} utilizzato per memorizzare i valori del livello in corso di svolgimento. Al momento del salvataggio, è richiamato il metodo \code{SaveLevelGameData} in cui si copiano i dati dell'istanza di \code{GameData} in una variabile locale. Successivamente vengono impostati i valori di tutti i \code{SerializableAiController}, partendo da quelli degli \code{AiController} presenti in scena, in modo da poter ripristinare durante il caricamento i corretti \code{prefab} dei personaggi. Svolto questo passaggio, si procede con al serializzazione del valore locale di \code{GameData} e, sfruttano la classe \code{UnityWebRequest}, viene effettuata una richiesta web indirizzandola allo script php contenuto nel server responsabile per la gestione dei dati di gioco. Quando la procedura termina, il giocatore è rimandato nel menù principale.
+
+Per quanto riguarda il caricamento, la procedura applicata è sostanzialmente l'inversa di quella vista per il salvataggio. Non appena viene caricato il livello di gioco, il \code{LevelManager} richiama il metodo \code{LoadLevelGameData}. Qui viene subito effettuata una richiesta online indirizzata al server per ottenere una copia del file json presente al suo interno. Se la richiesta ha successo, si effettua prima un controllo sui dati ricevuti, per prevenire errori successivi che possono presentarsi al momento della deserializzazione. Se il controllo ha successo, i dati sono deserializzati e salvati una istanza locale di \code{GameData}. I valori della variabile vengono successivamente assegnati all'istanza di \code{GameData} implementata nel \code{LevelManager} che, una volta riottenuto il controllo, procede a ripristinare tutti i \code{prefab} e le variabili della partita in modo da permetterne il proseguimento. Questa procedura è eseguita ogni volta che viene avviata una partita. Se si tratta del primo avvio di un determinato livello, per evitare di creare inavvertitamente dei \code{prefab} errati ed utilizzare dei valori sbagliati dell'istanza di \code{GameData}, il \code{LevelManager} utilizza un flag che permette di distinguere se si tratta di una nuova od una vecchia partita da caricare. In caso affermativo, inizializza l'istanza di \code{GameData} con i valori predefiniti e fa cominciare la partita, mostrando il messaggio di benvenuto.
 
 \subsection{Script per l'analisi delle prestazioni del giocatore} \label{sec:analysis}
 
-\section{Struttura delle directory del progetto} \label{sec:folderstructure}
+Ai fini di poter analizzare la partita del giocatore, e stabilire se sta effettivamente apprendendo i concetti inseriti nel gioco, sono stati implementati degli script per poter monitorare le azioni dell'utente sia quando si trova a fronteggiare le conseguenze di un attacco, sia nei momenti di attesa in cui deve applicare una tattica di prevenzione da nuove minacce. Per quanto riguarda la prima situazione, si è deciso di monitorare i tempi con cui il giocatore reagisce ad un attacco subito, registrando anche le azioni intraprese in quel lasso temporale. Questi dati sono poi salvati in un file di log presente nel server, in modo da poterlo analizzare in un secondo momento. La statistica relativa ai tempi di risposta è resa disponibile anche al giocatore, tramite un grafico in cui sono raccolti i valori registrati nel corso della partita e che può essere visionato in qualsiasi momento durante lo svolgimento del gioco. Il motivo per cui si è deciso di analizzare la statistica dei tempi si basa sull'idea che, se il giocatore sta apprendendo in maniera corretta le lezioni, l'andamento generale delle curve dei tempi sarà in diminuzione con il passare del numero di attacchi fronteggiati. Inoltre, registrare le azioni effettuate nel lasso di tempo in questione permette di capire se il giocatore sta procedendo in maniera ragionata e specifica per il tipo di minaccia che sta affrontando o, più semplicemente, sta sta affidando al caso (in quest'ultima situazione le curve dei tempi di reazione avranno un andamento costante o, addirittura, in salita).
+
+Per quanto riguarda, invece, l'analisi delle azioni di prevenzione attuate dal giocatore è stato necessario implementare una variabile che potesse essere d'aiuto in questo compito. Si è scelto, quindi, di implementare un trend delle minacce: all'avvio di una nuova partita viene scelta, casualmente, un tipo di minaccia che sarà più probabile subire rispetto alle altre. In particolare, al momento della creazione di una nuova minaccia, il tipo di \code{Threat} scelto per essere in trend avrà una probabilità di generazione del 60\% superiore rispetto agli altri tipi. Il trend delle minacce è poi ricalcolato ogni tre giorni (in termini di tempo di gioco), evitando che venga scelto di nuovo la stessa tipologia già presente in trend. Sfruttando questa dinamica è stato possibile implementare un metodo che analizzasse le azioni di prevenzione relativamente al trend del momento. In particolare, le azioni monitorate sono l'attivazione o disattivazione dei servizi di sicurezza (firewall, IDS e controlli locali), oltre agli acquisti di potenziamenti dal negozio (sfruttando la proprietà \code{ThreatAffinity} presente per ogni \code{ItemStore}, come esposto in \ref{sec:itemstore}. Il metodo di analisi viene richiamato ogni volta in cui è effettuata una delle azioni elencate precedentemente e, in base al trend del momento, ne dà una valutazione, registrandola all'interno del file di log presente nel server.
+
+L'analisi delle azioni del giocatore può essere, ovviamente, ampliata e strutturata in maniera più dettagliata, ma per i fini del progetto e per questioni legate al tempo necessario per uno sviluppo più dettagliato, si è preferito fornire un'idea di cosa è possibile analizzare e in quale maniera. Per un approfondimento sul tema in questione si rimanda alla sezione \ref{sec:futuredevelop}.
 
 \section{Come aggiungere un livello}\label{sec:addlevel}
+
+Il gioco può essere ampliato, aggiungendo nuovi livelli, in modo da poter inserire nuove nozioni all'interno del gioco o, addirittura, creare livelli specifici per un tipo di minaccia in particolare, rendendo l'esperienza di gioco più focalizzata e differenziata. Per aggiungere un nuovo livello è possibile procedere da zero, creando una nuova scena al cui interno inserire i diversi \ref{GameObject} con allegati gli script analizzati in precedenza. Ma, per evitare di incorrere in problemi durante l'esecuzione del gioco, legati alla mancanza di qualche componente, è consigliabile selezionare una delle scene relative ai due livelli già implementati e duplicarlo. In questo modo si avrà una nuova scena, su cui poter agire senza problemi. A questo punto è importante aprire i \code{Build Settings} del progetto (la voce è presente nel tab \code{File}). Una volta fatto click sulla voce, si aprirà una nuova finestra. Qui occorre inserire la scena appena creata all'interno del riquadro \code{Scenes In Build} (per farlo è sufficiente trascinare l'icona della scena dentro il riquadro). Una volta effettuato questo passaggio, 	sarà possibile notare che accanto al nome della scena sarà comparso un numero, corrispondente all'indice della scena stessa. Questo indice rappresenta il valore da utilizzare negli script di caricamento per poter permettere l'accesso alla nuova scena.
+
+Come detto, si può agire su qualsiasi aspetto del gioco: 
+
+\begin{itemize}
+
+\item per modificare, ad esempio, la generazione delle minacce nel nuovo livello occorre creare un nuovo \code{LevelManager}, facendolo derivare dall'interfaccia \code{ILevelManager}. Successivamente è necessario implementare un nuovo metodo nella classe \code{ThreatManager}, riprendendo la struttura generale dei metodi \code{NewRandomLevel\#Manager} (con il numero del livello al posto di \#) già implementati e richiamarlo nel metodo \code{NewThreat} presente nel nuovo \code{LevelManager}. 
+
+\item per aggiungere nuove azioni eseguibili tramite le \code{InteractiveSprite} è possibile agire sui singoli \code{Listener} di ogni categoria. Naturalmente, in questo caso, occorre tenere a mente che se si vuole agire su variabili di gioco presenti nella classe \code{GameData} è necessario recuperare i giusti valori tramite la corretta istanza presente nel \code{LevelManager}. Per fare ciò si può utilizzare il metodo riportato in \ref{fig:setlevelmanager}, aggiungendo eventualmente i casi relativi ai nuovi livelli implementati.
+
+\item per implementare nuovi \code{ItemStore}, \code{Lesson} e \code{Message} è sufficiente seguire il pattern già esistente. In particolare è necessario un file json e un file txt con le caratteristiche fornite nei template e salvarli nelle relative cartelle (le cartelle sono denominate secondo il pattern NomeOggetto e NomeOggettoBody e raccolgono, rispettivamente, il file json dell'oggetto ed il file txt contenente il testo più lungo relativo al messaggio/lezio/descrizione dell'oggetto da acquistare). Successivamente, in base all'oggetto aggiunto, possono essere necessarie alcune ulteriori azioni. 
+
+Nel caso dell'\code{ItemStore} sarà necessario aggiungere un nuovo \code{case} nello \code{switch} del metodo \code{ApplyItemEffect} relativo all'effetto che si vuole associare al nuovo potenziamento (il metodo è implementato all'interna dello script \code{StoreManager}). 
+
+Nel caso di un messaggio, invece, è necessario aggiungere il metodo da richiamare per visualizzare il messaggio. Per fare ciò si può agire nello script \code{LevelMessageManager}, rispettando il pattern presentato negli altri casi: un metodo \code{public} con cui richiamare una \code{coroutine}. Il primo metodo sarà quello che verrà richiamato per dar via alla visualizzazione del messaggio, la quale avverrà grazie al secondo metodo. Questo è stato fatto perché trattandosi di \code{coroutine}, metodi la cui esecuzione può essere messa in pausa, si è cercato di rispettare i design pattern proposti dallo stesso manuale di Unity. 
+
+Se invece è stata aggiunta una nuova lezione non c'è bisogno di ulteriori azioni. C'è però una precauzione da prendere in questo caso: per evitare che il gioco possa dare problemi di caricamento della lezione al momento della visualizzazione, è consigliato creare file txt non eccessivamente lunghi. Il rischio è quello di scatenare un'eccezione di tipo \code{OutOfMemory} nel browser, richiedendo il refresh della pagina web in cui il gioco è eseguito.
+
+\end{itemize}
+
+Per testare che le nuove funzionalità aggiunte vengano eseguite in maniera corretta, è possibile sfruttare il player nell'editor di Unity. In questo modo si possono effettuare test senza dover ogni volta creare una build. Nel momento in cui si vuole effettuare una build da caricare in un server occorre selezionare di nuovo la voce \code{Build Settings}, controllare che la scena sia selezionata all'interno del riquadro \code{Scenes In Build} e lanciare il build dell'applicativo finale.

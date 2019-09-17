@@ -181,7 +181,7 @@ public class LevelMessageManager : MonoBehaviour
         switch (threat.threatType)
         {
             case StaticDb.ThreatType.local:
-                message =  MessageFromJson(Resources.Load<TextAsset>(StaticDb.localStopped));
+                message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.localStopped));
                 break;
             case StaticDb.ThreatType.remote:
                 message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.remoteStopped));
@@ -418,7 +418,7 @@ public class LevelMessageManager : MonoBehaviour
         //set listeners for the buttons on the dialog box
         dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.RemoveAllListeners();
         dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.gameObject.SetActive(true);
-        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.AddListener(delegate 
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.AddListener(delegate
         {
             ClassDb.pauseManager.TogglePauseMenu();
             ClassDb.dialogBoxManager.CloseDialog(dialog);
@@ -429,7 +429,7 @@ public class LevelMessageManager : MonoBehaviour
 
         dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.onClick.RemoveAllListeners();
         dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.gameObject.SetActive(true);
-        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.onClick.AddListener(delegate 
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.onClick.AddListener(delegate
         {
             ClassDb.pauseManager.TogglePauseMenu();
             ClassDb.dialogBoxManager.CloseDialog(dialog);
@@ -551,7 +551,7 @@ public class LevelMessageManager : MonoBehaviour
         dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.onClick.AddListener(delegate
         {
             ClassDb.dialogBoxManager.CloseDialog(dialog);
-        }); 
+        });
     }
 
     public void StartMoneyEarnFalse()
@@ -705,7 +705,7 @@ public class LevelMessageManager : MonoBehaviour
 
         dialog.GetComponent<DialogBoxManager>().SetDialog(
             message.head,
-            string.Format(message.body, elapsedTime.TotalMinutes.ToString(CultureInfo.CurrentCulture), 
+            string.Format(message.body, elapsedTime.TotalMinutes.ToString(CultureInfo.CurrentCulture),
                 Math.Round(moneyLoss, 0).ToString(CultureInfo.CurrentCulture)),
             message.backBtn,
             message.nextBtn,
@@ -948,8 +948,8 @@ public class LevelMessageManager : MonoBehaviour
 
         Canvas dialog = ClassDb.dialogBoxManager.OpenDialog();
 
-        DialogBoxMessage message = MessageFromJson(manager.GetGameData().isGameWon 
-            ? Resources.Load<TextAsset>(StaticDb.endGameWin) 
+        DialogBoxMessage message = MessageFromJson(manager.GetGameData().isGameWon
+            ? Resources.Load<TextAsset>(StaticDb.endGameWin)
             : Resources.Load<TextAsset>(StaticDb.endGameLoss));
 
         dialog.GetComponent<DialogBoxManager>().SetDialog(
@@ -1011,52 +1011,4 @@ public class LevelMessageManager : MonoBehaviour
     }
 
 
-    //RIMUOVIBILE
-    //--------------------------------------------------------------------------------------------------------
-    //public void StartThreatRecap(StaticDb.ThreatType type, int threatCount)
-    //{
-    //    localRecapRoutine = ThreatRecap(type, threatCount);
-    //    StartCoroutine(localRecapRoutine);
-    //}
-
-    //private IEnumerator ThreatRecap(StaticDb.ThreatType type, int threatCount)
-    //{
-    //    yield return new WaitForSeconds(messageDelay);
-    //    yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);
-
-    //    ClassDb.dialogBoxManager.ToggleDialogBox();
-
-    //    DialogBoxMessage message = new DialogBoxMessage();
-
-    //    switch (type)
-    //    {
-    //        case StaticDb.ThreatType.local:
-    //            message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.localThreatRecap));
-    //            break;
-    //        case StaticDb.ThreatType.remote:
-    //            message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.remoteThreatRecap));
-    //            break;
-    //        case StaticDb.ThreatType.fakeLocal:
-    //            break;
-    //        case StaticDb.ThreatType.timeEvent:
-    //            break;
-    //        default:
-    //            throw new ArgumentOutOfRangeException();
-    //    }
-
-    //    ClassDb.dialogBoxManager.SetDialog(
-    //        message.head,
-    //        string.Format(message.body, threatCount),
-    //        message.backBtn,
-    //        message.nextBtn
-    //    );
-
-    //    DialogBoxManager.dialogBoxBtnNext.onClick.RemoveAllListeners();
-    //    DialogBoxManager.dialogBoxBtnNext.gameObject.SetActive(true);
-    //    DialogBoxManager.dialogBoxBtnNext.onClick.AddListener(ClassDb.dialogBoxManager.ToggleDialogBox);
-
-    //    DialogBoxManager.dialogBoxBtnBack.onClick.RemoveAllListeners();
-    //    DialogBoxManager.dialogBoxBtnBack.gameObject.SetActive(false);
-    //}
-    //--------------------------------------------------------------------------------------------------------
 }
