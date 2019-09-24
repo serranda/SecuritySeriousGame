@@ -227,7 +227,7 @@ public class MenuMessageManager : MonoBehaviour
         {
             ClassDb.dialogBoxManager.CloseDialog(dialog);
             //open introductory quiz link
-            Application.OpenURL("https://forms.gle/Bf3u8ucAxMwZ7fVZ7");
+            Application.OpenURL(StaticDb.preliminaryQuizLink);
         });
 
         dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.onClick.RemoveAllListeners();

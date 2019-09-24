@@ -134,6 +134,9 @@ public class StaticDb
     //string values for store screen prefab
     public static string storeScreenName = "StoreScreen(Clone)";
 
+    //string values for preliminary quiz
+    public static string preliminaryQuizLink = "https://forms.gle/NBZCbyJkZUAcz6ZP9";
+
     //string values for save files and folder
     public static string gameSaveName = "gameSave";
     public static string gameSaveExt = ".ini";

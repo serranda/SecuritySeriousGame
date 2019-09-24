@@ -2,4 +2,4 @@ SimSCADA è un serious game, un gioco utilizzato per scopi didattici.
 
 Al fine di valutarne l'efficacia è necessario raccogliere alcuni dati preliminari sui giocatori. Se non lo hai già fatto, per favore, rispondi al questionario proposto cliccando sul pulsante "Compila questionario".
 
-Se lo hai già compilato puoi ignorare questo messaggio e proseguire con il login.
+Se lo hai già compilato puoi ignorare questo messaggio e proseguire.
