@@ -55,6 +55,7 @@ public class StaticDb
     public static string playerNotRegistered = "MenuMessages/PlayerNotRegistered";
     public static string warningNewGame = "MenuMessages/WarningNewGame";
     public static string welcomePlayer = "MenuMessages/WelcomePlayer";
+    public static string fillQuiz = "MenuMessages/FillQuiz";
 
     //string values for level message files in resources folder
     public const string purchase = "Messages/ConfirmPurchase";

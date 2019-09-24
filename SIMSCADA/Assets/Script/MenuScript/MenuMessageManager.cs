@@ -9,6 +9,7 @@ public class MenuMessageManager : MonoBehaviour
     private IEnumerator playerNotRegisteredRoutine;
     private IEnumerator warningNewGameRoutine;
     private IEnumerator welcomePlayerRoutine;
+    private IEnumerator fillQuizRoutine;
 
     private float messageDelay = 0f;
 
@@ -190,9 +191,50 @@ public class MenuMessageManager : MonoBehaviour
         dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.AddListener(delegate
         {
             ClassDb.dialogBoxManager.CloseDialog(dialog);
+            StartFillQuiz();
         });
 
         dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.onClick.RemoveAllListeners();
         dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.gameObject.SetActive(false);
+    }
+
+    public void StartFillQuiz()
+    {
+        fillQuizRoutine = FillQuiz();
+        StartCoroutine(fillQuizRoutine);
+    }
+
+    private IEnumerator FillQuiz()
+    {
+        yield return new WaitForSeconds(messageDelay);
+        //yield return new WaitWhile(() => DialogBoxManager.dialogEnabled);
+
+        Canvas dialog = ClassDb.dialogBoxManager.OpenDialog();
+
+        MenuBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.fillQuiz));
+
+        dialog.GetComponent<DialogBoxManager>().SetDialog(
+            message.head,
+            message.body,
+            message.backBtn,
+            message.nextBtn,
+            dialog
+        );
+
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.RemoveAllListeners();
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.gameObject.SetActive(true);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.AddListener(delegate
+        {
+            ClassDb.dialogBoxManager.CloseDialog(dialog);
+            //open introductory quiz link
+            Application.OpenURL("https://forms.gle/Bf3u8ucAxMwZ7fVZ7");
+        });
+
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.onClick.RemoveAllListeners();
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.gameObject.SetActive(true);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.onClick.AddListener(delegate
+        {
+            ClassDb.dialogBoxManager.CloseDialog(dialog);
+        });
     }
 }

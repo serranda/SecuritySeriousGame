@@ -1,0 +1,6 @@
+{
+	"head": "RISPONDI AL QUESTIONARIO",
+	"bodyPath": "FillQuizBody",
+	"backBtn": "Ignora",
+	"nextBtn": "Compila questionario"
+}
