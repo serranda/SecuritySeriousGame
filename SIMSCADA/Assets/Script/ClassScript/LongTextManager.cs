@@ -75,7 +75,7 @@ public class LongTextManager : MonoBehaviour
         leftButton.onClick.AddListener(delegate
         {
             text.pageToDisplay--;
-            Debug.Log(leftButton.transform.parent.parent.parent.parent.name);
+            //Debug.Log(leftButton.transform.parent.parent.parent.parent.name);
             //Debug.Log(text);
             //Debug.Log(text.pageToDisplay);
         });
@@ -90,7 +90,7 @@ public class LongTextManager : MonoBehaviour
         rightButton.onClick.AddListener(delegate
         {
             text.pageToDisplay++;
-            Debug.Log(rightButton.transform.parent.parent.parent.parent.name);
+            //Debug.Log(rightButton.transform.parent.parent.parent.parent.name);
             //Debug.Log(text);
             //Debug.Log(text.pageToDisplay);
         });

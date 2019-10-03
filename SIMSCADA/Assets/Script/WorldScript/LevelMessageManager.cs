@@ -8,6 +8,7 @@ public class LevelMessageManager : MonoBehaviour
 {
     private IEnumerator deployRoutine;
     private IEnumerator stopRoutine;
+    private IEnumerator fakeStopRoutine;
     private IEnumerator moneyLossRoutine;
     private IEnumerator idsInterceptRoutine;
     private IEnumerator welcomeRoutine;
@@ -211,6 +212,42 @@ public class LevelMessageManager : MonoBehaviour
         dialog.GetComponent<DialogBoxManager>().SetDialog(
             message.head,
             message.body + "\n" + messageIntern.body,
+            message.backBtn,
+            message.nextBtn,
+            dialog
+        );
+
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.RemoveAllListeners();
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.gameObject.SetActive(true);
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.AddListener(delegate
+        {
+            ClassDb.dialogBoxManager.CloseDialog(dialog);
+        });
+
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.onClick.RemoveAllListeners();
+        dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.gameObject.SetActive(false);
+    }
+
+    public void StartFakeThreatStopped(Threat threat)
+    {
+        fakeStopRoutine = FakeThreatStopped(threat);
+        StartCoroutine(fakeStopRoutine);
+    }
+
+    private IEnumerator FakeThreatStopped(Threat threat)
+    {
+        yield return new WaitForSeconds(messageDelay);
+
+        manager.GetGameData().lastThreatStopped = threat;
+
+        Canvas dialog = ClassDb.dialogBoxManager.OpenDialog();
+
+        DialogBoxMessage message = MessageFromJson(Resources.Load<TextAsset>(StaticDb.fakeLocalStopped2));
+
+
+        dialog.GetComponent<DialogBoxManager>().SetDialog(
+            message.head,
+            message.body,
             message.backBtn,
             message.nextBtn,
             dialog
@@ -1010,5 +1047,5 @@ public class LevelMessageManager : MonoBehaviour
         dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.gameObject.SetActive(false);
     }
 
-
+    
 }

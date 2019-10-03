@@ -26,9 +26,8 @@ public class StaticDb
 
     //player object reference
     public static Player player;
-    ////DEBUG
-    //public static Player player = new Player("serranda",new byte[]{72,195,51,37,219,211,47,194,14,127,102,88,167,231,198,228,249,23,135,207,214,207,149,249,152,140,206,226,175,82,115,129},"Andrea","Marchetti", new byte[] {128,88,160,123,31});
-
+    //DEBUG
+    //public static Player player = new Player("aaa", new byte[] { 115, 225, 80, 143, 241, 117, 124, 45, 110, 64, 248, 148, 201, 101, 11, 239, 225, 138, 38, 187, 134, 78, 189, 159, 42, 43, 186, 33, 36, 220, 133, 8 }, "aaa", "aaa", new byte[] { 250, 2, 223, 254, 149 });
 
     //enum for logEvent types
     public enum logEvent
@@ -75,6 +74,7 @@ public class StaticDb
     public const string localDeployed = "Messages/ThreatDeployedLocal";
     public const string remoteDeployed = "Messages/ThreatDeployedRemote";
     public const string fakeLocalStopped = "Messages/ThreatStoppedFakeLocal";
+    public const string fakeLocalStopped2 = "Messages/ThreatStoppedFakeLocal2";
     public const string localStopped = "Messages/ThreatStoppedLocal";
     public const string remoteStopped = "Messages/ThreatStoppedRemote";
     public const string welcomeTxt = "Messages/Welcome";
@@ -136,6 +136,7 @@ public class StaticDb
 
     //string values for preliminary quiz
     public static string preliminaryQuizLink = "https://forms.gle/NBZCbyJkZUAcz6ZP9";
+    public static string evaluationQuizLink = "https://forms.gle/ShuNZZbqjWAGXUtZ7";
 
     //string values for save files and folder
     public static string gameSaveName = "gameSave";
@@ -296,7 +297,7 @@ public class StaticDb
     public static Vector3Int playerSpawn = new Vector3Int(0, 0, 0);
 
     //Vector3 which define ai spawn location
-    public static Vector3Int aiSpawn = new Vector3Int(-16, 4, 0);
+    public static Vector3Int aiSpawn = new Vector3Int(-19, 4, 0);
 
     //Vector3 which define destination of interactive sprites
     public static Vector3Int pcDest = new Vector3Int(2, -4, 0);

@@ -195,7 +195,7 @@ public class ThreatChartManager : MonoBehaviour
     //UPDATE THE APPROPRIATE SET ACCORDING WITH THREAT TYPE AND UPDATING LINE CHART
     public void GetThreatData(Threat threat, float manageTime)
     {
-        Debug.Log(lineChart);
+        //Debug.Log(lineChart);
 
         if (sets.Count == 0 ) SetupChartDataSets();
 

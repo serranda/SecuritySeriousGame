@@ -60,7 +60,7 @@ public class CameraManager : MonoBehaviour
                 //|| isCameraMainNull
             )
             {
-                Debug.Log("CURSOR");
+                //Debug.Log("CURSOR");
                 return;
             }
         }

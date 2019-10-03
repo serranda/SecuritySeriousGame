@@ -33,9 +33,22 @@ public class ThreatManager : MonoBehaviour
 
         float deployTime = Random.Range(2f, 6f);
 
-        StaticDb.ThreatAttacker threatAttacker = threatType == StaticDb.ThreatType.fakeLocal
-            ? StaticDb.ThreatAttacker.intern
-            : (StaticDb.ThreatAttacker)Random.Range(0, 2);
+        StaticDb.ThreatAttacker threatAttacker;
+
+        switch (threatType)
+        {
+            case StaticDb.ThreatType.local:
+                threatAttacker = (StaticDb.ThreatAttacker)Random.Range(0, 2);
+                break;
+            case StaticDb.ThreatType.remote:
+                threatAttacker = StaticDb.ThreatAttacker.external;
+                break;
+            case StaticDb.ThreatType.fakeLocal:
+                threatAttacker = StaticDb.ThreatAttacker.intern;
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
 
         StaticDb.ThreatAttack threatAttack;
 
@@ -117,9 +130,22 @@ public class ThreatManager : MonoBehaviour
 
         float deployTime = Random.Range(2f, 6f);
 
-        StaticDb.ThreatAttacker threatAttacker = threatType == StaticDb.ThreatType.fakeLocal
-            ? StaticDb.ThreatAttacker.intern
-            : (StaticDb.ThreatAttacker)Random.Range(0, 2);
+        StaticDb.ThreatAttacker threatAttacker;
+
+        switch (threatType)
+        {
+            case StaticDb.ThreatType.local:
+                threatAttacker = (StaticDb.ThreatAttacker)Random.Range(0, 2);
+                break;
+            case StaticDb.ThreatType.remote:
+                threatAttacker = StaticDb.ThreatAttacker.external;
+                break;
+            case StaticDb.ThreatType.fakeLocal:
+                threatAttacker = StaticDb.ThreatAttacker.intern;
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
 
         StaticDb.ThreatAttack threatAttack;
 

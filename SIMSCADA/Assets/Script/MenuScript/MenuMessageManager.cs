@@ -191,7 +191,7 @@ public class MenuMessageManager : MonoBehaviour
         dialog.GetComponent<DialogBoxManager>().dialogBoxBtnNext.onClick.AddListener(delegate
         {
             ClassDb.dialogBoxManager.CloseDialog(dialog);
-            StartFillQuiz();
+            //StartFillQuiz();
         });
 
         dialog.GetComponent<DialogBoxManager>().dialogBoxBtnBack.onClick.RemoveAllListeners();

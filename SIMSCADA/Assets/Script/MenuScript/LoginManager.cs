@@ -264,6 +264,8 @@ public class LoginManager : MonoBehaviour
 
                     PlayerList players = JsonUtility.FromJson<PlayerList>(jsonData);
 
+                    bool playerFound = false;
+
                     foreach (Player p in players.list)
                     {
 
@@ -284,27 +286,24 @@ public class LoginManager : MonoBehaviour
                         }
                         bool hashEqual = p.hash.SequenceEqual(hash);
 
-                        Debug.Log(hashEqual);
+                        //Debug.Log(hashEqual);
 
-                        if (p.username == playerUserNameL.text && hashEqual)
-                        {
-                            //PLAYER IS REGISTERED, USERNAME AND PASSWORD CORRESPOND; GET ALL THE INFO
-                            Debug.Log("Login Eseguito con successo");
+                        if (p.username != playerUserNameL.text || !hashEqual) continue;
 
-                            //get all the actual player information
-                            Player player = p;
+                        playerFound = true;
+                        //PLAYER IS REGISTERED, USERNAME AND PASSWORD CORRESPOND; GET ALL THE INFO
+                        Debug.Log("Login Eseguito con successo");
 
-                            //LOGIN
-                            LoginToMenu(player);
-                        }
-                        else
-                        {
-                            //CHECK WWW RESPONSE; THERE ARE NO REGISTERED PLAYER
-                            Debug.Log("Giocatore non registrato");
-                            //DIALOG FOR USER NOT REGISTERED
-                            ClassDb.menuMessageManager.StartPlayerNotRegistered();
-                        }
+                        //LOGIN
+                        LoginToMenu(p);
+
+                        break;
                     }
+
+                    if (playerFound) yield break;
+                    Debug.Log("Giocatore non registrato");
+                    //DIALOG FOR USER NOT REGISTERED
+                    ClassDb.menuMessageManager.StartPlayerNotRegistered();
                 }
             }
         }

@@ -61,27 +61,28 @@ public class Level2Manager : MonoBehaviour, ILevelManager
         ////---------------------------------------------------------------------------------------------------------------------
         //if (Input.GetKeyDown(KeyCode.V))
         //    StartCoroutine(NewFakeLocalThreats());
-        //
+
         //if (Input.GetKeyDown(KeyCode.B))
         //    StartCoroutine(NewLocalThreats());
-        //
+
         //if (Input.GetKeyDown(KeyCode.N))
         //    StartCoroutine(NewRemoteThreats());
-        //
+
+
         //if (Input.GetKeyDown(KeyCode.M))
         //{
-        //    Threat threat = ClassDb.threatManager.NewRandomLevel1Threat();
-        //    InstantiateNewThreat(threat);
+        //    Threat threat = ClassDb.threatManager.NewRandomLevel2Threat();
+        //    Debug.Log(threat);
         //}
-        //
+
         //if (Input.GetKeyDown(KeyCode.A))
         //{
         //    //DEBUG; CREATE NEW PHISHING THREAT
         //    Threat threat = new Threat(++gameData.lastThreatId, StaticDb.ThreatType.local, 3f, StaticDb.ThreatAttacker.external, StaticDb.ThreatDanger.high, StaticDb.ThreatAttack.createRemote, 2, false);
         //    InstantiateNewThreat(threat);
-        //
+
         //}
-        //
+
         ////---------------------------------------------------------------------------------------------------------------------
 
         if (Input.GetMouseButtonDown(1) && gameData.actionButtonEnabled)
@@ -94,12 +95,6 @@ public class Level2Manager : MonoBehaviour, ILevelManager
             gameData.totalThreat, gameData.trustedEmployees, gameData.totalEmployees, gameData.reputation);
 
         UpdateMinutes();
-
-        gameData.threatSpawnRate = gameData.threatSpawnBaseTime / (float)gameData.totalEmployees;
-        if (gameData.threatSpawnRate < 10)
-        {
-            gameData.threatSpawnRate = 10;
-        }
 
         gameData.longDate = gameData.date.ToFileTimeUtc();
     }
@@ -374,6 +369,8 @@ public class Level2Manager : MonoBehaviour, ILevelManager
 
     public IEnumerator CreateNewThreat()
     {
+        gameData.threatSpawnRate = 35;
+
         //yield return new WaitForSeconds(5);
         for (; ; )
         {
@@ -534,17 +531,19 @@ public class Level2Manager : MonoBehaviour, ILevelManager
                 yield break;
             }
 
-            //SET FLAGS TO INFORM ABOUT DEPLOYED THREAT
-            gameData.hasThreatDeployed = true;
-            gameData.lastThreatDeployed = threat;
-
             //WRITE LOG
             ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.GameEvent, threat.threatAttack.ToString().ToUpper() + " DEPLOYED");
 
-
             //Set flag to start evaluate threat management result
-            gameData.hasThreatManaged = false;
-            StartThreatManagementResultData(threat);
+            if (threat.threatType != StaticDb.ThreatType.fakeLocal)
+            {
+                //SET FLAGS TO INFORM ABOUT DEPLOYED THREAT
+                gameData.hasThreatDeployed = true;
+                gameData.lastThreatDeployed = threat;
+
+                gameData.hasThreatManaged = false;
+                StartThreatManagementResultData(threat);
+            }
 
             float moneyLoss;
 
@@ -783,7 +782,7 @@ public class Level2Manager : MonoBehaviour, ILevelManager
 
                     ClassDb.spawnCharacter.RemoveAi(threat.aiController.gameObject);
 
-                    ClassDb.levelMessageManager.StartThreatStopped(threat);
+                    ClassDb.levelMessageManager.StartFakeThreatStopped(threat);
                     yield break;
 
                 case StaticDb.ThreatType.timeEvent:

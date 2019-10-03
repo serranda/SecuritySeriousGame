@@ -96,13 +96,6 @@ public class Level1Manager : MonoBehaviour, ILevelManager
 
         UpdateMinutes();
 
-        gameData.threatSpawnRate = gameData.threatSpawnBaseTime / (float) gameData.totalEmployees;
-
-        if (gameData.threatSpawnRate < 10)
-        {
-            gameData.threatSpawnRate = 10;
-        }
-
         gameData.longDate = gameData.date.ToFileTimeUtc();
     }
 
@@ -214,7 +207,7 @@ public class Level1Manager : MonoBehaviour, ILevelManager
         newThreatRoutine = CreateNewThreat();
         StartCoroutine(newThreatRoutine);
 
-        ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.GameEvent,"COROUTINES STARTED");
+        ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.GameEvent, "COROUTINES STARTED");
     }
 
     public void UpdateMinutes()
@@ -224,7 +217,7 @@ public class Level1Manager : MonoBehaviour, ILevelManager
 
     public IEnumerator OnNewMinute()
     {
-        for(;;)
+        for (; ; )
         {
             yield return new WaitUntil(() => gameData.minutePercentage > 1);
 
@@ -325,7 +318,7 @@ public class Level1Manager : MonoBehaviour, ILevelManager
 
         do
         {
-            attack = (StaticDb.ThreatAttack) Random.Range(0, 8);
+            attack = (StaticDb.ThreatAttack)Random.Range(0, 8);
         } while (gameData.trendThreat.threatAttack == attack ||
                  attack == StaticDb.ThreatAttack.replay ||
                  attack == StaticDb.ThreatAttack.stuxnet ||
@@ -336,8 +329,8 @@ public class Level1Manager : MonoBehaviour, ILevelManager
 
         gameData.trendThreat = generalTrendThreat;
 
-        if(gameData.researchUpgrade)
-            ClassDb.levelMessageManager.StartShowReport(attack.ToString().ToUpper());
+        //if(gameData.researchUpgrade)
+        ClassDb.levelMessageManager.StartShowReport(attack.ToString().ToUpper());
 
         //WRITE LOG
         ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.GameEvent, "NEW TREND THREAT: " + attack.ToString().ToUpper());
@@ -374,7 +367,7 @@ public class Level1Manager : MonoBehaviour, ILevelManager
 
     public float UpdateMoney()
     {
-        float deltaMoney = Random.Range(1f,5f) * gameData.money / 100;
+        float deltaMoney = Random.Range(1f, 5f) * gameData.money / 100;
         gameData.money += deltaMoney;
 
         return deltaMoney;
@@ -382,8 +375,10 @@ public class Level1Manager : MonoBehaviour, ILevelManager
 
     public IEnumerator CreateNewThreat()
     {
+        gameData.threatSpawnRate = 45;
+
         //yield return new WaitForSeconds(5);
-        for (;;)
+        for (; ; )
         {
             gameData.threatSpawnTime = 0;
 
@@ -486,7 +481,7 @@ public class Level1Manager : MonoBehaviour, ILevelManager
 
     public IEnumerator DeployThreat(Threat threat)
     {
-        if(threat.threatType != StaticDb.ThreatType.remote)
+        if (threat.threatType != StaticDb.ThreatType.remote)
             threat.aiController.BeforeDeploy();
 
         yield return new WaitWhile(() => threat.aiController.pathUpdated);
@@ -516,7 +511,7 @@ public class Level1Manager : MonoBehaviour, ILevelManager
 
                 //REMOTE THREAT; CHECK IF FIREWALL INTERCEPT BEFORE DEPLOY
                 if (threat.threatType == StaticDb.ThreatType.remote &&
-                    Random.Range(0, 100) < gameData.firewallSuccessRate && 
+                    Random.Range(0, 100) < gameData.firewallSuccessRate &&
                     gameData.isFirewallActive)
                 {
                     gameData.remoteThreats.Remove(threat);
@@ -542,24 +537,26 @@ public class Level1Manager : MonoBehaviour, ILevelManager
                 yield break;
             }
 
-            //SET FLAGS TO INFORM ABOUT DEPLOYED THREAT
-            gameData.hasThreatDeployed = true;
-            gameData.lastThreatDeployed = threat;
-
             //WRITE LOG
             ClassDb.logManager.StartWritePlayerLogRoutine(StaticDb.player, StaticDb.logEvent.GameEvent, threat.threatAttack.ToString().ToUpper() + " DEPLOYED");
 
-
             //Set flag to start evaluate threat management result
-            gameData.hasThreatManaged = false;
-            StartThreatManagementResultData(threat);
+            if (threat.threatType != StaticDb.ThreatType.fakeLocal)
+            {
+                //SET FLAGS TO INFORM ABOUT DEPLOYED THREAT
+                gameData.hasThreatDeployed = true;
+                gameData.lastThreatDeployed = threat;
+
+                gameData.hasThreatManaged = false;
+                StartThreatManagementResultData(threat);
+            }
 
             float moneyLoss;
 
             switch (threat.threatAttack)
             {
                 case StaticDb.ThreatAttack.dos:
-                    
+
                     //Stop all time events before setting money loss
                     ClassDb.timeEventManager.StopTimeEventList(gameData.timeEventList);
 
@@ -697,7 +694,7 @@ public class Level1Manager : MonoBehaviour, ILevelManager
 
                     //Stop all time events before setting money loss
                     ClassDb.timeEventManager.StopTimeEventList(gameData.timeEventList);
-                    
+
                     //set money loss until scan has been executed and check flag to start money loss
                     gameData.moneyLossList[StaticDb.ThreatAttack.malware] += threat.moneyLossPerMinute * gameData.totalMoneyEarnPerMinute;
 
@@ -791,7 +788,7 @@ public class Level1Manager : MonoBehaviour, ILevelManager
 
                     ClassDb.spawnCharacter.RemoveAi(threat.aiController.gameObject);
 
-                    ClassDb.levelMessageManager.StartThreatStopped(threat);
+                    ClassDb.levelMessageManager.StartFakeThreatStopped(threat);
                     yield break;
 
                 case StaticDb.ThreatType.timeEvent:
@@ -841,7 +838,7 @@ public class Level1Manager : MonoBehaviour, ILevelManager
                 if (!(threatSuccessRate < gameData.defenseMitm)) break;
                 ClassDb.spawnCharacter.RemoveAi(threat.aiController.gameObject);
                 ClassDb.levelMessageManager.StartThreatStopped(threat);
-                return false; 
+                return false;
 
             case StaticDb.ThreatAttack.stuxnet:
                 if (!(threatSuccessRate < gameData.defenseStuxnet)) break;
@@ -957,7 +954,7 @@ public class Level1Manager : MonoBehaviour, ILevelManager
 
     public IEnumerator RemoteIdsCheckRoutine()
     {
-        for (;;)
+        for (; ; )
         {
             yield return new WaitWhile(() => !gameData.isRemoteIdsActive);
 
@@ -995,13 +992,13 @@ public class Level1Manager : MonoBehaviour, ILevelManager
         if (gameData.idsList.Count <= 0) return;
 
         ClassDb.levelMessageManager.StartIdsInterception();
-        
+
         ServerPcListener.isThreatDetected = true;
     }
 
     public IEnumerator LocalIdsCheckRoutine()
     {
-        for (;;)
+        for (; ; )
         {
             yield return new WaitWhile(() => !gameData.isLocalIdsActive);
 
@@ -1057,10 +1054,10 @@ public class Level1Manager : MonoBehaviour, ILevelManager
         TimeSpan elapsedGameTime = managedGameTime - deployGameTime;
         TimeSpan elapsedRealTime = managedRealTime - deployRealTime;
 
-        float moneyLoss = (float) elapsedGameTime.TotalMinutes * threat.moneyLossPerMinute;
+        float moneyLoss = (float)elapsedGameTime.TotalMinutes * threat.moneyLossPerMinute;
 
         ClassDb.levelMessageManager.StartThreatManagementResult(elapsedGameTime, moneyLoss);
-        ClassDb.threatChartManager.GetThreatData(threat, (float) elapsedRealTime.TotalSeconds);
+        ClassDb.threatChartManager.GetThreatData(threat, (float)elapsedRealTime.TotalSeconds);
 
         //wait to close dialog to continue
         yield return new WaitUntil(() => gameData.dialogEnabled);
@@ -1130,7 +1127,7 @@ public class Level1Manager : MonoBehaviour, ILevelManager
         if (data.timeEventList.Count > 0)
         {
             Debug.Log("RESTORING TIME EVENTS");
-            
+
             List<TimeEvent> threatEvents = new List<TimeEvent>();
             List<TimeEvent> events = new List<TimeEvent>();
 

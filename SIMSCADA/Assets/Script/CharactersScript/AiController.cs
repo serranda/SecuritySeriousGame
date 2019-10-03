@@ -401,6 +401,8 @@ public class AiController : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
             aiDestCellPos = CreateNeighborhood(aiObjective);
         }
 
+
+        //todo check method to move near 
         //ai has valid destination cell; pathfinder find a route from startCell to destinationCell
         if (!pathfinder.EligibleClick(aiDestCellPos))
         {
