@@ -1,1 +1,77 @@
-\section{Test per l'efficacia}
+In questa sezione sono riportati i risultati dei test condotti su SimSCADA per misurare l'usabilità del gioco \ref{sec:usabilitytest} e ottenere un valore riguardo l'efficacia didattica  \ref{effectivnesstest}. I test sono stati condotti in parallelo su di un campione di studenti universitari con età compresa tra i 23 e i 26 anni. 
+
+\section{Test dell'usabilità} \label{sec:usabilitytest}
+
+Il test dell'usabilità è stato effettuato per verificare che le funzioni di gioco implementate fossero chiare e facili da apprendere e, in caso contrario, individuare una soluzione per migliorare l'esperienza di gioco generale. Di seguito sono riportati le componenti che hanno subito modifiche grazie a questi test.
+
+\begin{description}
+
+\item[Avatar del giocatore superfluo] Inizialmente era prevista la presenza nella scena di gioco di un alter-ego del giocatore, in modo da poter aumentare l'immersione nel gioco. In realtà la presenza di questo alter-ego è stata riportata più volte come superflua ai fini del gioco e, soprattutto, frustrante per il ritmo di gioco. Per ogni azione da svolgere, infatti, il personaggio si sarebbe dovuto prima spostare verso l'oggetto dell'azione e, una volta raggiunto, avrebbe dato via all'azione vera e propria. Inoltre, nel tempo necessario al personaggio per raggiungere il suo obiettivo, poteva capitare che avvenissero degli attacchi, senza però dare effettivamente al giocatore la possibilità di difendersi. Si è deciso quindi di rimuovere completamente l'alter ego del giocatore, in modo da garantire il mantenimento di ritmi di gioco più serrati quando necessario.
+
+\item[Tutorial troppo testuale] Prima di iniziare una partita, viene proposto al giocatore di seguire un tutorial con cui apprendere i comandi di gioco e mostrare le componenti della scena interattive con cui poter eseguire le azioni. La risposta degli utenti allo svolgimento della guida in generale è stata positiva, indicandolo come utile ed efficace per apprendere i concetti base del gameplay. Allo stesso tempo, però, diversi giocatori hanno manifestato noia nel seguirla attentamente, in quanto troppo testuale e prolissa. Di conseguenza hanno preferito accelerare, o addirittura saltare, questa parte per iniziare a giocare immediatamente, con relative conseguenze negative per la partita. Per agevolarne lo svolgimento si è deciso di ridurre diverse parti di testo del tutorial, in modo da diminuire il tempo necessario per lo svolgimento. Tuttavia, nonostante le modifiche, alcuni utenti hanno continuato a ritenere che la guida fosse ancora troppo testuale. Per mancanza di tempo, non è stata possibile apportare ulteriori modifiche, ma i suggerimenti offerti dagli utenti sono stati tenuti in considerazione in ottica dei futuri sviluppi effettuabili sul gioco (vedi \ref{sec:futuredevelop}).
+
+\item[Movimento della camera] Il gioco si sviluppa all'interno di un unica scena, dando la possibilità al giocatore di spostare la telecamera per inquadrare le diverse aree. Per gestire il controllo del movimento di camera è stato sfruttato l'utilizzo del cursore del mouse: mantenendo la pressione del pulsante destro del mouse, la telecamera ne segue i movimenti. Questo comando, però, è stato riportato da alcuni utenti come difettoso e difficile da eseguire, causando problemi durante la partita. Per agevolare lo scorrimento della telecamera, quindi, si è deciso di modificare il comando,  facendo ricorso all'utilizzo dei tasti WASD, comunemente utilizzati per i movimenti nei moderni videogiochi. 
+
+\item[Fix di diversi bug] Durante questa fase di test, sono stati segnalati diversi bug che compromettevano l'esperienza di gioco in maniera seria. Alcuni di questi provocavano l'arresto della generazione di minacce, portando il giocatore in una fase di stallo in cui vedeva i propri guadagni aumentare, senza però avere la possibilità di aumentare il proprio punteggio di reputazione. In questo modo la partita non era terminabile. Altri bug sono stati causati da messaggi di testo mancanti o nominati in maniera errata, causando la visualizzazione errata di alcuni avvisi allo scatenarsi di determinati eventi. Tutti questi bug sono stati corretti e prontamente risolti, in modo da creare una versione stabile del gioco su cui eseguire i successivi test.
+
+\end{description}
+
+Sono stati ricevuti, inoltre, diversi feedback riguardo le dinamiche di gioco che, come nel caso di quelli relativi al tutorial, non sono stati implementati per mancanza di tempo, ma son stati tenuti in considerazione in ottica dei futuri sviluppi del gioco. Per questo aspetto si rimanda alla sezione \ref{sec:futuredevelop}.
+
+\section{Test dell'efficacia} \label{effectivnesstest}
+
+I test sull'efficacia didattica di SimSCADA sono stati condotti sullo stesso campione di studenti universitari coinvolti in quelli relativi all'usabilità del gioco. Per valutare se il gioco è in grado di formare in maniera efficace il giocatore, sono stati fatti compilare due quiz diversi agli utenti. Il primo è servito a stabilire le conoscenze preliminari che i diversi giocatori possedevano riguardo gli argomenti del gioco, ossia i sistemi SCADA e gli attacchi informatici in generale. Ogni utente, al momento della registrazione, veniva rimandato alla compilazione del quiz preliminare. Una volta completato, poteva tornare al gioco ed iniziare una partita. Trascorsi alcuni giorni dalla registrazione degli utenti, è stato comunicato ad ognuno di loro il link del secondo quiz, in modo da misurare i relativi eventuali progressi. Si è preferito procedere in questa maniera, piuttosto che aspettare che venisse raggiunta la fine del gioco, poiché, essendo SimSCADA un gestionale, non era garantito che ogni utente potesse completarlo nello stesso periodo di tempo. 
+
+Nei paragrafi successivi verrà mostrata la struttura dei due test e quali risultati sono stati registrati.
+
+\subsection{Struttura dei test}
+
+Entrambi i test sono stati creati utilizzando due differenti Moduli Google, i cui risultati sono stati raccolti automaticamente in altrettanti fogli di lavoro Google. Questi risultati sono stati ulteriormente analizzati tramite il plug-in Flubaroo \cite{Flubaroo}, con cui è stato possibile ottenere, tra le altre cose, le percentuali di punteggio delle varie risposte ai quiz.
+
+Ogni utente si è registrato nel questionario con la propria mail, in modo da poter essere identificato e correlato con i dati raccolti durante il gioco nei file di log prodotti durante lo svolgimento di una partita. Inoltre questo ha permesso di confrontare le risposte ai due quiz di ogni giocatore, permettendo la valutazione dell'apprendimento di ogni singolo utente.
+
+Come già detto, i due moduli sono stati suddivisi in diverse sezioni, ognuna delle quali è riferita ad un determinato argomento di teoria affrontato nel gioco. Le sezioni che è possibile individuare, con il relativo argomento, sono:
+
+\begin{itemize}
+
+\item conoscenza base dei sistemi SCADA, ossia cosa sono e per quali scopi sono utilizzati;
+
+\item architettura dei sistemi SCADA, vale a dire le componenti principali che formano un sistema di questi tipo e come sono strutturati;
+
+\item servizi SCADA;
+
+\item conoscenza base degli attacchi informatici, quali sono i più comuni e come vengono effettuati;
+
+\item conoscenza base degli strumenti di difesa, ossia quali sono da utilizzare e in quali circostanze;
+
+\item conoscenza specifica degli attacchi informatici, ossia domande su minacce informatiche specifiche del mondo SCADA (Stuxnet e Dragonfly)
+
+\end{itemize}
+
+\subsection{Risultati dei test}
+
+I risultati ottenuti sono stati sintetizzati in due grafici, mostrati nelle figure \ref{fig:totalchart} e \ref{fig:sectionchart}, in cui sono riportate le percentuali di risposte corrette. In particolare, in \ref{fig:totalchart} è mostrata la media totale di risposte corrette sia per il primo che per il secondo quiz. Come è possibile vedere questo valore ha subito un notevole aumento dal 21,07\% al 72,21\%, indicando la presenza di un apprendimento effettivo da parte degli utenti.
+
+Questo grafico, però, non è in grado di mostrare i miglioramenti dei giocatori relativi alle singole sezioni. Per questo motivo è stato prodotto il grafico \ref{fig:sectionchart}, in cui sono messe a confronto le percentuali medie di risposte corrette per ogni sezione, prima e dopo aver giocato a SimSCADA. È interessante evidenziare come nelle sezioni relative ai sistemi SCADA, ovverosia le sezioni 1, 2, 3 e 6, si siano registrati gli incrementi maggiori di risposte corrette. Il 94,44\% degli utenti, infatti, aveva dimostrato di non conoscere i sistemi SCADA, né di sapere per cosa fossero utilizzati. Questo dato spiega anche il valore molto basso della percentuale media totale vista nel grafico precedente.
+
+Per quanto riguarda le sezioni 4 e 5, ossia quelle relative agli attacchi informatici base e ai sistemi di difesa, gli utenti si sono dimostrati già in possesso di una discreta conoscenza di questi argomenti. La causa di questo valore è da ricercare nella formazione pregressa della maggior parte degli utenti. Più dell'80\% degli utenti, infatti, sono studenti frequentanti facoltà informatiche, trovandosi in possesso delle nozioni basilari di sicurezza informatica.Ciononostante è possibile notare che è stato registrato un miglioramento anche in queste sezioni, ad indicare come la conoscenza degli argomenti da parte degli utenti sia migliorata dopo aver giocato.
+
+Nel secondo test fatto svolgere, oltre alle sezioni riguardanti gli argomenti di teoria del gioco, è presente una parte aggiuntiva rivolta a misurare la qualità dell'esperienza di gioco degli utenti. In particolare viene chiesto di esprime re un giudizio riguardo la semplicità dei comandi e la chiarezza delle lezioni impartite durante una normale partita. In questo senso tutti i giocatori si sono dimostrati generalmente soddisfatti dell'esperienza di gioco, valutando le dinamiche ed i comandi di facile apprendimento e giudicando le lezioni sufficientemente chiare per uno svolgimento ottimale di un partita.
+
+\begin{figure}[tbh]
+
+\centerline{\includegraphics[scale=0.45]{Immagini/totalchart.pdf}}
+\caption{Media delle percentuali totali di risposte corrette per il primo ed il secondo quiz}\label{fig:totalchart}
+
+\end{figure}
+
+\begin{figure}[tbh]
+
+\centerline{\includegraphics[scale=0.45]{Immagini/sectionchart.pdf}}
+\caption{Media delle percentuali di risposte corrette per il primo ed il secondo quiz raggruppate in base alle sei sezioni}\label{fig:sectionchart}
+
+\end{figure}
+
+\subsection{Considerazioni}
+
+Entrambi i test sono stati svolti solamente da diciotto utenti. Quattro di essi sono iscritti alla facoltà di Ingegneria Informatica del Politecnico di Torino, undici frequentano la facoltà di Informatica dell'Università di Camerino, mentre i restanti tre frequentano altre facoltà universitarie non informatiche. L'età dei partecipanti è compresa tra i 23 e i 26 anni. Tutti i partecipanti sono di nazionalità italiana. Queste considerazioni sono state fatte perché per poter considerare validi i dati ottenuti, si rende necessario far svolgere i test ad un gruppo più ampio di persone, differenti per età, nazionalità e tipo di formazione didattica in possesso.
