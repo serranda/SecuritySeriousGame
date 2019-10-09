@@ -1,3 +1,53 @@
-\section{Considerazioni sullo stato attuale del gioco}
+\section{Stato dei Serious Games}
+
+Lo sviluppo di SimSCADA è iniziato tramite lo studio e l'analisi di serious games incentrati sulla sicurezza informatica già esistenti. In tutti i casi osservati, si è potuto appurare la presenza di risultati positivi derivanti dal loro utilizzo. Inoltre, diversi serious game creati per scopi di ricerca, sono riusciti ad essere immessi nel mercato video-ludico, diventando dei veri e propri prodotti commerciali.
+
+Dei casi analizzati all'interno di questa tesi quello ritenuto più interessante è CyberCiege. Questo serious game, a differenza di tutti gli altri, presenta alcune dinamiche interessanti che non sono state ritrovate in altri prodotti. Innanzitutto, la tipologia di gioco, ossia un gestionale simulativo. Questa permette la rappresentazione di svariati scenari, garantendo una maggior copertura di argomenti teorici. È stata anche la motivazione per cui si è deciso di ricorrere al genere tycoon per SimSCADA. Inoltre, altro elemento distintivo è il metodo di insegnamento, che è basato sul fornire nozioni di teoria, per poi portare il giocatore a prendere decisioni in maniera autonoma, spesso sperimentando diverse soluzioni, contribuendo alla formazione dell'utente anche dal punto di vista delle responsabilità.
+
+Sebbene sviluppato ormai più di 10 anni fa, CyberCIEGE continua a rimanere un ottimo gioco dall'affermata valenza pedagogica. È lecito ritenerlo uno ottimo riferimento per chiunque abbia interesse nello sviluppare un serious game e vuole contribuire all'affermazione di un nuovo paradigma educativo, basato sull'utilizzo di questi strumenti didattici.
 
 \section{Futuri sviluppi} \label{sec:futuredevelop}
+
+Il lavoro svolto durante questo periodo di tesi ha prodotto come risultato un serious game molto basilare, sia dal punto di vista delle dinamiche di gioco che dal punto di vista didattico. Detto ciò, è possibile apportare delle migliorie e implementare nuove dinamiche di gioco, in modo da creare un prodotto più completo. Inoltre, integrando nuovi concetti di sicurezza a quelli già presenti, si otterrebbe uno strumento didattico più efficace.
+
+Di seguito saranno discussi alcuni elementi di gameplay da aggiungere a SimSCADA in un prossimo futuro.
+
+\begin{description}
+
+\item[Tutorial] Il tutorial attualmente presenta in maniera testuale l'elenco delle dinamiche di gioco. Per rendere meno noioso questa fase di gioco, indispensabile da seguire per poter giocare in maniera corretta, si potrebbe dividere il tutorial in pìu sezioni, da far svolgere gradualmente al giocatore durante la partita. In questo modo si darebbe anche l'opportunità all'utente di avere un riscontro visivo immediato delle dinamiche di gioco.
+
+Dividere il tutorial in più sezioni, inoltre, permetterebbe di incrementare gradualmente il livello di difficoltà, spiegando le dinamiche più semplici nelle prime fasi di gioco per poi presentare gli aspetti più complessi in un secondo momento.
+
+\item[Aggiunta di una storia] Attualmente il gioco presenta una storia sommaria, il cui scopo è quello di mostrare l'ambientazione in cui si svolge la partita. Per aumentare l'interesse a continuare a giocare da parte degli utenti, si potrebbe inserire una trama più dettagliata che si sviluppa nel corso della partita e dei diversi scenari. 
+
+Inoltre, come ulteriore elemento di interesse, la trama potrebbe subire variazioni in base alle azioni dell'utente in momenti critici. In questo modo, una volta terminata una partita, l'utente è spinto a giocare di nuovo per scoprire quali altri finali sono presenti nel gioco.
+
+\item[Implementazione di obiettivi] Un miglioramento del gioco sarebbe rappresentato anche dall'introduzione di un sistema di obiettivi da raggiungere durante lo svolgimento dei diversi scenari. Il raggiungimento degli obiettivi proposti garantirebbe l'ottenimento di un bonus per lo scenario corrente, permettendo di completare la partita in modo più semplice. In questo modo il giocatore avrà più interesse a seguire attentamente lo svolgimento della partita.
+
+\item[Aggiunta di elementi presi dalla realtà nel negozio] Attualmente nel negozio sono implementati come potenziamenti numerose tipologie di oggetti. Questi presentano una descrizione generica in cui è specificata a quale tipo di minaccia è correlato l'acquisto di quel determinato potenziamento. Sarebbe interessante modificare i suddetti oggetti, inserendo dei riferimenti alle reali controparti utilizzate in ambiente di sicurezza. In questo modo si creerebbe un legame tra realtà e gioco che permetterebbe una miglior formazione dell'utente.
+
+In aggiunta, si potrebbe lasciar permettere agli utenti di personalizzare questi oggetti con i riferimenti ritenuti più opportuni, in modo da trasformare SimSCADA in uno strumento per la formazione aziendale.
+
+\item[Implementazione di mini giochi per sconfiggere le diverse minacce] Il modo attualmente implementato per la risoluzione delle minacce subite è molto lineare: inizialmente bisogna individuare la sequenza di azioni da eseguire per i diversi tipi di attacco, dopodiché basterà ripeterla ogni volta che se ne subisce uno. Questa dinamica sicuramente non contribuisce a mantenere un alto livello di intrattenimento da parte del giocatore, che potrebbe annoiarsi per la ripetitività di azioni da effettuare. Per ovviare a questo problema, sarebbe ideale implementare per i diversi tipi di attacco una serie di mini giochi da svolgere durante la fase di risoluzione della minaccia. In questo modo si riuscirebbe a mantenere alto il livello di attenzione e interesse del giocatore.
+
+ Inoltre, la creazione di mini giochi specifici per ogni tipo di minaccia, garantirebbe un'ulteriore opportunità di apprendimento per l'utente.
+
+\item[Aggiunta di nuovi livelli] È possibile aggiungere nuovi livelli, in modo da aumentare la longevità del gioco. Inoltre, si potrebbe pensare di rendere ogni livello specifico per un tipo di minaccia, in modo da approfondirne i diversi aspetti caratterizzanti.
+
+\item[Migliorare la raccolta dati] L'attuale sistema di raccolta dati si basa semplicemente su quale miglioria è stata acquistata (in relazione alla minaccia in trend) e quale è stato il tempo impiegato dal giocatore per gestire le conseguenze di un attacco. È possibile migliorare questo aspetto, implementando un sistema di raccolta dati più dettagliato. Si potrebbe raccogliere le informazioni sulle azioni del giocatore nelle diverse fasi del gioco. In base ad esse, si potrebbe implementare un sistema di suggerimenti da fornire all'utente se per caso si dovesse riscontrare qualche anomalia.
+
+Inoltre un sistema del genere garantirebbe la creazione di un file di log più completo e dettagliato, da poter utilizzare in futuro come base per analisi più approfondite.
+
+\item[Inserire un sistema di punteggio per il giocatore] Sempre basandosi sull'analisi delle azioni del giocatore, è possibile implementare un sistema di punteggi da attribuire ai diversi scenari giocati. In questo modo si fornirebbe all'utente un riscontro visivo immediato riguardo in grado di supportarlo nel corso della partita, aiutandolo ad apprendere meglio quali sono le corrette azioni da eseguire nelle diverse situazioni proposte.
+
+\item[Localizzazione] Le informazioni all'interno del gioco sono state scritte in lingua italiana. Questa scelta ovviamente limita notevolmente il bacino di utenza a cui potersi rivolgere. Aggiungendo diverse traduzioni dei file di testo è possibile incrementare la grandezza del pubblico, garantendo agli utenti un'esperienza di gioco migliore.
+
+\item[Renderlo giocabile da dispositivi mobile] SimSCADA attualmente è stato creato per piattaforma WebGL. Sebbene permetta di sorpassare i limiti dovuti alla differenza di sistemi operativi, WebGL è una tecnologia che funziona solo su dispositivi desktop. Per incentivare la diffusione del gioco si potrebbe creare una versione dedicata al mondo mobile (sia Android che iOS). Il motore grafico Unity permette una veloce ri-destinazione del progetto, a fronte dell'adeguata implementazione delle funzioni necessarie a gestire gli input specifici dei dispositivi mobile.
+
+\end{description}
+
+\section{Considerazioni finali}
+
+I serious games in questi ultimi 10 anni hanno auto un notevole risalto, in quanto sempre più riconosciuti come validi strumenti di insegnamento a qualsiasi livello. Con questo lavoro si è voluto mostrare come sia possibile applicare questo metodo anche in campi teorici apparentemente molto lontani con il mondo dei giochi. È chiaro quindi come i serious games continuino ad offrire opportunità di insegnamento se applicati in maniera corretta.
+
+Ovviamente è necessario continuare a sostenerne la crescita, cercando di abbattere le diffidenze che spesso applicazioni di questo tipo generano ancora in molte persone, che le vedono più come uno strumento per l'intrattenimento che per l'insegnamento vero e proprio. Per fare ciò è necessario uno sforzo da parte delle figure addette all'insegnamento, a cui si richiede di iniziare a utilizzare sempre più frequentemente questo strumento didattico. Ma uno sforzo è richiesto anche agli sviluppatori, programmatori e game designer, i quali sono chiamati a contribuire alla creazione di nuovi serious game, da poter utilizzare in diversi campi didattici e contribuire così all'affermazione di questo settore economico.

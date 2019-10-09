@@ -14,14 +14,11 @@
 ]{toptesi}
 %
 \usepackage[latin1]{inputenc}% IMPORTANTE! usare codifica ISO-8859-1 per le lettere accentate
-\usepackage{booktabs}
-
 \usepackage{array}
 \usepackage{longtable}
 \usepackage{booktabs}
 \usepackage{enumitem} 
 \usepackage{ltxtable}
-
 \usepackage{hyperref}
 \hypersetup{%
     pdfpagemode={UseOutlines},
@@ -85,8 +82,8 @@ dateabbrev = false
 %\secondocandidato{Evangelista \textsc{Torricelli}}% per la laurea magistrale solamente
 %\direttore{prof. Albert Einstein}% per il dottorato
 %\coordinatore{prof. Albert Einstein}% per il dottorato
-\relatore{prof.\ Antonio Lioy}% per la laurea e il dottorato
-\secondorelatore{ing.\ Andrea Atzeni}% per la laurea magistrale
+\relatore{Prof.\ Antonio Lioy}% per la laurea e il dottorato
+\secondorelatore{Ing.\ Andrea Atzeni}% per la laurea magistrale
 %\terzorelatore{{\tabular{@{}l}dott.\ Neil Armstrong\\prof. Maria Rossi\endtabular}}% per la laurea magistrale
 %\tutore{ing.~Karl Von Braun}% per il dottorato
 %\tutoreaziendale{dott.\ ing.\ Giovanni Giacosa} % solo per la laurea di secondo livello con tesi svolta in azienda
@@ -139,9 +136,11 @@ dateabbrev = false
 %\textdagger\ A mio nonno Pino
 %\end{dedica}
 
-\sommario
+%\sommario
 
-%\ringraziamenti
+\ringraziamenti
+
+\input{Capitoli/ringraziamenti.tex}
 
 %% inserire sempre nella tesi per la laurea di I livello, perché il nome dei tutori non è indicato sul frontespizio.
 %Il lavoro descritto in questa monografia è stato svolto sotto la supervisione
@@ -196,5 +195,11 @@ dateabbrev = false
 %\bibliography{biblio}
 
 \printbibliography
+
+\appendix
+
+\chapter{Questionario di valutazione}
+
+\input{Capitoli/9_quiz.tex}
 
 \end{document}
