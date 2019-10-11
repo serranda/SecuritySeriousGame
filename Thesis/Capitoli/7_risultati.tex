@@ -26,27 +26,31 @@ Nei paragrafi successivi verrà mostrata la struttura dei due test e quali risult
 
 \subsection{Struttura dei test}
 
-Entrambi i test sono stati creati utilizzando due differenti Moduli Google, i cui risultati sono stati raccolti automaticamente in altrettanti fogli di lavoro Google. Questi risultati sono stati ulteriormente analizzati tramite il plug-in Flubaroo \cite{Flubaroo}, con cui è stato possibile ottenere, tra le altre cose, le percentuali di punteggio delle varie risposte ai quiz.
+Entrambi i test sono stati creati utilizzando due Moduli Google, i cui risultati sono stati raccolti automaticamente in altrettanti fogli di lavoro Google. Questi risultati sono stati ulteriormente analizzati tramite il plug-in Flubaroo \cite{Flubaroo}, con cui è stato possibile ottenere, tra le altre cose, le percentuali di punteggio delle varie risposte ai quiz. 
 
 Ogni utente si è registrato nel questionario con la propria mail, in modo da poter essere identificato e correlato con i dati raccolti durante il gioco nei file di log prodotti durante lo svolgimento di una partita. Inoltre questo ha permesso di confrontare le risposte ai due quiz di ogni giocatore, permettendo la valutazione dell'apprendimento di ogni singolo utente.
 
-Come già detto, i due moduli sono stati suddivisi in diverse sezioni, ognuna delle quali è riferita ad un determinato argomento di teoria affrontato nel gioco. Le sezioni che è possibile individuare, con il relativo argomento, sono:
+Il contenuto dei due moduli è pressoché simile: entrambi contengono un questionario per testare le conoscenze teoriche del giocatore. Il secondo modulo, però, si differenzia dal primo in quanto contiene anche una sezione dedicata alla raccolta delle opinioni riguardo l'esperienza di gioco.
+
+Per quanto riguarda il quiz teorico, questo è stato strutturato in 24 domande, divise in sezioni in base all'argomento teorico toccato. Di seguito è riportata un'analisi degli argomenti didattici testati tramite il modulo:
 
 \begin{itemize}
 
-\item conoscenza base dei sistemi SCADA, ossia cosa sono e per quali scopi sono utilizzati;
+\item conoscenza base dei sistemi SCADA: con questa sezione si vuole verificare la conoscenza e l'apprendimento delle conoscenze basilari legati al mondo dei sistemi SCADA, cosa sono, a cosa servono e cosa li differenzia da altri sistemi di controllo simili. È importante che l'utente apprenda queste nozioni base, così da poter distinguere facilmente un sistema SCADA;
 
-\item architettura dei sistemi SCADA, vale a dire le componenti principali che formano un sistema di questi tipo e come sono strutturati;
+\item architettura dei sistemi SCADA: le domande di questa sezione servono a capire se l'utente ha appreso o conosce come è strutturato un sistema SCADA, quali elementi principali ne compongono un'architettura standard, come sono collegati tra di loro e come interagiscono tra di loro queste componenti. Sebbene l'architettura di un sistema di questi tipo è creata specificamente per lo scenario d'utilizzo finale, è importante che l'utente riesca ad avere uno schema teorico degli elementi caratteristici di questo tipo di impianti;
 
-\item servizi SCADA;
+\item servizi SCADA: in questa sezione viene testata la conoscenza dei servizi SCADA e le modalità con cui vengono effettuati. I servizi SCADA sono una realtà in via di sviluppo ed è importante che l'utente conosca la differenza di ruoli tra fruitore e fornitore del servizio;
 
-\item conoscenza base degli attacchi informatici, quali sono i più comuni e come vengono effettuati;
+\item conoscenza base degli attacchi informatici: in questa sezione si vuole testare la conoscenza sulle minacce informatiche del mondo domestico, quali sono i più comuni e come vengono effettuati. È importante che l'utente apprenda come difendersi da questi attacchi, in quanto comuni non solo nel mondo domestico, ma anche in quello industriale;
 
-\item conoscenza base degli strumenti di difesa, ossia quali sono da utilizzare e in quali circostanze;
+\item conoscenza base degli strumenti di difesa: con questa serie di domande è messa alla prova la conoscenza delle tecnologie informatiche difensive. Quali sono da utilizzare, cosa li differenzia e in quale circostanze è meglio utilizzarne uno piuttosto che un altro. È importante che l'utente conosca i principi base di questi strumenti, in modo da poterli utilizzare il più efficacemente possibile;
 
-\item conoscenza specifica degli attacchi informatici, ossia domande su minacce informatiche specifiche del mondo SCADA (Stuxnet e Dragonfly)
+\item conoscenza specifica degli attacchi informatici SCADA: in questa sezione si testa la conoscenza delle tecniche di attacco informatiche tipiche del mondo SCADA. In particolare, si richiede le modalità di attacco delle due più grandi minacce SCADA, ossia Stuxnet e Dragonfly, i cui aspetti più di rilievo sono presentati anche all'interno di SimSCADA. È importante che l'utente conosca la pericolosità di queste minacce e apprenda le modalità di attacco combinato che entrambe le minacce hanno sfruttato.
 
 \end{itemize}
+
+Nell'appendice \ref{sec:questions} sono state trascritte tutte le domande che compongono il suddetto questionario.
 
 \subsection{Risultati dei test}
 
@@ -60,18 +64,19 @@ Nel secondo test fatto svolgere, oltre alle sezioni riguardanti gli argomenti di
 
 \begin{figure}[tbh]
 
-\centerline{\includegraphics[scale=0.45]{Immagini/totalchart.pdf}}
+\centerline{\includegraphics[scale=0.5]{Immagini/totalchart.pdf}}
 \caption{Media delle percentuali totali di risposte corrette per il primo ed il secondo quiz}\label{fig:totalchart}
 
 \end{figure}
 
 \begin{figure}[tbh]
 
-\centerline{\includegraphics[scale=0.45]{Immagini/sectionchart.pdf}}
+\centerline{\includegraphics[scale=0.5]{Immagini/sectionchart.pdf}}
 \caption{Media delle percentuali di risposte corrette per il primo ed il secondo quiz raggruppate in base alle sei sezioni}\label{fig:sectionchart}
 
 \end{figure}
 
+I dati delle risposte appena discussi sono stati raggruppati e manipolati per produrre i grafici mostrati nelle figure \ref{fig:totalchart} e \ref{fig:sectionchart}. Nell'appendice \ref{sec:answers} è riportata una tabella in cui sono stati trascritte tutte le risposte date al quiz dagli utenti che lo hanno compilato. È possibile, eventualmente, utilizzare quei dati per produrre eventualmente ulteriori statistiche.
 \subsection{Considerazioni}
 
 Entrambi i test sono stati svolti solamente da diciotto utenti. Quattro di essi sono iscritti alla facoltà di Ingegneria Informatica del Politecnico di Torino, undici frequentano la facoltà di Informatica dell'Università di Camerino, mentre i restanti tre frequentano altre facoltà universitarie non informatiche. L'età dei partecipanti è compresa tra i 23 e i 26 anni. Tutti i partecipanti sono di nazionalità italiana. Queste considerazioni sono state fatte perché per poter considerare validi i dati ottenuti, si rende necessario far svolgere i test ad un gruppo più ampio di persone, differenti per età, nazionalità e tipo di formazione didattica in possesso.
